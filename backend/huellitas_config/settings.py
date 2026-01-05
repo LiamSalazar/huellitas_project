@@ -1,12 +1,16 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Buscar env
+load_dotenv()
 
 # BASE_DIR: Define la raíz del proyecto. 
 # Para que Django encuentre carpetas como 'media' o 'static'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SEGURIDAD: En desarrollo, despues cambiar en produccion
-SECRET_KEY = 'django-insecure-tu-clave-aqui'
+SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 ALLOWED_HOSTS = []
 
@@ -68,11 +72,11 @@ WSGI_APPLICATION = 'huellitas_config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'huellitas_db',
-        'USER': 'postgres',
-        'PASSWORD': 'LKMNMDNAt1.', 
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'), # <--- Aquí lee la clave del .env
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
