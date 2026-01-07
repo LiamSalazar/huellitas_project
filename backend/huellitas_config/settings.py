@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     # Librerías para la API 
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
 
     # Modulos
     'apps.users',
@@ -34,6 +35,16 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.finance',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', 
+    ],
+}
 
 # MIDDLEWARE: Capas que procesan la petición antes de llegar a tu código.
 # Fundamento: 'CorsMiddleware' permite que el programador de Front se conecte.
@@ -92,7 +103,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DEFAULT_AUTO_FIELD = 'django.db.backends.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Permitir que el Frontend (en localhost:3000 o similar) acceda
 CORS_ALLOW_ALL_ORIGINS = True
+
+AUTHENTICATION_BACKENDS = [
+    'huellitas_config.backends.EmailBackend',  # El qde usuarios normales
+    'django.contrib.auth.backends.ModelBackend', # El de por defecto (para que el Admin siga funcionando)
+]
+
+TEST_RUNNER = 'test_runner.ManagedModelTestRunner'
+
+CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
