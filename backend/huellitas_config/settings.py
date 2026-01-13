@@ -42,9 +42,15 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', 
+        'rest_framework.permissions.AllowAny', 
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
 }
+
+
+PASSWORD_HASHERS = [
+    'Encriptados.hashers.PlainTextPasswordHasher', 
+]
 
 # MIDDLEWARE: Capas que procesan la petición antes de llegar a tu código.
 # Fundamento: 'CorsMiddleware' permite que el programador de Front se conecte.

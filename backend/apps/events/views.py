@@ -11,4 +11,3 @@ class EventoViewSet(viewsets.ModelViewSet):
 class EventoAsistenteViewSet(viewsets.ModelViewSet):
     queryset = Eventoasistente.objects.all()
     serializer_class = EventoAsistenteSerializer
-    permission_classes = [permissions.IsAuthenticated] # Cualquier usuario logueado puede anotarse

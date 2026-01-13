@@ -24,4 +24,3 @@ class CuentaporpagarViewSet(viewsets.ModelViewSet):
 class ReporteAcreedoresViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EstadoCuentasAcreedores.objects.all()
     serializer_class = EstadoCuentasAcreedoresSerializer
-    permission_classes = [IsDirector] # Solo el jefe ve esto

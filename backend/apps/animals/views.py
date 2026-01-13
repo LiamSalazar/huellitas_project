@@ -41,4 +41,3 @@ class AnimalViewSet(viewsets.ModelViewSet):
 class ExpedienteAnimalViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ExpedienteAnimalCompleto.objects.all()
     serializer_class = ExpedienteAnimalSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]

@@ -569,106 +569,110 @@
     </div>
 </div>
 
+
 <script>
-    // Función para mostrar/ocultar contraseña
-    function togglePasswordVisibility(passwordFieldId, toggleIconId) {
-        const passwordField = document.getElementById(passwordFieldId);
-        const toggleIcon = document.getElementById(toggleIconId);
-        
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            toggleIcon.innerHTML = '<i class="fas fa-eye-slash"></i>';
-        } else {
-            passwordField.type = 'password';
-            toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
-        }
+    const API_BASE = "http://127.0.0.1:8000/api";
+
+    // --- FUNCIÓN PARA MOSTRAR LA PANTALLA DE ROLES ---
+    function mostrarPantallaRoles(nombreUsuario) {
+        // Ocultamos los formularios de login/registro
+        document.querySelector('.form-container').style.display = 'none';
+        // Mostramos el contenedor de roles
+        document.getElementById('roles-container').style.display = 'block';
+        // Opcional: Podrías poner un mensaje de bienvenida
+        console.log("Bienvenido: " + nombreUsuario);
     }
 
-    // Función para iniciar sesión
-    function iniciarSesion() {
+    // --- 1. LOGIN ---
+    async function iniciarSesion() {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
-        
-        // Validación básica
-        if (!email || !password) {
-            alert('Por favor, completa todos los campos');
-            return;
+
+        try {
+            const response = await fetch(`${API_BASE}/users/login-manual/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ "username": email, "password": password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // GUARDAMOS EN MEMORIA TEMPORAL
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('id_persona', data.id_persona);
+                localStorage.setItem('user_nombre', data.nombre);
+                
+                // SALTO DIRECTO A ROLES
+                mostrarPantallaRoles(data.nombre);
+            } else {
+                alert("Error: " + (data.error || "Credenciales incorrectas"));
+            }
+        } catch (error) {
+            alert("Error de conexión con el servidor.");
         }
-        
-        // Simulación de autenticación exitosa
-        // En un caso real, aquí harías una petición al servidor
-        console.log('Iniciando sesión con:', email);
-        
-        // Mostrar selección de roles
-        document.querySelector('.form-container').style.display = 'none';
-        document.getElementById('roles-container').style.display = 'block';
     }
 
-    // Función para registro
-    function registrar() {
-        const nombre = document.getElementById('register-nombre').value;
-        const apellidos = document.getElementById('register-apellidos').value;
-        const telefono = document.getElementById('register-telefono').value;
-        const email = document.getElementById('register-email').value;
+    // --- 2. REGISTRO (CON SALTO DIRECTO A ROLES) ---
+    async function registrar() {
         const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm-password').value;
-        
-        // Validaciones
-        if (!nombre || !apellidos || !telefono || !email || !password || !confirmPassword) {
-            alert('Por favor, completa todos los campos');
+        const confirm = document.getElementById('register-confirm-password').value;
+
+        if (password !== confirm) {
+            alert("Las contraseñas no coinciden.");
             return;
         }
-        
-        if (password !== confirmPassword) {
-            alert('Las contraseñas no coinciden');
-            return;
+
+        const datosUsuario = {
+            nombre_persona: document.getElementById('register-nombre').value,
+            apellidos_persona: document.getElementById('register-apellidos').value,
+            telefono_persona: document.getElementById('register-telefono').value,
+            email_persona: document.getElementById('register-email').value,
+            password_usuario: password
+        };
+
+        try {
+            const response = await fetch(`${API_BASE}/users/personas/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosUsuario)
+            });
+
+            const nuevoUsuario = await response.json();
+
+            if (response.ok) {
+                // GUARDAMOS LOS DATOS RECIÉN CREADOS EN MEMORIA
+                localStorage.setItem('id_persona', nuevoUsuario.id_persona);
+                localStorage.setItem('user_nombre', nuevoUsuario.nombre_Persona);
+                
+                alert("¡Cuenta creada exitosamente!");
+                
+                // SALTO DIRECTO A ROLES SIN LOGUEARSE OTRA VEZ
+                mostrarPantallaRoles(nuevoUsuario.nombre_Persona);
+            } else {
+                alert("Error en el registro. Revisa los campos.");
+            }
+        } catch (error) {
+            alert("Error al conectar con el servidor.");
         }
-        
-        if (password.length < 6) {
-            alert('La contraseña debe tener al menos 6 caracteres');
-            return;
-        }
-        
-        if (!document.getElementById('terms').checked) {
-            alert('Debes aceptar los términos y condiciones');
-            return;
-        }
-        
-        // Simulación de registro exitoso
-        // En un caso real, aquí harías una petición al servidor
-        console.log('Registrando usuario:', { nombre, apellidos, telefono, email });
-        
-        // Mostrar selección de roles
-        document.querySelector('.form-container').style.display = 'none';
-        document.getElementById('roles-container').style.display = 'block';
     }
 
-    // Función para volver al formulario de login
+    function togglePasswordVisibility(fieldId, iconId) {
+        const field = document.getElementById(fieldId);
+        const icon = document.getElementById(iconId);
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        } else {
+            field.type = 'password';
+            icon.innerHTML = '<i class="fas fa-eye"></i>';
+        }
+    }
+
     function volverALogin() {
-        document.getElementById('roles-container').style.display = 'none';
-        document.querySelector('.form-container').style.display = 'block';
-        document.getElementById('chk').checked = false;
-        
-        // Limpiar formularios
-        document.getElementById('login-email').value = '';
-        document.getElementById('login-password').value = '';
-        document.getElementById('register-nombre').value = '';
-        document.getElementById('register-apellidos').value = '';
-        document.getElementById('register-telefono').value = '';
-        document.getElementById('register-email').value = '';
-        document.getElementById('register-password').value = '';
-        document.getElementById('register-confirm-password').value = '';
+        localStorage.clear(); // Limpiamos la memoria
+        location.reload();
     }
-
-    // Inicialización - validar si hay parámetros en la URL
-    document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const action = urlParams.get('action');
-        
-        if (action === 'register') {
-            document.getElementById('chk').checked = true;
-        }
-    });
 </script>
 
 </body>
