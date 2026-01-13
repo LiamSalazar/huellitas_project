@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Control de Deudas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #1d1d1f; 
+            --texto-secundario: #86868b;
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter Tight", sans-serif; 
+            background: var(--fondo); 
+            margin: 0; 
+            padding: 40px 20px;
+            color: var(--texto);
+        }
+
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h2 { 
+            font-size: 34px; 
+            font-weight: 700; 
+            margin: 0;
+            color: var(--texto);
+        }
+
+        .btn-agregar {
+            background: var(--azul);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-agregar:hover { 
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .grid-deudas { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .card-deuda { 
+            background: var(--blanco); 
+            border-radius: 22px; 
+            border: 1px solid var(--borde-suave); 
+            padding: 24px; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .card-deuda:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+        }
+
+        .status-tag { 
+            color: var(--azul); 
+            font-weight: 700; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.8px; 
+            margin-bottom: 12px; 
+        }
+
+        .acreedor-nombre { 
+            font-size: 22px; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            color: var(--texto);
+        }
+
+        .monto-total {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--texto);
+            margin: 10px 0;
+            letter-spacing: -1px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .info-label { font-weight: 700; font-size: 13px; color: var(--texto); }
+        .info-valor { color: var(--texto-secundario); font-size: 13px; }
+
+        .asistencia-box {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f5f5f7;
+        }
+
+        .btn-pagar {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: var(--fondo);
+            color: var(--azul);
+            font-weight: 700;
+            border: 1px solid var(--azul);
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-pagar:hover {
+            background: var(--azul);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-flex">
+        <h2>Control de Deudas</h2>
+        <button class="btn-agregar" onclick="location.href='finanzas.html'">Agregar Acreedor</button>
+    </div>
+    
+    <div class="grid-deudas">
+        <div class="card-deuda">
+            <span class="status-tag">Pago Pendiente</span>
+            <h3 class="acreedor-nombre">Distribuidora Canina AC</h3>
+            <div class="monto-total">$12,450.00</div>
+            
+            <div class="info-row">
+                <span class="info-label">Concepto:</span>
+                <span class="info-valor">Suministros de Alimento</span>
+            </div>
+
+            <div class="asistencia-box">
+                <div class="info-row">
+                    <span class="info-label">Vencimiento:</span>
+                    <span class="info-valor">2026-02-05</span>
+                </div>
+            </div>
+
+            <button class="btn-pagar" onclick="location.href='finanzas.html'">Pagar Deuda</button>
+        </div>
+
+        <div class="card-deuda">
+            <span class="status-tag">Próximo a Vencer</span>
+            <h3 class="acreedor-nombre">Clínica Veterinaria Sur</h3>
+            <div class="monto-total">$4,800.00</div>
+            
+            <div class="info-row">
+                <span class="info-label">Concepto:</span>
+                <span class="info-valor">Honorarios Médicos</span>
+            </div>
+
+            <div class="asistencia-box">
+                <div class="info-row">
+                    <span class="info-label">Vencimiento:</span>
+                    <span class="info-valor">2026-01-22</span>
+                </div>
+            </div>
+
+            <button class="btn-pagar" onclick="location.href='finanzas.html'">Pagar Deuda</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

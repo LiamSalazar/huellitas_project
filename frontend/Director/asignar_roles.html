@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Personal - Huellitas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #1d1d1f; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            padding: 40px 20px; 
+            color: var(--texto); 
+        }
+
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+        }
+
+        h2 { 
+            font-size: 28px; 
+            font-weight: 700; 
+            margin-bottom: 25px; 
+            text-align: center;
+        }
+
+        .management-card {
+            background: var(--blanco);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .group { 
+            display: flex; 
+            flex-direction: column; 
+            margin-bottom: 20px; 
+        }
+
+        label { 
+            font-weight: 700; 
+            font-size: 14px; 
+            margin-bottom: 8px; 
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--borde-suave);
+            border-radius: 12px;
+            background: #fbfbfb;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .optional-label {
+            font-weight: 400;
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        .btn-save {
+            width: 100%;
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-cancel {
+            width: 100%;
+            background: transparent;
+            color: var(--azul);
+            border: 2px solid var(--azul);
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Asignación de Roles</h2>
+    
+    <div class="management-card">
+        <form id="role-form">
+            <div class="group">
+                <label>Persona (Usuario)</label>
+                <select name="id_Persona" required>
+                    <option value="">Seleccione un usuario...</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Rol a asignar</label>
+                <select name="id_voluntariorol" required>
+                    <option value="">Seleccione un rol...</option>
+                    <option value="1">Veterinario</option>
+                    <option value="2">Logística</option>
+                    <option value="3">Administrativo</option>
+                    <option value="4">Mantenimiento</option>
+                    <option value="5">Limpieza</option>
+                    <option value="6">Dirección</option>
+                    <option value="7">Atención personas</option>
+                    <option value="8">Rescate</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Sede</label>
+                <select name="id_sede" required>
+                    <option value="">Seleccione una sede...</option>
+                    <option value="2001">Sede Central CDMX</option>
+                    <option value="2002">Sede Occidente Guadalajara</option>
+                    <option value="2003">Sede Norte Monterrey</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Fecha de Inicio</label>
+                <input type="date" name="fecha_inicio" required>
+            </div>
+
+            <div class="group">
+                <label>Fecha de Fin <span class="optional-label">(Opcional)</span></label>
+                <input type="date" name="fecha_fin">
+            </div>
+
+            <button type="submit" class="btn-save">Guardar Cambios</button>
+            <button type="button" class="btn-cancel">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

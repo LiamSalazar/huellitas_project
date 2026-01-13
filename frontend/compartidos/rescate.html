@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Registrar Rescate</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #000000; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .card { 
+            background: var(--blanco); 
+            padding: 40px; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 420px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--borde-suave);
+        }
+
+        .albergue-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .albergue-header h1 { 
+            color: var(--azul); 
+            font-size: 28px; 
+            font-weight: 800; 
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .albergue-header p {
+            color: var(--texto);
+            font-weight: 600;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .group { margin-bottom: 22px; }
+        
+        label { 
+            display: block; 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--texto); 
+            margin-bottom: 10px; 
+        }
+        
+        input, select { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--borde-suave); 
+            border-radius: 12px; 
+            font-size: 16px; 
+            background: #fbfbfb;
+            box-sizing: border-box;
+            color: var(--texto);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: var(--azul); 
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--blanco);
+            border: 1px solid var(--borde-suave);
+            border-radius: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-top: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 12px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+            color: var(--texto);
+            font-weight: 500;
+            transition: background 0.15s ease;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-result-item.selected {
+            background: #e3f2fd;
+        }
+
+        .no-results {
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--azul); 
+            color: #fff; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 17px;
+            cursor: pointer; 
+            margin-top: 10px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--azul);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--borde-suave);
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="albergue-header">
+        <h1>Huellitas</h1>
+        <p>Registrar Rescate</p>
+    </div>
+
+    <form id="rescateForm" action="/api/rescates" method="POST">
+
+        <div class="group">
+            <label>Nombre</label>
+            <input type="text" name="nombre_Animal" required>
+        </div>
+
+        <div class="group">
+            <label>Especie</label>
+            <select name="id_AnimalEspecie" id="especieSelect" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Perro</option>
+                <option value="2">Gato</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Raza</label>
+            <div class="search-wrapper">
+                <input type="text" id="razaSearch" autocomplete="off" placeholder="Buscar raza...">
+                <input type="hidden" id="razaId" required>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </div>
+
+        <div class="group">
+            <label>Sexo</label>
+            <select name="id_AnimalSexo" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Macho</option>
+                <option value="2">Hembra</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Talla</label>
+            <select name="id_AnimalTalla" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Mini</option>
+                <option value="2">Chico</option>
+                <option value="3">Mediano</option>
+                <option value="4">Grande</option>
+                <option value="5">Gigante</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Tipo</label>
+            <select name="id_AnimalTipo" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Unica</option>
+                <option value="2">Mestizo</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Función</label>
+            <select name="id_AnimalFuncion" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Animal de compania</option>
+                <option value="2">Apoyo</option>
+                <option value="3">Asistencia</option>
+                <option value="4">Condicion de calle</option>
+                <option value="5">Deportivo</option>
+                <option value="6">Detectores</option>
+                <option value="7">Exhibicion</option>
+                <option value="8">Guardia y Proteccion</option>
+                <option value="9">Guia de ciegos</option>
+                <option value="10">Rastreo</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Medio de Llegada</label>
+            <select name="id_MedioLlegada" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Adopcion</option>
+                <option value="2">Compra</option>
+                <option value="3">Lo rescate de la calle</option>
+                <option value="4">Nacio en casa</option>
+                <option value="5">Nacio en la calle</option>
+                <option value="6">Regalo</option>
+                <option value="7">Vive en la calle</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Patrón de Pelaje</label>
+            <select name="id_PatronPelaje" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Alambre</option>
+                <option value="2">Corto</option>
+                <option value="3">Doble capa</option>
+                <option value="4">Duro</option>
+                <option value="5">Lanoso</option>
+                <option value="6">Largo</option>
+                <option value="7">Pelaje nuevo</option>
+                <option value="8">Sin pelo</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Color de Ojos</label>
+            <select name="id_ColorOjos" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Amarillo</option>
+                <option value="2">Azul</option>
+                <option value="3">Bicolor</option>
+                <option value="4">Cafe</option>
+                <option value="5">Gris</option>
+                <option value="6">Miel</option>
+                <option value="7">Negro</option>
+                <option value="8">Verde</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Color Principal</label>
+            <select name="id_ColorPrincipal" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Amarillo</option>
+                <option value="2">Azul</option>
+                <option value="3">Blanco</option>
+                <option value="4">Cafe</option>
+                <option value="5">Caniche</option>
+                <option value="6">Carbonado</option>
+                <option value="7">Chocolate</option>
+                <option value="8">Color unico</option>
+                <option value="9">Dorado</option>
+                <option value="10">Golondrino</option>
+                <option value="11">Negro</option>
+                <option value="12">Otro color</option>
+                <option value="13">Paja</option>
+                <option value="14">Plata</option>
+                <option value="15">Rojo</option>
+                <option value="16">Sal y Pimienta</option>
+                <option value="17">Sepia</option>
+                <option value="18">Tabby</option>
+                <option value="19">Verde</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Carácter</label>
+            <select name="id_AnimalCaracter" required>
+                <option value="">Seleccionar</option>
+                <option value="1">Faldero</option>
+                <option value="2">Timido</option>
+                <option value="3">Tranquilo</option>
+                <option value="4">Activo</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Peso (kg)</label>
+            <input type="number" name="peso_Animal" step="0.01" required>
+        </div>
+
+        <div class="group">
+            <label>Edad (años)</label>
+            <input type="number" name="edad_anios_Animal" min="0" required>
+        </div>
+
+        <div class="group">
+            <label>Edad (meses)</label>
+            <input type="number" name="edad_meses_Animal" min="0" max="11" required>
+        </div>
+
+        <div class="group">
+            <label>Sede Destino</label>
+            <select name="id_Sede" required>
+                <option value="">Seleccionar</option>
+                <option value="2001">Sede Central CDMX</option>
+                <option value="2002">Sede Occidente Guadalajara</option>
+                <option value="2003">Sede Norte Monterrey</option>
+            </select>
+        </div>
+
+
+        <div class="group">
+            <label>Teléfono del Reportante</label>
+            <input type="text" name="telefono_Reportante">
+        </div>
+
+        <button type="submit">Registrar Rescate</button>
+    </form>
+</div>
+
+<script>
+const razas = {
+    1: [
+        {id:1,n:"Affenspincher"},{id:2,n:"Afgano"},{id:3,n:"Airedale Terrier"},
+        {id:4,n:"Akita"},{id:5,n:"Akita Americano"},{id:6,n:"Alco"},
+        {id:7,n:"American Pitbull"},{id:8,n:"Antiguo Pastor Inglés"},
+        {id:9,n:"Antiguo Pointer Danés"},{id:10,n:"Azawakh"},
+        {id:11,n:"Basenji"},{id:12,n:"Basset de los Alpes"},
+        {id:13,n:"Basset Hound"},{id:14,n:"Beagle"},
+        {id:15,n:"Beauceron"},{id:16,n:"Bedlington Terrier"},
+        {id:17,n:"Bernés de la Montaña"},{id:18,n:"Bichón Frise"},
+        {id:19,n:"Bichoón Havanero"},{id:20,n:"Biewer yorkshire terrier"},
+        {id:21,n:"Bloodhound"},{id:22,n:"Boloñés"},
+        {id:23,n:"Border Collie"},{id:24,n:"Border Terrier"},
+        {id:25,n:"Borzoi"},{id:26,n:"Boston Terrier"},
+        {id:27,n:"Bouvier de Appenzeller"},{id:28,n:"Bouvier de Entlebucher"},
+        {id:29,n:"Bouvier de Flandes"},{id:30,n:"Bouvier de las Ardenas"},
+        {id:31,n:"Boxer"},{id:32,n:"Braco de Weimar"},
+        {id:33,n:"Briard"},{id:34,n:"Bulldog Francés"},
+        {id:35,n:"Bulldog inglés"},{id:36,n:"Bullmastiff"},
+        {id:37,n:"Bull Terrier Inglés"},{id:38,n:"Bully"},
+        {id:39,n:"Cairn terrier"},{id:40,n:"Calupoh"},
+        {id:41,n:"Cavalier King Charles Spaniel"},
+        {id:42,n:"Cazador de Alces Noruego"},
+        {id:43,n:"Cazador de Alces Sueco"},
+        {id:44,n:"Chihuahueño de Pelo Corto"},
+        {id:45,n:"Chihuahueño de Pelo Largo"},
+        {id:46,n:"Chow Chow"},{id:47,n:"Cirneco del Etna"},
+        {id:48,n:"Clumber Spaniel"},
+        {id:49,n:"Cobrador de la Bahía de Chesapeake"},
+        {id:50,n:"Cobrador de Labrador"},
+        {id:51,n:"Cobrador de Nueva Escocia"},
+        {id:52,n:"Cobrador Dorado"},
+        {id:53,n:"Cocker Spaniel Americano"},
+        {id:54,n:"Cocker Spaniel Inglés"},
+        {id:55,n:"Collie"},{id:56,n:"Coonhound"},
+        {id:57,n:"Cotton de Tulear"},
+        {id:58,n:"Crestado Chino"},
+        {id:59,n:"Criolla"},
+        {id:60,n:"Dachshund Toy"},
+        {id:61,n:"Dachshund Estándar"},
+        {id:62,n:"Dachshund Miniatura"},
+        {id:63,n:"Dalmata"},
+        {id:64,n:"Dandie Dinmont Terrier"},
+        {id:65,n:"Deerhound"},
+        {id:66,n:"Doberman"},
+        {id:67,n:"Dogo argentino"},
+        {id:68,n:"Dogo de Burdeos"},
+        {id:69,n:"Esquimal americano"},
+        {id:70,n:"Fila Brasileño"},
+        {id:71,n:"Fila de San Miguel"},
+        {id:72,n:"Fox Hound"},
+        {id:73,n:"Fox Terrier"},
+        {id:74,n:"Galgo Español"},
+        {id:75,n:"Galgo Italiano"},
+        {id:76,n:"Gigante de los Pirineos"},
+        {id:77,n:"Golden Retriever"},
+        {id:78,n:"Gran Boyero Suizo"},
+        {id:79,n:"Gran Danés"},
+        {id:80,n:"Gran Perro Japonés"},
+        {id:81,n:"Greyhound"},
+        {id:82,n:"Griffón Belga"},
+        {id:83,n:"Griffón de Brabante"},
+        {id:84,n:"Griffón de Bruselas"},
+        {id:85,n:"Harrier"},
+        {id:86,n:"Hovawart"},
+        {id:87,n:"Husky Siberiano"},
+        {id:88,n:"Irish soft coated wheaten terrier"},
+        {id:89,n:"Jack Russell Terrier"},
+        {id:90,n:"Jingo"},
+        {id:91,n:"Kelpie"},
+        {id:92,n:"Kerry Blue Terrier"},
+        {id:93,n:"King Charles Spaniel"},
+        {id:94,n:"Komondor"},
+        {id:95,n:"Kromfohrlander"},
+        {id:96,n:"Labradoodle"},
+        {id:97,n:"Laika de Siberia"},
+        {id:98,n:"Lakeland Terrier"},
+        {id:99,n:"Lebrel Polaco"},
+        {id:100,n:"Leonberger"},
+        {id:101,n:"Lhasa Apso"},
+        {id:102,n:"Lobero Irlandés"},
+        {id:103,n:"Lundehund"},
+        {id:104,n:"Magyar Agar"},
+        {id:105,n:"Malamute de Alaska"},
+        {id:106,n:"Maltés"},
+        {id:107,n:"Manchester Terrier"},
+        {id:108,n:"Mastín de los Pirineos"},
+        {id:109,n:"Mastín Español"},
+        {id:110,n:"Mastín Inglés"},
+        {id:111,n:"Mastín italiano"},
+        {id:112,n:"Mastín Italiano"},
+        {id:113,n:"Mastín Napolitano"},
+        {id:114,n:"Mastín Tibetano"},
+        {id:115,n:"Norfolk Terrier"},
+        {id:116,n:"Norwich Terrier"},
+        {id:117,n:"Osero Careliano"},
+        {id:118,n:"Otterhound"},
+        {id:119,n:"Papillón"},
+        {id:120,n:"Pastor Alemán"},
+        {id:121,n:"Pastor Australiano"},
+        {id:122,n:"Pastor Belga"},
+        {id:123,n:"Pastor de Islandia"},
+        {id:124,n:"Pastor de los Pirineos"},
+        {id:125,n:"Pastor de Maremma"},
+        {id:126,n:"Pastor de Shetland"},
+        {id:127,n:"Pastor Holandés"},
+        {id:128,n:"Pastor Noruego"},
+        {id:129,n:"Pequeño Perro León"},
+        {id:130,n:"Pequinés"},
+        {id:131,n:"Perro de Aguas Americano"},
+        {id:132,n:"Perro de Aguas de la Romagna"},
+        {id:133,n:"Perro de Aguas Español"},
+        {id:134,n:"Perro de Aguas Irlandés"},
+        {id:135,n:"Perro de Aguas Portugués"},
+        {id:136,n:"Perro de Canaan"},
+        {id:137,n:"Perro de Groenlandia"},
+        {id:138,n:"Perro de los Faraones"},
+        {id:139,n:"Perro de los Visigodos"},
+        {id:140,n:"Perro Finlandés de Laponia"},
+        {id:141,n:"Perro Ganadero Australiano"},
+        {id:142,n:"Perro Lobo Checoslovaco"},
+        {id:143,n:"Perro Sueco de Laponia"},
+        {id:144,n:"Phalene"},
+        {id:145,n:"Pinscher"},
+        {id:146,n:"Pinscher Austriaco"},
+        {id:147,n:"Pinscher miniatura"},
+        {id:148,n:"Podenco Canario"},
+        {id:149,n:"Podenco Ibicenco"},
+        {id:150,n:"Podenco Portugués"},
+        {id:151,n:"Pointer Alemán"},
+        {id:152,n:"Pointer Inglés"},
+        {id:153,n:"Poodle Toy"},
+        {id:154,n:"Poodle Estándar"},
+        {id:155,n:"Poodle Miniatura"},
+        {id:156,n:"Poodle Minitoy"},
+        {id:157,n:"Presa Canario"},
+        {id:158,n:"Pug"},
+        {id:159,n:"Puli"},
+        {id:160,n:"Rhodesian Ridgeback"},
+        {id:161,n:"Rottweiler"},
+        {id:162,n:"Sabueso de Baviera"},
+        {id:163,n:"Sabueso de Hannover"},
+        {id:164,n:"Saluki"},
+        {id:165,n:"Samoyedo"},
+        {id:166,n:"San Bernardo"},
+        {id:167,n:"Schnauzer Estándar"},
+        {id:168,n:"Schnauzer Gigante"},
+        {id:169,n:"Schnauzer Miniatura"},
+        {id:170,n:"Setter Gordon"},
+        {id:171,n:"Setter Inglés"},
+        {id:172,n:"Setter Irlandés"},
+        {id:173,n:"Shar pei"},
+        {id:174,n:"Shiba"},
+        {id:175,n:"Shih Tzu"},
+        {id:176,n:"Silky Terrier"},
+        {id:177,n:"Skye Terrier"},
+        {id:178,n:"Sloughi"},
+        {id:179,n:"Spaniel Bretón"},
+        {id:180,n:"Spaniel Continental Miniatura"},
+        {id:181,n:"Spaniel Francés"},
+        {id:182,n:"Spaniel Japonés"},
+        {id:183,n:"Spaniel Tibetano"},
+        {id:184,n:"Spinone Italiano"},
+        {id:185,n:"Spitz Alemán"},
+        {id:186,n:"Spitz Alemán Toy / Pomerania"},
+        {id:187,n:"Spitz Finlandés"},
+        {id:188,n:"Spitz Japonés"},
+        {id:189,n:"Springer Spaniel Galés"},
+        {id:190,n:"Springer Spaniel Inglés"},
+        {id:191,n:"Staffordshire Bull Terrier"},
+        {id:192,n:"Staffordshire Terrier"},
+        {id:193,n:"Staffordshire Terrier Americano"},
+        {id:194,n:"Sussex Spaniel"},
+        {id:195,n:"Terranova"},
+        {id:196,n:"Terrier Australiano"},
+        {id:197,n:"Terrier Escocés"},
+        {id:198,n:"Terrier Japonés"},
+        {id:199,n:"Terrier Negro Ruso"},
+        {id:200,n:"Terrier Tibetano"},
+        {id:201,n:"Thai Ridgeback"},
+        {id:202,n:"Tosa"},
+        {id:203,n:"Viszla"},
+        {id:204,n:"Volpino Italiano"},
+        {id:205,n:"Weimaraner"},
+        {id:206,n:"Welsh Corgi"},
+        {id:207,n:"West Highland White Terrier"},
+        {id:208,n:"Whippet"},
+        {id:209,n:"Xoloitzcuintle"},
+        {id:210,n:"Xoloitzcuintle miniatura"},
+        {id:211,n:"Yorkshire Terrier"}
+    ],
+    2: [
+        {id:1,n:"Abisinio"},{id:2,n:"American shorthair"},
+        {id:3,n:"American wirehair"},{id:4,n:"Angora turco"},
+        {id:5,n:"Australian Mist"},{id:6,n:"Azul Británico"},
+        {id:7,n:"Azul ruso"},{id:8,n:"Balinés"},
+        {id:9,n:"Bengala"},{id:10,n:"Bobtail Americano"},
+        {id:11,n:"Bobtail Japonés"},{id:12,n:"Bombay"},
+        {id:13,n:"Bosque de Noruega"},{id:14,n:"Brazilian Shorthair"},
+        {id:15,n:"Burmés"},{id:16,n:"Burmilla"},
+        {id:17,n:"California Spangled"},{id:18,n:"Ceilán"},
+        {id:19,n:"Chartreux"},{id:20,n:"Colorpoint Shorthair"},
+        {id:21,n:"Cornish rex"},{id:22,n:"Criolla"},
+        {id:23,n:"Curl Americano"},{id:24,n:"Cymric"},
+        {id:25,n:"Deutsch Langhaar"},{id:26,n:"Devon Rex"},
+        {id:27,n:"Doméstico europeo"},{id:28,n:"Dorado africano"},
+        {id:29,n:"Dragon Li"},{id:30,n:"Exótico"},
+        {id:31,n:"Fold Japonés"},{id:32,n:"German Rex"},
+        {id:33,n:"Habana brown"},{id:34,n:"Himalayo"},
+        {id:35,n:"Javanés"},{id:36,n:"Khao Manee"},
+        {id:37,n:"Korat"},{id:38,n:"LaPerm"},
+        {id:39,n:"Lykoi"},{id:40,n:"Maine Coon"},
+        {id:41,n:"Manx"},{id:42,n:"Mau Egipcio"},
+        {id:43,n:"Munchkin"},{id:44,n:"Nebelung"},
+        {id:45,n:"Ocicat"},{id:46,n:"Ojos azules"},
+        {id:47,n:"Oriental"},{id:48,n:"Oriental de pelo largo"},
+        {id:49,n:"Pelo corto Británico"},{id:50,n:"Persa"},
+        {id:51,n:"Peterbald"},{id:52,n:"Pixie Bob"},
+        {id:53,n:"Rabon Japonés"},{id:54,n:"Ragamuffin"},
+        {id:55,n:"Ragdoll"},{id:56,n:"Sagrado de Birmania"},
+        {id:57,n:"Savannah"},{id:58,n:"Scottish Fold"},
+        {id:59,n:"Selkirk rex"},{id:60,n:"Serengeti"},
+        {id:61,n:"Seychellois"},{id:62,n:"Siamés"},
+        {id:63,n:"Siamés Moderno"},{id:64,n:"Siberiano"},
+        {id:65,n:"Singapura"},{id:66,n:"Snowshoe"},
+        {id:67,n:"Somalí"},{id:68,n:"Sphynx (Esfinge)"},
+        {id:69,n:"Tonkinés"},{id:70,n:"Van Turco"}
+    ]
+};
+
+const especieSel = document.getElementById('especieSelect');
+const razaSearch = document.getElementById('razaSearch');
+const razaId = document.getElementById('razaId');
+const searchResults = document.getElementById('searchResults');
+
+let razasActuales = [];
+let selectedIndex = -1;
+
+function actualizarRazas() {
+    const especieId = especieSel.value;
+    
+    if (especieId && razas[especieId]) {
+        razasActuales = razas[especieId];
+        const campo = especieId === '1' ? 'id_RazaPerro' : 'id_RazaGato';
+        razaId.name = campo;
+        razaSearch.value = '';
+        razaId.value = '';
+        razaSearch.placeholder = especieId === '1' ? 'Buscar raza de perro...' : 'Buscar raza de gato...';
+        searchResults.classList.remove('active');
+    }
+}
+
+function filtrarRazas(texto) {
+    if (!texto) return razasActuales;
+    
+    texto = texto.toLowerCase();
+    return razasActuales.filter(r => 
+        r.n.toLowerCase().includes(texto)
+    );
+}
+
+function mostrarResultados(resultados) {
+    searchResults.innerHTML = '';
+    selectedIndex = -1;
+    
+    if (resultados.length === 0) {
+        searchResults.innerHTML = '<div class="no-results">No se encontraron razas</div>';
+        searchResults.classList.add('active');
+        return;
+    }
+    
+    resultados.forEach((raza, index) => {
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        item.textContent = raza.n;
+        item.dataset.id = raza.id;
+        item.dataset.name = raza.n;
+        item.dataset.index = index;
+        
+        item.addEventListener('click', () => seleccionarRaza(raza));
+        searchResults.appendChild(item);
+    });
+    
+    searchResults.classList.add('active');
+}
+
+function seleccionarRaza(raza) {
+    razaSearch.value = raza.n;
+    razaId.value = raza.id;
+    searchResults.classList.remove('active');
+    selectedIndex = -1;
+}
+
+function navigateResults(direction) {
+    const items = searchResults.querySelectorAll('.search-result-item');
+    if (items.length === 0) return;
+    
+    items[selectedIndex]?.classList.remove('selected');
+    
+    if (direction === 'down') {
+        selectedIndex = selectedIndex < items.length - 1 ? selectedIndex + 1 : 0;
+    } else if (direction === 'up') {
+        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : items.length - 1;
+    }
+    
+    items[selectedIndex].classList.add('selected');
+    items[selectedIndex].scrollIntoView({ block: 'nearest' });
+}
+
+razaSearch.addEventListener('input', (e) => {
+    const texto = e.target.value;
+    const resultados = filtrarRazas(texto);
+    mostrarResultados(resultados);
+});
+
+razaSearch.addEventListener('focus', (e) => {
+    if (e.target.value) {
+        const resultados = filtrarRazas(e.target.value);
+        mostrarResultados(resultados);
+    } else {
+        mostrarResultados(razasActuales);
+    }
+});
+
+razaSearch.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        navigateResults('down');
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        navigateResults('up');
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const items = searchResults.querySelectorAll('.search-result-item');
+        if (selectedIndex >= 0 && items[selectedIndex]) {
+            const raza = {
+                id: items[selectedIndex].dataset.id,
+                n: items[selectedIndex].dataset.name
+            };
+            seleccionarRaza(raza);
+        }
+    } else if (e.key === 'Escape') {
+        searchResults.classList.remove('active');
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrapper')) {
+        searchResults.classList.remove('active');
+    }
+});
+
+especieSel.addEventListener('change', actualizarRazas);
+window.onload = actualizarRazas;
+</script>
+
+</body>
+</html>

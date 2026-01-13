@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Huellitas - Acceso</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #000000; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        
+        .card { 
+            background: var(--blanco); 
+            padding: 40px; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 420px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--borde-suave);
+        }
+
+        .albergue-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .albergue-header h1 { 
+            color: var(--azul); 
+            font-size: 28px; 
+            font-weight: 800; 
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .albergue-header p {
+            color: var(--texto);
+            font-weight: 600;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .group { margin-bottom: 22px; }
+        
+        label { 
+            display: block; 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--texto); 
+            margin-bottom: 10px; 
+        }
+        
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--borde-suave); 
+            border-radius: 12px; 
+            font-size: 16px; 
+            background: #fbfbfb;
+            box-sizing: border-box;
+            color: var(--texto);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        input:focus { 
+            outline: none; 
+            border-color: var(--azul); 
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--azul); 
+            color: #fff; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 17px;
+            cursor: pointer; 
+            margin-top: 10px;
+        }
+
+        button.secondary {
+            background: transparent;
+            color: var(--azul);
+            border: 2px solid var(--azul);
+            margin-top: 15px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6e6e73;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="albergue-header">
+        <h1>Huellitas</h1>
+        <p id="form-title">Iniciar Sesión</p>
+    </div>
+
+    <form id="auth-form" action="/api/token/" method="POST">
+        <div class="group">
+            <label>Correo Electrónico</label>
+            <input type="email" name="email_Persona" required>
+        </div>
+
+        <div class="group">
+            <label>Contraseña</label>
+            <input type="password" name="password_Usuario" required>
+        </div>
+
+        <button type="submit" id="main-button">Entrar</button>
+        <button type="button" class="secondary" id="switch-button" onclick="toggleForm()">Crear una cuenta</button>
+    </form>
+
+    </div>
+</div>
+
+<script>
+    let isLogin = true;
+    function toggleForm() {
+        isLogin = !isLogin;
+        const title = document.getElementById('form-title');
+        const mainBtn = document.getElementById('main-button');
+        const switchBtn = document.getElementById('switch-button');
+        const form = document.getElementById('auth-form');
+
+        if (isLogin) {
+            title.innerText = 'Iniciar Sesión';
+            mainBtn.innerText = 'Entrar';
+            switchBtn.innerText = 'Crear una cuenta';
+            form.action = '/api/token/';
+        } else {
+            title.innerText = 'Registro';
+            mainBtn.innerText = 'Registrarse';
+            switchBtn.innerText = 'Ya tengo cuenta';
+            form.action = '/api/registro/';
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Panel de Director</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2E5BFF;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --danger: #dc3545;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .user-sede {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Tabs de navegación */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: #f9f9f9;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .dashboard-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e4ad9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 91, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(46, 91, 255, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        /* Paneles del dashboard */
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            color: var(--primary);
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Tablas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Estados de procesos */
+        .status-pendiente {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-aprobado {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-rechazado {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-completado {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        /* Estados de citas */
+        .status-cancelada {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-completada {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        .status-confirmada {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-programada {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .table-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .table-btn.primary:hover {
+            background: #1e4ad9;
+        }
+
+        .table-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .table-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .table-btn.success {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .table-btn.success:hover {
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .table-btn.warning {
+            background: transparent;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .table-btn.warning:hover {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .table-btn.danger {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .table-btn.danger:hover {
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* Búsqueda y filtros */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 91, 255, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 1rem;
+        }
+
+        .stat-icon.animals {
+            background: rgba(46, 91, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.adoptions {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.debt {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-icon.donations {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Filtros */
+        .filters-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-label.required:after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea,
+        .form-datetime {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus,
+        .form-datetime:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 91, 255, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+
+        .toast.info .toast-icon {
+            color: var(--info);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Sin resultados */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .tabs {
+                padding: 0 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="user-info">
+                <div class="user-avatar">DR</div>
+                <div class="user-details">
+                    <div class="user-name">Roberto Martínez</div>
+                    <div class="user-role">Director General</div>
+                    <div class="user-sede">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Todas las sedes</span>
+                    </div>
+                </div>
+
+                <button class="logout-btn" onclick="location.href='../index_secundario.html'">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </div>
+            <div class="tab" data-tab="sedes">
+                <i class="fas fa-building"></i> Sedes
+            </div>
+            <div class="tab" data-tab="asistencia">
+                <i class="fas fa-clipboard-check"></i> Asistencia
+            </div>
+            <div class="tab" data-tab="animales">
+                <i class="fas fa-paw"></i> Animales
+            </div>
+            <div class="tab" data-tab="blacklist">
+                <i class="fas fa-ban"></i> Lista Negra
+                <span class="badge" id="blacklist-badge">2</span>
+            </div>
+            <div class="tab" data-tab="procesos">
+                <i class="fas fa-handshake"></i> Procesos
+            </div>
+            <div class="tab" data-tab="cuentas">
+                <i class="fas fa-file-invoice-dollar"></i> Cuentas por Pagar
+                <span class="badge" id="debt-badge">5</span>
+            </div>
+            <div class="tab" data-tab="donaciones">
+                <i class="fas fa-donate"></i> Donaciones
+            </div>
+            <div class="tab" data-tab="usuarios">
+                <i class="fas fa-users"></i> Usuarios
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+        <!-- Panel: Dashboard -->
+        <div id="dashboard" class="dashboard-content active">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Panel de Director</h1>
+                    <p class="dashboard-subtitle">Vista general del estado del refugio y estadísticas</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="generarReporteGeneral()">
+                        <i class="fas fa-file-export"></i> Reporte General
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estadísticas principales -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon animals">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div class="stat-value" id="total-animales">0</div>
+                    <div class="stat-label">Animales Total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon adoptions">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="stat-value" id="animales-adoptados">0</div>
+                    <div class="stat-label">Animales Adoptados</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon debt">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-value" id="deuda-total">$0</div>
+                    <div class="stat-label">Deuda Total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon donations">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="stat-value" id="donaciones-total">$0</div>
+                    <div class="stat-label">Donaciones 2024</div>
+                </div>
+            </div>
+
+            <!-- Información rápida -->
+            <div class="dashboard-panels">
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Atención Requerida
+                    </h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Prioridad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alertas-panel">
+                            <!-- Se carga dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-line"></i>
+                        Procesos Activos
+                    </h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Proceso</th>
+                                <th>Adoptante</th>
+                                <th>Voluntario</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="procesos-activos-panel">
+                            <!-- Se carga dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Gestión de Sedes -->
+        <div id="sedes" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Sedes</h1>
+                    <p class="dashboard-subtitle">Agregar, editar o eliminar sedes del refugio</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalSede()">
+                        <i class="fas fa-plus"></i> Nueva Sede
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Sedes Registradas
+                    </h2>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Municipio</th>
+                            <th>Colonia</th>
+                            <th>Calle</th>
+                            <th>C.P.</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-sedes">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Historial de Asistencia -->
+        <div id="asistencia" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Historial de Asistencia</h1>
+                    <p class="dashboard-subtitle">Registro de asistencia de todos los voluntarios</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="exportarAsistencia()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-container">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Sede</label>
+                        <select class="form-select" id="filtro-sede-asistencia">
+                            <option value="">Todas las sedes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Voluntario</label>
+                        <select class="form-select" id="filtro-voluntario">
+                            <option value="">Todos los voluntarios</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Fecha Desde</label>
+                        <input type="date" class="form-input" id="filtro-fecha-desde-asistencia">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Fecha Hasta</label>
+                        <input type="date" class="form-input" id="filtro-fecha-hasta-asistencia">
+                    </div>
+                    <button class="btn btn-primary" onclick="filtrarAsistencia()">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-calendar-check"></i>
+                        Registro de Asistencia
+                    </h2>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Voluntario</th>
+                            <th>Sede</th>
+                            <th>Fecha</th>
+                            <th>Hora Entrada</th>
+                            <th>Hora Salida</th>
+                            <th>Horas Trabajadas</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-asistencia">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Gestión de Animales -->
+        <div id="animales" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Animales</h1>
+                    <p class="dashboard-subtitle">Registro completo de animales con información extendida</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalAnimal()">
+                        <i class="fas fa-plus"></i> Nuevo Animal
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportarAnimales()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-list"></i>
+                        Todos los Animales
+                    </h2>
+                    <div class="panel-actions">
+                        <div class="search-container" style="width: 300px;">
+                            <input type="text" class="search-input" id="search-animales" placeholder="Buscar animal...">
+                            <button class="search-btn" onclick="buscarAnimales()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Especie</th>
+                            <th>Raza</th>
+                            <th>Edad</th>
+                            <th>Estado</th>
+                            <th>Sede</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-animales">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Lista Negra -->
+        <div id="blacklist" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Lista Negra</h1>
+                    <p class="dashboard-subtitle">Gestión de usuarios en lista negra y sus motivos</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalBlacklist()">
+                        <i class="fas fa-ban"></i> Agregar a Lista Negra
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-user-slash"></i>
+                        Usuarios en Lista Negra
+                    </h2>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Identificación</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Motivo</th>
+                            <th>Fecha Registro</th>
+                            <th>Registrado Por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-blacklist">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Retiro de Mascotas -->
+        <div id="retiro" class="dashboard-content" style="display: none;">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Registro de Retiro de Mascotas</h1>
+                    <p class="dashboard-subtitle">Registro de animales retirados a adoptantes</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalRetiro()">
+                        <i class="fas fa-minus-circle"></i> Registrar Retiro
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-file-export"></i>
+                        Historial de Retiros
+                    </h2>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha Retiro</th>
+                            <th>Nombre Animal</th>
+                            <th>ID Animal</th>
+                            <th>Nombre Adoptante</th>
+                            <th>Motivo Retiro</th>
+                            <th>Registrado Por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-retiros">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Seguimiento de Procesos -->
+        <div id="procesos" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Seguimiento de Procesos de Adopción</h1>
+                    <p class="dashboard-subtitle">Monitoreo y gestión de todos los procesos activos</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalProceso()">
+                        <i class="fas fa-plus"></i> Nuevo Proceso
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-tasks"></i>
+                        Procesos de Adopción
+                    </h2>
+                    <div class="panel-actions">
+                        <select class="form-select" id="filtro-estado-procesos" onchange="filtrarProcesos()">
+                            <option value="">Todos los estados</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en_proceso">En Proceso</option>
+                            <option value="aprobado">Aprobado</option>
+                            <option value="rechazado">Rechazado</option>
+                            <option value="completado">Completado</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Proceso</th>
+                            <th>Animal</th>
+                            <th>Adoptante</th>
+                            <th>Voluntario</th>
+                            <th>Estado</th>
+                            <th>Fecha Inicio</th>
+                            <th>Última Cita</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-procesos">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Cuentas por Pagar -->
+        <div id="cuentas" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Cuentas por Pagar</h1>
+                    <p class="dashboard-subtitle">Control de acreedores y deudas del refugio</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalCuenta()">
+                        <i class="fas fa-plus"></i> Nueva Cuenta
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-file-invoice"></i>
+                        Cuentas por Pagar
+                    </h2>
+                    <div class="panel-actions">
+                        <select class="form-select" id="filtro-estado-cuentas" onchange="filtrarCuentas()">
+                            <option value="">Todos los estados</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="parcial">Pago Parcial</option>
+                            <option value="pagado">Pagado</option>
+                            <option value="vencido">Vencido</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Acreedor</th>
+                            <th>Monto Original</th>
+                            <th>Monto Abonado</th>
+                            <th>Saldo Pendiente</th>
+                            <th>Concepto</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-cuentas">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                    <strong>Resumen:</strong> 
+                    Total Deuda: <span id="total-deuda">$0</span> | 
+                    Facturas Vencidas: <span id="facturas-vencidas">0</span> | 
+                    Próximas a Vencer: <span id="proximas-vencer">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Donaciones -->
+        <div id="donaciones" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Registro de Donaciones</h1>
+                    <p class="dashboard-subtitle">Seguimiento de donaciones recibidas</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalDonacion()">
+                        <i class="fas fa-plus"></i> Nueva Donación
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-container">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Fecha Desde</label>
+                        <input type="date" class="form-input" id="filtro-fecha-desde-donaciones">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Fecha Hasta</label>
+                        <input type="date" class="form-input" id="filtro-fecha-hasta-donaciones">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Tipo Donación</label>
+                        <select class="form-select" id="filtro-tipo-donacion">
+                            <option value="">Todos los tipos</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="transferencia">Transferencia</option>
+                            <option value="especie">En Especie</option>
+                            <option value="mensual">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Donante</label>
+                        <input type="text" class="form-input" id="filtro-donante" placeholder="Nombre del donante">
+                    </div>
+                    <button class="btn btn-primary" onclick="filtrarDonaciones()">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                    <button class="btn btn-secondary" onclick="limpiarFiltrosDonaciones()">
+                        <i class="fas fa-times"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        Donaciones Recibidas
+                    </h2>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Donante</th>
+                            <th>Tipo</th>
+                            <th>Monto/Descripción</th>
+                            <th>Sede Destino</th>
+                            <th>Registrado Por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-donaciones">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Gestión de Usuarios -->
+        <div id="usuarios" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Usuarios</h1>
+                    <p class="dashboard-subtitle">Administración de cuentas de voluntarios y personal</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalUsuario()">
+                        <i class="fas fa-user-plus"></i> Nuevo Usuario
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-users-cog"></i>
+                        Todos los Usuarios
+                    </h2>
+                    <div class="panel-actions">
+                        <select class="form-select" id="filtro-rol-usuarios" onchange="filtrarUsuarios()">
+                            <option value="">Todos los roles</option>
+                            <option value="voluntario">Voluntario</option>
+                            <option value="atencion">Atención a Personas</option>
+                            <option value="veterinario">Veterinario</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="director">Director</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Sede</th>
+                            <th>Fecha Inicio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-usuarios">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h2>Huellitas</h2>
+                <p>Un encuentro, dos salvaciones.</p>
+                <br>
+                <p>Panel de Director - Administración General del Refugio</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Acciones Rápidas</h3>
+                <ul>
+                    <li><a href="#" onclick="navigateToTab('dashboard')">Dashboard</a></li>
+                    <li><a href="#" onclick="navigateToTab('sedes')">Gestión de Sedes</a></li>
+                    <li><a href="#" onclick="navigateToTab('procesos')">Seguimiento de Procesos</a></li>
+                    <li><a href="#" onclick="navigateToTab('cuentas')">Cuentas por Pagar</a></li>
+                    <li><a href="#" onclick="navigateToTab('donaciones')">Donaciones</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto Director</h3>
+                <p><i class="fas fa-user"></i> Roberto Martínez</p>
+                <p><i class="fas fa-phone"></i> Directorio: 555-1234-567</p>
+                <p><i class="fas fa-envelope"></i> director@huellitas.org</p>
+                <p><i class="fas fa-map-marker-alt"></i> Supervisión de todas las sedes</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Refugio Huellitas - Panel de Director. Acceso restringido.</p>
+        </div>
+    </footer>
+
+    <!-- MODALES -->
+
+    <!-- Modal para gestión de sedes -->
+    <div class="modal" id="sedeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="sedeModalTitle">Nueva Sede</h2>
+                <button class="close-btn" onclick="cerrarModal('sedeModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-sede">
+                    <input type="hidden" id="sede-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre de la Sede</label>
+                            <input type="text" class="form-input" id="sede-nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Estado</label>
+                            <select class="form-select" id="sede-estado" required>
+                                <option value="">Seleccionar estado...</option>
+                                <option value="CDMX">Ciudad de México</option>
+                                <option value="EDOMEX">Estado de México</option>
+                                <option value="Jalisco">Jalisco</option>
+                                <option value="Nuevo Leon">Nuevo León</option>
+                                <option value="Puebla">Puebla</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Municipio/Alcaldía</label>
+                            <input type="text" class="form-input" id="sede-municipio" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Colonia</label>
+                            <input type="text" class="form-input" id="sede-colonia" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Calle</label>
+                            <input type="text" class="form-input" id="sede-calle" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Número Exterior</label>
+                            <input type="text" class="form-input" id="sede-num-ext" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Número Interior</label>
+                            <input type="text" class="form-input" id="sede-num-int">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Código Postal</label>
+                            <input type="text" class="form-input" id="sede-cp" required maxlength="5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" id="sede-telefono">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estado de Operación</label>
+                        <select class="form-select" id="sede-estado-operacion">
+                            <option value="activa">Activa</option>
+                            <option value="inactiva">Inactiva</option>
+                            <option value="mantenimiento">En Mantenimiento</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('sedeModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Sede
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para gestión de animales -->
+    <div class="modal" id="animalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="animalModalTitle">Nuevo Animal</h2>
+                <button class="close-btn" onclick="cerrarModal('animalModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-animal">
+                    <input type="hidden" id="animal-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre</label>
+                            <input type="text" class="form-input" id="animal-nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Especie</label>
+                            <select class="form-select" id="animal-especie" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="perro">Perro</option>
+                                <option value="gato">Gato</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Raza</label>
+                            <input type="text" class="form-input" id="animal-raza">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Sexo</label>
+                            <select class="form-select" id="animal-sexo" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="macho">Macho</option>
+                                <option value="hembra">Hembra</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Edad (años)</label>
+                            <input type="number" class="form-input" id="animal-edad" min="0" max="30" step="0.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Estado del Animal</label>
+                            <select class="form-select" id="animal-estado" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="disponible">Disponible</option>
+                                <option value="en_proceso">En Proceso de Adopción</option>
+                                <option value="adoptado">Adoptado</option>
+                                <option value="tratamiento">En Tratamiento</option>
+                                <option value="fallecido">Fallecido</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Sede</label>
+                            <select class="form-select" id="animal-sede" required>
+                                <option value="">Seleccionar sede...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Ingreso</label>
+                            <input type="date" class="form-input" id="animal-fecha-ingreso" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Medio de Llegada</label>
+                        <select class="form-select" id="animal-medio-llegada">
+                            <option value="">Seleccionar...</option>
+                            <option value="rescate">Rescate</option>
+                            <option value="donacion">Donación</option>
+                            <option value="abandono">Abandono en sede</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Carácter/Temperamento</label>
+                        <textarea class="form-textarea" id="animal-caracter" placeholder="Describa el carácter del animal..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Padecimientos/Enfermedades</label>
+                        <textarea class="form-textarea" id="animal-padecimientos" placeholder="Lista de padecimientos, tratamientos, etc..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Antecedentes</label>
+                        <textarea class="form-textarea" id="animal-antecedentes" placeholder="Historial médico, cirugías, etc..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('animalModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Animal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para lista negra -->
+    <div class="modal" id="blacklistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar a Lista Negra</h2>
+                <button class="close-btn" onclick="cerrarModal('blacklistModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-blacklist">
+                    <input type="hidden" id="blacklist-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre Completo</label>
+                            <input type="text" class="form-input" id="blacklist-nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Identificación (INE/Pasaporte)</label>
+                            <input type="text" class="form-input" id="blacklist-identificacion">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Teléfono</label>
+                            <input type="tel" class="form-input" id="blacklist-telefono" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="blacklist-email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Motivo</label>
+                        <select class="form-select" id="blacklist-motivo" required>
+                            <option value="">Seleccionar motivo...</option>
+                            <option value="maltrato">Maltrato animal</option>
+                            <option value="abandono">Abandono de animal</option>
+                            <option value="fraude">Fraude en adopción</option>
+                            <option value="incumplimiento">Incumplimiento de contrato</option>
+                            <option value="conducta">Conducta inapropiada</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Descripción Detallada</label>
+                        <textarea class="form-textarea" id="blacklist-descripcion" required placeholder="Describa en detalle el motivo..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Evidencia/Documentos</label>
+                        <input type="text" class="form-input" id="blacklist-evidencia" placeholder="Referencia de documentos, fotos, etc.">
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('blacklistModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-ban"></i> Agregar a Lista Negra
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para retiro de mascotas -->
+    <div class="modal" id="retiroModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Retiro de Mascota</h2>
+                <button class="close-btn" onclick="cerrarModal('retiroModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-retiro">
+                    <input type="hidden" id="retiro-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Animal</label>
+                        <select class="form-select" id="retiro-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre del Adoptante</label>
+                            <input type="text" class="form-input" id="retiro-adoptante" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Retiro</label>
+                            <input type="date" class="form-input" id="retiro-fecha" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Motivo del Retiro</label>
+                        <select class="form-select" id="retiro-motivo" required>
+                            <option value="">Seleccionar motivo...</option>
+                            <option value="maltrato">Maltrato detectado</option>
+                            <option value="incumplimiento">Incumplimiento de contrato</option>
+                            <option value="salud">Problemas de salud del adoptante</option>
+                            <option value="economicos">Problemas económicos</option>
+                            <option value="voluntario">Devolución voluntaria</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción Detallada</label>
+                        <textarea class="form-textarea" id="retiro-descripcion" placeholder="Describa los detalles del retiro..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('retiroModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Registrar Retiro
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para procesos de adopción -->
+    <div class="modal" id="procesoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="procesoModalTitle">Nuevo Proceso de Adopción</h2>
+                <button class="close-btn" onclick="cerrarModal('procesoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-proceso">
+                    <input type="hidden" id="proceso-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Animal</label>
+                        <select class="form-select" id="proceso-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre del Adoptante</label>
+                            <input type="text" class="form-input" id="proceso-adoptante" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Teléfono</label>
+                            <input type="tel" class="form-input" id="proceso-telefono" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Voluntario Asignado</label>
+                            <select class="form-select" id="proceso-voluntario" required>
+                                <option value="">Seleccionar voluntario...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Estado del Proceso</label>
+                            <select class="form-select" id="proceso-estado" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="en_proceso">En Proceso</option>
+                                <option value="aprobado">Aprobado</option>
+                                <option value="rechazado">Rechazado</option>
+                                <option value="completado">Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Inicio</label>
+                            <input type="date" class="form-input" id="proceso-fecha-inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Próxima Cita</label>
+                            <input type="date" class="form-input" id="proceso-fecha-cita">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="proceso-observaciones"></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('procesoModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Proceso
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cuentas por pagar -->
+    <div class="modal" id="cuentaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="cuentaModalTitle">Nueva Cuenta por Pagar</h2>
+                <button class="close-btn" onclick="cerrarModal('cuentaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-cuenta">
+                    <input type="hidden" id="cuenta-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Acreedor</label>
+                        <input type="text" class="form-input" id="cuenta-acreedor" required placeholder="Nombre del proveedor o acreedor">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Monto Original</label>
+                            <input type="number" class="form-input" id="cuenta-monto-original" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Monto Abonado</label>
+                            <input type="number" class="form-input" id="cuenta-monto-abonado" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Concepto de la Deuda</label>
+                        <textarea class="form-textarea" id="cuenta-concepto" required placeholder="Descripción del concepto de la deuda..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Vencimiento</label>
+                            <input type="date" class="form-input" id="cuenta-fecha-vencimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Estado del Pago</label>
+                            <select class="form-select" id="cuenta-estado" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="parcial">Pago Parcial</option>
+                                <option value="pagado">Pagado</option>
+                                <option value="vencido">Vencido</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('cuentaModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cuenta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para donaciones -->
+    <div class="modal" id="donacionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Donación</h2>
+                <button class="close-btn" onclick="cerrarModal('donacionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-donacion">
+                    <input type="hidden" id="donacion-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre del Donante</label>
+                            <input type="text" class="form-input" id="donacion-donante" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Donación</label>
+                            <input type="date" class="form-input" id="donacion-fecha" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Tipo de Donación</label>
+                        <select class="form-select" id="donacion-tipo" required>
+                            <option value="">Seleccionar tipo...</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="transferencia">Transferencia Bancaria</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="especie">En Especie</option>
+                            <option value="mensual">Donación Mensual</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Monto ($)</label>
+                            <input type="number" class="form-input" id="donacion-monto" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sede Destino</label>
+                            <select class="form-select" id="donacion-sede">
+                                <option value="">Todas las sedes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción/Detalles</label>
+                        <textarea class="form-textarea" id="donacion-descripcion" placeholder="Detalles de la donación, productos recibidos, etc..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('donacionModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Registrar Donación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para gestión de usuarios -->
+    <div class="modal" id="usuarioModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="usuarioModalTitle">Nuevo Usuario</h2>
+                <button class="close-btn" onclick="cerrarModal('usuarioModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-usuario">
+                    <input type="hidden" id="usuario-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre Completo</label>
+                            <input type="text" class="form-input" id="usuario-nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Email</label>
+                            <input type="email" class="form-input" id="usuario-email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Rol</label>
+                            <select class="form-select" id="usuario-rol" required>
+                                <option value="">Seleccionar rol...</option>
+                                <option value="voluntario">Voluntario</option>
+                                <option value="atencion">Atención a Personas</option>
+                                <option value="veterinario">Veterinario</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="director">Director</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Sede Asignada</label>
+                            <select class="form-select" id="usuario-sede" required>
+                                <option value="">Seleccionar sede...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Fecha de Inicio de Actividades</label>
+                        <input type="date" class="form-input" id="usuario-fecha-inicio" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estado de la Cuenta</label>
+                        <select class="form-select" id="usuario-estado">
+                            <option value="activa">Activa</option>
+                            <option value="inactiva">Inactiva</option>
+                            <option value="suspendida">Suspendida</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('usuarioModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Usuario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para el panel de Director
+        const directorData = {
+            // Sedes
+            sedes: [
+                {
+                    id: 'SED-001',
+                    nombre: 'Sede Central - Coyoacán',
+                    estado: 'CDMX',
+                    municipio: 'Coyoacán',
+                    colonia: 'Del Carmen',
+                    calle: 'Av. México',
+                    numExt: '123',
+                    numInt: '',
+                    cp: '04100',
+                    telefono: '555-123-4567',
+                    estadoOperacion: 'activa'
+                },
+                {
+                    id: 'SED-002',
+                    nombre: 'Sede Norte - Lindavista',
+                    estado: 'CDMX',
+                    municipio: 'Gustavo A. Madero',
+                    colonia: 'Lindavista',
+                    calle: 'Calle Norte 45',
+                    numExt: '456',
+                    numInt: 'A',
+                    cp: '07300',
+                    telefono: '555-234-5678',
+                    estadoOperacion: 'activa'
+                },
+                {
+                    id: 'SED-003',
+                    nombre: 'Sede Sur - Tlalpan',
+                    estado: 'CDMX',
+                    municipio: 'Tlalpan',
+                    colonia: 'Tlalpan Centro',
+                    calle: 'Calzada de Tlalpan',
+                    numExt: '789',
+                    numInt: '',
+                    cp: '14000',
+                    telefono: '555-345-6789',
+                    estadoOperacion: 'inactiva'
+                }
+            ],
+            
+            // Animales con información extendida
+            animales: [
+                {
+                    id: 'HUE-2024-001',
+                    nombre: 'Luna',
+                    especie: 'perro',
+                    raza: 'Labrador Retriever',
+                    sexo: 'hembra',
+                    edad: 2,
+                    estado: 'disponible',
+                    sede: 'SED-001',
+                    fechaIngreso: '2024-01-15',
+                    medioLlegada: 'rescate',
+                    caracter: 'Juguetona y cariñosa, perfecta para familias con niños',
+                    padecimientos: 'Ninguno',
+                    antecedentes: 'Rescatada de la calle, desparasitada y vacunada'
+                },
+                {
+                    id: 'HUE-2024-002',
+                    nombre: 'Max',
+                    especie: 'perro',
+                    raza: 'Pastor Alemán',
+                    sexo: 'macho',
+                    edad: 3,
+                    estado: 'en_proceso',
+                    sede: 'SED-001',
+                    fechaIngreso: '2024-01-20',
+                    medioLlegada: 'abandono',
+                    caracter: 'Leal y protector, requiere dueño con experiencia',
+                    padecimientos: 'Alergia estacional controlada',
+                    antecedentes: 'Cirugía de cadera en 2023, recuperación completa'
+                }
+            ],
+            
+            // Lista negra
+            blacklist: [
+                {
+                    id: 'BL-001',
+                    nombre: 'Juan Pérez',
+                    identificacion: 'ABCD123456',
+                    telefono: '555-111-2233',
+                    email: 'juan.perez@email.com',
+                    motivo: 'maltrato',
+                    descripcion: 'Devuelto animal con signos de maltrato después de 2 meses',
+                    fechaRegistro: '2024-02-15',
+                    registradoPor: 'Roberto Martínez',
+                    evidencia: 'Fotos médicas, reporte veterinario'
+                },
+                {
+                    id: 'BL-002',
+                    nombre: 'María López',
+                    identificacion: 'EFGH789012',
+                    telefono: '555-222-3344',
+                    email: 'maria.lopez@email.com',
+                    motivo: 'fraude',
+                    descripcion: 'Proporcionó información falsa en solicitud de adopción',
+                    fechaRegistro: '2024-03-01',
+                    registradoPor: 'Roberto Martínez',
+                    evidencia: 'Documentos falsificados, reporte policial'
+                }
+            ],
+            
+            // Asistencia de voluntarios
+            asistencia: [
+                {
+                    id: 'ASIS-001',
+                    voluntario: 'Ana García',
+                    sede: 'SED-001',
+                    fecha: '2024-03-20',
+                    horaEntrada: '09:00',
+                    horaSalida: '17:00',
+                    horasTrabajadas: 8,
+                    estado: 'completa'
+                },
+                {
+                    id: 'ASIS-002',
+                    voluntario: 'Carlos Rodríguez',
+                    sede: 'SED-001',
+                    fecha: '2024-03-20',
+                    horaEntrada: '10:00',
+                    horaSalida: '16:00',
+                    horasTrabajadas: 6,
+                    estado: 'completa'
+                }
+            ],
+            
+            // Procesos de adopción
+            procesos: [
+                {
+                    id: 'PRO-2024-001',
+                    animalId: 'HUE-2024-002',
+                    animalNombre: 'Max',
+                    adoptante: 'Laura Martínez',
+                    voluntario: 'Ana García',
+                    estado: 'en_proceso',
+                    fechaInicio: '2024-03-01',
+                    fechaCita: '2024-03-25',
+                    observaciones: 'Primera entrevista exitosa'
+                }
+            ],
+            
+            // Cuentas por pagar
+            cuentas: [
+                {
+                    id: 'CTE-001',
+                    acreedor: 'Veterinaria San Francisco',
+                    montoOriginal: 5000,
+                    montoAbonado: 2000,
+                    concepto: 'Suministros médicos y medicamentos marzo 2024',
+                    fechaVencimiento: '2024-04-15',
+                    estado: 'parcial',
+                    fechaRegistro: '2024-03-10'
+                },
+                {
+                    id: 'CTE-002',
+                    acreedor: 'Proveedor de Alimentos',
+                    montoOriginal: 8000,
+                    montoAbonado: 0,
+                    concepto: 'Alimento para perros y gatos - Lote marzo',
+                    fechaVencimiento: '2024-03-31',
+                    estado: 'vencido',
+                    fechaRegistro: '2024-03-05'
+                }
+            ],
+            
+            // Donaciones
+            donaciones: [
+                {
+                    id: 'DON-001',
+                    donante: 'Fundación Ayuda Animal',
+                    fecha: '2024-03-15',
+                    tipo: 'transferencia',
+                    monto: 15000,
+                    descripcion: 'Donación mensual para gastos operativos',
+                    sede: 'SED-001',
+                    registradoPor: 'Roberto Martínez'
+                },
+                {
+                    id: 'DON-002',
+                    donante: 'Empresa XYZ',
+                    fecha: '2024-03-10',
+                    tipo: 'especie',
+                    monto: 0,
+                    descripcion: '50kg de alimento, 20 mantas, juguetes',
+                    sede: 'SED-002',
+                    registradoPor: 'Roberto Martínez'
+                }
+            ],
+            
+            // Usuarios/Voluntarios
+            usuarios: [
+                {
+                    id: 'USR-001',
+                    nombre: 'Ana García',
+                    email: 'ana.garcia@huellitas.org',
+                    rol: 'atencion',
+                    sede: 'SED-001',
+                    fechaInicio: '2023-05-15',
+                    estado: 'activa'
+                },
+                {
+                    id: 'USR-002',
+                    nombre: 'Carlos Rodríguez',
+                    email: 'carlos.rodriguez@huellitas.org',
+                    rol: 'voluntario',
+                    sede: 'SED-001',
+                    fechaInicio: '2024-01-10',
+                    estado: 'activa'
+                },
+                {
+                    id: 'USR-003',
+                    nombre: 'Dra. Sofía Hernández',
+                    email: 'sofia.hernandez@huellitas.org',
+                    rol: 'veterinario',
+                    sede: 'SED-001',
+                    fechaInicio: '2022-08-20',
+                    estado: 'activa'
+                }
+            ],
+            
+            // Retiros de mascotas
+            retiros: [
+                {
+                    id: 'RET-001',
+                    animalId: 'HUE-2023-015',
+                    animalNombre: 'Rex',
+                    adoptante: 'Pedro Gutiérrez',
+                    fechaRetiro: '2024-02-28',
+                    motivo: 'maltrato',
+                    descripcion: 'Animal devuelto con signos de desnutrición y golpes',
+                    registradoPor: 'Roberto Martínez'
+                }
+            ]
+        };
+
+        // Variables globales
+        let currentSedeId = null;
+        let currentAnimalId = null;
+        let currentProcesoId = null;
+        let currentCuentaId = null;
+        let currentBlacklistId = null;
+        let currentUsuarioId = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    navigateToTab(this.getAttribute('data-tab'));
+                });
+            });
+            
+            // Cargar datos iniciales
+            cargarDashboard();
+            cargarSedes();
+            cargarAsistencia();
+            cargarAnimales();
+            cargarBlacklist();
+            cargarProcesos();
+            cargarCuentas();
+            cargarDonaciones();
+            cargarUsuarios();
+            cargarRetiros();
+            
+            // Configurar formularios
+            document.getElementById('form-sede').addEventListener('submit', guardarSede);
+            document.getElementById('form-animal').addEventListener('submit', guardarAnimal);
+            document.getElementById('form-blacklist').addEventListener('submit', guardarBlacklist);
+            document.getElementById('form-retiro').addEventListener('submit', guardarRetiro);
+            document.getElementById('form-proceso').addEventListener('submit', guardarProceso);
+            document.getElementById('form-cuenta').addEventListener('submit', guardarCuenta);
+            document.getElementById('form-donacion').addEventListener('submit', guardarDonacion);
+            document.getElementById('form-usuario').addEventListener('submit', guardarUsuario);
+            
+            // Configurar búsquedas
+            document.getElementById('search-animales').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarAnimales();
+            });
+            
+            // Configurar modales
+            configurarModales();
+            
+            // Inicializar selects
+            llenarSelects();
+        });
+
+        // Funciones de navegación
+        function navigateToTab(tabId) {
+            // Remover clase active de todas las tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            // Agregar clase active a la tab clickeada
+            const tabElement = document.querySelector(`.tab[data-tab="${tabId}"]`);
+            if (tabElement) {
+                tabElement.classList.add('active');
+            }
+            
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.dashboard-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar contenido correspondiente
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) {
+                tabContent.classList.add('active');
+            }
+        }
+
+        // Funciones de carga de datos
+        function cargarDashboard() {
+            // Calcular estadísticas
+            const totalAnimales = directorData.animales.length;
+            const animalesAdoptados = directorData.animales.filter(a => a.estado === 'adoptado').length;
+            
+            let deudaTotal = 0;
+            let facturasVencidas = 0;
+            directorData.cuentas.forEach(cuenta => {
+                const saldo = cuenta.montoOriginal - cuenta.montoAbonado;
+                deudaTotal += saldo;
+                if (cuenta.estado === 'vencido') facturasVencidas++;
+            });
+            
+            let donacionesTotal = 0;
+            directorData.donaciones.forEach(donacion => {
+                if (donacion.monto) donacionesTotal += donacion.monto;
+            });
+            
+            // Actualizar estadísticas
+            document.getElementById('total-animales').textContent = totalAnimales;
+            document.getElementById('animales-adoptados').textContent = animalesAdoptados;
+            document.getElementById('deuda-total').textContent = '$' + deudaTotal.toLocaleString();
+            document.getElementById('donaciones-total').textContent = '$' + donacionesTotal.toLocaleString();
+            
+            // Actualizar alertas
+            const alertasTbody = document.getElementById('alertas-panel');
+            alertasTbody.innerHTML = '';
+            
+            const alertas = [];
+            
+            // Verificar facturas vencidas
+            if (facturasVencidas > 0) {
+                alertas.push({
+                    tipo: 'Cuentas por Pagar',
+                    descripcion: `${facturasVencidas} factura(s) vencida(s)`,
+                    prioridad: 'Alta'
+                });
+            }
+            
+            // Verificar procesos atrasados
+            const hoy = new Date();
+            const procesosAtrasados = directorData.procesos.filter(p => {
+                if (!p.fechaCita) return false;
+                const fechaCita = new Date(p.fechaCita);
+                return fechaCita < hoy && p.estado === 'en_proceso';
+            }).length;
+            
+            if (procesosAtrasados > 0) {
+                alertas.push({
+                    tipo: 'Procesos de Adopción',
+                    descripcion: `${procesosAtrasados} proceso(s) con cita atrasada`,
+                    prioridad: 'Media'
+                });
+            }
+            
+            // Verificar sedes inactivas
+            const sedesInactivas = directorData.sedes.filter(s => s.estadoOperacion !== 'activa').length;
+            if (sedesInactivas > 0) {
+                alertas.push({
+                    tipo: 'Sedes',
+                    descripcion: `${sedesInactivas} sede(s) inactiva(s)`,
+                    prioridad: 'Media'
+                });
+            }
+            
+            // Mostrar alertas
+            if (alertas.length === 0) {
+                alertasTbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #28a745;">
+                            <i class="fas fa-check-circle"></i> Todo en orden
+                        </td>
+                    </tr>
+                `;
+            } else {
+                alertas.forEach(alerta => {
+                    const tr = document.createElement('tr');
+                    const prioridadClass = alerta.prioridad === 'Alta' ? 'status-cancelada' : 
+                                          alerta.prioridad === 'Media' ? 'status-pendiente' : 
+                                          'status-programada';
+                    
+                    tr.innerHTML = `
+                        <td><strong>${alerta.tipo}</strong></td>
+                        <td>${alerta.descripcion}</td>
+                        <td><span class="status-badge ${prioridadClass}">${alerta.prioridad}</span></td>
+                    `;
+                    alertasTbody.appendChild(tr);
+                });
+            }
+            
+            // Actualizar procesos activos
+            const procesosTbody = document.getElementById('procesos-activos-panel');
+            procesosTbody.innerHTML = '';
+            
+            const procesosActivos = directorData.procesos.filter(p => 
+                p.estado === 'en_proceso' || p.estado === 'pendiente'
+            ).slice(0, 5); // Mostrar solo 5
+            
+            if (procesosActivos.length === 0) {
+                procesosTbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #666;">
+                            No hay procesos activos
+                        </td>
+                    </tr>
+                `;
+            } else {
+                procesosActivos.forEach(proceso => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${proceso.id}</td>
+                        <td>${proceso.adoptante}</td>
+                        <td>${proceso.voluntario}</td>
+                        <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    `;
+                    procesosTbody.appendChild(tr);
+                });
+            }
+            
+            // Actualizar badges
+            actualizarBadges();
+        }
+
+        function cargarSedes() {
+            const tbody = document.getElementById('tabla-sedes');
+            tbody.innerHTML = '';
+            
+            if (directorData.sedes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-building" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay sedes registradas
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.sedes.forEach(sede => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${sede.id}</strong></td>
+                    <td>${sede.nombre}</td>
+                    <td>${sede.estado}</td>
+                    <td>${sede.municipio}</td>
+                    <td>${sede.colonia}</td>
+                    <td>${sede.calle}</td>
+                    <td>${sede.cp}</td>
+                    <td>
+                        <span class="status-badge ${sede.estadoOperacion === 'activa' ? 'status-aprobado' : 
+                                                    sede.estadoOperacion === 'inactiva' ? 'status-rechazado' : 
+                                                    'status-pendiente'}">
+                            ${sede.estadoOperacion === 'activa' ? 'Activa' : 
+                              sede.estadoOperacion === 'inactiva' ? 'Inactiva' : 
+                              'Mantenimiento'}
+                        </span>
+                    </td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarSede('${sede.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarSede('${sede.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarAsistencia() {
+            const tbody = document.getElementById('tabla-asistencia');
+            tbody.innerHTML = '';
+            
+            if (directorData.asistencia.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-clipboard-check" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay registros de asistencia
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.asistencia.forEach(asistencia => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${asistencia.voluntario}</td>
+                    <td>${asistencia.sede}</td>
+                    <td>${formatDate(asistencia.fecha)}</td>
+                    <td>${asistencia.horaEntrada}</td>
+                    <td>${asistencia.horaSalida}</td>
+                    <td>${asistencia.horasTrabajadas} horas</td>
+                    <td><span class="status-badge status-completada">${asistencia.estado}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarAnimales() {
+            const tbody = document.getElementById('tabla-animales');
+            tbody.innerHTML = '';
+            
+            if (directorData.animales.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-paw" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay animales registrados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.animales.forEach(animal => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${animal.id}</strong></td>
+                    <td>${animal.nombre}</td>
+                    <td>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</td>
+                    <td>${animal.raza}</td>
+                    <td>${animal.edad} años</td>
+                    <td>
+                        <span class="status-badge ${getEstadoAnimalClass(animal.estado)}">
+                            ${getEstadoAnimalTexto(animal.estado)}
+                        </span>
+                    </td>
+                    <td>${animal.sede}</td>
+                    <td>${formatDate(animal.fechaIngreso)}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarAnimal('${animal.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn secondary" onclick="verDetallesAnimal('${animal.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarAnimal('${animal.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarBlacklist() {
+            const tbody = document.getElementById('tabla-blacklist');
+            tbody.innerHTML = '';
+            
+            if (directorData.blacklist.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-user-slash" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay usuarios en lista negra
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.blacklist.forEach(usuario => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${usuario.nombre}</strong></td>
+                    <td>${usuario.identificacion}</td>
+                    <td>${usuario.telefono}</td>
+                    <td>${usuario.email}</td>
+                    <td>${getMotivoBlacklistTexto(usuario.motivo)}</td>
+                    <td>${formatDate(usuario.fechaRegistro)}</td>
+                    <td>${usuario.registradoPor}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="verDetallesBlacklist('${usuario.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarBlacklist('${usuario.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Actualizar badge
+            document.getElementById('blacklist-badge').textContent = directorData.blacklist.length;
+        }
+
+        function cargarProcesos() {
+            const tbody = document.getElementById('tabla-procesos');
+            tbody.innerHTML = '';
+            
+            if (directorData.procesos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-handshake" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay procesos de adopción
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.procesos.forEach(proceso => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${proceso.id}</strong></td>
+                    <td>${proceso.animalNombre} (${proceso.animalId})</td>
+                    <td>${proceso.adoptante}</td>
+                    <td>
+                        ${proceso.voluntario}
+                        <button class="table-btn secondary btn-sm" onclick="reasignarVoluntario('${proceso.id}')" title="Reasignar voluntario">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                    <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    <td>${formatDate(proceso.fechaInicio)}</td>
+                    <td>${proceso.fechaCita ? formatDate(proceso.fechaCita) : 'No programada'}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarProceso('${proceso.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn warning" onclick="cancelarProceso('${proceso.id}')" title="Cancelar proceso">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarCuentas() {
+            const tbody = document.getElementById('tabla-cuentas');
+            tbody.innerHTML = '';
+            
+            if (directorData.cuentas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-file-invoice-dollar" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay cuentas por pagar registradas
+                        </td>
+                    </tr>
+                `;
+                actualizarResumenCuentas();
+                return;
+            }
+            
+            let totalDeuda = 0;
+            let facturasVencidas = 0;
+            let proximasVencer = 0;
+            
+            const hoy = new Date();
+            const unaSemanaDespues = new Date();
+            unaSemanaDespues.setDate(hoy.getDate() + 7);
+            
+            directorData.cuentas.forEach(cuenta => {
+                const saldoPendiente = cuenta.montoOriginal - cuenta.montoAbonado;
+                totalDeuda += saldoPendiente;
+                
+                const fechaVencimiento = new Date(cuenta.fechaVencimiento);
+                if (fechaVencimiento < hoy && cuenta.estado !== 'pagado') {
+                    facturasVencidas++;
+                } else if (fechaVencimiento <= unaSemanaDespues && fechaVencimiento >= hoy && cuenta.estado !== 'pagado') {
+                    proximasVencer++;
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${cuenta.id}</strong></td>
+                    <td>${cuenta.acreedor}</td>
+                    <td>$${cuenta.montoOriginal.toLocaleString()}</td>
+                    <td>$${cuenta.montoAbonado.toLocaleString()}</td>
+                    <td>$${saldoPendiente.toLocaleString()}</td>
+                    <td>${cuenta.concepto.length > 50 ? cuenta.concepto.substring(0, 50) + '...' : cuenta.concepto}</td>
+                    <td>${formatDate(cuenta.fechaVencimiento)}</td>
+                    <td><span class="status-badge ${getEstadoCuentaClass(cuenta.estado)}">${getEstadoCuentaTexto(cuenta.estado)}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarCuenta('${cuenta.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn success" onclick="registrarPago('${cuenta.id}')" title="Registrar pago">
+                            <i class="fas fa-money-check-alt"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarCuenta('${cuenta.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Actualizar resumen
+            document.getElementById('total-deuda').textContent = '$' + totalDeuda.toLocaleString();
+            document.getElementById('facturas-vencidas').textContent = facturasVencidas;
+            document.getElementById('proximas-vencer').textContent = proximasVencer;
+            
+            // Actualizar badge
+            document.getElementById('debt-badge').textContent = directorData.cuentas.filter(c => c.estado === 'vencido').length;
+        }
+
+        function cargarDonaciones() {
+            const tbody = document.getElementById('tabla-donaciones');
+            tbody.innerHTML = '';
+            
+            if (directorData.donaciones.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-hand-holding-heart" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay donaciones registradas
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.donaciones.forEach(donacion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${donacion.id}</strong></td>
+                    <td>${formatDate(donacion.fecha)}</td>
+                    <td>${donacion.donante}</td>
+                    <td>${getTipoDonacionTexto(donacion.tipo)}</td>
+                    <td>${donacion.monto > 0 ? '$' + donacion.monto.toLocaleString() : donacion.descripcion}</td>
+                    <td>${donacion.sede || 'Todas'}</td>
+                    <td>${donacion.registradoPor}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="verDetallesDonacion('${donacion.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarDonacion('${donacion.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarUsuarios() {
+            const tbody = document.getElementById('tabla-usuarios');
+            tbody.innerHTML = '';
+            
+            if (directorData.usuarios.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-users" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay usuarios registrados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.usuarios.forEach(usuario => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${usuario.nombre}</strong></td>
+                    <td>${usuario.email}</td>
+                    <td>${getRolTexto(usuario.rol)}</td>
+                    <td>${usuario.sede}</td>
+                    <td>${formatDate(usuario.fechaInicio)}</td>
+                    <td><span class="status-badge ${usuario.estado === 'activa' ? 'status-aprobado' : 'status-rechazado'}">${usuario.estado}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarUsuario('${usuario.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarUsuario('${usuario.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarRetiros() {
+            const tbody = document.getElementById('tabla-retiros');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            if (directorData.retiros.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay registros de retiro
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            directorData.retiros.forEach(retiro => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${formatDate(retiro.fechaRetiro)}</td>
+                    <td>${retiro.animalNombre}</td>
+                    <td>${retiro.animalId}</td>
+                    <td>${retiro.adoptante}</td>
+                    <td>${getMotivoRetiroTexto(retiro.motivo)}</td>
+                    <td>${retiro.registradoPor}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="verDetallesRetiro('${retiro.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funciones de formularios
+        function guardarSede(e) {
+            e.preventDefault();
+            
+            const sedeId = document.getElementById('sede-id').value;
+            const nombre = document.getElementById('sede-nombre').value;
+            const estado = document.getElementById('sede-estado').value;
+            const municipio = document.getElementById('sede-municipio').value;
+            const colonia = document.getElementById('sede-colonia').value;
+            const calle = document.getElementById('sede-calle').value;
+            const numExt = document.getElementById('sede-num-ext').value;
+            const numInt = document.getElementById('sede-num-int').value;
+            const cp = document.getElementById('sede-cp').value;
+            const telefono = document.getElementById('sede-telefono').value;
+            const estadoOperacion = document.getElementById('sede-estado-operacion').value;
+            
+            if (sedeId) {
+                // Editar sede existente
+                const index = directorData.sedes.findIndex(s => s.id === sedeId);
+                if (index !== -1) {
+                    directorData.sedes[index] = {
+                        ...directorData.sedes[index],
+                        nombre,
+                        estado,
+                        municipio,
+                        colonia,
+                        calle,
+                        numExt,
+                        numInt,
+                        cp,
+                        telefono,
+                        estadoOperacion
+                    };
+                    mostrarToast('Sede actualizada exitosamente', 'success');
+                }
+            } else {
+                // Nueva sede
+                const newId = 'SED-' + (directorData.sedes.length + 1).toString().padStart(3, '0');
+                directorData.sedes.push({
+                    id: newId,
+                    nombre,
+                    estado,
+                    municipio,
+                    colonia,
+                    calle,
+                    numExt,
+                    numInt,
+                    cp,
+                    telefono,
+                    estadoOperacion: estadoOperacion || 'activa'
+                });
+                mostrarToast('Sede creada exitosamente', 'success');
+            }
+            
+            cargarSedes();
+            cargarDashboard();
+            cerrarModal('sedeModal');
+            e.target.reset();
+        }
+
+        function guardarAnimal(e) {
+            e.preventDefault();
+            
+            const animalId = document.getElementById('animal-id').value;
+            const nombre = document.getElementById('animal-nombre').value;
+            const especie = document.getElementById('animal-especie').value;
+            const raza = document.getElementById('animal-raza').value;
+            const sexo = document.getElementById('animal-sexo').value;
+            const edad = document.getElementById('animal-edad').value;
+            const estado = document.getElementById('animal-estado').value;
+            const sede = document.getElementById('animal-sede').value;
+            const fechaIngreso = document.getElementById('animal-fecha-ingreso').value;
+            const medioLlegada = document.getElementById('animal-medio-llegada').value;
+            const caracter = document.getElementById('animal-caracter').value;
+            const padecimientos = document.getElementById('animal-padecimientos').value;
+            const antecedentes = document.getElementById('animal-antecedentes').value;
+            
+            if (animalId) {
+                // Editar animal existente
+                const index = directorData.animales.findIndex(a => a.id === animalId);
+                if (index !== -1) {
+                    directorData.animales[index] = {
+                        ...directorData.animales[index],
+                        nombre,
+                        especie,
+                        raza,
+                        sexo,
+                        edad: parseFloat(edad),
+                        estado,
+                        sede,
+                        fechaIngreso,
+                        medioLlegada,
+                        caracter,
+                        padecimientos,
+                        antecedentes
+                    };
+                    mostrarToast('Animal actualizado exitosamente', 'success');
+                }
+            } else {
+                // Nuevo animal
+                const newId = 'HUE-2024-' + (directorData.animales.length + 1).toString().padStart(3, '0');
+                directorData.animales.push({
+                    id: newId,
+                    nombre,
+                    especie,
+                    raza,
+                    sexo,
+                    edad: parseFloat(edad),
+                    estado,
+                    sede,
+                    fechaIngreso,
+                    medioLlegada,
+                    caracter,
+                    padecimientos,
+                    antecedentes
+                });
+                mostrarToast('Animal registrado exitosamente', 'success');
+            }
+            
+            cargarAnimales();
+            cargarDashboard();
+            cerrarModal('animalModal');
+            e.target.reset();
+        }
+
+        function guardarBlacklist(e) {
+            e.preventDefault();
+            
+            const blacklistId = document.getElementById('blacklist-id').value;
+            const nombre = document.getElementById('blacklist-nombre').value;
+            const identificacion = document.getElementById('blacklist-identificacion').value;
+            const telefono = document.getElementById('blacklist-telefono').value;
+            const email = document.getElementById('blacklist-email').value;
+            const motivo = document.getElementById('blacklist-motivo').value;
+            const descripcion = document.getElementById('blacklist-descripcion').value;
+            const evidencia = document.getElementById('blacklist-evidencia').value;
+            
+            if (blacklistId) {
+                // Editar registro existente
+                const index = directorData.blacklist.findIndex(b => b.id === blacklistId);
+                if (index !== -1) {
+                    directorData.blacklist[index] = {
+                        ...directorData.blacklist[index],
+                        nombre,
+                        identificacion,
+                        telefono,
+                        email,
+                        motivo,
+                        descripcion,
+                        evidencia
+                    };
+                    mostrarToast('Registro de lista negra actualizado', 'success');
+                }
+            } else {
+                // Nuevo registro
+                const newId = 'BL-' + (directorData.blacklist.length + 1).toString().padStart(3, '0');
+                directorData.blacklist.push({
+                    id: newId,
+                    nombre,
+                    identificacion,
+                    telefono,
+                    email,
+                    motivo,
+                    descripcion,
+                    fechaRegistro: new Date().toISOString().split('T')[0],
+                    registradoPor: 'Roberto Martínez',
+                    evidencia
+                });
+                mostrarToast('Usuario agregado a lista negra exitosamente', 'success');
+            }
+            
+            cargarBlacklist();
+            cargarDashboard();
+            cerrarModal('blacklistModal');
+            e.target.reset();
+        }
+
+        function guardarRetiro(e) {
+            e.preventDefault();
+            
+            const retiroId = document.getElementById('retiro-id').value;
+            const animalId = document.getElementById('retiro-animal').value;
+            const adoptante = document.getElementById('retiro-adoptante').value;
+            const fecha = document.getElementById('retiro-fecha').value;
+            const motivo = document.getElementById('retiro-motivo').value;
+            const descripcion = document.getElementById('retiro-descripcion').value;
+            
+            // Obtener información del animal
+            const animal = directorData.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error: Animal no encontrado', 'error');
+                return;
+            }
+            
+            if (retiroId) {
+                // Editar retiro existente
+                const index = directorData.retiros.findIndex(r => r.id === retiroId);
+                if (index !== -1) {
+                    directorData.retiros[index] = {
+                        ...directorData.retiros[index],
+                        animalId,
+                        animalNombre: animal.nombre,
+                        adoptante,
+                        fechaRetiro: fecha,
+                        motivo,
+                        descripcion
+                    };
+                    mostrarToast('Registro de retiro actualizado', 'success');
+                }
+            } else {
+                // Nuevo retiro
+                const newId = 'RET-' + (directorData.retiros.length + 1).toString().padStart(3, '0');
+                directorData.retiros.push({
+                    id: newId,
+                    animalId,
+                    animalNombre: animal.nombre,
+                    adoptante,
+                    fechaRetiro: fecha,
+                    motivo,
+                    descripcion,
+                    registradoPor: 'Roberto Martínez'
+                });
+                
+                // Actualizar estado del animal
+                animal.estado = 'disponible';
+                mostrarToast('Retiro de mascota registrado exitosamente', 'success');
+            }
+            
+            cargarRetiros();
+            cargarAnimales();
+            cargarDashboard();
+            cerrarModal('retiroModal');
+            e.target.reset();
+        }
+
+        function guardarProceso(e) {
+            e.preventDefault();
+            
+            const procesoId = document.getElementById('proceso-id').value;
+            const animalId = document.getElementById('proceso-animal').value;
+            const adoptante = document.getElementById('proceso-adoptante').value;
+            const telefono = document.getElementById('proceso-telefono').value;
+            const voluntario = document.getElementById('proceso-voluntario').value;
+            const estado = document.getElementById('proceso-estado').value;
+            const fechaInicio = document.getElementById('proceso-fecha-inicio').value;
+            const fechaCita = document.getElementById('proceso-fecha-cita').value;
+            const observaciones = document.getElementById('proceso-observaciones').value;
+            
+            // Obtener información del animal
+            const animal = directorData.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error: Animal no encontrado', 'error');
+                return;
+            }
+            
+            if (procesoId) {
+                // Editar proceso existente
+                const index = directorData.procesos.findIndex(p => p.id === procesoId);
+                if (index !== -1) {
+                    directorData.procesos[index] = {
+                        ...directorData.procesos[index],
+                        animalId,
+                        animalNombre: animal.nombre,
+                        adoptante,
+                        voluntario,
+                        estado,
+                        fechaInicio,
+                        fechaCita,
+                        observaciones
+                    };
+                    mostrarToast('Proceso actualizado exitosamente', 'success');
+                }
+            } else {
+                // Nuevo proceso
+                const newId = 'PRO-2024-' + (directorData.procesos.length + 1).toString().padStart(3, '0');
+                directorData.procesos.push({
+                    id: newId,
+                    animalId,
+                    animalNombre: animal.nombre,
+                    adoptante,
+                    voluntario,
+                    estado,
+                    fechaInicio,
+                    fechaCita,
+                    observaciones
+                });
+                mostrarToast('Proceso de adopción creado exitosamente', 'success');
+            }
+            
+            // Actualizar estado del animal
+            if (estado === 'en_proceso' || estado === 'pendiente') {
+                animal.estado = 'en_proceso';
+            } else if (estado === 'aprobado' || estado === 'completado') {
+                animal.estado = 'adoptado';
+            } else if (estado === 'rechazado') {
+                animal.estado = 'disponible';
+            }
+            
+            cargarProcesos();
+            cargarAnimales();
+            cargarDashboard();
+            cerrarModal('procesoModal');
+            e.target.reset();
+        }
+
+        function guardarCuenta(e) {
+            e.preventDefault();
+            
+            const cuentaId = document.getElementById('cuenta-id').value;
+            const acreedor = document.getElementById('cuenta-acreedor').value;
+            const montoOriginal = parseFloat(document.getElementById('cuenta-monto-original').value);
+            const montoAbonado = parseFloat(document.getElementById('cuenta-monto-abonado').value) || 0;
+            const concepto = document.getElementById('cuenta-concepto').value;
+            const fechaVencimiento = document.getElementById('cuenta-fecha-vencimiento').value;
+            const estado = document.getElementById('cuenta-estado').value;
+            
+            // Validar montos
+            if (montoAbonado > montoOriginal) {
+                mostrarToast('El monto abonado no puede ser mayor al monto original', 'error');
+                return;
+            }
+            
+            if (cuentaId) {
+                // Editar cuenta existente
+                const index = directorData.cuentas.findIndex(c => c.id === cuentaId);
+                if (index !== -1) {
+                    directorData.cuentas[index] = {
+                        ...directorData.cuentas[index],
+                        acreedor,
+                        montoOriginal,
+                        montoAbonado,
+                        concepto,
+                        fechaVencimiento,
+                        estado
+                    };
+                    mostrarToast('Cuenta actualizada exitosamente', 'success');
+                }
+            } else {
+                // Nueva cuenta
+                const newId = 'CTE-' + (directorData.cuentas.length + 1).toString().padStart(3, '0');
+                directorData.cuentas.push({
+                    id: newId,
+                    acreedor,
+                    montoOriginal,
+                    montoAbonado,
+                    concepto,
+                    fechaVencimiento,
+                    estado,
+                    fechaRegistro: new Date().toISOString().split('T')[0]
+                });
+                mostrarToast('Cuenta por pagar registrada exitosamente', 'success');
+            }
+            
+            cargarCuentas();
+            cargarDashboard();
+            cerrarModal('cuentaModal');
+            e.target.reset();
+        }
+
+        function guardarDonacion(e) {
+            e.preventDefault();
+            
+            const donacionId = document.getElementById('donacion-id').value;
+            const donante = document.getElementById('donacion-donante').value;
+            const fecha = document.getElementById('donacion-fecha').value;
+            const tipo = document.getElementById('donacion-tipo').value;
+            const monto = parseFloat(document.getElementById('donacion-monto').value) || 0;
+            const sede = document.getElementById('donacion-sede').value;
+            const descripcion = document.getElementById('donacion-descripcion').value;
+            
+            if (donacionId) {
+                // Editar donación existente
+                const index = directorData.donaciones.findIndex(d => d.id === donacionId);
+                if (index !== -1) {
+                    directorData.donaciones[index] = {
+                        ...directorData.donaciones[index],
+                        donante,
+                        fecha,
+                        tipo,
+                        monto,
+                        descripcion,
+                        sede
+                    };
+                    mostrarToast('Donación actualizada exitosamente', 'success');
+                }
+            } else {
+                // Nueva donación
+                const newId = 'DON-' + (directorData.donaciones.length + 1).toString().padStart(3, '0');
+                directorData.donaciones.push({
+                    id: newId,
+                    donante,
+                    fecha,
+                    tipo,
+                    monto,
+                    descripcion,
+                    sede,
+                    registradoPor: 'Roberto Martínez'
+                });
+                mostrarToast('Donación registrada exitosamente', 'success');
+            }
+            
+            cargarDonaciones();
+            cargarDashboard();
+            cerrarModal('donacionModal');
+            e.target.reset();
+        }
+
+        function guardarUsuario(e) {
+            e.preventDefault();
+            
+            const usuarioId = document.getElementById('usuario-id').value;
+            const nombre = document.getElementById('usuario-nombre').value;
+            const email = document.getElementById('usuario-email').value;
+            const rol = document.getElementById('usuario-rol').value;
+            const sede = document.getElementById('usuario-sede').value;
+            const fechaInicio = document.getElementById('usuario-fecha-inicio').value;
+            const estado = document.getElementById('usuario-estado').value;
+            
+            if (usuarioId) {
+                // Editar usuario existente
+                const index = directorData.usuarios.findIndex(u => u.id === usuarioId);
+                if (index !== -1) {
+                    directorData.usuarios[index] = {
+                        ...directorData.usuarios[index],
+                        nombre,
+                        email,
+                        rol,
+                        sede,
+                        fechaInicio,
+                        estado
+                    };
+                    mostrarToast('Usuario actualizado exitosamente', 'success');
+                }
+            } else {
+                // Nuevo usuario
+                const newId = 'USR-' + (directorData.usuarios.length + 1).toString().padStart(3, '0');
+                directorData.usuarios.push({
+                    id: newId,
+                    nombre,
+                    email,
+                    rol,
+                    sede,
+                    fechaInicio,
+                    estado
+                });
+                mostrarToast('Usuario creado exitosamente', 'success');
+            }
+            
+            cargarUsuarios();
+            cerrarModal('usuarioModal');
+            e.target.reset();
+        }
+
+        // Funciones para abrir modales de edición
+        function abrirModalSede(editarId = null) {
+            const modal = document.getElementById('sedeModal');
+            const titulo = document.getElementById('sedeModalTitle');
+            const form = document.getElementById('form-sede');
+            
+            if (editarId) {
+                // Modo edición
+                const sede = directorData.sedes.find(s => s.id === editarId);
+                if (sede) {
+                    titulo.textContent = 'Editar Sede';
+                    document.getElementById('sede-id').value = sede.id;
+                    document.getElementById('sede-nombre').value = sede.nombre;
+                    document.getElementById('sede-estado').value = sede.estado;
+                    document.getElementById('sede-municipio').value = sede.municipio;
+                    document.getElementById('sede-colonia').value = sede.colonia;
+                    document.getElementById('sede-calle').value = sede.calle;
+                    document.getElementById('sede-num-ext').value = sede.numExt;
+                    document.getElementById('sede-num-int').value = sede.numInt || '';
+                    document.getElementById('sede-cp').value = sede.cp;
+                    document.getElementById('sede-telefono').value = sede.telefono || '';
+                    document.getElementById('sede-estado-operacion').value = sede.estadoOperacion;
+                }
+            } else {
+                // Modo nuevo
+                titulo.textContent = 'Nueva Sede';
+                form.reset();
+                document.getElementById('sede-id').value = '';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalAnimal(editarId = null) {
+            const modal = document.getElementById('animalModal');
+            const titulo = document.getElementById('animalModalTitle');
+            const form = document.getElementById('form-animal');
+            
+            // Llenar select de sedes
+            const sedeSelect = document.getElementById('animal-sede');
+            sedeSelect.innerHTML = '<option value="">Seleccionar sede...</option>';
+            directorData.sedes.forEach(sede => {
+                if (sede.estadoOperacion === 'activa') {
+                    const option = document.createElement('option');
+                    option.value = sede.id;
+                    option.textContent = sede.nombre;
+                    sedeSelect.appendChild(option);
+                }
+            });
+            
+            if (editarId) {
+                // Modo edición
+                const animal = directorData.animales.find(a => a.id === editarId);
+                if (animal) {
+                    titulo.textContent = 'Editar Animal';
+                    document.getElementById('animal-id').value = animal.id;
+                    document.getElementById('animal-nombre').value = animal.nombre;
+                    document.getElementById('animal-especie').value = animal.especie;
+                    document.getElementById('animal-raza').value = animal.raza;
+                    document.getElementById('animal-sexo').value = animal.sexo;
+                    document.getElementById('animal-edad').value = animal.edad;
+                    document.getElementById('animal-estado').value = animal.estado;
+                    document.getElementById('animal-sede').value = animal.sede;
+                    document.getElementById('animal-fecha-ingreso').value = animal.fechaIngreso;
+                    document.getElementById('animal-medio-llegada').value = animal.medioLlegada || '';
+                    document.getElementById('animal-caracter').value = animal.caracter || '';
+                    document.getElementById('animal-padecimientos').value = animal.padecimientos || '';
+                    document.getElementById('animal-antecedentes').value = animal.antecedentes || '';
+                }
+            } else {
+                // Modo nuevo
+                titulo.textContent = 'Nuevo Animal';
+                form.reset();
+                document.getElementById('animal-id').value = '';
+                document.getElementById('animal-fecha-ingreso').value = new Date().toISOString().split('T')[0];
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalBlacklist(editarId = null) {
+            const modal = document.getElementById('blacklistModal');
+            const form = document.getElementById('form-blacklist');
+            
+            if (editarId) {
+                // Modo edición
+                const usuario = directorData.blacklist.find(b => b.id === editarId);
+                if (usuario) {
+                    document.getElementById('blacklist-id').value = usuario.id;
+                    document.getElementById('blacklist-nombre').value = usuario.nombre;
+                    document.getElementById('blacklist-identificacion').value = usuario.identificacion;
+                    document.getElementById('blacklist-telefono').value = usuario.telefono;
+                    document.getElementById('blacklist-email').value = usuario.email || '';
+                    document.getElementById('blacklist-motivo').value = usuario.motivo;
+                    document.getElementById('blacklist-descripcion').value = usuario.descripcion;
+                    document.getElementById('blacklist-evidencia').value = usuario.evidencia || '';
+                }
+            } else {
+                // Modo nuevo
+                form.reset();
+                document.getElementById('blacklist-id').value = '';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalRetiro(editarId = null) {
+            const modal = document.getElementById('retiroModal');
+            
+            // Llenar select de animales adoptados
+            const animalSelect = document.getElementById('retiro-animal');
+            animalSelect.innerHTML = '<option value="">Seleccionar animal...</option>';
+            
+            const animalesAdoptados = directorData.animales.filter(a => a.estado === 'adoptado');
+            animalesAdoptados.forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.id})`;
+                animalSelect.appendChild(option);
+            });
+            
+            if (editarId) {
+                // Modo edición
+                const retiro = directorData.retiros.find(r => r.id === editarId);
+                if (retiro) {
+                    document.getElementById('retiro-id').value = retiro.id;
+                    document.getElementById('retiro-animal').value = retiro.animalId;
+                    document.getElementById('retiro-adoptante').value = retiro.adoptante;
+                    document.getElementById('retiro-fecha').value = retiro.fechaRetiro;
+                    document.getElementById('retiro-motivo').value = retiro.motivo;
+                    document.getElementById('retiro-descripcion').value = retiro.descripcion || '';
+                }
+            } else {
+                // Modo nuevo
+                document.getElementById('form-retiro').reset();
+                document.getElementById('retiro-id').value = '';
+                document.getElementById('retiro-fecha').value = new Date().toISOString().split('T')[0];
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalProceso(editarId = null) {
+            const modal = document.getElementById('procesoModal');
+            const titulo = document.getElementById('procesoModalTitle');
+            
+            // Llenar select de animales disponibles
+            const animalSelect = document.getElementById('proceso-animal');
+            animalSelect.innerHTML = '<option value="">Seleccionar animal...</option>';
+            
+            const animalesDisponibles = directorData.animales.filter(a => 
+                a.estado === 'disponible' || a.estado === 'en_proceso'
+            );
+            animalesDisponibles.forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.id}) - ${animal.estado === 'en_proceso' ? 'En proceso' : 'Disponible'}`;
+                animalSelect.appendChild(option);
+            });
+            
+            // Llenar select de voluntarios
+            const voluntarioSelect = document.getElementById('proceso-voluntario');
+            voluntarioSelect.innerHTML = '<option value="">Seleccionar voluntario...</option>';
+            
+            const voluntarios = directorData.usuarios.filter(u => 
+                u.rol === 'voluntario' || u.rol === 'atencion'
+            );
+            voluntarios.forEach(voluntario => {
+                const option = document.createElement('option');
+                option.value = voluntario.nombre;
+                option.textContent = `${voluntario.nombre} (${getRolTexto(voluntario.rol)})`;
+                voluntarioSelect.appendChild(option);
+            });
+            
+            if (editarId) {
+                // Modo edición
+                const proceso = directorData.procesos.find(p => p.id === editarId);
+                if (proceso) {
+                    titulo.textContent = 'Editar Proceso';
+                    document.getElementById('proceso-id').value = proceso.id;
+                    document.getElementById('proceso-animal').value = proceso.animalId;
+                    document.getElementById('proceso-adoptante').value = proceso.adoptante;
+                    document.getElementById('proceso-telefono').value = proceso.telefono || '';
+                    document.getElementById('proceso-voluntario').value = proceso.voluntario;
+                    document.getElementById('proceso-estado').value = proceso.estado;
+                    document.getElementById('proceso-fecha-inicio').value = proceso.fechaInicio;
+                    document.getElementById('proceso-fecha-cita').value = proceso.fechaCita || '';
+                    document.getElementById('proceso-observaciones').value = proceso.observaciones || '';
+                }
+            } else {
+                // Modo nuevo
+                titulo.textContent = 'Nuevo Proceso de Adopción';
+                document.getElementById('form-proceso').reset();
+                document.getElementById('proceso-id').value = '';
+                document.getElementById('proceso-fecha-inicio').value = new Date().toISOString().split('T')[0];
+                document.getElementById('proceso-estado').value = 'pendiente';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalCuenta(editarId = null) {
+            const modal = document.getElementById('cuentaModal');
+            const titulo = document.getElementById('cuentaModalTitle');
+            
+            if (editarId) {
+                // Modo edición
+                const cuenta = directorData.cuentas.find(c => c.id === editarId);
+                if (cuenta) {
+                    titulo.textContent = 'Editar Cuenta';
+                    document.getElementById('cuenta-id').value = cuenta.id;
+                    document.getElementById('cuenta-acreedor').value = cuenta.acreedor;
+                    document.getElementById('cuenta-monto-original').value = cuenta.montoOriginal;
+                    document.getElementById('cuenta-monto-abonado').value = cuenta.montoAbonado;
+                    document.getElementById('cuenta-concepto').value = cuenta.concepto;
+                    document.getElementById('cuenta-fecha-vencimiento').value = cuenta.fechaVencimiento;
+                    document.getElementById('cuenta-estado').value = cuenta.estado;
+                }
+            } else {
+                // Modo nuevo
+                titulo.textContent = 'Nueva Cuenta por Pagar';
+                document.getElementById('form-cuenta').reset();
+                document.getElementById('cuenta-id').value = '';
+                document.getElementById('cuenta-monto-abonado').value = 0;
+                document.getElementById('cuenta-fecha-vencimiento').value = new Date().toISOString().split('T')[0];
+                document.getElementById('cuenta-estado').value = 'pendiente';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalDonacion(editarId = null) {
+            const modal = document.getElementById('donacionModal');
+            
+            // Llenar select de sedes
+            const sedeSelect = document.getElementById('donacion-sede');
+            sedeSelect.innerHTML = '<option value="">Todas las sedes</option>';
+            directorData.sedes.forEach(sede => {
+                if (sede.estadoOperacion === 'activa') {
+                    const option = document.createElement('option');
+                    option.value = sede.id;
+                    option.textContent = sede.nombre;
+                    sedeSelect.appendChild(option);
+                }
+            });
+            
+            if (editarId) {
+                // Modo edición
+                const donacion = directorData.donaciones.find(d => d.id === editarId);
+                if (donacion) {
+                    document.getElementById('donacion-id').value = donacion.id;
+                    document.getElementById('donacion-donante').value = donacion.donante;
+                    document.getElementById('donacion-fecha').value = donacion.fecha;
+                    document.getElementById('donacion-tipo').value = donacion.tipo;
+                    document.getElementById('donacion-monto').value = donacion.monto || 0;
+                    document.getElementById('donacion-sede').value = donacion.sede || '';
+                    document.getElementById('donacion-descripcion').value = donacion.descripcion || '';
+                }
+            } else {
+                // Modo nuevo
+                document.getElementById('form-donacion').reset();
+                document.getElementById('donacion-id').value = '';
+                document.getElementById('donacion-fecha').value = new Date().toISOString().split('T')[0];
+                document.getElementById('donacion-tipo').value = 'efectivo';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function abrirModalUsuario(editarId = null) {
+            const modal = document.getElementById('usuarioModal');
+            const titulo = document.getElementById('usuarioModalTitle');
+            
+            // Llenar select de sedes
+            const sedeSelect = document.getElementById('usuario-sede');
+            sedeSelect.innerHTML = '<option value="">Seleccionar sede...</option>';
+            directorData.sedes.forEach(sede => {
+                if (sede.estadoOperacion === 'activa') {
+                    const option = document.createElement('option');
+                    option.value = sede.id;
+                    option.textContent = sede.nombre;
+                    sedeSelect.appendChild(option);
+                }
+            });
+            
+            if (editarId) {
+                // Modo edición
+                const usuario = directorData.usuarios.find(u => u.id === editarId);
+                if (usuario) {
+                    titulo.textContent = 'Editar Usuario';
+                    document.getElementById('usuario-id').value = usuario.id;
+                    document.getElementById('usuario-nombre').value = usuario.nombre;
+                    document.getElementById('usuario-email').value = usuario.email;
+                    document.getElementById('usuario-rol').value = usuario.rol;
+                    document.getElementById('usuario-sede').value = usuario.sede;
+                    document.getElementById('usuario-fecha-inicio').value = usuario.fechaInicio;
+                    document.getElementById('usuario-estado').value = usuario.estado;
+                }
+            } else {
+                // Modo nuevo
+                titulo.textContent = 'Nuevo Usuario';
+                document.getElementById('form-usuario').reset();
+                document.getElementById('usuario-id').value = '';
+                document.getElementById('usuario-fecha-inicio').value = new Date().toISOString().split('T')[0];
+                document.getElementById('usuario-estado').value = 'activa';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        // Funciones de eliminación
+        function eliminarSede(id) {
+            if (confirm('¿Está seguro de eliminar esta sede? Esta acción no se puede deshacer.')) {
+                const index = directorData.sedes.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    // Verificar si hay animales en esta sede
+                    const animalesEnSede = directorData.animales.filter(a => a.sede === id);
+                    if (animalesEnSede.length > 0) {
+                        if (!confirm(`Esta sede tiene ${animalesEnSede.length} animal(es). ¿Desea reasignarlos antes de eliminar?`)) {
+                            return;
+                        }
+                    }
+                    
+                    directorData.sedes.splice(index, 1);
+                    cargarSedes();
+                    cargarDashboard();
+                    mostrarToast('Sede eliminada exitosamente', 'success');
+                }
+            }
+        }
+
+        function eliminarAnimal(id) {
+            if (confirm('¿Está seguro de eliminar este animal? Esta acción no se puede deshacer.')) {
+                const index = directorData.animales.findIndex(a => a.id === id);
+                if (index !== -1) {
+                    directorData.animales.splice(index, 1);
+                    cargarAnimales();
+                    cargarDashboard();
+                    mostrarToast('Animal eliminado exitosamente', 'success');
+                }
+            }
+        }
+
+        function eliminarBlacklist(id) {
+            if (confirm('¿Está seguro de eliminar este registro de lista negra?')) {
+                const index = directorData.blacklist.findIndex(b => b.id === id);
+                if (index !== -1) {
+                    directorData.blacklist.splice(index, 1);
+                    cargarBlacklist();
+                    mostrarToast('Registro eliminado exitosamente', 'success');
+                }
+            }
+        }
+
+        function eliminarCuenta(id) {
+            if (confirm('¿Está seguro de eliminar esta cuenta por pagar?')) {
+                const index = directorData.cuentas.findIndex(c => c.id === id);
+                if (index !== -1) {
+                    directorData.cuentas.splice(index, 1);
+                    cargarCuentas();
+                    cargarDashboard();
+                    mostrarToast('Cuenta eliminada exitosamente', 'success');
+                }
+            }
+        }
+
+        function eliminarDonacion(id) {
+            if (confirm('¿Está seguro de eliminar este registro de donación?')) {
+                const index = directorData.donaciones.findIndex(d => d.id === id);
+                if (index !== -1) {
+                    directorData.donaciones.splice(index, 1);
+                    cargarDonaciones();
+                    cargarDashboard();
+                    mostrarToast('Donación eliminada exitosamente', 'success');
+                }
+            }
+        }
+
+        function eliminarUsuario(id) {
+            if (confirm('¿Está seguro de eliminar este usuario? Esta acción no se puede deshacer.')) {
+                const index = directorData.usuarios.findIndex(u => u.id === id);
+                if (index !== -1) {
+                    directorData.usuarios.splice(index, 1);
+                    cargarUsuarios();
+                    mostrarToast('Usuario eliminado exitosamente', 'success');
+                }
+            }
+        }
+
+        // Funciones específicas
+        function reasignarVoluntario(procesoId) {
+            const proceso = directorData.procesos.find(p => p.id === procesoId);
+            if (!proceso) {
+                mostrarToast('Proceso no encontrado', 'error');
+                return;
+            }
+            
+            const nuevosVoluntarios = directorData.usuarios.filter(u => 
+                (u.rol === 'voluntario' || u.rol === 'atencion') && 
+                u.nombre !== proceso.voluntario
+            );
+            
+            if (nuevosVoluntarios.length === 0) {
+                mostrarToast('No hay otros voluntarios disponibles', 'warning');
+                return;
+            }
+            
+            let opciones = 'Seleccionar nuevo voluntario:\n\n';
+            nuevosVoluntarios.forEach((vol, index) => {
+                opciones += `${index + 1}. ${vol.nombre} (${getRolTexto(vol.rol)})\n`;
+            });
+            
+            const seleccion = prompt(opciones);
+            if (seleccion && !isNaN(seleccion)) {
+                const index = parseInt(seleccion) - 1;
+                if (index >= 0 && index < nuevosVoluntarios.length) {
+                    proceso.voluntario = nuevosVoluntarios[index].nombre;
+                    cargarProcesos();
+                    mostrarToast(`Voluntario reasignado a ${proceso.voluntario}`, 'success');
+                }
+            }
+        }
+
+        function cancelarProceso(procesoId) {
+            const proceso = directorData.procesos.find(p => p.id === procesoId);
+            if (!proceso) {
+                mostrarToast('Proceso no encontrado', 'error');
+                return;
+            }
+            
+            if (confirm(`¿Está seguro de cancelar el proceso ${procesoId}?`)) {
+                proceso.estado = 'rechazado';
+                
+                // Actualizar estado del animal
+                const animal = directorData.animales.find(a => a.id === proceso.animalId);
+                if (animal) {
+                    animal.estado = 'disponible';
+                }
+                
+                cargarProcesos();
+                cargarAnimales();
+                cargarDashboard();
+                mostrarToast('Proceso cancelado exitosamente', 'success');
+            }
+        }
+
+        function registrarPago(cuentaId) {
+            const cuenta = directorData.cuentas.find(c => c.id === cuentaId);
+            if (!cuenta) {
+                mostrarToast('Cuenta no encontrada', 'error');
+                return;
+            }
+            
+            const saldoPendiente = cuenta.montoOriginal - cuenta.montoAbonado;
+            const montoPago = prompt(`Registrar pago para ${cuenta.acreedor}\nSaldo pendiente: $${saldoPendiente.toLocaleString()}\n\nIngrese el monto del pago:`, saldoPendiente);
+            
+            if (montoPago && !isNaN(montoPago)) {
+                const pago = parseFloat(montoPago);
+                if (pago > 0) {
+                    cuenta.montoAbonado += pago;
+                    
+                    // Actualizar estado
+                    if (cuenta.montoAbonado >= cuenta.montoOriginal) {
+                        cuenta.estado = 'pagado';
+                    } else {
+                        cuenta.estado = 'parcial';
+                    }
+                    
+                    cargarCuentas();
+                    cargarDashboard();
+                    mostrarToast(`Pago de $${pago.toLocaleString()} registrado exitosamente`, 'success');
+                }
+            }
+        }
+
+        function editarSede(id) {
+            abrirModalSede(id);
+        }
+
+        function editarAnimal(id) {
+            abrirModalAnimal(id);
+        }
+
+        function editarProceso(id) {
+            abrirModalProceso(id);
+        }
+
+        function editarCuenta(id) {
+            abrirModalCuenta(id);
+        }
+
+        function editarUsuario(id) {
+            abrirModalUsuario(id);
+        }
+
+        // Funciones de búsqueda y filtros
+        function buscarAnimales() {
+            const termino = document.getElementById('search-animales').value.trim().toLowerCase();
+            
+            const animalesFiltrados = directorData.animales.filter(animal => 
+                !termino ||
+                animal.id.toLowerCase().includes(termino) ||
+                animal.nombre.toLowerCase().includes(termino) ||
+                animal.especie.toLowerCase().includes(termino) ||
+                animal.raza.toLowerCase().includes(termino) ||
+                animal.estado.toLowerCase().includes(termino)
+            );
+            
+            const tbody = document.getElementById('tabla-animales');
+            tbody.innerHTML = '';
+            
+            if (animalesFiltrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            No se encontraron animales con ese criterio
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            animalesFiltrados.forEach(animal => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${animal.id}</strong></td>
+                    <td>${animal.nombre}</td>
+                    <td>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</td>
+                    <td>${animal.raza}</td>
+                    <td>${animal.edad} años</td>
+                    <td>
+                        <span class="status-badge ${getEstadoAnimalClass(animal.estado)}">
+                            ${getEstadoAnimalTexto(animal.estado)}
+                        </span>
+                    </td>
+                    <td>${animal.sede}</td>
+                    <td>${formatDate(animal.fechaIngreso)}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarAnimal('${animal.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn secondary" onclick="verDetallesAnimal('${animal.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarAnimal('${animal.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarProcesos() {
+            const estado = document.getElementById('filtro-estado-procesos').value;
+            
+            const procesosFiltrados = directorData.procesos.filter(proceso => 
+                !estado || proceso.estado === estado
+            );
+            
+            const tbody = document.getElementById('tabla-procesos');
+            tbody.innerHTML = '';
+            
+            if (procesosFiltrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay procesos con ese estado
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            procesosFiltrados.forEach(proceso => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${proceso.id}</strong></td>
+                    <td>${proceso.animalNombre} (${proceso.animalId})</td>
+                    <td>${proceso.adoptante}</td>
+                    <td>
+                        ${proceso.voluntario}
+                        <button class="table-btn secondary btn-sm" onclick="reasignarVoluntario('${proceso.id}')" title="Reasignar voluntario">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                    <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    <td>${formatDate(proceso.fechaInicio)}</td>
+                    <td>${proceso.fechaCita ? formatDate(proceso.fechaCita) : 'No programada'}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarProceso('${proceso.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn warning" onclick="cancelarProceso('${proceso.id}')" title="Cancelar proceso">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarCuentas() {
+            const estado = document.getElementById('filtro-estado-cuentas').value;
+            
+            const cuentasFiltradas = directorData.cuentas.filter(cuenta => 
+                !estado || cuenta.estado === estado
+            );
+            
+            const tbody = document.getElementById('tabla-cuentas');
+            tbody.innerHTML = '';
+            
+            if (cuentasFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay cuentas con ese estado
+                        </td>
+                    </tr>
+                `;
+                actualizarResumenCuentas(cuentasFiltradas);
+                return;
+            }
+            
+            let totalDeuda = 0;
+            
+            cuentasFiltradas.forEach(cuenta => {
+                const saldoPendiente = cuenta.montoOriginal - cuenta.montoAbonado;
+                totalDeuda += saldoPendiente;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${cuenta.id}</strong></td>
+                    <td>${cuenta.acreedor}</td>
+                    <td>$${cuenta.montoOriginal.toLocaleString()}</td>
+                    <td>$${cuenta.montoAbonado.toLocaleString()}</td>
+                    <td>$${saldoPendiente.toLocaleString()}</td>
+                    <td>${cuenta.concepto.length > 50 ? cuenta.concepto.substring(0, 50) + '...' : cuenta.concepto}</td>
+                    <td>${formatDate(cuenta.fechaVencimiento)}</td>
+                    <td><span class="status-badge ${getEstadoCuentaClass(cuenta.estado)}">${getEstadoCuentaTexto(cuenta.estado)}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarCuenta('${cuenta.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn success" onclick="registrarPago('${cuenta.id}')" title="Registrar pago">
+                            <i class="fas fa-money-check-alt"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarCuenta('${cuenta.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Actualizar resumen
+            document.getElementById('total-deuda').textContent = '$' + totalDeuda.toLocaleString();
+            document.getElementById('facturas-vencidas').textContent = cuentasFiltradas.filter(c => c.estado === 'vencido').length;
+            document.getElementById('proximas-vencer').textContent = 0; // Simplificado para el ejemplo
+        }
+
+        function filtrarDonaciones() {
+            const fechaDesde = document.getElementById('filtro-fecha-desde-donaciones').value;
+            const fechaHasta = document.getElementById('filtro-fecha-hasta-donaciones').value;
+            const tipo = document.getElementById('filtro-tipo-donacion').value;
+            const donante = document.getElementById('filtro-donante').value.trim().toLowerCase();
+            
+            let donacionesFiltradas = directorData.donaciones;
+            
+            if (fechaDesde) {
+                donacionesFiltradas = donacionesFiltradas.filter(d => new Date(d.fecha) >= new Date(fechaDesde));
+            }
+            if (fechaHasta) {
+                donacionesFiltradas = donacionesFiltradas.filter(d => new Date(d.fecha) <= new Date(fechaHasta));
+            }
+            if (tipo) {
+                donacionesFiltradas = donacionesFiltradas.filter(d => d.tipo === tipo);
+            }
+            if (donante) {
+                donacionesFiltradas = donacionesFiltradas.filter(d => 
+                    d.donante.toLowerCase().includes(donante)
+                );
+            }
+            
+            const tbody = document.getElementById('tabla-donaciones');
+            tbody.innerHTML = '';
+            
+            if (donacionesFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay donaciones que coincidan con los filtros
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            donacionesFiltradas.forEach(donacion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${donacion.id}</strong></td>
+                    <td>${formatDate(donacion.fecha)}</td>
+                    <td>${donacion.donante}</td>
+                    <td>${getTipoDonacionTexto(donacion.tipo)}</td>
+                    <td>${donacion.monto > 0 ? '$' + donacion.monto.toLocaleString() : donacion.descripcion}</td>
+                    <td>${donacion.sede || 'Todas'}</td>
+                    <td>${donacion.registradoPor}</td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="verDetallesDonacion('${donacion.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarDonacion('${donacion.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarUsuarios() {
+            const rol = document.getElementById('filtro-rol-usuarios').value;
+            
+            const usuariosFiltrados = directorData.usuarios.filter(usuario => 
+                !rol || usuario.rol === rol
+            );
+            
+            const tbody = document.getElementById('tabla-usuarios');
+            tbody.innerHTML = '';
+            
+            if (usuariosFiltrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay usuarios con ese rol
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            usuariosFiltrados.forEach(usuario => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${usuario.nombre}</strong></td>
+                    <td>${usuario.email}</td>
+                    <td>${getRolTexto(usuario.rol)}</td>
+                    <td>${usuario.sede}</td>
+                    <td>${formatDate(usuario.fechaInicio)}</td>
+                    <td><span class="status-badge ${usuario.estado === 'activa' ? 'status-aprobado' : 'status-rechazado'}">${usuario.estado}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn primary" onclick="editarUsuario('${usuario.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="table-btn danger" onclick="eliminarUsuario('${usuario.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funciones auxiliares
+        function verDetallesAnimal(animalId) {
+            const animal = directorData.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Animal no encontrado', 'error');
+                return;
+            }
+            
+            const detalles = `
+                <strong>Información Completa del Animal:</strong><br><br>
+                <strong>ID:</strong> ${animal.id}<br>
+                <strong>Nombre:</strong> ${animal.nombre}<br>
+                <strong>Especie:</strong> ${animal.especie}<br>
+                <strong>Raza:</strong> ${animal.raza}<br>
+                <strong>Sexo:</strong> ${animal.sexo}<br>
+                <strong>Edad:</strong> ${animal.edad} años<br>
+                <strong>Estado:</strong> ${getEstadoAnimalTexto(animal.estado)}<br>
+                <strong>Sede:</strong> ${animal.sede}<br>
+                <strong>Fecha de Ingreso:</strong> ${formatDate(animal.fechaIngreso)}<br>
+                <strong>Medio de Llegada:</strong> ${animal.medioLlegada || 'No especificado'}<br><br>
+                <strong>Carácter/Temperamento:</strong><br>${animal.caracter || 'No especificado'}<br><br>
+                <strong>Padecimientos/Enfermedades:</strong><br>${animal.padecimientos || 'Ninguno'}<br><br>
+                <strong>Antecedentes:</strong><br>${animal.antecedentes || 'No especificado'}
+            `;
+            
+            alert(detalles);
+        }
+
+        function verDetallesBlacklist(id) {
+            const usuario = directorData.blacklist.find(b => b.id === id);
+            if (!usuario) {
+                mostrarToast('Registro no encontrado', 'error');
+                return;
+            }
+            
+            const detalles = `
+                <strong>Detalles de Lista Negra:</strong><br><br>
+                <strong>Nombre:</strong> ${usuario.nombre}<br>
+                <strong>Identificación:</strong> ${usuario.identificacion}<br>
+                <strong>Teléfono:</strong> ${usuario.telefono}<br>
+                <strong>Email:</strong> ${usuario.email || 'No especificado'}<br>
+                <strong>Motivo:</strong> ${getMotivoBlacklistTexto(usuario.motivo)}<br>
+                <strong>Fecha de Registro:</strong> ${formatDate(usuario.fechaRegistro)}<br>
+                <strong>Registrado por:</strong> ${usuario.registradoPor}<br><br>
+                <strong>Descripción Detallada:</strong><br>${usuario.descripcion}<br><br>
+                <strong>Evidencia/Documentos:</strong><br>${usuario.evidencia || 'No especificado'}
+            `;
+            
+            alert(detalles);
+        }
+
+        function verDetallesRetiro(id) {
+            const retiro = directorData.retiros.find(r => r.id === id);
+            if (!retiro) {
+                mostrarToast('Registro no encontrado', 'error');
+                return;
+            }
+            
+            const detalles = `
+                <strong>Detalles de Retiro de Mascota:</strong><br><br>
+                <strong>ID Retiro:</strong> ${retiro.id}<br>
+                <strong>Animal:</strong> ${retiro.animalNombre} (${retiro.animalId})<br>
+                <strong>Adoptante:</strong> ${retiro.adoptante}<br>
+                <strong>Fecha de Retiro:</strong> ${formatDate(retiro.fechaRetiro)}<br>
+                <strong>Motivo:</strong> ${getMotivoRetiroTexto(retiro.motivo)}<br>
+                <strong>Registrado por:</strong> ${retiro.registradoPor}<br><br>
+                <strong>Descripción:</strong><br>${retiro.descripcion || 'No especificado'}
+            `;
+            
+            alert(detalles);
+        }
+
+        function verDetallesDonacion(id) {
+            const donacion = directorData.donaciones.find(d => d.id === id);
+            if (!donacion) {
+                mostrarToast('Donación no encontrada', 'error');
+                return;
+            }
+            
+            const detalles = `
+                <strong>Detalles de Donación:</strong><br><br>
+                <strong>ID Donación:</strong> ${donacion.id}<br>
+                <strong>Donante:</strong> ${donacion.donante}<br>
+                <strong>Fecha:</strong> ${formatDate(donacion.fecha)}<br>
+                <strong>Tipo:</strong> ${getTipoDonacionTexto(donacion.tipo)}<br>
+                <strong>Monto:</strong> ${donacion.monto > 0 ? '$' + donacion.monto.toLocaleString() : 'En especie'}<br>
+                <strong>Sede Destino:</strong> ${donacion.sede || 'Todas las sedes'}<br>
+                <strong>Registrado por:</strong> ${donacion.registradoPor}<br><br>
+                <strong>Descripción/Detalles:</strong><br>${donacion.descripcion || 'No especificado'}
+            `;
+            
+            alert(detalles);
+        }
+
+        function filtrarAsistencia() {
+            mostrarToast('Función de filtrado de asistencia en desarrollo', 'info');
+        }
+
+        function limpiarFiltrosDonaciones() {
+            document.getElementById('filtro-fecha-desde-donaciones').value = '';
+            document.getElementById('filtro-fecha-hasta-donaciones').value = '';
+            document.getElementById('filtro-tipo-donacion').value = '';
+            document.getElementById('filtro-donante').value = '';
+            cargarDonaciones();
+        }
+
+        function exportarAsistencia() {
+            mostrarToast('Exportando registro de asistencia...', 'info');
+            // En una implementación real, aquí se generaría un archivo Excel/CSV
+            setTimeout(() => {
+                mostrarToast('Archivo de asistencia descargado exitosamente', 'success');
+            }, 1500);
+        }
+
+        function exportarAnimales() {
+            mostrarToast('Exportando lista de animales...', 'info');
+            // En una implementación real, aquí se generaría un archivo Excel/CSV
+            setTimeout(() => {
+                mostrarToast('Archivo de animales descargado exitosamente', 'success');
+            }, 1500);
+        }
+
+        function generarReporteGeneral() {
+            mostrarToast('Generando reporte general del refugio...', 'info');
+            // En una implementación real, aquí se generaría un reporte PDF
+            setTimeout(() => {
+                mostrarToast('Reporte general generado exitosamente', 'success');
+            }, 2000);
+        }
+
+        // Funciones de utilidad
+        function llenarSelects() {
+            // Llenar select de sedes en filtros
+            const sedeSelect = document.getElementById('filtro-sede-asistencia');
+            directorData.sedes.forEach(sede => {
+                const option = document.createElement('option');
+                option.value = sede.id;
+                option.textContent = sede.nombre;
+                sedeSelect.appendChild(option);
+            });
+            
+            // Llenar select de voluntarios
+            const voluntarioSelect = document.getElementById('filtro-voluntario');
+            const voluntarios = directorData.usuarios.filter(u => 
+                u.rol === 'voluntario' || u.rol === 'atencion'
+            );
+            voluntarios.forEach(voluntario => {
+                const option = document.createElement('option');
+                option.value = voluntario.id;
+                option.textContent = voluntario.nombre;
+                voluntarioSelect.appendChild(option);
+            });
+        }
+
+        function configurarModales() {
+            // Configurar click fuera de modales para cerrar
+            window.addEventListener('click', function(event) {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Configurar tecla ESC para cerrar modales
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    const modals = document.querySelectorAll('.modal');
+                    modals.forEach(modal => {
+                        if (modal.style.display === 'flex') {
+                            modal.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function getEstadoTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'en_proceso': 'En Proceso',
+                'aprobado': 'Aprobado',
+                'rechazado': 'Rechazado',
+                'completado': 'Completado'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoAnimalTexto(estado) {
+            const estados = {
+                'disponible': 'Disponible',
+                'en_proceso': 'En Proceso de Adopción',
+                'adoptado': 'Adoptado',
+                'tratamiento': 'En Tratamiento',
+                'fallecido': 'Fallecido'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoAnimalClass(estado) {
+            const clases = {
+                'disponible': 'status-aprobado',
+                'en_proceso': 'status-en-proceso',
+                'adoptado': 'status-completado',
+                'tratamiento': 'status-pendiente',
+                'fallecido': 'status-cancelada'
+            };
+            return clases[estado] || 'status-pendiente';
+        }
+
+        function getMotivoBlacklistTexto(motivo) {
+            const motivos = {
+                'maltrato': 'Maltrato animal',
+                'abandono': 'Abandono de animal',
+                'fraude': 'Fraude en adopción',
+                'incumplimiento': 'Incumplimiento de contrato',
+                'conducta': 'Conducta inapropiada',
+                'otro': 'Otro'
+            };
+            return motivos[motivo] || motivo;
+        }
+
+        function getMotivoRetiroTexto(motivo) {
+            const motivos = {
+                'maltrato': 'Maltrato detectado',
+                'incumplimiento': 'Incumplimiento de contrato',
+                'salud': 'Problemas de salud del adoptante',
+                'economicos': 'Problemas económicos',
+                'voluntario': 'Devolución voluntaria',
+                'otro': 'Otro'
+            };
+            return motivos[motivo] || motivo;
+        }
+
+        function getEstadoCuentaTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'parcial': 'Pago Parcial',
+                'pagado': 'Pagado',
+                'vencido': 'Vencido'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoCuentaClass(estado) {
+            const clases = {
+                'pendiente': 'status-pendiente',
+                'parcial': 'status-en-proceso',
+                'pagado': 'status-aprobado',
+                'vencido': 'status-cancelada'
+            };
+            return clases[estado] || 'status-pendiente';
+        }
+
+        function getTipoDonacionTexto(tipo) {
+            const tipos = {
+                'efectivo': 'Efectivo',
+                'transferencia': 'Transferencia Bancaria',
+                'cheque': 'Cheque',
+                'especie': 'En Especie',
+                'mensual': 'Donación Mensual'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        function getRolTexto(rol) {
+            const roles = {
+                'voluntario': 'Voluntario',
+                'atencion': 'Atención a Personas',
+                'veterinario': 'Veterinario',
+                'administrador': 'Administrador',
+                'director': 'Director'
+            };
+            return roles[rol] || rol;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'No definida';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function mostrarToast(mensaje, tipo = 'info') {
+            // Crear toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-message">${mensaje}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+
+        function actualizarBadges() {
+            // Ya se actualizan en las funciones de carga correspondientes
+        }
+
+        function actualizarResumenCuentas(cuentas = null) {
+            // Ya se actualiza en cargarCuentas()
+        }
+
+        // Inicializar fechas en filtros
+        document.getElementById('filtro-fecha-desde-asistencia').value = new Date().toISOString().split('T')[0];
+        document.getElementById('filtro-fecha-hasta-asistencia').value = new Date().toISOString().split('T')[0];
+        document.getElementById('filtro-fecha-desde-donaciones').value = getFirstDayOfMonth();
+        document.getElementById('filtro-fecha-hasta-donaciones').value = new Date().toISOString().split('T')[0];
+
+        function getFirstDayOfMonth() {
+            const date = new Date();
+            date.setDate(1);
+            return date.toISOString().split('T')[0];
+        }
+    </script>
+</body>
+</html>

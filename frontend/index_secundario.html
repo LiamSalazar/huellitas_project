@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Huellitas - Acceso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+        
+        :root { 
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 20px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            min-height: 900px;
+        }
+
+        /* Panel izquierdo - Información */
+        .info-panel {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L100,0 L100,100 Z" fill="white" opacity="0.05"/></svg>');
+            background-size: 100px 100px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo-container h1 {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .info-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .info-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .features-list {
+            margin-top: 30px;
+            list-style: none;
+        }
+
+        .features-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .features-list i {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        /* Panel derecho - Formularios */
+        .form-panel {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Switch entre login y registro */
+        #chk {
+            display: none;
+        }
+
+        .form-container {
+            position: relative;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .form {
+            width: 100%;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .login-form {
+            position: absolute;
+            top: 1;
+            left: 0;
+            width: 100%;
+            transform: translateX(100);
+            z-index: 1;
+        }
+
+        .register-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateX(100%);
+            z-index: 1;
+            opacity: 0;
+        }
+
+        #chk:checked ~ .form-container .login-form {
+            transform: translateX(-100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        #chk:checked ~ .form-container .register-form {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Encabezado de formulario */
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: var(--dark);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* Estilos de campos de formulario */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            background: #fbfbfb;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .input-icon:hover {
+            color: var(--primary);
+        }
+
+        /* Botones */
+        .form-button {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-button:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .switch-button {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            margin-top: 20px;
+        }
+
+        .switch-button:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Roles */
+        .roles-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            text-align: center;
+        }
+
+        .roles-container h2 {
+            color: var(--dark);
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .role-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .role-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-icon {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .role-label {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Checkbox personalizado para términos */
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .terms-group input[type="checkbox"] {
+            margin-top: 5px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .terms-group label {
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.4;
+        }
+
+        .terms-group a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .terms-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                max-width: 450px;
+            }
+            
+            .info-panel {
+                padding: 30px;
+            }
+            
+            .form-panel {
+                padding: 30px;
+            }
+            
+            .roles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <!-- Panel izquierdo con información -->
+    <div class="info-panel">
+        <div class="logo-container">
+            <img src="./img/LogoPNG.png" alt="Huellitas Logo">
+            <h1>Huellitas</h1>
+        </div>
+        
+        <div class="info-content">
+            <h2>Bienvenido a nuestra comunidad</h2>
+            <p>Huellitas es más que un albergue, es un puente entre animales rescatados y familias amorosas.</p>
+            <p>Únete a nuestra misión de crear hogares felices para cada mascota que necesita una segunda oportunidad.</p>
+            
+            <ul class="features-list">
+                <li><i class="fas fa-paw"></i> Más de 1,250 adopciones exitosas</li>
+                <li><i class="fas fa-heart"></i> Proceso de adopción responsable</li>
+                <li><i class="fas fa-shield-alt"></i> Seguimiento post-adopción</li>
+                <li><i class="fas fa-users"></i> Comunidad de voluntarios comprometidos</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Panel derecho con formularios -->
+    <div class="form-panel">
+        <!-- Checkbox para cambiar entre formularios -->
+        <input type="checkbox" id="chk">
+        
+        <div class="form-container">
+            <!-- Formulario de Inicio de Sesión -->
+            <form class="form login-form" id="login-form" onsubmit="event.preventDefault(); iniciarSesion();">
+                <div class="form-header">
+                    <h2>Iniciar Sesión</h2>
+                    <p>Ingresa a tu cuenta para continuar</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-email">Correo Electrónico</label>
+                    <div class="input-with-icon">
+                        <input type="email" id="login-email" name="email_Persona" required>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Contraseña</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="login-password" name="password_Usuario" required>
+                        <div class="input-icon" id="toggle-login-password" onclick="togglePasswordVisibility('login-password', 'toggle-login-password')">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="form-button">Entrar a mi cuenta</button>
+                <button type="button" class="form-button switch-button" onclick="document.getElementById('chk').checked = true;">
+                    Crear una cuenta nueva
+                </button>
+            </form>
+
+            <!-- Formulario de Registro -->
+            <form class="form register-form" id="register-form" onsubmit="event.preventDefault(); registrar();">
+                <div class="form-header">
+                    <h2>Crear Cuenta</h2>
+                    <p>Únete a nuestra comunidad de adopción responsable</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-nombre">Nombre(s)</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="register-nombre" name="nombre_Persona" required>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-apellidos">Apellidos</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="register-apellidos" name="apellidos_Persona" required>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-telefono">Teléfono</label>
+                    <div class="input-with-icon">
+                        <input type="tel" id="register-telefono" name="telefono_Persona" required>
+                        <div class="input-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-email">Correo Electrónico</label>
+                    <div class="input-with-icon">
+                        <input type="email" id="register-email" name="email_Persona" required>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Contraseña</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="register-password" name="password_Usuario" required minlength="6">
+                        <div class="input-icon" id="toggle-register-password" onclick="togglePasswordVisibility('register-password', 'toggle-register-password')">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirmar Contraseña</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="register-confirm-password" name="confirm_password" required minlength="6">
+                        <div class="input-icon" id="toggle-confirm-password" onclick="togglePasswordVisibility('register-confirm-password', 'toggle-confirm-password')">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terms-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a> de Huellitas</label>
+                </div>
+
+                <button type="submit" class="form-button">Registrarse</button>
+                <button type="button" class="form-button switch-button" onclick="document.getElementById('chk').checked = false;">
+                    Ya tengo una cuenta
+                </button>
+            </form>
+        </div>
+
+        <!-- Selección de roles (se muestra después del login/registro) -->
+        <div class="roles-container" id="roles-container">
+            <div class="form-header">
+                <h2>Selecciona tu rol</h2>
+                <p>¿Cómo deseas acceder al sistema?</p>
+            </div>
+            
+            <div class="roles-grid">
+                <a href="voluntarios/homePageDirector.html" class="role-card">
+                    <div class="role-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="role-label">Director</div>
+                </a>
+                
+                <a href="adoptante/voluntario.html" class="role-card">
+                    <div class="role-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="role-label">Voluntario General</div>
+                </a>
+                
+                <a href="adoptante/registro_persona.html" class="role-card">
+                    <div class="role-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="role-label">Adoptante</div>
+                </a>
+            </div>
+            
+            <button type="button" class="form-button switch-button" onclick="volverALogin()" style="margin-top: 30px;">
+                Volver al inicio de sesión
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para mostrar/ocultar contraseña
+    function togglePasswordVisibility(passwordFieldId, toggleIconId) {
+        const passwordField = document.getElementById(passwordFieldId);
+        const toggleIcon = document.getElementById(toggleIconId);
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
+        }
+    }
+
+    // Función para iniciar sesión
+    function iniciarSesion() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        // Validación básica
+        if (!email || !password) {
+            alert('Por favor, completa todos los campos');
+            return;
+        }
+        
+        // Simulación de autenticación exitosa
+        // En un caso real, aquí harías una petición al servidor
+        console.log('Iniciando sesión con:', email);
+        
+        // Mostrar selección de roles
+        document.querySelector('.form-container').style.display = 'none';
+        document.getElementById('roles-container').style.display = 'block';
+    }
+
+    // Función para registro
+    function registrar() {
+        const nombre = document.getElementById('register-nombre').value;
+        const apellidos = document.getElementById('register-apellidos').value;
+        const telefono = document.getElementById('register-telefono').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+        
+        // Validaciones
+        if (!nombre || !apellidos || !telefono || !email || !password || !confirmPassword) {
+            alert('Por favor, completa todos los campos');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            alert('Las contraseñas no coinciden');
+            return;
+        }
+        
+        if (password.length < 6) {
+            alert('La contraseña debe tener al menos 6 caracteres');
+            return;
+        }
+        
+        if (!document.getElementById('terms').checked) {
+            alert('Debes aceptar los términos y condiciones');
+            return;
+        }
+        
+        // Simulación de registro exitoso
+        // En un caso real, aquí harías una petición al servidor
+        console.log('Registrando usuario:', { nombre, apellidos, telefono, email });
+        
+        // Mostrar selección de roles
+        document.querySelector('.form-container').style.display = 'none';
+        document.getElementById('roles-container').style.display = 'block';
+    }
+
+    // Función para volver al formulario de login
+    function volverALogin() {
+        document.getElementById('roles-container').style.display = 'none';
+        document.querySelector('.form-container').style.display = 'block';
+        document.getElementById('chk').checked = false;
+        
+        // Limpiar formularios
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+        document.getElementById('register-nombre').value = '';
+        document.getElementById('register-apellidos').value = '';
+        document.getElementById('register-telefono').value = '';
+        document.getElementById('register-email').value = '';
+        document.getElementById('register-password').value = '';
+        document.getElementById('register-confirm-password').value = '';
+    }
+
+    // Inicialización - validar si hay parámetros en la URL
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+        
+        if (action === 'register') {
+            document.getElementById('chk').checked = true;
+        }
+    });
+</script>
+
+</body>
+</html>

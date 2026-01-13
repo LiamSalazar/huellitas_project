@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Lista Negra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap');
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --borde: #d2d2d7; 
+            --texto: #1d1d1f;
+            --rojo-alerta: #FF3B30;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter Tight", sans-serif; }
+        body { background: var(--fondo); color: var(--texto); padding: 40px 20px; }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            text-align: center;
+        }
+
+        .header-container h1 { font-size: 32px; font-weight: 700; color: var(--texto); }
+        .header-container p { color: #86868b; margin-top: 8px; }
+
+        /* Contenedor para acciones superiores */
+        .top-actions {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-agregar {
+            background: var(--texto);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-agregar:hover {
+            opacity: 0.8;
+        }
+
+        .search-wrapper {
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            background: var(--blanco);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .grid-blacklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card-persona {
+            background: var(--blanco);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .card-persona:hover {
+            transform: scale(1.02);
+            border-color: var(--borde);
+        }
+
+        .nombre-persona { 
+            font-size: 20px; 
+            font-weight: 700; 
+            color: var(--texto); 
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .info-field { 
+            display: flex; 
+            flex-direction: column; 
+            margin-bottom: 10px; 
+            border-bottom: 1px solid #f5f5f7;
+            padding-bottom: 4px;
+        }
+
+        .info-label { 
+            font-size: 9px; 
+            font-weight: 700; 
+            color: var(--azul); 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+
+        .info-value { 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: var(--texto);
+        }
+
+        .motivo-tag {
+            background: #fff2f2;
+            color: var(--rojo-alerta);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 59, 48, 0.1);
+        }
+
+        .btn-accion { 
+            width: 100%; 
+            background: var(--azul); 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Lista Negra</h1>
+        <p>Consulta de ciudadanos con restricciones de adopción</p>
+    </div>
+
+    <div class="top-actions">
+        <a href="lista_negra.html" class="btn-agregar">Agregar Persona</a>
+    </div>
+
+    <div class="search-wrapper">
+        <input type="text" placeholder="Buscar por nombre o teléfono...">
+    </div>
+
+    <div class="grid-blacklist">
+        <div class="card-persona">
+            <span class="nombre-persona">Juan Carlos Martínez</span>
+            
+            <div class="info-field">
+                <span class="info-label">Teléfono</span>
+                <span class="info-value">55-1234-5678</span>
+            </div>
+
+            <div class="info-field">
+                <span class="info-label">Ubicación</span>
+                <span class="info-value">Ecatepec, Estado de México</span>
+            </div>
+
+            <div class="motivo-tag">
+                <strong>Motivo:</strong> Reporte de maltrato previo y abandono de un paciente en 2024.
+            </div>
+
+            <button class="btn-accion">Ver Detalles del Reporte</button>
+        </div>
+
+        <div class="card-persona">
+            <span class="nombre-persona">María Elena Ruiz</span>
+            
+            <div class="info-field">
+                <span class="info-label">Teléfono</span>
+                <span class="info-value">55-9876-5432</span>
+            </div>
+
+            <div class="info-field">
+                <span class="info-label">Ubicación</span>
+                <span class="info-value">CDMX, Cuauhtémoc</span>
+            </div>
+
+            <div class="motivo-tag">
+                <strong>Motivo:</strong> Incumplimiento de contrato; se negó a las visitas de seguimiento.
+            </div>
+
+            <button class="btn-accion">Ver Detalles del Reporte</button>
+        </div>
+    </div>
+
+</body>
+</html>

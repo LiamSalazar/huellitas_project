@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Rescate - Huellitas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #1d1d1f; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            padding: 40px 20px; 
+            color: var(--texto); 
+        }
+
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+        }
+
+        h2 { 
+            font-size: 28px; 
+            font-weight: 700; 
+            margin-bottom: 25px; 
+            text-align: center;
+        }
+
+        .reporte-card {
+            background: var(--blanco);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .group { 
+            display: flex; 
+            flex-direction: column; 
+            margin-bottom: 20px; 
+        }
+
+        label { 
+            font-weight: 700; 
+            font-size: 14px; 
+            margin-bottom: 8px; 
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--borde-suave);
+            border-radius: 12px;
+            background: #fbfbfb;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            background: white;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Reporte de Rescate</h2>
+    
+    <div class="reporte-card">
+        <form id="rescue-form">
+
+            <div class="group">
+                <label>Estado</label>
+                <input type="text" name="estado_Direccion" required>
+            </div>
+
+            <div class="group">
+                <label>Municipio</label>
+                <input type="text" name="municipio_Direccion" required>
+            </div>
+
+            <div class="group">
+                <label>Colonia</label>
+                <input type="text" name="colonia_Direccion">
+            </div>
+
+            <div class="group">
+                <label>Calle</label>
+                <input type="text" name="calle_Direccion">
+            </div>
+
+            <div class="group">
+                <label>Número Exterior</label>
+                <input type="text" name="numero_exterior_Direccion">
+            </div>
+
+            <div class="group">
+                <label>Número Interior</label>
+                <input type="text" name="numero_interior_Direccion">
+            </div>
+
+            <div class="group">
+                <label>Código Postal</label>
+                <input type="text" name="codigo_postal_Direccion">
+            </div>
+
+            <div class="group">
+                <label>Color Principal</label>
+                <select name="id_colorprincipal" required>
+                    <option value="1">Amarillo</option>
+                    <option value="2">Azul</option>
+                    <option value="3">Blanco</option>
+                    <option value="4">Cafe</option>
+                    <option value="5">Caniche (poodle)</option>
+                    <option value="6">Carbonado</option>
+                    <option value="7">Chocolate</option>
+                    <option value="8">Color unico (sin combinacion)</option>
+                    <option value="9">Dorado</option>
+                    <option value="10">Golondrino</option>
+                    <option value="11">Negro</option>
+                    <option value="12">Otro color</option>
+                    <option value="13">Paja</option>
+                    <option value="14">Plata</option>
+                    <option value="15">Rojo</option>
+                    <option value="16">Sal y Pimienta</option>
+                    <option value="17">Sepia</option>
+                    <option value="18">Tabby</option>
+                    <option value="19">Verde</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Color de Ojos</label>
+                <select name="id_colorojos" required>
+                    <option value="1">Amarillo</option>
+                    <option value="2">Azul</option>
+                    <option value="3">Bicolor</option>
+                    <option value="4">Cafe</option>
+                    <option value="5">Gris</option>
+                    <option value="6">Miel</option>
+                    <option value="7">Negro</option>
+                    <option value="8">Verde</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Teléfono del Reportante</label>
+                <input type="text" name="telefono_Reportante">
+            </div>
+
+            <div class="group">
+                <label>Foto del Animal</label>
+                <input type="file" name="foto_animal" accept="image/*">
+            </div>
+
+            <div class="group">
+                <label>Fecha de Reporte</label>
+                <input type="datetime-local" name="fecha_ReporteAnimal" id="fecha_input" required>
+            </div>
+
+            <div class="group">
+                <label>Voluntario Asignado</label>
+                <select name="id_VoluntarioAsignado">
+                    <option value="">Seleccione un voluntario...</option>
+                    <option value="101">Carlos Martínez (Disponible)</option>
+                    <option value="102">Ana Sofía Rojas (Disponible)</option>
+                    <option value="103">Juan Pérez (En ruta)</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label>Sede Destino</label>
+                <select name="id_SedeDestino">
+                    <option value="2001">Sede Central CDMX</option>
+                    <option value="2002">Sede Occidente Guadalajara</option>
+                    <option value="2003">Sede Norte Monterrey</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Enviar Reporte</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById('fecha_input').value = now.toISOString().slice(0, 16);
+</script>
+
+</body>
+</html>

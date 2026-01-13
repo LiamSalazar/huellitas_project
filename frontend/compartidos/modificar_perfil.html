@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Huellitas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #1d1d1f; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            padding: 40px 20px; 
+            color: var(--texto); 
+        }
+
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+        }
+
+        h2 { 
+            font-size: 28px; 
+            font-weight: 700; 
+            margin-bottom: 25px; 
+            text-align: center;
+        }
+
+        .profile-card {
+            background: var(--blanco);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--borde-suave);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .group { 
+            display: flex; 
+            flex-direction: column; 
+            margin-bottom: 20px; 
+        }
+
+        label { 
+            font-weight: 700; 
+            font-size: 14px; 
+            margin-bottom: 8px; 
+            color: var(--texto);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--borde-suave);
+            border-radius: 12px;
+            background: #fbfbfb;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            color: #515154;
+        }
+
+        input:disabled {
+            background: #f5f5f7;
+            color: #86868b;
+            cursor: not-allowed;
+            border: 1px solid transparent;
+        }
+
+        input:focus {
+            border-color: var(--azul);
+        }
+
+        .actions {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-edit {
+            width: 100%;
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            width: 100%;
+            background: #34c759;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .cancel-link {
+            text-align: center;
+            color: var(--azul);
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Mi Perfil</h2>
+    
+    <div class="profile-card">
+        <form id="profile-form">
+            <div class="group">
+                <label>Nombre</label>
+                <input type="text" name="nombre_Persona" value="Admin" disabled required>
+            </div>
+
+            <div class="group">
+                <label>Primer Apellido</label>
+                <input type="text" name="apellido_p_Persona" value="Director" disabled required>
+            </div>
+
+            <div class="group">
+                <label>Segundo Apellido</label>
+                <input type="text" name="apellido_m_Persona" value="General" disabled>
+            </div>
+
+            <div class="group">
+                <label>Teléfono</label>
+                <input type="tel" name="telefono_Persona" value="5599887766" disabled>
+            </div>
+
+            <div class="group">
+                <label>Correo Electrónico</label>
+                <input type="email" name="email_Persona" value="director@huellitas.org" disabled required>
+            </div>
+
+            <div class="actions">
+                <button type="button" id="edit-btn" class="btn-edit" onclick="enableEditing()">Modificar mis datos</button>
+                <button type="submit" id="save-btn" class="btn-save">Guardar Cambios</button>
+                <a id="cancel-btn" class="cancel-link" onclick="disableEditing()">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function enableEditing() {
+        const inputs = document.querySelectorAll('#profile-form input');
+        inputs.forEach(input => input.disabled = false);
+        
+        document.getElementById('edit-btn').style.display = 'none';
+        document.getElementById('save-btn').style.display = 'block';
+        document.getElementById('cancel-btn').style.display = 'block';
+    }
+
+    function disableEditing() {
+        const inputs = document.querySelectorAll('#profile-form input');
+        inputs.forEach(input => input.disabled = true);
+        
+        document.getElementById('edit-btn').style.display = 'block';
+        document.getElementById('save-btn').style.display = 'none';
+        document.getElementById('cancel-btn').style.display = 'none';
+    }
+
+    document.getElementById('profile-form').onsubmit = function(e) {
+        e.preventDefault();
+        alert('Información personal actualizada localmente');
+        disableEditing();
+    };
+</script>
+
+</body>
+</html>

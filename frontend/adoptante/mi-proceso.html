@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Mi Proceso de Adopción</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        /* Estado general */
+        .status-overview {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .status-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-title i {
+            color: var(--primary);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-badge.revision {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-badge.approved {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.rejected {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-message {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Progreso de adopción */
+        .progress-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        /* Línea de tiempo del proceso */
+        .process-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            font-size: 18px;
+        }
+
+        .timeline-icon.completed {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 147, 111, 0.3);
+        }
+
+        .timeline-icon.current {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .timeline-icon.pending {
+            background: #f0f0f0;
+            color: #999;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            flex: 1;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .timeline-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Información de citas */
+        .appointments-section {
+            margin-bottom: 3rem;
+        }
+
+        .appointments-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .appointment-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .appointment-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .appointment-type {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .appointment-type.interview {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .appointment-type.home-visit {
+            background: rgba(26, 147, 111, 0.1);
+            color: var(--secondary);
+        }
+
+        .appointment-type.finalization {
+            background: rgba(255, 209, 102, 0.1);
+            color: #d4a017;
+        }
+
+        .appointment-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .appointment-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .appointment-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 15px;
+            text-align: right;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #e05a2b;
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .action-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Información de mascota solicitada */
+        .pet-section {
+            margin-bottom: 3rem;
+        }
+
+        .pet-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            max-width: 800px;
+        }
+
+        @media (max-width: 768px) {
+            .pet-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pet-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pet-info {
+            padding: 1.5rem;
+        }
+
+        .pet-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .pet-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pet-tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .pet-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Documentos requeridos */
+        .documents-section {
+            margin-bottom: 3rem;
+        }
+
+        .documents-list {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+
+        .document-item:hover {
+            background: #f9f9f9;
+        }
+
+        .document-item:last-child {
+            border-bottom: none;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .document-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .document-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .document-details p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .document-status {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .status-approved {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-missing {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        /* Comunicación con voluntario */
+        .communication-section {
+            margin-bottom: 3rem;
+        }
+
+        .volunteer-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .volunteer-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .volunteer-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .volunteer-info p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .volunteer-contact {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-btn.email {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .contact-btn.email:hover {
+            background: rgba(255, 107, 53, 0.2);
+        }
+
+        .contact-btn.phone {
+            background: rgba(26, 147, 111, 0.1);
+            color: var(--secondary);
+        }
+
+        .contact-btn.phone:hover {
+            background: rgba(26, 147, 111, 0.2);
+        }
+
+        .contact-btn.whatsapp {
+            background: rgba(37, 211, 102, 0.1);
+            color: #25D366;
+        }
+
+        .contact-btn.whatsapp:hover {
+            background: rgba(37, 211, 102, 0.2);
+        }
+
+        /* Acciones importantes */
+        .actions-section {
+            margin-bottom: 3rem;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .action-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .action-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .process-timeline::before {
+                left: 25px;
+            }
+            
+            .timeline-icon {
+                width: 40px;
+                height: 40px;
+                margin-right: 1rem;
+                font-size: 16px;
+            }
+            
+            .appointments-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .volunteer-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .volunteer-contact {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="homePageAdoptante.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="nav-links">
+                <a href="homePageAdoptante.html" class="nav-link">Inicio</a>
+                <a href="catalogo.html" class="nav-link">Mascotas</a>
+                <a href="mi-proceso.html" class="nav-link active">Mi Proceso</a>
+                <a href="mis-citas.html" class="nav-link">Mis Citas</a>
+                <a href="mi-perfil.html" class="nav-link">Mi Perfil</a>
+            </div>
+            
+            <a href="homePageAdoptante.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container">
+        <!-- Encabezado de página -->
+        <div class="page-header">
+            <h1 class="page-title">Mi Proceso de Adopción</h1>
+            <p class="page-subtitle">Sigue el estado de tu solicitud y las próximas acciones requeridas.</p>
+        </div>
+        
+        <!-- Estado general -->
+        <section class="status-overview">
+            <div class="status-header">
+                <h2 class="status-title">
+                    <i class="fas fa-tasks"></i>
+                    Estado actual de tu solicitud
+                </h2>
+                <div class="status-badge revision" id="status-badge">En revisión</div>
+            </div>
+            <p class="status-message" id="status-message">
+                Tu solicitud de adopción para <strong>Liam</strong> está siendo revisada por nuestro equipo. 
+                Hemos recibido todos tus documentos y estamos evaluando tu perfil. Te notificaremos 
+                cuando haya actualizaciones o si necesitamos información adicional.
+            </p>
+        </section>
+        
+        <!-- Progreso de adopción -->
+        <section class="progress-section">
+            <h2 class="section-title">
+                <i class="fas fa-project-diagram"></i>
+                Progreso del proceso
+            </h2>
+            
+            <div class="process-timeline">
+                <!-- Paso 1: Solicitud enviada -->
+                <div class="timeline-item">
+                    <div class="timeline-icon completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Solicitud enviada</h3>
+                            <span class="timeline-date">12/11/2023</span>
+                        </div>
+                        <p class="timeline-description">
+                            Has enviado tu solicitud de adopción para Liam. Recibimos todos tus datos iniciales.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Paso 2: Documentos revisados -->
+                <div class="timeline-item">
+                    <div class="timeline-icon completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Documentos revisados</h3>
+                            <span class="timeline-date">15/11/2023</span>
+                        </div>
+                        <p class="timeline-description">
+                            Tu documentación ha sido verificada y está completa. Todos los archivos están en orden.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Paso 3: Entrevista inicial -->
+                <div class="timeline-item">
+                    <div class="timeline-icon current">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Entrevista inicial</h3>
+                            <span class="timeline-date">Programada</span>
+                        </div>
+                        <p class="timeline-description">
+                            Estamos coordinando una entrevista telefónica o virtual para conocerte mejor y resolver dudas.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Paso 4: Visita al hogar -->
+                <div class="timeline-item">
+                    <div class="timeline-icon pending">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Visita al hogar</h3>
+                            <span class="timeline-date">Pendiente</span>
+                        </div>
+                        <p class="timeline-description">
+                            Una vez aprobada la entrevista, programaremos una visita para conocer tu espacio.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Paso 5: Decisión final -->
+                <div class="timeline-item">
+                    <div class="timeline-icon pending">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Decisión final</h3>
+                            <span class="timeline-date">Pendiente</span>
+                        </div>
+                        <p class="timeline-description">
+                            Nuestro equipo tomará la decisión final basada en toda la información recopilada.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Paso 6: Formalización -->
+                <div class="timeline-item">
+                    <div class="timeline-icon pending">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Formalización de adopción</h3>
+                            <span class="timeline-date">Pendiente</span>
+                        </div>
+                        <p class="timeline-description">
+                            Si es aprobada, firmarás los documentos finales y podrás llevar a tu nueva mascota a casa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Próximas citas -->
+        <section class="appointments-section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Próximas citas
+            </h2>
+            
+            <div class="appointments-container">
+                <!-- Cita 1 -->
+                <div class="appointment-card">
+                    <div class="appointment-header">
+                        <h3 class="appointment-title">Entrevista telefónica</h3>
+                        <span class="appointment-type interview">Entrevista</span>
+                    </div>
+                    
+                    <div class="appointment-details">
+                        <div class="appointment-detail">
+                            <span class="detail-label">Fecha:</span>
+                            <span class="detail-value" id="appointment-date">20/11/2023</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Hora:</span>
+                            <span class="detail-value" id="appointment-time">16:30 hrs</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Duración:</span>
+                            <span class="detail-value">30 minutos</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Voluntaria asignada:</span>
+                            <span class="detail-value" id="volunteer-name">Ana García</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Contacto:</span>
+                            <span class="detail-value">55 1234 5678</span>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-actions">
+                        <button class="action-btn primary" id="btn-confirm-appointment">
+                            <i class="fas fa-check-circle"></i> Confirmar asistencia
+                        </button>
+                        <button class="action-btn secondary" id="btn-reschedule">
+                            <i class="fas fa-calendar-plus"></i> Reagendar
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cita 2 (si existe) -->
+                <div class="appointment-card" id="next-appointment-card" style="display: none;">
+                    <!-- Contenido dinámico para la siguiente cita -->
+                </div>
+            </div>
+            
+            <p style="margin-top: 1rem; color: #666; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Recibirás un recordatorio 24 horas antes de cada cita.
+            </p>
+        </section>
+        
+        <!-- Información de la mascota solicitada -->
+        <section class="pet-section">
+            <h2 class="section-title">
+                <i class="fas fa-paw"></i>
+                Mascota que estás adoptando
+            </h2>
+            
+            <div class="pet-card">
+                <img src="../img/liam2.png" alt="Liam" class="pet-image">
+                <div class="pet-info">
+                    <h3 class="pet-name">Liam</h3>
+                    <div class="pet-details">
+                        <span class="pet-tag">Pastor Alemán</span>
+                        <span class="pet-tag">Macho</span>
+                        <span class="pet-tag">3 años</span>
+                        <span class="pet-tag">Grande</span>
+                    </div>
+                    <p class="pet-description">
+                        Liam es un perro leal, activo e inteligente que busca una familia comprometida 
+                        con brindarle ejercicio diario y mucho amor. Llegó a nosotros tras ser rescatado 
+                        de la calle y ha demostrado ser un compañero maravilloso.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <a href="detalle-mascota.html?id=1" class="action-btn secondary" style="display: inline-flex; width: auto;">
+                            <i class="fas fa-eye"></i> Ver expediente completo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Documentos requeridos -->
+        <section class="documents-section">
+            <h2 class="section-title">
+                <i class="fas fa-file-alt"></i>
+                Estado de tus documentos
+            </h2>
+            
+            <div class="documents-list">
+                <div class="document-item">
+                    <div class="document-info">
+                        <div class="document-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="document-details">
+                            <h4>Identificación oficial</h4>
+                            <p>INE, IFE o pasaporte vigente</p>
+                        </div>
+                    </div>
+                    <div class="document-status status-approved">
+                        <i class="fas fa-check"></i> Aprobado
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <div class="document-info">
+                        <div class="document-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="document-details">
+                            <h4>Comprobante de domicilio</h4>
+                            <p>No mayor a 3 meses</p>
+                        </div>
+                    </div>
+                    <div class="document-status status-approved">
+                        <i class="fas fa-check"></i> Aprobado
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <div class="document-info">
+                        <div class="document-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="document-details">
+                            <h4>Carta responsiva</h4>
+                            <p>Formato firmado y escaneado</p>
+                        </div>
+                    </div>
+                    <div class="document-status status-approved">
+                        <i class="fas fa-check"></i> Aprobado
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <div class="document-info">
+                        <div class="document-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="document-details">
+                            <h4>Formulario de adopción</h4>
+                            <p>Completado en línea</p>
+                        </div>
+                    </div>
+                    <div class="document-status status-approved">
+                        <i class="fas fa-check"></i> Aprobado
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 1rem; color: #666; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Todos tus documentos han sido aprobados. No se requieren acciones adicionales.
+            </p>
+        </section>
+        
+        <!-- Comunicación con voluntario -->
+        <section class="communication-section">
+            <h2 class="section-title">
+                <i class="fas fa-comments"></i>
+                Tu contacto directo
+            </h2>
+            
+            <div class="volunteer-card">
+                <div class="volunteer-avatar">AG</div>
+                <div class="volunteer-info">
+                    <h3>Ana García</h3>
+                    <p>Coordinadora de Adopciones - Voluntaria asignada a tu proceso</p>
+                    <div class="volunteer-contact">
+                        <button class="contact-btn email" id="btn-email">
+                            <i class="fas fa-envelope"></i> Enviar correo
+                        </button>
+                        <button class="contact-btn phone" id="btn-call">
+                            <i class="fas fa-phone"></i> Llamar
+                        </button>
+                        <button class="contact-btn whatsapp" id="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 1rem; color: #666; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Ana es tu punto de contacto principal. Puedes comunicarte con ella para cualquier duda sobre tu proceso.
+            </p>
+        </section>
+        
+        <!-- Acciones importantes -->
+        <section class="actions-section">
+            <h2 class="section-title">
+                <i class="fas fa-bullhorn"></i>
+                Acciones importantes
+            </h2>
+            
+            <div class="actions-grid">
+                <a href="mi-perfil.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <h3 class="action-title">Actualizar mi perfil</h3>
+                    <p class="action-description">
+                        Revisa y actualiza tu información personal si ha cambiado recientemente.
+                    </p>
+                </a>
+                
+                <a href="catalogo.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="action-title">Explorar otras mascotas</h3>
+                    <p class="action-description">
+                        Mientras esperas, conoce a otros animales que también buscan un hogar.
+                    </p>
+                </a>
+                
+                <a href="mis-citas.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="action-title">Gestionar mis citas</h3>
+                    <p class="action-description">
+                        Revisa el historial de citas y programa nuevas si es necesario.
+                    </p>
+                </a>
+                
+                <div class="action-card" id="cancel-process-card">
+                    <div class="action-icon" style="background: rgba(220, 53, 69, 0.1); color: var(--danger);">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h3 class="action-title">Cancelar proceso</h3>
+                    <p class="action-description">
+                        Si ya no deseas continuar con la adopción, puedes cancelar tu solicitud.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <p>Un encuentro, dos salvaciones.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="homePageAdoptante.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Mascotas Disponibles</a></li>
+                    <li><a href="mi-proceso.html">Mi Proceso</a></li>
+                    <li><a href="mi-perfil.html">Mi Perfil</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-phone"></i> 55 2321 8850</p>
+                <p><i class="fas fa-envelope"></i> huellitas@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> ESCOM IPN, Ciudad de México</p>
+                <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 18:00</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Huellitas. Todos los derechos reservados. | Proyecto de Base de Datos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del proceso de adopción (en un caso real, esto vendría de una base de datos)
+        const procesoData = {
+            estado: "revision", // "revision", "cita", "aprobado", "rechazado", "cancelado"
+            mensaje: "Tu solicitud de adopción para <strong>Liam</strong> está siendo revisada por nuestro equipo. Hemos recibido todos tus documentos y estamos evaluando tu perfil. Te notificaremos cuando haya actualizaciones o si necesitamos información adicional.",
+            mascota: {
+                nombre: "Liam",
+                imagen: "../img/liam2.png",
+                especie: "Perro",
+                raza: "Pastor Alemán",
+                edad: "3 años"
+            },
+            proximaCita: {
+                tieneCita: true,
+                fecha: "20/11/2023",
+                hora: "16:30",
+                tipo: "Entrevista telefónica",
+                voluntaria: "Ana García",
+                telefono: "55 1234 5678"
+            },
+            documentos: {
+                identificacion: "aprobado",
+                domicilio: "aprobado",
+                carta: "aprobado",
+                formulario: "aprobado"
+            },
+            voluntaria: {
+                nombre: "Ana García",
+                cargo: "Coordinadora de Adopciones",
+                email: "ana.garcia@huellitas.org",
+                telefono: "55 1234 5678",
+                whatsapp: "55 1234 5678"
+            }
+        };
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarEstadoProceso();
+            configurarBotones();
+            configurarCancelacion();
+            
+            // Simular actualización periódica del estado
+            setInterval(actualizarEstadoProceso, 30000); // Cada 30 segundos
+        });
+        
+        function actualizarEstadoProceso() {
+            const statusBadge = document.getElementById('status-badge');
+            const statusMessage = document.getElementById('status-message');
+            
+            // Actualizar según el estado
+            switch(procesoData.estado) {
+                case "revision":
+                    statusBadge.className = "status-badge revision";
+                    statusBadge.textContent = "En revisión";
+                    statusMessage.innerHTML = procesoData.mensaje;
+                    break;
+                    
+                case "cita":
+                    statusBadge.className = "status-badge pending";
+                    statusBadge.textContent = "Con cita programada";
+                    statusMessage.innerHTML = `Tienes una cita programada para el <strong>${procesoData.proximaCita.fecha}</strong> a las <strong>${procesoData.proximaCita.hora}</strong>. La voluntaria <strong>${procesoData.voluntaria.nombre}</strong> te atenderá.`;
+                    break;
+                    
+                case "aprobado":
+                    statusBadge.className = "status-badge approved";
+                    statusBadge.textContent = "Aprobado";
+                    statusMessage.innerHTML = "¡Felicidades! Tu solicitud de adopción ha sido aprobada. Te contactaremos pronto para coordinar la entrega de tu nueva mascota.";
+                    break;
+                    
+                case "rechazado":
+                    statusBadge.className = "status-badge rejected";
+                    statusBadge.textContent = "Rechazado";
+                    statusMessage.innerHTML = "Lamentamos informarte que tu solicitud no ha sido aprobada en esta ocasión. Te contactaremos para explicarte los motivos.";
+                    break;
+                    
+                case "cancelado":
+                    statusBadge.className = "status-badge rejected";
+                    statusBadge.textContent = "Cancelado";
+                    statusMessage.innerHTML = "Tu proceso de adopción ha sido cancelado. Si fue un error, por favor contacta a nuestro equipo.";
+                    break;
+            }
+            
+            // Mostrar/ocultar tarjeta de próxima cita
+            const nextAppointmentCard = document.getElementById('next-appointment-card');
+            if (procesoData.proximaCita.tieneCita) {
+                // Actualizar información de la cita
+                document.getElementById('appointment-date').textContent = procesoData.proximaCita.fecha;
+                document.getElementById('appointment-time').textContent = procesoData.proximaCita.hora;
+                document.getElementById('volunteer-name').textContent = procesoData.voluntaria.nombre;
+                
+                // Mostrar segunda cita si existe
+                nextAppointmentCard.style.display = 'block';
+            } else {
+                nextAppointmentCard.style.display = 'none';
+            }
+        }
+        
+        function configurarBotones() {
+            // Botón de confirmar cita
+            document.getElementById('btn-confirm-appointment').addEventListener('click', function() {
+                if (confirm("¿Confirmas tu asistencia a la cita programada?")) {
+                    alert("¡Gracias! Tu confirmación ha sido registrada. Recibirás un recordatorio un día antes.");
+                    // En un caso real, aquí se enviaría la confirmación al servidor
+                }
+            });
+            
+            // Botón de reagendar
+            document.getElementById('btn-reschedule').addEventListener('click', function() {
+                alert("Para reagendar tu cita, por favor contacta directamente a tu voluntaria asignada.");
+            });
+            
+            // Botones de contacto
+            document.getElementById('btn-email').addEventListener('click', function() {
+                window.location.href = `mailto:${procesoData.voluntaria.email}?subject=Consulta sobre mi proceso de adopción`;
+            });
+            
+            document.getElementById('btn-call').addEventListener('click', function() {
+                window.location.href = `tel:${procesoData.voluntaria.telefono}`;
+            });
+            
+            document.getElementById('btn-whatsapp').addEventListener('click', function() {
+                const mensaje = `Hola ${procesoData.voluntaria.nombre}, te contacto por mi proceso de adopción de ${procesoData.mascota.nombre}.`;
+                window.open(`https://wa.me/${procesoData.voluntaria.whatsapp}?text=${encodeURIComponent(mensaje)}`, '_blank');
+            });
+        }
+        
+        function configurarCancelacion() {
+            document.getElementById('cancel-process-card').addEventListener('click', function() {
+                if (confirm("¿Estás seguro de que deseas cancelar tu proceso de adopción? Esta acción no se puede deshacer.")) {
+                    if (confirm("Esta acción cancelará permanentemente tu solicitud. ¿Continuar?")) {
+                        // En un caso real, aquí se enviaría la solicitud de cancelación al servidor
+                        procesoData.estado = "cancelado";
+                        actualizarEstadoProceso();
+                        
+                        alert("Tu proceso de adopción ha sido cancelado. Lamentamos que no continúes con nosotros.");
+                    }
+                }
+            });
+        }
+        
+        // Función para simular cambio de estado (solo para demostración)
+        window.simularCambioEstado = function(nuevoEstado) {
+            procesoData.estado = nuevoEstado;
+            actualizarEstadoProceso();
+        };
+        
+        // Función para simular aprobación de documentos (solo para demostración)
+        window.simularDocumentoAprobado = function(documento) {
+            if (procesoData.documentos[documento]) {
+                procesoData.documentos[documento] = "aprobado";
+                alert(`Documento "${documento}" marcado como aprobado.`);
+            }
+        };
+    </script>
+</body>
+</html>

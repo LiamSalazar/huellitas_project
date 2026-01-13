@@ -1,0 +1,3879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Panel de Atención a Personas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --danger: #dc3545;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .user-sede {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Tabs de navegación */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: #f9f9f9;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .dashboard-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        /* Registro de entrada/salida */
+        .time-registration {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .time-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .time-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .time-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .time-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        /* Paneles del dashboard */
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            color: var(--primary);
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Tabla de procesos de adopción */
+        .adoption-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .adoption-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .adoption-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .adoption-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pendiente {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-aprobado {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-rechazado {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-completado {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        /* Estados de citas */
+        .status-cancelada {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-completada {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        .status-confirmada {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-programada {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .adoption-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .table-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .table-btn.primary:hover {
+            background: #e05a2b;
+        }
+
+        .table-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .table-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .table-btn.success {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .table-btn.success:hover {
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .table-btn.warning {
+            background: transparent;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .table-btn.warning:hover {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        /* Búsqueda de animales */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Grid de animales para Animales Destacados (tarjetas verticales) */
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .animal-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .animal-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .animal-info {
+            padding: 1.2rem;
+        }
+
+        .animal-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .animal-id {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #666;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .animal-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .animal-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .animal-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .status-disponible {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-adoptado {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        /* Nuevo diseño para Animales Disponibles - Imagen a la izquierda (Horizontal) */
+        .animal-card-horizontal {
+            display: flex;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .animal-card-horizontal:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .animal-image-horizontal {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .animal-info-horizontal {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .animal-header-horizontal {
+            margin-bottom: 1rem;
+        }
+
+        .animal-name-horizontal {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .animal-id-horizontal {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #666;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .animal-details-horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .animal-tag-horizontal {
+            background: #f0f0f0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .animal-description-horizontal {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .animal-footer-horizontal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .animal-status-horizontal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-disponible-horizontal {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-proceso-horizontal {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-adoptado-horizontal {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .animal-card-horizontal {
+                flex-direction: column;
+            }
+            
+            .animal-image-horizontal {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-label.required:after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea,
+        .form-datetime {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus,
+        .form-datetime:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+
+        .toast.info .toast-icon {
+            color: var(--info);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 1rem;
+        }
+
+        .stat-icon.process {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .stat-icon.approved {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.rejected {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Sin resultados */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .tabs {
+                padding: 0 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .adoption-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .animals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .time-registration {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="user-info">
+                <div class="user-avatar">AP</div>
+                <div class="user-details">
+                    <div class="user-name">Ana García</div>
+                    <div class="user-role">Voluntaria - Atención a Personas</div>
+                    <div class="user-sede">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sede Central - Coyoacán</span>
+                    </div>
+                </div>
+
+                <button class="logout-btn" onclick="location.href='../index_secundario.html'">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="fas fa-home"></i> Panel Atención a Personas
+            </div>
+            <div class="tab" data-tab="procesos">
+                <i class="fas fa-handshake"></i> Procesos de Adopción
+                <span class="badge" id="procesos-badge">3</span>
+            </div>
+            <div class="tab" data-tab="animales">
+                <i class="fas fa-paw"></i> Animales Disponibles
+            </div>
+            <div class="tab" data-tab="citas">
+                <i class="fas fa-calendar-alt"></i> Citas Programadas
+                <span class="badge" id="citas-badge">5</span>
+            </div>
+            <div class="tab" data-tab="reportes">
+                <i class="fas fa-chart-bar"></i> Reportes
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+        <!-- Panel: Dashboard -->
+        <div id="dashboard" class="dashboard-content active">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Panel de Atención a Personas</h1>
+                    <p class="dashboard-subtitle">Gestión de procesos de adopción y atención al público</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-nuevo-proceso">
+                        <i class="fas fa-plus"></i> Nuevo Proceso
+                    </button>
+                    <button class="btn btn-secondary" id="btn-buscar-animal">
+                        <i class="fas fa-search"></i> Buscar Animal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Registro de entrada/salida -->
+            <div class="time-registration">
+                <div class="time-info">
+                    <span class="time-label">Hora actual</span>
+                    <span class="time-value" id="current-time">--:-- --</span>
+                    <span class="time-label" id="current-date">--/--/----</span>
+                </div>
+                
+                <div class="time-status status-inactive" id="work-status">
+                    <i class="fas fa-clock"></i>
+                    <span>No has registrado entrada hoy</span>
+                </div>
+                
+                <button class="btn btn-success" id="toggle-work-btn">
+                    <i class="fas fa-sign-in-alt"></i> Registrar Entrada
+                </button>
+            </div>
+
+            <!-- Estadísticas rápidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon process">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-value" id="stat-en-proceso">8</div>
+                    <div class="stat-label">En Proceso</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value" id="stat-aprobados">12</div>
+                    <div class="stat-label">Aprobados</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="stat-pendientes">5</div>
+                    <div class="stat-label">Pendientes</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon rejected">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-value" id="stat-rechazados">3</div>
+                    <div class="stat-label">Rechazados</div>
+                </div>
+            </div>
+
+            <!-- Procesos recientes -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-history"></i>
+                        Procesos Recientes
+                    </h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-secondary btn-sm" id="btn-ver-todos-procesos">
+                            Ver todos
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="adoption-table">
+                    <thead>
+                        <tr>
+                            <th>ID Proceso</th>
+                            <th>Nombre Animal</th>
+                            <th>Nombre Adoptante</th>
+                            <th>Estado</th>
+                            <th>Inicio</th>
+                            <th>Cita</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-processes">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Animales destacados -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-heart"></i>
+                        Animales Destacados para Adopción
+                    </h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-secondary btn-sm" id="btn-ver-todos-animales">
+                            Ver todos
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" id="search-animal-dashboard" placeholder="Buscar animal por RUAC o nombre...">
+                    <button class="search-btn" id="btn-search-animal-dashboard">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="animals-grid" id="featured-animals">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Procesos de Adopción -->
+        <div id="procesos" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Procesos de Adopción</h1>
+                    <p class="dashboard-subtitle">Seguimiento y administración de todas las adopciones</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-nuevo-proceso-tab">
+                        <i class="fas fa-plus"></i> Nuevo Proceso
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-list"></i>
+                        Todos los Procesos de Adopción
+                    </h2>
+                    <div class="panel-actions">
+                        <div class="search-container" style="width: 300px;">
+                            <input type="text" class="search-input" id="search-procesos" placeholder="Buscar proceso...">
+                            <button class="search-btn" id="btn-search-procesos">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="adoption-table">
+                    <thead>
+                        <tr>
+                            <th>ID Proceso</th>
+                            <th>Nombre Animal</th>
+                            <th>Nombre Adoptante</th>
+                            <th>Voluntario</th>
+                            <th>Estado</th>
+                            <th>Inicio</th>
+                            <th>Cierre</th>
+                            <th>Cita</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-processes">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Animales -->
+        <div id="animales" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Animales Disponibles para Adopción</h1>
+                    <p class="dashboard-subtitle">Consulta de animales y su estado de adopción</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="btn-refrescar-animales">
+                        <i class="fas fa-sync-alt"></i> Refrescar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-paw"></i>
+                        Catálogo de Animales
+                    </h2>
+                </div>
+                
+                <div class="search-container" style="margin-bottom: 2rem;">
+                    <input type="text" class="search-input" id="search-all-animals" placeholder="Buscar animal por RUAC, nombre, especie o características...">
+                    <button class="search-btn" id="btn-search-all-animals">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div id="animals-catalog">
+                    <!-- Se carga dinámicamente con el nuevo diseño horizontal -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Citas -->
+        <div id="citas" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestión de Citas Programadas</h1>
+                    <p class="dashboard-subtitle">Programación, seguimiento y administración de citas para adopciones</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-nueva-cita">
+                        <i class="fas fa-plus"></i> Nueva Cita
+                    </button>
+                    <button class="btn btn-secondary" id="btn-filtrar-citas">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros de citas -->
+            <div class="panel" style="margin-bottom: 1.5rem; display: none;" id="filtros-citas">
+                <div class="panel-header">
+                    <h3 class="panel-title" style="font-size: 16px;">
+                        <i class="fas fa-filter"></i> Filtros de Citas
+                    </h3>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Estado</label>
+                        <select class="form-select" style="width: 150px; padding: 8px;" id="filtro-estado-citas">
+                            <option value="todas">Todas las citas</option>
+                            <option value="pendiente">Pendientes</option>
+                            <option value="confirmada">Confirmadas</option>
+                            <option value="programada">Programadas</option>
+                            <option value="completada">Completadas</option>
+                            <option value="cancelada">Canceladas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Fecha desde</label>
+                        <input type="date" class="form-input" style="width: 150px; padding: 8px;" id="filtro-fecha-desde">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Fecha hasta</label>
+                        <input type="date" class="form-input" style="width: 150px; padding: 8px;" id="filtro-fecha-hasta">
+                    </div>
+                    <div style="align-self: flex-end;">
+                        <button class="btn btn-primary btn-sm" id="btn-aplicar-filtros">
+                            <i class="fas fa-check"></i> Aplicar
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="btn-limpiar-filtros">
+                            <i class="fas fa-times"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-calendar-check"></i>
+                        Citas Programadas
+                    </h2>
+                    <div class="panel-actions">
+                        <div class="search-container" style="width: 250px;">
+                            <input type="text" class="search-input" id="search-citas" placeholder="Buscar cita...">
+                            <button class="search-btn" id="btn-search-citas">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="adoption-table">
+                    <thead>
+                        <tr>
+                            <th>ID Cita</th>
+                            <th>Proceso</th>
+                            <th>Adoptante</th>
+                            <th>Animal</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Tipo</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointments-table">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center; padding: 1rem; color: #666; font-size: 14px; border-top: 1px solid #f0f0f0;">
+                    <i class="fas fa-info-circle"></i> Total de citas: <span id="total-citas">0</span> | 
+                    Pendientes: <span id="citas-pendientes">0</span> | 
+                    Hoy: <span id="citas-hoy">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Reportes -->
+        <div id="reportes" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Reportes de Adopción</h1>
+                    <p class="dashboard-subtitle">Estadísticas y análisis de procesos de adopción</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-generar-reporte">
+                        <i class="fas fa-file-export"></i> Generar Reporte
+                    </button>
+                </div>
+            </div>
+
+            <div class="dashboard-panels">
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-line"></i>
+                        Progreso Mensual de Adopciones
+                    </h2>
+                    <div id="chart-adopciones" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem; padding: 20px;">
+                        <canvas id="adopciones-chart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-pie"></i>
+                        Distribución de Estados
+                    </h2>
+                    <div id="chart-estados" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem; padding: 20px;">
+                        <canvas id="estados-chart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h2>Huellitas</h2>
+                <p>Un encuentro, dos salvaciones.</p>
+                <br>
+                <p>Atención a Personas - Gestión de adopciones y atención al público</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Acciones Rápidas</h3>
+                <ul>
+                    <li><a href="#" onclick="navigateToTab('dashboard')">Dashboard</a></li>
+                    <li><a href="#" onclick="navigateToTab('procesos')">Procesos</a></li>
+                    <li><a href="#" onclick="navigateToTab('animales')">Animales</a></li>
+                    <li><a href="#" onclick="navigateToTab('citas')">Citas</a></li>
+                    <li><a href="#" onclick="navigateToTab('reportes')">Reportes</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto Atención</h3>
+                <p><i class="fas fa-phone"></i> Información: 555-9876-543</p>
+                <p><i class="fas fa-envelope"></i> adopciones@huellitas.org</p>
+                <p><i class="fas fa-user-friends"></i> Ana García</p>
+                <p><i class="fas fa-map-marker-alt"></i> Sede Central, Coyoacán</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Refugio Huellitas - Panel de Atención a Personas. Horario: 9:00 - 18:00 hrs.</p>
+        </div>
+    </footer>
+
+    <!-- Modal para nuevo proceso de adopción -->
+    <div class="modal" id="procesoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Nuevo Proceso de Adopción</h2>
+                <button class="close-btn" onclick="cerrarModal('procesoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-nuevo-proceso">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Animal</label>
+                            <select class="form-select" id="proceso-animal" required>
+                                <option value="" selected disabled>Seleccionar animal...</option>
+                                <!-- Se llena dinámicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Estado del Proceso</label>
+                            <select class="form-select" id="proceso-estado" required>
+                                <option value="pendiente" selected>Pendiente</option>
+                                <option value="en_proceso">En Proceso</option>
+                                <option value="aprobado">Aprobado</option>
+                                <option value="rechazado">Rechazado</option>
+                                <option value="completado">Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre del Adoptante</label>
+                            <input type="text" class="form-input" id="proceso-adoptante" placeholder="Nombre completo del adoptante" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Teléfono</label>
+                            <input type="tel" class="form-input" id="proceso-telefono" placeholder="10 dígitos" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Correo Electrónico</label>
+                            <input type="email" class="form-input" id="proceso-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Fecha de Inicio</label>
+                            <input type="date" class="form-input" id="proceso-fecha-inicio" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Cita</label>
+                            <input type="date" class="form-input" id="proceso-fecha-cita">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Hora de Cita</label>
+                            <input type="time" class="form-input" id="proceso-hora-cita">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="proceso-observaciones" placeholder="Motivo de adopción, observaciones importantes..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('procesoModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Crear Proceso
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cambiar estado de proceso -->
+    <div class="modal" id="estadoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cambiar Estado del Proceso</h2>
+                <button class="close-btn" onclick="cerrarModal('estadoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-cambiar-estado">
+                    <input type="hidden" id="estado-proceso-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Proceso</label>
+                        <input type="text" class="form-input" id="estado-proceso-info" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Nuevo Estado</label>
+                        <select class="form-select" id="estado-nuevo" required>
+                            <option value="" selected disabled>Seleccionar estado...</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en_proceso">En Proceso</option>
+                            <option value="aprobado">Aprobado</option>
+                            <option value="rechazado">Rechazado</option>
+                            <option value="completado">Completado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fecha de Cierre</label>
+                        <input type="date" class="form-input" id="estado-fecha-cierre">
+                        <small class="text-muted">Solo para estados "Aprobado", "Rechazado" o "Completado"</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones del Cambio</label>
+                        <textarea class="form-textarea" id="estado-observaciones" placeholder="Motivo del cambio de estado..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('estadoModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-exchange-alt"></i> Cambiar Estado
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva cita -->
+    <div class="modal" id="citaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Nueva Cita para Adopción</h2>
+                <button class="close-btn" onclick="cerrarModal('citaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-nueva-cita">
+                    <div class="form-group">
+                        <label class="form-label required">Proceso de Adopción</label>
+                        <select class="form-select" id="cita-proceso" required>
+                            <option value="" selected disabled>Seleccionar proceso...</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha</label>
+                            <input type="date" class="form-input" id="cita-fecha" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Hora</label>
+                            <input type="time" class="form-input" id="cita-hora" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Tipo de Cita</label>
+                        <select class="form-select" id="cita-tipo" required>
+                            <option value="" selected disabled>Seleccionar tipo...</option>
+                            <option value="entrevista">Entrevista Inicial</option>
+                            <option value="conocimiento">Conocimiento del Animal</option>
+                            <option value="seguimiento">Seguimiento</option>
+                            <option value="firma">Firma de Contrato</option>
+                            <option value="entrega">Entrega del Animal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ubicación</label>
+                        <select class="form-select" id="cita-ubicacion">
+                            <option value="sede_central" selected>Sede Central - Coyoacán</option>
+                            <option value="sede_norte">Sede Norte - Lindavista</option>
+                            <option value="virtual">Virtual (Videollamada)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="cita-observaciones" placeholder="Preparativos, documentos a llevar..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('citaModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calendar-plus"></i> Programar Cita
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Cancelar/Editar Cita -->
+    <div class="modal" id="cancelarCitaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Gestión de Cita</h2>
+                <button class="close-btn" onclick="cerrarModal('cancelarCitaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-cancelar-cita">
+                    <input type="hidden" id="cita-id-cancelar">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Información de la Cita</label>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; font-size: 14px;">
+                            <div><strong>ID:</strong> <span id="cita-info-id"></span></div>
+                            <div><strong>Proceso:</strong> <span id="cita-info-proceso"></span></div>
+                            <div><strong>Adoptante:</strong> <span id="cita-info-adoptante"></span></div>
+                            <div><strong>Animal:</strong> <span id="cita-info-animal"></span></div>
+                            <div><strong>Fecha y Hora:</strong> <span id="cita-info-fecha"></span></div>
+                            <div><strong>Tipo:</strong> <span id="cita-info-tipo"></span></div>
+                            <div><strong>Estado Actual:</strong> <span id="cita-info-estado"></span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Acción a realizar</label>
+                        <select class="form-select" id="cita-accion" required>
+                            <option value="" selected disabled>Seleccionar acción...</option>
+                            <option value="cancelar">Cancelar Cita</option>
+                            <option value="reprogramar">Reprogramar Cita</option>
+                            <option value="confirmar">Confirmar Asistencia</option>
+                            <option value="completar">Marcar como Completada</option>
+                        </select>
+                    </div>
+                    
+                    <div id="reprogramar-container" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nueva Fecha</label>
+                                <input type="date" class="form-input" id="cita-nueva-fecha">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Nueva Hora</label>
+                                <input type="time" class="form-input" id="cita-nueva-hora">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nueva Ubicación</label>
+                            <select class="form-select" id="cita-nueva-ubicacion">
+                                <option value="sede_central">Sede Central - Coyoacán</option>
+                                <option value="sede_norte">Sede Norte - Lindavista</option>
+                                <option value="virtual">Virtual (Videollamada)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Motivo / Observaciones</label>
+                        <textarea class="form-textarea" id="cita-motivo" placeholder="Explique el motivo de la acción..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('cancelarCitaModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para generar reporte -->
+    <div class="modal" id="reporteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Generar Reporte de Adopciones</h2>
+                <button class="close-btn" onclick="cerrarModal('reporteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-reporte">
+                    <div class="form-group">
+                        <label class="form-label required">Tipo de Reporte</label>
+                        <select class="form-select" id="reporte-tipo" required>
+                            <option value="" selected disabled>Seleccionar tipo...</option>
+                            <option value="mensual">Reporte Mensual</option>
+                            <option value="trimestral">Reporte Trimestral</option>
+                            <option value="anual">Reporte Anual</option>
+                            <option value="personalizado">Personalizado por Fechas</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row" id="reporte-fechas-container" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha Inicial</label>
+                            <input type="date" class="form-input" id="reporte-fecha-inicio">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Fecha Final</label>
+                            <input type="date" class="form-input" id="reporte-fecha-fin">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Formato</label>
+                        <select class="form-select" id="reporte-formato">
+                            <option value="pdf" selected>PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Incluir</label>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-procesos" checked>
+                                <span>Procesos de Adopción</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-citas" checked>
+                                <span>Citas Programadas</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-estadisticas" checked>
+                                <span>Estadísticas</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('reporteModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-file-export"></i> Generar Reporte
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Datos de ejemplo para Atención a Personas
+        const sampleData = {
+            adoptionProcesses: [
+                { 
+                    id: 'PRO-2024-001', 
+                    animalId: 'HUE-2024-001',
+                    animalName: 'Luna',
+                    adoptante: 'María González',
+                    adoptanteTelefono: '5512345678',
+                    adoptanteEmail: 'maria.gonzalez@email.com',
+                    voluntario: 'Ana García',
+                    estado: 'en_proceso',
+                    fechaInicio: '2024-02-15',
+                    fechaCierre: null,
+                    fechaCita: '2024-03-20',
+                    horaCita: '15:30',
+                    observaciones: 'Familia con niños pequeños, tienen experiencia con perros'
+                },
+                { 
+                    id: 'PRO-2024-002', 
+                    animalId: 'HUE-2024-003',
+                    animalName: 'Michi',
+                    adoptante: 'Carlos Rodríguez',
+                    adoptanteTelefono: '5523456789',
+                    adoptanteEmail: 'carlos.rodriguez@email.com',
+                    voluntario: 'Ana García',
+                    estado: 'aprobado',
+                    fechaInicio: '2024-02-10',
+                    fechaCierre: '2024-02-25',
+                    fechaCita: '2024-02-28',
+                    horaCita: '11:00',
+                    observaciones: 'Soltero, vive en departamento, tiene experiencia con gatos'
+                },
+                { 
+                    id: 'PRO-2024-003', 
+                    animalId: 'HUE-2024-005',
+                    animalName: 'Rocky',
+                    adoptante: 'Laura Martínez',
+                    adoptanteTelefono: '5534567890',
+                    adoptanteEmail: 'laura.martinez@email.com',
+                    voluntario: 'Ana García',
+                    estado: 'pendiente',
+                    fechaInicio: '2024-03-01',
+                    fechaCierre: null,
+                    fechaCita: '2024-03-15',
+                    horaCita: '16:00',
+                    observaciones: 'Pareja joven, primera mascota'
+                },
+                { 
+                    id: 'PRO-2024-004', 
+                    animalId: 'HUE-2024-002',
+                    animalName: 'Max',
+                    adoptante: 'Roberto Sánchez',
+                    adoptanteTelefono: '5545678901',
+                    adoptanteEmail: 'roberto.sanchez@email.com',
+                    voluntario: 'Ana García',
+                    estado: 'rechazado',
+                    fechaInicio: '2024-01-20',
+                    fechaCierre: '2024-02-05',
+                    fechaCita: '2024-01-25',
+                    horaCita: '10:30',
+                    observaciones: 'No cumple requisitos de espacio'
+                },
+                { 
+                    id: 'PRO-2024-005', 
+                    animalId: 'HUE-2024-004',
+                    animalName: 'Canela',
+                    adoptante: 'Sofía Hernández',
+                    adoptanteTelefono: '5556789012',
+                    adoptanteEmail: 'sofia.hernandez@email.com',
+                    voluntario: 'Ana García',
+                    estado: 'completado',
+                    fechaInicio: '2024-01-15',
+                    fechaCierre: '2024-02-10',
+                    fechaCita: '2024-02-05',
+                    horaCita: '14:00',
+                    observaciones: 'Adopción exitosa, seguimiento programado'
+                }
+            ],
+            animals: [
+                { 
+                    id: 'HUE-2024-001', 
+                    nombre: 'Luna', 
+                    especie: 'perro', 
+                    raza: 'Labrador Retriever', 
+                    edad: { numero: 2, unidad: 'años' }, 
+                    sexo: 'hembra',
+                    descripcion: 'Juguetona y cariñosa, perfecta para familias con niños',
+                    imagen: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'en_proceso',
+                    fechaIngreso: '2024-01-15'
+                },
+                { 
+                    id: 'HUE-2024-002', 
+                    nombre: 'Max', 
+                    especie: 'perro', 
+                    raza: 'Pastor Alemán', 
+                    edad: { numero: 3, unidad: 'años' }, 
+                    sexo: 'macho',
+                    descripcion: 'Leal y protector, requiere dueño con experiencia',
+                    imagen: 'https://images.unsplash.com/photo-1568572933382-74d440642117?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'disponible',
+                    fechaIngreso: '2024-01-20'
+                },
+                { 
+                    id: 'HUE-2024-003', 
+                    nombre: 'Michi', 
+                    especie: 'gato', 
+                    raza: 'Siamés', 
+                    edad: { numero: 1, unidad: 'años' }, 
+                    sexo: 'macho',
+                    descripcion: 'Curioso y juguetón, ideal para departamentos',
+                    imagen: 'https://images.unsplash.com/photo-1514888286974-6d03bde4ba04?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'adoptado',
+                    fechaIngreso: '2024-02-01'
+                },
+                { 
+                    id: 'HUE-2024-004', 
+                    nombre: 'Canela', 
+                    especie: 'perro', 
+                    raza: 'Chihuahua', 
+                    edad: { numero: 4, unidad: 'años' }, 
+                    sexo: 'hembra',
+                    descripcion: 'Pequeña pero valiente, perfecta para personas mayores',
+                    imagen: 'https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'adoptado',
+                    fechaIngreso: '2024-02-05'
+                },
+                { 
+                    id: 'HUE-2024-005', 
+                    nombre: 'Rocky', 
+                    especie: 'perro', 
+                    raza: 'Bulldog Francés', 
+                    edad: { numero: 5, unidad: 'años' }, 
+                    sexo: 'macho',
+                    descripcion: 'Tranquilo y afectuoso, ideal para apartamentos pequeños',
+                    imagen: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'en_proceso',
+                    fechaIngreso: '2024-02-10'
+                },
+                { 
+                    id: 'HUE-2024-006', 
+                    nombre: 'Bella', 
+                    especie: 'gato', 
+                    raza: 'Persa', 
+                    edad: { numero: 2, unidad: 'años' }, 
+                    sexo: 'hembra',
+                    descripcion: 'Tranquila y elegante, requiere cepillado regular',
+                    imagen: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'disponible',
+                    fechaIngreso: '2024-02-15'
+                },
+                { 
+                    id: 'HUE-2024-007', 
+                    nombre: 'Thor', 
+                    especie: 'perro', 
+                    raza: 'Golden Retriever', 
+                    edad: { numero: 1, unidad: 'años' }, 
+                    sexo: 'macho',
+                    descripcion: 'Energético y amigable, necesita espacio para correr',
+                    imagen: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'disponible',
+                    fechaIngreso: '2024-02-20'
+                },
+                { 
+                    id: 'HUE-2024-008', 
+                    nombre: 'Nala', 
+                    especie: 'gato', 
+                    raza: 'Mestizo', 
+                    edad: { numero: 6, unidad: 'meses' }, 
+                    sexo: 'hembra',
+                    descripcion: 'Juguetona y curiosa, ideal para familias activas',
+                    imagen: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=400&h=300&fit=crop',
+                    estadoAdopcion: 'disponible',
+                    fechaIngreso: '2024-02-25'
+                }
+            ],
+            appointments: [
+                {
+                    id: 'CIT-2024-001',
+                    procesoId: 'PRO-2024-001',
+                    adoptante: 'María González',
+                    animal: 'Luna',
+                    fecha: '2024-03-20',
+                    hora: '15:30',
+                    tipo: 'conocimiento',
+                    ubicacion: 'sede_central',
+                    estado: 'confirmada',
+                    observaciones: 'Traer documentos de identificación'
+                },
+                {
+                    id: 'CIT-2024-002',
+                    procesoId: 'PRO-2024-003',
+                    adoptante: 'Laura Martínez',
+                    animal: 'Rocky',
+                    fecha: '2024-03-15',
+                    hora: '16:00',
+                    tipo: 'entrevista',
+                    ubicacion: 'sede_central',
+                    estado: 'pendiente',
+                    observaciones: 'Primera entrevista'
+                },
+                {
+                    id: 'CIT-2024-003',
+                    procesoId: 'PRO-2024-005',
+                    adoptante: 'Sofía Hernández',
+                    animal: 'Canela',
+                    fecha: '2024-03-25',
+                    hora: '11:00',
+                    tipo: 'seguimiento',
+                    ubicacion: 'virtual',
+                    estado: 'programada',
+                    observaciones: 'Seguimiento post-adopción'
+                },
+                {
+                    id: 'CIT-2024-004',
+                    procesoId: 'PRO-2024-002',
+                    adoptante: 'Carlos Rodríguez',
+                    animal: 'Michi',
+                    fecha: '2024-03-10',
+                    hora: '14:30',
+                    tipo: 'entrega',
+                    ubicacion: 'sede_central',
+                    estado: 'completada',
+                    observaciones: 'Entrega exitosa'
+                }
+            ],
+            workLogs: [],
+            currentWorkStatus: 'inactive',
+            lastCheckIn: null
+        };
+
+        // Variables globales
+        let currentProcesoToEdit = null;
+        let currentAppointmentToEdit = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar datos
+            cargarProcesosRecientes();
+            cargarTodosProcesos();
+            cargarAnimalesDestacados();
+            cargarCatalogoAnimales();
+            cargarCitas();
+            actualizarEstadisticas();
+            actualizarReloj();
+            
+            // Llenar selects de formularios
+            llenarSelectAnimales();
+            llenarSelectProcesos();
+            
+            // Configurar navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    navigateToTab(this.getAttribute('data-tab'));
+                });
+            });
+            
+            // Configurar registro de entrada/salida
+            document.getElementById('toggle-work-btn').addEventListener('click', toggleWorkStatus);
+            
+            // Configurar formularios
+            document.getElementById('form-nuevo-proceso').addEventListener('submit', guardarNuevoProceso);
+            document.getElementById('form-cambiar-estado').addEventListener('submit', cambiarEstadoProceso);
+            document.getElementById('form-nueva-cita').addEventListener('submit', guardarNuevaCita);
+            document.getElementById('form-cancelar-cita').addEventListener('submit', guardarCancelarCita);
+            document.getElementById('form-reporte').addEventListener('submit', generarReporte);
+            
+            // Configurar búsquedas
+            document.getElementById('btn-search-animal-dashboard').addEventListener('click', buscarAnimalDashboard);
+            document.getElementById('search-animal-dashboard').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarAnimalDashboard();
+            });
+            
+            document.getElementById('btn-search-procesos').addEventListener('click', buscarProcesos);
+            document.getElementById('search-procesos').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarProcesos();
+            });
+            
+            document.getElementById('btn-search-all-animals').addEventListener('click', buscarAnimalesCatalogo);
+            document.getElementById('search-all-animals').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarAnimalesCatalogo();
+            });
+            
+            document.getElementById('btn-search-citas').addEventListener('click', buscarCitas);
+            document.getElementById('search-citas').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarCitas();
+            });
+            
+            // Configurar botones modales
+            document.getElementById('btn-nuevo-proceso').addEventListener('click', () => abrirModalProceso());
+            document.getElementById('btn-nuevo-proceso-tab').addEventListener('click', () => abrirModalProceso());
+            document.getElementById('btn-nueva-cita').addEventListener('click', () => abrirModalCita());
+            document.getElementById('btn-generar-reporte').addEventListener('click', () => abrirModalReporte());
+            document.getElementById('btn-filtrar-citas').addEventListener('click', () => {
+                const filtros = document.getElementById('filtros-citas');
+                filtros.style.display = filtros.style.display === 'none' ? 'block' : 'none';
+            });
+            
+            // Configurar botones de filtros de citas
+            document.getElementById('btn-aplicar-filtros').addEventListener('click', aplicarFiltrosCitas);
+            document.getElementById('btn-limpiar-filtros').addEventListener('click', limpiarFiltrosCitas);
+            
+            // Configurar cambio de tipo de reporte
+            document.getElementById('reporte-tipo').addEventListener('change', function() {
+                const fechasContainer = document.getElementById('reporte-fechas-container');
+                fechasContainer.style.display = this.value === 'personalizado' ? 'grid' : 'none';
+            });
+            
+            // Configurar cambio de acción en cancelar cita
+            document.getElementById('cita-accion').addEventListener('change', function() {
+                const reprogramarContainer = document.getElementById('reprogramar-container');
+                reprogramarContainer.style.display = this.value === 'reprogramar' ? 'grid' : 'none';
+            });
+            
+            // Configurar navegación entre tabs desde botones
+            document.getElementById('btn-ver-todos-procesos').addEventListener('click', () => navigateToTab('procesos'));
+            document.getElementById('btn-ver-todos-animales').addEventListener('click', () => navigateToTab('animales'));
+            
+            // Configurar refresh de animales
+            document.getElementById('btn-refrescar-animales').addEventListener('click', () => {
+                cargarCatalogoAnimales();
+                mostrarToast('Catálogo de animales actualizado', 'success');
+            });
+            
+            // Inicializar gráficos
+            setTimeout(() => {
+                inicializarGraficos();
+            }, 1000);
+            
+            // Verificar si ya hay registro de entrada hoy
+            verificarRegistroEntrada();
+        });
+
+        // Funciones de navegación
+        function navigateToTab(tabId) {
+            // Remover clase active de todas las tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            // Agregar clase active a la tab clickeada
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.dashboard-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar contenido correspondiente
+            document.getElementById(tabId).classList.add('active');
+            
+            // Scroll al inicio de la sección
+            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
+            
+            // Actualizar badges
+            if (tabId === 'procesos') {
+                actualizarBadgeProcesos();
+            }
+            if (tabId === 'citas') {
+                actualizarBadgeCitas();
+            }
+        }
+
+        // Funciones de registro de entrada/salida
+        function verificarRegistroEntrada() {
+            const hoy = new Date().toISOString().split('T')[0];
+            const registroHoy = sampleData.workLogs.find(log => 
+                log.fecha === hoy && log.tipo === 'entrada'
+            );
+            
+            if (registroHoy) {
+                sampleData.currentWorkStatus = 'active';
+                sampleData.lastCheckIn = registroHoy.hora;
+                actualizarEstadoTrabajo();
+            }
+        }
+
+        function toggleWorkStatus() {
+            const ahora = new Date();
+            const fecha = ahora.toISOString().split('T')[0];
+            const hora = ahora.toTimeString().split(' ')[0].substring(0, 5);
+            
+            if (sampleData.currentWorkStatus === 'inactive') {
+                // Registrar entrada
+                sampleData.workLogs.push({
+                    id: 'LOG-' + (sampleData.workLogs.length + 1).toString().padStart(3, '0'),
+                    fecha: fecha,
+                    hora: hora,
+                    tipo: 'entrada',
+                    voluntario: 'Ana García',
+                    sede: 'Sede Central - Coyoacán'
+                });
+                
+                sampleData.currentWorkStatus = 'active';
+                sampleData.lastCheckIn = hora;
+                
+                mostrarToast('Entrada registrada a las ' + hora, 'success');
+            } else {
+                // Registrar salida
+                sampleData.workLogs.push({
+                    id: 'LOG-' + (sampleData.workLogs.length + 1).toString().padStart(3, '0'),
+                    fecha: fecha,
+                    hora: hora,
+                    tipo: 'salida',
+                    voluntario: 'Ana García',
+                    sede: 'Sede Central - Coyoacán'
+                });
+                
+                // Calcular horas trabajadas
+                const entrada = new Date(fecha + 'T' + sampleData.lastCheckIn + ':00');
+                const salida = new Date(fecha + 'T' + hora + ':00');
+                const diffMs = salida - entrada;
+                const diffHoras = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffMinutos = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                
+                sampleData.currentWorkStatus = 'inactive';
+                sampleData.lastCheckIn = null;
+                
+                mostrarToast(`Salida registrada a las ${hora}. Trabajaste ${diffHoras}h ${diffMinutos}min`, 'success');
+            }
+            
+            actualizarEstadoTrabajo();
+        }
+
+        function actualizarEstadoTrabajo() {
+            const statusElement = document.getElementById('work-status');
+            const buttonElement = document.getElementById('toggle-work-btn');
+            
+            if (sampleData.currentWorkStatus === 'active') {
+                statusElement.className = 'time-status status-active';
+                statusElement.innerHTML = `<i class="fas fa-check-circle"></i> Activo desde las ${sampleData.lastCheckIn}`;
+                buttonElement.innerHTML = `<i class="fas fa-sign-out-alt"></i> Registrar Salida`;
+                buttonElement.className = 'btn btn-warning';
+            } else {
+                statusElement.className = 'time-status status-inactive';
+                statusElement.innerHTML = `<i class="fas fa-clock"></i> No has registrado entrada hoy`;
+                buttonElement.innerHTML = `<i class="fas fa-sign-in-alt"></i> Registrar Entrada`;
+                buttonElement.className = 'btn btn-success';
+            }
+        }
+
+        // Funciones de carga de datos
+        function cargarProcesosRecientes() {
+            const tbody = document.getElementById('recent-processes');
+            tbody.innerHTML = '';
+            
+            // Obtener últimos 5 procesos
+            const procesosRecientes = [...sampleData.adoptionProcesses]
+                .sort((a, b) => new Date(b.fechaInicio) - new Date(a.fechaInicio))
+                .slice(0, 5);
+            
+            if (procesosRecientes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-handshake" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay procesos de adopción
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            procesosRecientes.forEach(proceso => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${proceso.id}</strong></td>
+                    <td>${proceso.animalName}</td>
+                    <td>${proceso.adoptante}</td>
+                    <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    <td>${formatDate(proceso.fechaInicio)}</td>
+                    <td>${proceso.fechaCita ? `${formatDate(proceso.fechaCita)} ${proceso.horaCita}` : 'No programada'}</td>
+                `;
+                tr.addEventListener('click', () => {
+                    navigateToTab('procesos');
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarTodosProcesos() {
+            const tbody = document.getElementById('all-processes');
+            tbody.innerHTML = '';
+            
+            if (sampleData.adoptionProcesses.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-handshake" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay procesos de adopción registrados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha de inicio descendente
+            const procesosOrdenados = [...sampleData.adoptionProcesses].sort((a, b) => 
+                new Date(b.fechaInicio) - new Date(a.fechaInicio)
+            );
+            
+            procesosOrdenados.forEach(proceso => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${proceso.id}</strong></td>
+                    <td>${proceso.animalName}<br><small>${proceso.animalId}</small></td>
+                    <td>${proceso.adoptante}<br><small>${proceso.adoptanteTelefono}</small></td>
+                    <td>${proceso.voluntario}</td>
+                    <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    <td>${formatDate(proceso.fechaInicio)}</td>
+                    <td>${proceso.fechaCierre ? formatDate(proceso.fechaCierre) : 'En proceso'}</td>
+                    <td>${proceso.fechaCita ? `${formatDate(proceso.fechaCita)}<br><small>${proceso.horaCita}</small>` : 'Sin cita'}</td>
+                    <td class="adoption-actions">
+                        <button class="table-btn secondary" onclick="cambiarEstadoProcesoModal('${proceso.id}')" title="Cambiar estado">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="table-btn primary" onclick="verDetallesProceso('${proceso.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            actualizarBadgeProcesos();
+        }
+
+        function cargarAnimalesDestacados() {
+            const container = document.getElementById('featured-animals');
+            container.innerHTML = '';
+            
+            // Obtener animales disponibles
+            const animalesDisponibles = sampleData.animals.filter(animal => 
+                animal.estadoAdopcion === 'disponible'
+            ).slice(0, 4); // Mostrar solo 4
+            
+            if (animalesDisponibles.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">
+                        <i class="fas fa-paw" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                        No hay animales disponibles para adopción
+                    </div>
+                `;
+                return;
+            }
+            
+            animalesDisponibles.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                card.innerHTML = `
+                    <img src="${animal.imagen}" alt="${animal.nombre}" class="animal-image">
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.nombre}</div>
+                        <div class="animal-id">${animal.id}</div>
+                        <div class="animal-details">
+                            <span class="animal-tag">${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                            <span class="animal-tag">${animal.edad.numero} ${animal.edad.unidad}</span>
+                            <span class="animal-tag">${animal.raza}</span>
+                        </div>
+                        <div class="animal-status status-disponible">
+                            <i class="fas fa-heart"></i> Disponible
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="iniciarProcesoAdopcion('${animal.id}')">
+                            <i class="fas fa-handshake"></i> Iniciar Adopción
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function cargarCatalogoAnimales() {
+            const container = document.getElementById('animals-catalog');
+            container.innerHTML = '';
+            
+            if (sampleData.animals.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-paw"></i>
+                        <p>No hay animales registrados</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha de ingreso descendente
+            const animalesOrdenados = [...sampleData.animals].sort((a, b) => 
+                new Date(b.fechaIngreso) - new Date(a.fechaIngreso)
+            );
+            
+            animalesOrdenados.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card-horizontal';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                let estadoIcon = '';
+                
+                switch(animal.estadoAdopcion) {
+                    case 'disponible':
+                        estadoClass = 'status-disponible-horizontal';
+                        estadoText = 'Disponible para adopción';
+                        estadoIcon = 'fa-heart';
+                        break;
+                    case 'en_proceso':
+                        estadoClass = 'status-proceso-horizontal';
+                        estadoText = 'En proceso de adopción';
+                        estadoIcon = 'fa-spinner';
+                        break;
+                    case 'adoptado':
+                        estadoClass = 'status-adoptado-horizontal';
+                        estadoText = 'Adoptado';
+                        estadoIcon = 'fa-check-circle';
+                        break;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.imagen}" alt="${animal.nombre}" class="animal-image-horizontal">
+                    <div class="animal-info-horizontal">
+                        <div class="animal-header-horizontal">
+                            <div class="animal-name-horizontal">${animal.nombre}</div>
+                            <div class="animal-id-horizontal">${animal.id}</div>
+                            <div class="animal-details-horizontal">
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                    ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    ${animal.edad.numero} ${animal.edad.unidad}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-dna"></i>
+                                    ${animal.raza}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas ${animal.sexo === 'macho' ? 'fa-mars' : 'fa-venus'}"></i>
+                                    ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="animal-description-horizontal">
+                            <strong><i class="fas fa-info-circle"></i> Descripción:</strong><br>
+                            ${animal.descripcion}
+                        </div>
+                        
+                        <div class="animal-footer-horizontal">
+                            <div class="animal-status-horizontal ${estadoClass}">
+                                <i class="fas ${estadoIcon}"></i> ${estadoText}
+                            </div>
+                            
+                            ${animal.estadoAdopcion === 'disponible' ? 
+                                `<button class="btn btn-primary" onclick="iniciarProcesoAdopcion('${animal.id}')">
+                                    <i class="fas fa-handshake"></i> Iniciar Adopción
+                                </button>` : 
+                                `<button class="btn btn-secondary" onclick="verProcesoAnimal('${animal.id}')">
+                                    <i class="fas fa-search"></i> Ver Proceso
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function cargarCitas() {
+            const tbody = document.getElementById('appointments-table');
+            tbody.innerHTML = '';
+            
+            if (sampleData.appointments.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-calendar-alt" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay citas programadas
+                        </td>
+                    </tr>
+                `;
+                actualizarContadoresCitas();
+                return;
+            }
+            
+            // Ordenar por fecha y hora ascendente
+            const citasOrdenadas = [...sampleData.appointments].sort((a, b) => {
+                const fechaA = new Date(a.fecha + 'T' + a.hora);
+                const fechaB = new Date(b.fecha + 'T' + b.hora);
+                return fechaA - fechaB;
+            });
+            
+            citasOrdenadas.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${cita.id}</strong></td>
+                    <td>${cita.procesoId}</td>
+                    <td>${cita.adoptante}</td>
+                    <td>${cita.animal}</td>
+                    <td>${formatDate(cita.fecha)}</td>
+                    <td>${cita.hora}</td>
+                    <td>${getTipoCitaTexto(cita.tipo)}</td>
+                    <td>${getUbicacionTexto(cita.ubicacion)}</td>
+                    <td><span class="status-badge ${getEstadoCitaClass(cita.estado)}">${getEstadoCitaTexto(cita.estado)}</span></td>
+                    <td class="adoption-actions">
+                        <button class="table-btn ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'secondary' : 'primary'}" 
+                                onclick="gestionarCita('${cita.id}')" 
+                                title="${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'Ver detalles' : 'Gestionar cita'}">
+                            <i class="fas ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'fa-eye' : 'fa-edit'}"></i>
+                        </button>
+                        ${cita.estado !== 'cancelada' && cita.estado !== 'completada' ? 
+                            `<button class="table-btn warning" onclick="gestionarCita('${cita.id}', 'cancelar')" title="Cancelar cita">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''
+                        }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            actualizarContadoresCitas();
+            actualizarBadgeCitas();
+        }
+
+        function actualizarEstadisticas() {
+            const totalProcesos = sampleData.adoptionProcesses.length;
+            const enProceso = sampleData.adoptionProcesses.filter(p => p.estado === 'en_proceso').length;
+            const aprobados = sampleData.adoptionProcesses.filter(p => p.estado === 'aprobado').length;
+            const pendientes = sampleData.adoptionProcesses.filter(p => p.estado === 'pendiente').length;
+            const rechazados = sampleData.adoptionProcesses.filter(p => p.estado === 'rechazado').length;
+            
+            document.getElementById('stat-en-proceso').textContent = enProceso;
+            document.getElementById('stat-aprobados').textContent = aprobados;
+            document.getElementById('stat-pendientes').textContent = pendientes;
+            document.getElementById('stat-rechazados').textContent = rechazados;
+        }
+
+        // Funciones de búsqueda
+        function buscarAnimalDashboard() {
+            const searchTerm = document.getElementById('search-animal-dashboard').value.trim().toLowerCase();
+            if (!searchTerm) {
+                cargarAnimalesDestacados();
+                return;
+            }
+            
+            // Filtrar animales
+            const filteredAnimals = sampleData.animals.filter(animal => 
+                animal.id.toLowerCase().includes(searchTerm) ||
+                animal.nombre.toLowerCase().includes(searchTerm) ||
+                animal.especie.toLowerCase().includes(searchTerm) ||
+                animal.raza.toLowerCase().includes(searchTerm)
+            );
+            
+            const container = document.getElementById('featured-animals');
+            container.innerHTML = '';
+            
+            if (filteredAnimals.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">
+                        <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                        No se encontraron animales con ese criterio
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredAnimals.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                let estadoIcon = '';
+                
+                switch(animal.estadoAdopcion) {
+                    case 'disponible':
+                        estadoClass = 'status-disponible';
+                        estadoText = 'Disponible';
+                        estadoIcon = 'fa-heart';
+                        break;
+                    case 'en_proceso':
+                        estadoClass = 'status-proceso';
+                        estadoText = 'En Proceso';
+                        estadoIcon = 'fa-spinner';
+                        break;
+                    case 'adoptado':
+                        estadoClass = 'status-adoptado';
+                        estadoText = 'Adoptado';
+                        estadoIcon = 'fa-check-circle';
+                        break;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.imagen}" alt="${animal.nombre}" class="animal-image">
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.nombre}</div>
+                        <div class="animal-id">${animal.id}</div>
+                        <div class="animal-details">
+                            <span class="animal-tag">${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                            <span class="animal-tag">${animal.edad.numero} ${animal.edad.unidad}</span>
+                            <span class="animal-tag">${animal.raza}</span>
+                        </div>
+                        <div class="animal-status ${estadoClass}">
+                            <i class="fas ${estadoIcon}"></i> ${estadoText}
+                        </div>
+                        ${animal.estadoAdopcion === 'disponible' ? 
+                            `<button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="iniciarProcesoAdopcion('${animal.id}')">
+                                <i class="fas fa-handshake"></i> Iniciar Adopción
+                            </button>` : 
+                            `<button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="verProcesoAnimal('${animal.id}')">
+                                <i class="fas fa-search"></i> Ver Proceso
+                            </button>`
+                        }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buscarProcesos() {
+            const searchTerm = document.getElementById('search-procesos').value.trim().toLowerCase();
+            
+            // Filtrar procesos
+            const filteredProcesses = sampleData.adoptionProcesses.filter(proceso => 
+                !searchTerm ||
+                proceso.id.toLowerCase().includes(searchTerm) ||
+                proceso.animalName.toLowerCase().includes(searchTerm) ||
+                proceso.adoptante.toLowerCase().includes(searchTerm) ||
+                proceso.adoptanteTelefono.includes(searchTerm) ||
+                proceso.estado.toLowerCase().includes(searchTerm)
+            );
+            
+            const tbody = document.getElementById('all-processes');
+            tbody.innerHTML = '';
+            
+            if (filteredProcesses.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No se encontraron procesos con ese criterio
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            filteredProcesses.forEach(proceso => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${proceso.id}</strong></td>
+                    <td>${proceso.animalName}<br><small>${proceso.animalId}</small></td>
+                    <td>${proceso.adoptante}<br><small>${proceso.adoptanteTelefono}</small></td>
+                    <td>${proceso.voluntario}</td>
+                    <td><span class="status-badge status-${proceso.estado}">${getEstadoTexto(proceso.estado)}</span></td>
+                    <td>${formatDate(proceso.fechaInicio)}</td>
+                    <td>${proceso.fechaCierre ? formatDate(proceso.fechaCierre) : 'En proceso'}</td>
+                    <td>${proceso.fechaCita ? `${formatDate(proceso.fechaCita)}<br><small>${proceso.horaCita}</small>` : 'Sin cita'}</td>
+                    <td class="adoption-actions">
+                        <button class="table-btn secondary" onclick="cambiarEstadoProcesoModal('${proceso.id}')" title="Cambiar estado">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="table-btn primary" onclick="verDetallesProceso('${proceso.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function buscarAnimalesCatalogo() {
+            const searchTerm = document.getElementById('search-all-animals').value.trim().toLowerCase();
+            
+            // Filtrar animales
+            const filteredAnimals = sampleData.animals.filter(animal => 
+                !searchTerm ||
+                animal.id.toLowerCase().includes(searchTerm) ||
+                animal.nombre.toLowerCase().includes(searchTerm) ||
+                animal.especie.toLowerCase().includes(searchTerm) ||
+                animal.raza.toLowerCase().includes(searchTerm) ||
+                animal.descripcion.toLowerCase().includes(searchTerm)
+            );
+            
+            const container = document.getElementById('animals-catalog');
+            container.innerHTML = '';
+            
+            if (filteredAnimals.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron animales con ese criterio</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredAnimals.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card-horizontal';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                let estadoIcon = '';
+                
+                switch(animal.estadoAdopcion) {
+                    case 'disponible':
+                        estadoClass = 'status-disponible-horizontal';
+                        estadoText = 'Disponible para adopción';
+                        estadoIcon = 'fa-heart';
+                        break;
+                    case 'en_proceso':
+                        estadoClass = 'status-proceso-horizontal';
+                        estadoText = 'En proceso de adopción';
+                        estadoIcon = 'fa-spinner';
+                        break;
+                    case 'adoptado':
+                        estadoClass = 'status-adoptado-horizontal';
+                        estadoText = 'Adoptado';
+                        estadoIcon = 'fa-check-circle';
+                        break;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.imagen}" alt="${animal.nombre}" class="animal-image-horizontal">
+                    <div class="animal-info-horizontal">
+                        <div class="animal-header-horizontal">
+                            <div class="animal-name-horizontal">${animal.nombre}</div>
+                            <div class="animal-id-horizontal">${animal.id}</div>
+                            <div class="animal-details-horizontal">
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                    ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    ${animal.edad.numero} ${animal.edad.unidad}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas fa-dna"></i>
+                                    ${animal.raza}
+                                </span>
+                                <span class="animal-tag-horizontal">
+                                    <i class="fas ${animal.sexo === 'macho' ? 'fa-mars' : 'fa-venus'}"></i>
+                                    ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="animal-description-horizontal">
+                            <strong><i class="fas fa-info-circle"></i> Descripción:</strong><br>
+                            ${animal.descripcion}
+                        </div>
+                        
+                        <div class="animal-footer-horizontal">
+                            <div class="animal-status-horizontal ${estadoClass}">
+                                <i class="fas ${estadoIcon}"></i> ${estadoText}
+                            </div>
+                            
+                            ${animal.estadoAdopcion === 'disponible' ? 
+                                `<button class="btn btn-primary" onclick="iniciarProcesoAdopcion('${animal.id}')">
+                                    <i class="fas fa-handshake"></i> Iniciar Adopción
+                                </button>` : 
+                                `<button class="btn btn-secondary" onclick="verProcesoAnimal('${animal.id}')">
+                                    <i class="fas fa-search"></i> Ver Proceso
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buscarCitas() {
+            const termino = document.getElementById('search-citas').value.trim().toLowerCase();
+            
+            const citasFiltradas = sampleData.appointments.filter(cita => 
+                !termino ||
+                cita.id.toLowerCase().includes(termino) ||
+                cita.procesoId.toLowerCase().includes(termino) ||
+                cita.adoptante.toLowerCase().includes(termino) ||
+                cita.animal.toLowerCase().includes(termino) ||
+                getTipoCitaTexto(cita.tipo).toLowerCase().includes(termino)
+            );
+            
+            const tbody = document.getElementById('appointments-table');
+            tbody.innerHTML = '';
+            
+            if (citasFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No se encontraron citas con ese criterio
+                        </td>
+                    </tr>
+                `;
+                actualizarContadoresCitas(citasFiltradas);
+                return;
+            }
+            
+            citasFiltradas.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${cita.id}</strong></td>
+                    <td>${cita.procesoId}</td>
+                    <td>${cita.adoptante}</td>
+                    <td>${cita.animal}</td>
+                    <td>${formatDate(cita.fecha)}</td>
+                    <td>${cita.hora}</td>
+                    <td>${getTipoCitaTexto(cita.tipo)}</td>
+                    <td>${getUbicacionTexto(cita.ubicacion)}</td>
+                    <td><span class="status-badge ${getEstadoCitaClass(cita.estado)}">${getEstadoCitaTexto(cita.estado)}</span></td>
+                    <td class="adoption-actions">
+                        <button class="table-btn ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'secondary' : 'primary'}" 
+                                onclick="gestionarCita('${cita.id}')" 
+                                title="${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'Ver detalles' : 'Gestionar cita'}">
+                            <i class="fas ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'fa-eye' : 'fa-edit'}"></i>
+                        </button>
+                        ${cita.estado !== 'cancelada' && cita.estado !== 'completada' ? 
+                            `<button class="table-btn warning" onclick="gestionarCita('${cita.id}', 'cancelar')" title="Cancelar cita">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''
+                        }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            actualizarContadoresCitas(citasFiltradas);
+        }
+
+        // Funciones de formularios
+        function guardarNuevoProceso(e) {
+            e.preventDefault();
+            
+            const animalId = document.getElementById('proceso-animal').value;
+            const estado = document.getElementById('proceso-estado').value;
+            const adoptante = document.getElementById('proceso-adoptante').value;
+            const telefono = document.getElementById('proceso-telefono').value;
+            const email = document.getElementById('proceso-email').value;
+            const fechaInicio = document.getElementById('proceso-fecha-inicio').value;
+            const fechaCita = document.getElementById('proceso-fecha-cita').value;
+            const horaCita = document.getElementById('proceso-hora-cita').value;
+            const observaciones = document.getElementById('proceso-observaciones').value;
+            
+            // Obtener información del animal
+            const animal = sampleData.animals.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error: Animal no encontrado', 'error');
+                return;
+            }
+            
+            // Actualizar estado del animal
+            animal.estadoAdopcion = 'en_proceso';
+            
+            // Generar ID único
+            const nextId = Math.max(...sampleData.adoptionProcesses.map(p => parseInt(p.id.split('-')[2]))) + 1;
+            const nuevoId = `PRO-2024-${nextId.toString().padStart(3, '0')}`;
+            
+            // Crear nuevo proceso
+            const nuevoProceso = {
+                id: nuevoId,
+                animalId: animalId,
+                animalName: animal.nombre,
+                adoptante: adoptante,
+                adoptanteTelefono: telefono,
+                adoptanteEmail: email,
+                voluntario: 'Ana García',
+                estado: estado,
+                fechaInicio: fechaInicio,
+                fechaCierre: null,
+                fechaCita: fechaCita || null,
+                horaCita: horaCita || null,
+                observaciones: observaciones
+            };
+            
+            // Agregar a los datos
+            sampleData.adoptionProcesses.unshift(nuevoProceso);
+            
+            // Si hay cita, agregarla también
+            if (fechaCita && horaCita) {
+                const nuevaCita = {
+                    id: 'CIT-2024-' + (sampleData.appointments.length + 1).toString().padStart(3, '0'),
+                    procesoId: nuevoId,
+                    adoptante: adoptante,
+                    animal: animal.nombre,
+                    fecha: fechaCita,
+                    hora: horaCita,
+                    tipo: 'entrevista',
+                    ubicacion: 'sede_central',
+                    estado: 'pendiente',
+                    observaciones: 'Entrevista inicial para proceso de adopción'
+                };
+                
+                sampleData.appointments.unshift(nuevaCita);
+            }
+            
+            // Actualizar todas las listas
+            cargarProcesosRecientes();
+            cargarTodosProcesos();
+            cargarAnimalesDestacados();
+            cargarCatalogoAnimales();
+            cargarCitas();
+            actualizarEstadisticas();
+            actualizarBadgeProcesos();
+            actualizarBadgeCitas();
+            
+            // Cerrar modal y resetear formulario
+            cerrarModal('procesoModal');
+            e.target.reset();
+            document.getElementById('proceso-estado').value = 'pendiente';
+            document.getElementById('proceso-fecha-inicio').value = new Date().toISOString().split('T')[0];
+            
+            mostrarToast('Proceso de adopción creado exitosamente', 'success');
+        }
+
+        function cambiarEstadoProcesoModal(procesoId) {
+            const proceso = sampleData.adoptionProcesses.find(p => p.id === procesoId);
+            if (!proceso) {
+                mostrarToast('Proceso no encontrado', 'error');
+                return;
+            }
+            
+            currentProcesoToEdit = procesoId;
+            
+            // Llenar formulario
+            document.getElementById('estado-proceso-id').value = procesoId;
+            document.getElementById('estado-proceso-info').value = 
+                `${proceso.id} - ${proceso.animalName} (${proceso.adoptante})`;
+            document.getElementById('estado-nuevo').value = proceso.estado;
+            document.getElementById('estado-fecha-cierre').value = '';
+            document.getElementById('estado-observaciones').value = '';
+            
+            // Mostrar modal
+            document.getElementById('estadoModal').style.display = 'flex';
+        }
+
+        function cambiarEstadoProceso(e) {
+            e.preventDefault();
+            
+            const procesoId = document.getElementById('estado-proceso-id').value;
+            const nuevoEstado = document.getElementById('estado-nuevo').value;
+            const fechaCierre = document.getElementById('estado-fecha-cierre').value;
+            const observaciones = document.getElementById('estado-observaciones').value;
+            
+            // Encontrar y actualizar el proceso
+            const procesoIndex = sampleData.adoptionProcesses.findIndex(p => p.id === procesoId);
+            if (procesoIndex === -1) {
+                mostrarToast('Error: Proceso no encontrado', 'error');
+                return;
+            }
+            
+            const proceso = sampleData.adoptionProcesses[procesoIndex];
+            const estadoAnterior = proceso.estado;
+            
+            // Actualizar proceso
+            proceso.estado = nuevoEstado;
+            if (fechaCierre && ['aprobado', 'rechazado', 'completado'].includes(nuevoEstado)) {
+                proceso.fechaCierre = fechaCierre;
+            }
+            if (observaciones) {
+                proceso.observaciones += '\n\n' + new Date().toLocaleDateString() + ': ' + observaciones;
+            }
+            
+            // Actualizar estado del animal
+            const animalIndex = sampleData.animals.findIndex(a => a.id === proceso.animalId);
+            if (animalIndex !== -1) {
+                if (nuevoEstado === 'aprobado' || nuevoEstado === 'completado') {
+                    sampleData.animals[animalIndex].estadoAdopcion = 'adoptado';
+                } else if (nuevoEstado === 'rechazado') {
+                    sampleData.animals[animalIndex].estadoAdopcion = 'disponible';
+                } else if (nuevoEstado === 'en_proceso') {
+                    sampleData.animals[animalIndex].estadoAdopcion = 'en_proceso';
+                }
+            }
+            
+            // Actualizar todas las listas
+            cargarProcesosRecientes();
+            cargarTodosProcesos();
+            cargarAnimalesDestacados();
+            cargarCatalogoAnimales();
+            actualizarEstadisticas();
+            actualizarBadgeProcesos();
+            
+            // Cerrar modal
+            cerrarModal('estadoModal');
+            
+            mostrarToast(`Estado cambiado de ${getEstadoTexto(estadoAnterior)} a ${getEstadoTexto(nuevoEstado)}`, 'success');
+        }
+
+        function guardarNuevaCita(e) {
+            e.preventDefault();
+            
+            const procesoId = document.getElementById('cita-proceso').value;
+            const fecha = document.getElementById('cita-fecha').value;
+            const hora = document.getElementById('cita-hora').value;
+            const tipo = document.getElementById('cita-tipo').value;
+            const ubicacion = document.getElementById('cita-ubicacion').value;
+            const observaciones = document.getElementById('cita-observaciones').value;
+            
+            // Obtener información del proceso
+            const proceso = sampleData.adoptionProcesses.find(p => p.id === procesoId);
+            if (!proceso) {
+                mostrarToast('Error: Proceso no encontrado', 'error');
+                return;
+            }
+            
+            // Actualizar fecha de cita en el proceso
+            proceso.fechaCita = fecha;
+            proceso.horaCita = hora;
+            
+            // Crear nueva cita
+            const nuevaCita = {
+                id: 'CIT-2024-' + (sampleData.appointments.length + 1).toString().padStart(3, '0'),
+                procesoId: procesoId,
+                adoptante: proceso.adoptante,
+                animal: proceso.animalName,
+                fecha: fecha,
+                hora: hora,
+                tipo: tipo,
+                ubicacion: ubicacion,
+                estado: 'pendiente',
+                observaciones: observaciones
+            };
+            
+            // Agregar a los datos
+            sampleData.appointments.unshift(nuevaCita);
+            
+            // Actualizar listas
+            cargarTodosProcesos();
+            cargarCitas();
+            actualizarBadgeCitas();
+            
+            // Cerrar modal y resetear formulario
+            cerrarModal('citaModal');
+            e.target.reset();
+            document.getElementById('cita-fecha').value = new Date().toISOString().split('T')[0];
+            document.getElementById('cita-hora').value = '10:00';
+            document.getElementById('cita-tipo').value = 'entrevista';
+            document.getElementById('cita-ubicacion').value = 'sede_central';
+            
+            mostrarToast('Cita programada exitosamente', 'success');
+        }
+
+        function guardarCancelarCita(e) {
+            e.preventDefault();
+            
+            const citaId = document.getElementById('cita-id-cancelar').value;
+            const accion = document.getElementById('cita-accion').value;
+            const motivo = document.getElementById('cita-motivo').value;
+            const nuevaFecha = document.getElementById('cita-nueva-fecha').value;
+            const nuevaHora = document.getElementById('cita-nueva-hora').value;
+            const nuevaUbicacion = document.getElementById('cita-nueva-ubicacion').value;
+            
+            const citaIndex = sampleData.appointments.findIndex(c => c.id === citaId);
+            if (citaIndex === -1) {
+                mostrarToast('Cita no encontrada', 'error');
+                return;
+            }
+            
+            const cita = sampleData.appointments[citaIndex];
+            const estadoAnterior = cita.estado;
+            
+            // Realizar acción según selección
+            switch(accion) {
+                case 'cancelar':
+                    cita.estado = 'cancelada';
+                    if (motivo) {
+                        cita.observaciones += `\n\nCANCELADA ${new Date().toLocaleDateString()}: ${motivo}`;
+                    }
+                    mostrarToast('Cita cancelada exitosamente', 'success');
+                    break;
+                    
+                case 'reprogramar':
+                    if (!nuevaFecha || !nuevaHora) {
+                        mostrarToast('Debe especificar nueva fecha y hora', 'error');
+                        return;
+                    }
+                    cita.fecha = nuevaFecha;
+                    cita.hora = nuevaHora;
+                    cita.ubicacion = nuevaUbicacion;
+                    cita.estado = 'programada';
+                    if (motivo) {
+                        cita.observaciones += `\n\nREPROGRAMADA ${new Date().toLocaleDateString()}: ${motivo}`;
+                    }
+                    mostrarToast('Cita reprogramada exitosamente', 'success');
+                    break;
+                    
+                case 'confirmar':
+                    cita.estado = 'confirmada';
+                    if (motivo) {
+                        cita.observaciones += `\n\nCONFIRMADA ${new Date().toLocaleDateString()}: ${motivo}`;
+                    }
+                    mostrarToast('Cita confirmada exitosamente', 'success');
+                    break;
+                    
+                case 'completar':
+                    cita.estado = 'completada';
+                    if (motivo) {
+                        cita.observaciones += `\n\nCOMPLETADA ${new Date().toLocaleDateString()}: ${motivo}`;
+                    }
+                    mostrarToast('Cita marcada como completada', 'success');
+                    break;
+            }
+            
+            // Actualizar todas las listas
+            cargarCitas();
+            actualizarBadgeCitas();
+            
+            // Cerrar modal
+            cerrarModal('cancelarCitaModal');
+            e.target.reset();
+        }
+
+        function generarReporte(e) {
+            e.preventDefault();
+            
+            const tipo = document.getElementById('reporte-tipo').value;
+            const fechaInicio = document.getElementById('reporte-fecha-inicio').value;
+            const fechaFin = document.getElementById('reporte-fecha-fin').value;
+            const formato = document.getElementById('reporte-formato').value;
+            
+            // Validar fechas para reporte personalizado
+            if (tipo === 'personalizado') {
+                if (!fechaInicio || !fechaFin) {
+                    mostrarToast('Debes seleccionar ambas fechas para el reporte personalizado', 'error');
+                    return;
+                }
+                
+                if (new Date(fechaInicio) > new Date(fechaFin)) {
+                    mostrarToast('La fecha inicial no puede ser mayor a la fecha final', 'error');
+                    return;
+                }
+            }
+            
+            // Simular generación de reporte
+            cerrarModal('reporteModal');
+            
+            // Mostrar mensaje de éxito
+            const tipoReporte = {
+                'mensual': 'Mensual',
+                'trimestral': 'Trimestral',
+                'anual': 'Anual',
+                'personalizado': 'Personalizado'
+            }[tipo];
+            
+            mostrarToast(`Reporte ${tipoReporte} generado exitosamente (${formato.toUpperCase()})`, 'success');
+            
+            // En una implementación real, aquí se descargaría el archivo
+            setTimeout(() => {
+                mostrarToast('Descargando reporte...', 'info');
+            }, 1000);
+        }
+
+        // Funciones auxiliares
+        function iniciarProcesoAdopcion(animalId) {
+            const animal = sampleData.animals.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Animal no encontrado', 'error');
+                return;
+            }
+            
+            // Verificar si ya está en proceso
+            const procesoExistente = sampleData.adoptionProcesses.find(p => 
+                p.animalId === animalId && (p.estado === 'pendiente' || p.estado === 'en_proceso')
+            );
+            
+            if (procesoExistente) {
+                mostrarToast(`Este animal ya tiene un proceso en curso (${procesoExistente.id})`, 'warning');
+                navigateToTab('procesos');
+                return;
+            }
+            
+            // Preparar formulario con el animal seleccionado
+            const selectAnimal = document.getElementById('proceso-animal');
+            selectAnimal.value = animalId;
+            
+            // Abrir modal
+            abrirModalProceso();
+            
+            mostrarToast(`Iniciando proceso de adopción para ${animal.nombre}`, 'info');
+        }
+
+        function verProcesoAnimal(animalId) {
+            const proceso = sampleData.adoptionProcesses.find(p => p.animalId === animalId);
+            if (proceso) {
+                navigateToTab('procesos');
+                mostrarToast(`Mostrando proceso ${proceso.id}`, 'info');
+            } else {
+                mostrarToast('No se encontró proceso para este animal', 'warning');
+            }
+        }
+
+        function verDetallesProceso(procesoId) {
+            const proceso = sampleData.adoptionProcesses.find(p => p.id === procesoId);
+            if (!proceso) {
+                mostrarToast('Proceso no encontrado', 'error');
+                return;
+            }
+            
+            // Mostrar detalles en un alert (en una implementación real sería un modal)
+            const detalles = `
+                ID Proceso: ${proceso.id}
+                Animal: ${proceso.animalName} (${proceso.animalId})
+                Adoptante: ${proceso.adoptante}
+                Teléfono: ${proceso.adoptanteTelefono}
+                Email: ${proceso.adoptanteEmail}
+                Voluntario: ${proceso.voluntario}
+                Estado: ${getEstadoTexto(proceso.estado)}
+                Fecha Inicio: ${formatDate(proceso.fechaInicio)}
+                Fecha Cierre: ${proceso.fechaCierre ? formatDate(proceso.fechaCierre) : 'En proceso'}
+                Cita: ${proceso.fechaCita ? `${formatDate(proceso.fechaCita)} ${proceso.horaCita}` : 'No programada'}
+                
+                Observaciones:
+                ${proceso.observaciones || 'No hay observaciones'}
+            `;
+            
+            alert(detalles);
+        }
+
+        function verDetallesCita(citaId) {
+            const cita = sampleData.appointments.find(c => c.id === citaId);
+            if (!cita) {
+                mostrarToast('Cita no encontrada', 'error');
+                return;
+            }
+            
+            const detalles = `
+                ID Cita: ${cita.id}
+                Proceso: ${cita.procesoId}
+                Adoptante: ${cita.adoptante}
+                Animal: ${cita.animal}
+                Fecha: ${formatDate(cita.fecha)}
+                Hora: ${cita.hora}
+                Tipo: ${getTipoCitaTexto(cita.tipo)}
+                Ubicación: ${getUbicacionTexto(cita.ubicacion)}
+                Estado: ${getEstadoCitaTexto(cita.estado)}
+                
+                Observaciones:
+                ${cita.observaciones || 'No hay observaciones'}
+            `;
+            
+            alert(detalles);
+        }
+
+        // Funciones para gestión de citas
+        function gestionarCita(citaId, accion) {
+            const cita = sampleData.appointments.find(c => c.id === citaId);
+            if (!cita) {
+                mostrarToast('Cita no encontrada', 'error');
+                return;
+            }
+            
+            currentAppointmentToEdit = citaId;
+            
+            // Llenar información
+            document.getElementById('cita-id-cancelar').value = citaId;
+            document.getElementById('cita-info-id').textContent = cita.id;
+            document.getElementById('cita-info-proceso').textContent = cita.procesoId;
+            document.getElementById('cita-info-adoptante').textContent = cita.adoptante;
+            document.getElementById('cita-info-animal').textContent = cita.animal;
+            document.getElementById('cita-info-fecha').textContent = `${formatDate(cita.fecha)} ${cita.hora}`;
+            document.getElementById('cita-info-tipo').textContent = getTipoCitaTexto(cita.tipo);
+            document.getElementById('cita-info-estado').textContent = getEstadoCitaTexto(cita.estado);
+            
+            // Si viene con acción específica
+            if (accion) {
+                document.getElementById('cita-accion').value = accion;
+                if (accion === 'reprogramar') {
+                    document.getElementById('reprogramar-container').style.display = 'grid';
+                    document.getElementById('cita-nueva-fecha').value = cita.fecha;
+                    document.getElementById('cita-nueva-hora').value = cita.hora;
+                    document.getElementById('cita-nueva-ubicacion').value = cita.ubicacion;
+                }
+            }
+            
+            document.getElementById('cancelarCitaModal').style.display = 'flex';
+        }
+
+        function aplicarFiltrosCitas() {
+            const estado = document.getElementById('filtro-estado-citas').value;
+            const fechaDesde = document.getElementById('filtro-fecha-desde').value;
+            const fechaHasta = document.getElementById('filtro-fecha-hasta').value;
+            
+            let citasFiltradas = [...sampleData.appointments];
+            
+            // Filtrar por estado
+            if (estado !== 'todas') {
+                citasFiltradas = citasFiltradas.filter(c => c.estado === estado);
+            }
+            
+            // Filtrar por fecha
+            if (fechaDesde) {
+                citasFiltradas = citasFiltradas.filter(c => new Date(c.fecha) >= new Date(fechaDesde));
+            }
+            if (fechaHasta) {
+                citasFiltradas = citasFiltradas.filter(c => new Date(c.fecha) <= new Date(fechaHasta));
+            }
+            
+            // Mostrar citas filtradas
+            const tbody = document.getElementById('appointments-table');
+            tbody.innerHTML = '';
+            
+            if (citasFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay citas que coincidan con los filtros
+                        </td>
+                    </tr>
+                `;
+                actualizarContadoresCitas(citasFiltradas);
+                return;
+            }
+            
+            citasFiltradas.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${cita.id}</strong></td>
+                    <td>${cita.procesoId}</td>
+                    <td>${cita.adoptante}</td>
+                    <td>${cita.animal}</td>
+                    <td>${formatDate(cita.fecha)}</td>
+                    <td>${cita.hora}</td>
+                    <td>${getTipoCitaTexto(cita.tipo)}</td>
+                    <td>${getUbicacionTexto(cita.ubicacion)}</td>
+                    <td><span class="status-badge ${getEstadoCitaClass(cita.estado)}">${getEstadoCitaTexto(cita.estado)}</span></td>
+                    <td class="adoption-actions">
+                        <button class="table-btn ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'secondary' : 'primary'}" 
+                                onclick="gestionarCita('${cita.id}')" 
+                                title="${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'Ver detalles' : 'Gestionar cita'}">
+                            <i class="fas ${cita.estado === 'cancelada' || cita.estado === 'completada' ? 'fa-eye' : 'fa-edit'}"></i>
+                        </button>
+                        ${cita.estado !== 'cancelada' && cita.estado !== 'completada' ? 
+                            `<button class="table-btn warning" onclick="gestionarCita('${cita.id}', 'cancelar')" title="Cancelar cita">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''
+                        }
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            actualizarContadoresCitas(citasFiltradas);
+        }
+
+        function actualizarContadoresCitas(citas = null) {
+            const citasLista = citas || sampleData.appointments;
+            const hoy = new Date().toISOString().split('T')[0];
+            
+            const total = citasLista.length;
+            const pendientes = citasLista.filter(c => c.estado === 'pendiente').length;
+            const citasHoy = citasLista.filter(c => c.fecha === hoy && c.estado !== 'cancelada').length;
+            
+            document.getElementById('total-citas').textContent = total;
+            document.getElementById('citas-pendientes').textContent = pendientes;
+            document.getElementById('citas-hoy').textContent = citasHoy;
+        }
+
+        function limpiarFiltrosCitas() {
+            document.getElementById('filtro-estado-citas').value = 'todas';
+            document.getElementById('filtro-fecha-desde').value = '';
+            document.getElementById('filtro-fecha-hasta').value = '';
+            cargarCitas();
+        }
+
+        // Funciones de modales
+        function abrirModalProceso() {
+            document.getElementById('procesoModal').style.display = 'flex';
+            document.getElementById('proceso-fecha-inicio').value = new Date().toISOString().split('T')[0];
+        }
+
+        function abrirModalCita() {
+            document.getElementById('citaModal').style.display = 'flex';
+            document.getElementById('cita-fecha').value = new Date().toISOString().split('T')[0];
+            document.getElementById('cita-hora').value = '10:00';
+        }
+
+        function abrirModalReporte() {
+            document.getElementById('reporteModal').style.display = 'flex';
+            document.getElementById('reporte-fecha-inicio').value = getFirstDayOfMonth();
+            document.getElementById('reporte-fecha-fin').value = new Date().toISOString().split('T')[0];
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Funciones de utilidad
+        function llenarSelectAnimales() {
+            const select = document.getElementById('proceso-animal');
+            select.innerHTML = '<option value="" selected disabled>Seleccionar animal...</option>';
+            
+            // Solo animales disponibles
+            const animalesDisponibles = sampleData.animals.filter(a => a.estadoAdopcion === 'disponible');
+            
+            animalesDisponibles.forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.id}) - ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}`;
+                select.appendChild(option);
+            });
+        }
+
+        function llenarSelectProcesos() {
+            const select = document.getElementById('cita-proceso');
+            select.innerHTML = '<option value="" selected disabled>Seleccionar proceso...</option>';
+            
+            // Solo procesos activos
+            const procesosActivos = sampleData.adoptionProcesses.filter(p => 
+                p.estado === 'pendiente' || p.estado === 'en_proceso'
+            );
+            
+            procesosActivos.forEach(proceso => {
+                const option = document.createElement('option');
+                option.value = proceso.id;
+                option.textContent = `${proceso.id} - ${proceso.animalName} (${proceso.adoptante})`;
+                select.appendChild(option);
+            });
+        }
+
+        function getEstadoTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'en_proceso': 'En Proceso',
+                'aprobado': 'Aprobado',
+                'rechazado': 'Rechazado',
+                'completado': 'Completado'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getTipoCitaTexto(tipo) {
+            const tipos = {
+                'entrevista': 'Entrevista Inicial',
+                'conocimiento': 'Conocimiento del Animal',
+                'seguimiento': 'Seguimiento',
+                'firma': 'Firma de Contrato',
+                'entrega': 'Entrega del Animal'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        function getUbicacionTexto(ubicacion) {
+            const ubicaciones = {
+                'sede_central': 'Sede Central - Coyoacán',
+                'sede_norte': 'Sede Norte - Lindavista',
+                'virtual': 'Virtual (Videollamada)'
+            };
+            return ubicaciones[ubicacion] || ubicacion;
+        }
+
+        function getEstadoCitaTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'confirmada': 'Confirmada',
+                'programada': 'Programada',
+                'completada': 'Completada',
+                'cancelada': 'Cancelada'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoCitaClass(estado) {
+            const clases = {
+                'pendiente': 'status-pendiente',
+                'confirmada': 'status-confirmada',
+                'programada': 'status-programada',
+                'completada': 'status-completada',
+                'cancelada': 'status-cancelada'
+            };
+            return clases[estado] || 'status-pendiente';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'No definida';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function getFirstDayOfMonth() {
+            const date = new Date();
+            date.setDate(1);
+            return date.toISOString().split('T')[0];
+        }
+
+        function actualizarBadgeProcesos() {
+            const procesosPendientes = sampleData.adoptionProcesses.filter(p => 
+                p.estado === 'pendiente'
+            ).length;
+            
+            const badge = document.getElementById('procesos-badge');
+            if (procesosPendientes > 0) {
+                badge.textContent = procesosPendientes;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function actualizarBadgeCitas() {
+            const citasPendientes = sampleData.appointments.filter(c => 
+                c.estado === 'pendiente'
+            ).length;
+            
+            const badge = document.getElementById('citas-badge');
+            if (citasPendientes > 0) {
+                badge.textContent = citasPendientes;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function mostrarToast(mensaje, tipo = 'info') {
+            // Crear toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-message">${mensaje}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+
+        function actualizarReloj() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('es-ES', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const dateString = now.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('current-time').textContent = timeString;
+            document.getElementById('current-date').textContent = dateString;
+            
+            // Actualizar cada minuto
+            setTimeout(actualizarReloj, 60000);
+        }
+
+        function inicializarGraficos() {
+            // Gráfico de adopciones mensuales
+            const ctxAdopciones = document.getElementById('adopciones-chart');
+            if (ctxAdopciones) {
+                new Chart(ctxAdopciones, {
+                    type: 'line',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Adopciones Completadas',
+                            data: [3, 5, 8, 6, 10, 12],
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            borderColor: 'rgba(40, 167, 69, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Procesos en Curso',
+                            data: [5, 7, 10, 8, 12, 15],
+                            backgroundColor: 'rgba(23, 162, 184, 0.1)',
+                            borderColor: 'rgba(23, 162, 184, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Cantidad'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Gráfico de distribución de estados
+            const ctxEstados = document.getElementById('estados-chart');
+            if (ctxEstados) {
+                new Chart(ctxEstados, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['En Proceso', 'Aprobados', 'Pendientes', 'Rechazados', 'Completados'],
+                        datasets: [{
+                            data: [8, 12, 5, 3, 10],
+                            backgroundColor: [
+                                'rgba(23, 162, 184, 0.8)',
+                                'rgba(40, 167, 69, 0.8)',
+                                'rgba(255, 193, 7, 0.8)',
+                                'rgba(220, 53, 69, 0.8)',
+                                'rgba(108, 117, 125, 0.8)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Configurar click fuera de modales para cerrar
+        window.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Configurar tecla ESC para cerrar modales
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Inicializar badges
+        actualizarBadgeProcesos();
+        actualizarBadgeCitas();
+        actualizarReloj();
+    </script>
+</body>
+</html>

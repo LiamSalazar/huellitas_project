@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Mi Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title-container {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .header-btn.primary:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        .header-btn.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .header-btn.secondary:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .header-btn.danger {
+            background: transparent;
+            color: var(--danger);
+            border: 2px solid var(--danger);
+        }
+
+        .header-btn.danger:hover {
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* Layout del perfil */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panel izquierdo: Información de usuario */
+        .user-panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .change-avatar-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .change-avatar-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .user-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .user-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .user-action-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .user-action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-action-btn.primary:hover {
+            background: #e05a2b;
+        }
+
+        .user-action-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .user-action-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Panel derecho: Información del perfil */
+        .profile-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .profile-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .section-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-btn.edit {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .section-btn.edit:hover {
+            background: rgba(255, 107, 53, 0.2);
+        }
+
+        .section-btn.save {
+            background: var(--primary);
+            color: white;
+            display: none;
+        }
+
+        .section-btn.save:hover {
+            background: #e05a2b;
+        }
+
+        .section-btn.cancel {
+            background: transparent;
+            color: var(--dark);
+            border: 1px solid var(--border);
+            display: none;
+        }
+
+        .section-btn.cancel:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Formularios de perfil */
+        .profile-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-label.required::after {
+            content: "*";
+            color: var(--danger);
+            margin-left: 3px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: #fbfbfd;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-input:disabled, .form-select:disabled, .form-textarea:disabled {
+            background: #f5f5f7;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-item label {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .radio-item label {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Información de solo lectura */
+        .info-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--dark);
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* Documentos subidos */
+        .documents-section {
+            margin-top: 1.5rem;
+        }
+
+        .documents-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .document-item:hover {
+            background: #f0f0f0;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .document-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .document-details h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 3px;
+        }
+
+        .document-details p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .document-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .document-btn.view {
+            color: var(--primary);
+        }
+
+        .document-btn.view:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .document-btn.download {
+            color: var(--secondary);
+        }
+
+        .document-btn.download:hover {
+            background: rgba(26, 147, 111, 0.1);
+        }
+
+        /* Estado de verificación */
+        .verification-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .status-verified {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-unverified {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        /* Cambio de contraseña */
+        .password-form {
+            max-width: 500px;
+        }
+
+        .password-requirements {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .password-requirements h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .password-requirements ul {
+            padding-left: 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .password-requirements li {
+            margin-bottom: 5px;
+        }
+
+        .password-requirements li.valid {
+            color: var(--success);
+        }
+
+        /* Modal para cambio de avatar */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .avatar-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-option {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 3px solid transparent;
+        }
+
+        .avatar-option:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar-option.selected {
+            border-color: var(--primary);
+        }
+
+        .avatar-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-option.initials {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .avatar-upload {
+            text-align: center;
+            padding: 2rem;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-upload:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .avatar-upload i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .avatar-upload p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .avatar-upload input {
+            display: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .modal-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #e05a2b;
+        }
+
+        .modal-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .modal-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header {
+                flex-direction: column;
+            }
+            
+            .header-actions {
+                width: 100%;
+            }
+            
+            .header-btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .user-panel {
+                position: static;
+            }
+            
+            .profile-form, .info-display {
+                grid-template-columns: 1fr;
+            }
+            
+            .avatar-options {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="homePageAdoptante.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="nav-links">
+                <a href="homePageAdoptante.html" class="nav-link">Inicio</a>
+                <a href="catalogo.html" class="nav-link">Mascotas</a>
+                <a href="mi-proceso.html" class="nav-link">Mi Proceso</a>
+                <a href="mis-citas.html" class="nav-link">Mis Citas</a>
+                <a href="mi-perfil.html" class="nav-link active">Mi Perfil</a>
+            </div>
+            
+            <a href="homePageAdoptante.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container">
+        <!-- Encabezado de página -->
+        <div class="page-header">
+            <div class="page-title-container">
+                <h1 class="page-title">Mi Perfil</h1>
+                <p class="page-subtitle">Gestiona tu información personal, documentos y preferencias de adopción.</p>
+            </div>
+            
+            <div class="header-actions">
+                <button class="header-btn primary" id="btn-save-all">
+                    <i class="fas fa-save"></i> Guardar todos los cambios
+                </button>
+                <button class="header-btn secondary" id="btn-cancel-all">
+                    <i class="fas fa-times"></i> Cancelar cambios
+                </button>
+            </div>
+        </div>
+        
+        <!-- Layout del perfil -->
+        <div class="profile-layout">
+            <!-- Panel izquierdo: Información de usuario -->
+            <div class="user-panel">
+                <div class="user-avatar" id="user-avatar">
+                    <span id="avatar-initials">Mh</span>
+                    <button class="change-avatar-btn" id="change-avatar-btn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                
+                <h2 class="user-name" id="user-name">Melanie Hernández</h2>
+                <p class="user-email" id="user-email">mel@gmail.com</p>
+                
+                <div class="verification-status status-verified">
+                    <i class="fas fa-check-circle"></i>
+                    Perfil verificado
+                </div>
+                
+                <div class="user-stats">
+                    <div class="user-stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Citas</div>
+                    </div>
+                    <div class="user-stat">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Proceso activo</div>
+                    </div>
+                    <div class="user-stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Perfil completo</div>
+                    </div>
+                </div>
+                
+                <div class="user-actions">
+                    <button class="user-action-btn primary" id="btn-change-password">
+                        <i class="fas fa-key"></i> Cambiar contraseña
+                    </button>
+                    <button class="user-action-btn secondary" id="btn-export-data">
+                        <i class="fas fa-download"></i> Exportar mis datos
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Panel derecho: Información del perfil -->
+            <div class="profile-panel">
+                <!-- Sección 1: Información Personal -->
+                <section class="profile-section" id="section-personal">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Información Personal
+                        </h2>
+                        <div class="section-actions">
+                            <button class="section-btn edit" data-section="personal">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="section-btn save" data-section="personal" style="display: none;">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                            <button class="section-btn cancel" data-section="personal" style="display: none;">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modo edición -->
+                    <form class="profile-form" id="form-personal" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre(s)</label>
+                            <input type="text" class="form-input" id="input-nombre" value="Melanie" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Apellidos</label>
+                            <input type="text" class="form-input" id="input-apellidos" value="Hernández L+opez" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Correo electrónico</label>
+                            <input type="email" class="form-input" id="input-email" value="mel@gmail.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Teléfono</label>
+                            <input type="tel" class="form-input" id="input-telefono" value="55 1234 5678" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Edad</label>
+                            <input type="number" class="form-input" id="input-edad" value="19" min="18" max="100" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Sexo</label>
+                            <select class="form-select" id="select-sexo" required>
+                                <option value="femenino" selected>Femenino</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="otro">Otro</option>
+                                <option value="prefiero-no-decir">Prefiero no decirlo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Ocupación</label>
+                            <input type="text" class="form-input" id="input-ocupacion" value="Estudiante" required>
+                        </div>
+                    </form>
+                    
+                    <!-- Modo solo lectura -->
+                    <div class="info-display" id="display-personal">
+                        <div class="info-item">
+                            <span class="info-label">Nombre completo</span>
+                            <span class="info-value" id="display-nombre"> Melanie Hernández López</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Correo electrónico</span>
+                            <span class="info-value" id="display-email">mel@gmail.com</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Teléfono</span>
+                            <span class="info-value" id="display-telefono">55 1234 5678</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Edad</span>
+                            <span class="info-value" id="display-edad">19 años</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Sexo</span>
+                            <span class="info-value" id="display-sexo">Femenino</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Ocupación</span>
+                            <span class="info-value" id="display-ocupacion">Estudiante</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección 2: Perfil Socioeconómico -->
+                <section class="profile-section" id="section-socioeconomico">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-home"></i>
+                            Perfil Socioeconómico
+                        </h2>
+                        <div class="section-actions">
+                            <button class="section-btn edit" data-section="socioeconomico">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="section-btn save" data-section="socioeconomico" style="display: none;">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                            <button class="section-btn cancel" data-section="socioeconomico" style="display: none;">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modo edición -->
+                    <form class="profile-form" id="form-socioeconomico" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label required">Tipo de vivienda</label>
+                            <select class="form-select" id="select-vivienda" required>
+                                <option value="casa" selected>Casa propia</option>
+                                <option value="departamento">Departamento/Apartamento</option>
+                                <option value="renta">Vivienda en renta</option>
+                                <option value="familiar">Vive con familiares</option>
+                                <option value="compartida">Vivienda compartida</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Metros de vivienda (aprox.)</label>
+                            <input type="number" class="form-input" id="input-metros" value="85" min="10" max="1000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Nivel económico</label>
+                            <select class="form-select" id="select-nivel-economico" required>
+                                <option value="medio" selected>Medio</option>
+                                <option value="bajo">Bajo</option>
+                                <option value="medio-bajo">Medio bajo</option>
+                                <option value="medio-alto">Medio alto</option>
+                                <option value="alto">Alto</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">¿Tiene patio o área exterior?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-patio" checked>
+                                    <label for="checkbox-patio">Sí, tengo patio o área exterior</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <!-- Modo solo lectura -->
+                    <div class="info-display" id="display-socioeconomico">
+                        <div class="info-item">
+                            <span class="info-label">Tipo de vivienda</span>
+                            <span class="info-value" id="display-vivienda">Casa propia</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Metros de vivienda</span>
+                            <span class="info-value" id="display-metros">85 m²</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Nivel económico</span>
+                            <span class="info-value" id="display-nivel-economico">Medio</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Patio o área exterior</span>
+                            <span class="info-value" id="display-patio">Sí</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección 3: Situación Familiar/Personal -->
+                <section class="profile-section" id="section-familiar">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-users"></i>
+                            Situación Familiar/Personal
+                        </h2>
+                        <div class="section-actions">
+                            <button class="section-btn edit" data-section="familiar">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="section-btn save" data-section="familiar" style="display: none;">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                            <button class="section-btn cancel" data-section="familiar" style="display: none;">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modo edición -->
+                    <form class="profile-form" id="form-familiar" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">¿Tienes hijos pequeños?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-hijos">
+                                    <label for="checkbox-hijos">Sí, tengo hijos menores de 12 años</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">¿Actualmente tienes mascotas?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-perros" checked>
+                                    <label for="checkbox-perros">Sí, tengo perro(s)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-gatos">
+                                    <label for="checkbox-gatos">Sí, tengo gato(s)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-otras-mascotas">
+                                    <label for="checkbox-otras-mascotas">Otras mascotas</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-no-mascotas">
+                                    <label for="checkbox-no-mascotas">No tengo mascotas actualmente</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Experiencia previa con mascotas</label>
+                            <textarea class="form-textarea" id="textarea-experiencia" rows="4">He tenido perros desde que era niña. Mi último perro vivió conmigo por 12 años. Sé sobre cuidados básicos, alimentación y entrenamiento.</textarea>
+                        </div>
+                    </form>
+                    
+                    <!-- Modo solo lectura -->
+                    <div class="info-display" id="display-familiar">
+                        <div class="info-item">
+                            <span class="info-label">Hijos pequeños</span>
+                            <span class="info-value" id="display-hijos">No</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Mascotas actuales</span>
+                            <span class="info-value" id="display-mascotas-actuales">Perro(s)</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Experiencia previa</span>
+                            <span class="info-value" id="display-experiencia">He tenido perros desde que era niña. Mi último perro vivió conmigo por 12 años. Sé sobre cuidados básicos, alimentación y entrenamiento.</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección 4: Documentación -->
+                <section class="profile-section" id="section-documentos">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-file-alt"></i>
+                            Documentación
+                        </h2>
+                        <div class="section-actions">
+                            <button class="section-btn edit" data-section="documentos">
+                                <i class="fas fa-upload"></i> Actualizar documentos
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="documents-section">
+                        <div class="documents-list">
+                            <div class="document-item">
+                                <div class="document-info">
+                                    <div class="document-icon">
+                                        <i class="fas fa-id-card"></i>
+                                    </div>
+                                    <div class="document-details">
+                                        <h4>Identificación Oficial</h4>
+                                        <p>Subido el 12/11/2023 - 2.1 MB</p>
+                                    </div>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="document-btn view" title="Ver documento">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="document-btn download" title="Descargar">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item">
+                                <div class="document-info">
+                                    <div class="document-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="document-details">
+                                        <h4>Comprobante de Domicilio</h4>
+                                        <p>Subido el 12/11/2023 - 1.8 MB</p>
+                                    </div>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="document-btn view" title="Ver documento">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="document-btn download" title="Descargar">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item">
+                                <div class="document-info">
+                                    <div class="document-icon">
+                                        <i class="fas fa-file-signature"></i>
+                                    </div>
+                                    <div class="document-details">
+                                        <h4>Carta Responsiva</h4>
+                                        <p>Subido el 13/11/2023 - 1.5 MB</p>
+                                    </div>
+                                </div>
+                                <div class="document-actions">
+                                    <button class="document-btn view" title="Ver documento">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="document-btn download" title="Descargar">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="verification-status status-verified" style="margin-top: 1.5rem;">
+                            <i class="fas fa-check-circle"></i>
+                            Todos los documentos verificados y aprobados
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sección 5: Preferencias de Adopción -->
+                <section class="profile-section" id="section-preferencias">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-heart"></i>
+                            Preferencias de Adopción
+                        </h2>
+                        <div class="section-actions">
+                            <button class="section-btn edit" data-section="preferencias">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="section-btn save" data-section="preferencias" style="display: none;">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                            <button class="section-btn cancel" data-section="preferencias" style="display: none;">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modo edición -->
+                    <form class="profile-form" id="form-preferencias" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Especie preferida</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-especie-perro" name="especie" value="perro" checked>
+                                    <label for="radio-especie-perro">Perro</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-especie-gato" name="especie" value="gato">
+                                    <label for="radio-especie-gato">Gato</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-especie-cualquiera" name="especie" value="cualquiera">
+                                    <label for="radio-especie-cualquiera">Cualquiera</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tamaño preferido</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-tamano-mini">
+                                    <label for="checkbox-tamano-mini">Mini</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-tamano-chico" checked>
+                                    <label for="checkbox-tamano-chico">Chico</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-tamano-mediano" checked>
+                                    <label for="checkbox-tamano-mediano">Mediano</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="checkbox-tamano-grande">
+                                    <label for="checkbox-tamano-grande">Grande</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Edad preferida</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-edad-cachorro" name="edad" value="cachorro" checked>
+                                    <label for="radio-edad-cachorro">Cachorro (0-1 año)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-edad-joven" name="edad" value="joven">
+                                    <label for="radio-edad-joven">Joven (1-3 años)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-edad-adulto" name="edad" value="adulto">
+                                    <label for="radio-edad-adulto">Adulto (3-7 años)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-edad-senior" name="edad" value="senior">
+                                    <label for="radio-edad-senior">Senior (7+ años)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="radio-edad-cualquiera" name="edad" value="cualquiera">
+                                    <label for="radio-edad-cualquiera">Cualquiera</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nivel de energía preferido</label>
+                            <select class="form-select" id="select-energia">
+                                <option value="bajo">Bajo (tranquilo)</option>
+                                <option value="medio" selected>Medio</option>
+                                <option value="alto">Alto (activo)</option>
+                                <option value="cualquiera">Cualquiera</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <!-- Modo solo lectura -->
+                    <div class="info-display" id="display-preferencias">
+                        <div class="info-item">
+                            <span class="info-label">Especie preferida</span>
+                            <span class="info-value" id="display-especie">Perro</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Tamaño preferido</span>
+                            <span class="info-value" id="display-tamano">Chico, Mediano</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Edad preferida</span>
+                            <span class="info-value" id="display-edad-preferida">Cachorro (0-1 año)</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Nivel de energía</span>
+                            <span class="info-value" id="display-energia">Medio</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para cambio de avatar -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cambiar foto de perfil</h2>
+                <button class="close-btn" onclick="cerrarModalAvatar()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="avatar-options" id="avatar-options">
+                    <div class="avatar-option initials selected" data-avatar="initials" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                        MR
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar1">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Avatar 1">
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar2">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Avatar 2">
+                    </div>
+                    <div class="avatar-option" data-avatar="avatar3">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Avatar 3">
+                    </div>
+                </div>
+                
+                <div class="avatar-upload" id="avatar-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Arrastra una imagen o haz clic para subir</p>
+                    <input type="file" id="avatar-file" accept="image/*">
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-btn secondary" onclick="cerrarModalAvatar()">
+                        Cancelar
+                    </button>
+                    <button class="modal-btn primary" id="btn-save-avatar">
+                        <i class="fas fa-check"></i> Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <p>Un encuentro, dos salvaciones.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="homePageAdoptante.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Mascotas Disponibles</a></li>
+                    <li><a href="mi-proceso.html">Mi Proceso</a></li>
+                    <li><a href="mi-perfil.html">Mi Perfil</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-phone"></i> 55 2321 8850</p>
+                <p><i class="fas fa-envelope"></i> huellitas@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> ESCOM IPN, Ciudad de México</p>
+                <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 18:00</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Huellitas. Todos los derechos reservados. | Proyecto de Base de Datos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos del usuario (en un caso real, esto vendría de una base de datos)
+        const userData = {
+            nombre: "Melanie",
+            apellidos: "Hernández López",
+            email: "mel@gmail.com",
+            telefono: "55 1234 5678",
+            edad: 19,
+            sexo: "femenino",
+            ocupacion: "Estudiante",
+            
+            // Perfil socioeconómico
+            vivienda: "casa",
+            metros: 85,
+            nivelEconomico: "medio",
+            tienePatio: true,
+            
+            // Situación familiar/personal
+            tieneHijos: false,
+            mascotasActuales: {
+                perros: true,
+                gatos: false,
+                otras: false,
+                ninguna: false
+            },
+            experiencia: "He tenido perros desde que era niña. Mi último perro vivió conmigo por 12 años. Sé sobre cuidados básicos, alimentación y entrenamiento.",
+            
+            // Preferencias de adopción
+            preferencias: {
+                especie: "perro",
+                tamanos: ["chico", "mediano"],
+                edad: "cachorro",
+                energia: "medio"
+            },
+            
+            // Avatar
+            avatar: "initials",
+            avatarColor: "primary"
+        };
+
+        // Variables para controlar el estado de edición
+        let editingSection = null;
+        let originalData = {};
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatosUsuario();
+            inicializarEventos();
+            inicializarAvatarModal();
+        });
+        
+        function cargarDatosUsuario() {
+            // Actualizar información personal
+            document.getElementById('user-name').textContent = `${userData.nombre} ${userData.apellidos}`;
+            document.getElementById('user-email').textContent = userData.email;
+            document.getElementById('avatar-initials').textContent = userData.nombre.charAt(0) + userData.apellidos.charAt(0);
+            
+            // Actualizar sección de información personal
+            document.getElementById('display-nombre').textContent = `${userData.nombre} ${userData.apellidos}`;
+            document.getElementById('display-email').textContent = userData.email;
+            document.getElementById('display-telefono').textContent = userData.telefono;
+            document.getElementById('display-edad').textContent = `${userData.edad} años`;
+            document.getElementById('display-sexo').textContent = userData.sexo.charAt(0).toUpperCase() + userData.sexo.slice(1);
+            document.getElementById('display-ocupacion').textContent = userData.ocupacion;
+            
+            // Actualizar formulario de información personal
+            document.getElementById('input-nombre').value = userData.nombre;
+            document.getElementById('input-apellidos').value = userData.apellidos;
+            document.getElementById('input-email').value = userData.email;
+            document.getElementById('input-telefono').value = userData.telefono;
+            document.getElementById('input-edad').value = userData.edad;
+            document.getElementById('select-sexo').value = userData.sexo;
+            document.getElementById('input-ocupacion').value = userData.ocupacion;
+            
+            // Actualizar perfil socioeconómico
+            const tipoVivienda = {
+                'casa': 'Casa propia',
+                'departamento': 'Departamento/Apartamento',
+                'renta': 'Vivienda en renta',
+                'familiar': 'Vive con familiares',
+                'compartida': 'Vivienda compartida',
+                'otro': 'Otro'
+            };
+            
+            const nivelEconomico = {
+                'bajo': 'Bajo',
+                'medio-bajo': 'Medio bajo',
+                'medio': 'Medio',
+                'medio-alto': 'Medio alto',
+                'alto': 'Alto'
+            };
+            
+            document.getElementById('display-vivienda').textContent = tipoVivienda[userData.vivienda] || userData.vivienda;
+            document.getElementById('display-metros').textContent = `${userData.metros} m²`;
+            document.getElementById('display-nivel-economico').textContent = nivelEconomico[userData.nivelEconomico] || userData.nivelEconomico;
+            document.getElementById('display-patio').textContent = userData.tienePatio ? 'Sí' : 'No';
+            
+            // Actualizar formulario de perfil socioeconómico
+            document.getElementById('select-vivienda').value = userData.vivienda;
+            document.getElementById('input-metros').value = userData.metros;
+            document.getElementById('select-nivel-economico').value = userData.nivelEconomico;
+            document.getElementById('checkbox-patio').checked = userData.tienePatio;
+            
+            // Actualizar situación familiar/personal
+            document.getElementById('display-hijos').textContent = userData.tieneHijos ? 'Sí' : 'No';
+            
+            const mascotasText = [];
+            if (userData.mascotasActuales.perros) mascotasText.push('Perro(s)');
+            if (userData.mascotasActuales.gatos) mascotasText.push('Gato(s)');
+            if (userData.mascotasActuales.otras) mascotasText.push('Otras mascotas');
+            if (userData.mascotasActuales.ninguna) mascotasText.push('Ninguna');
+            
+            document.getElementById('display-mascotas-actuales').textContent = mascotasText.length > 0 ? mascotasText.join(', ') : 'No especificado';
+            document.getElementById('display-experiencia').textContent = userData.experiencia || 'No especificada';
+            
+            // Actualizar formulario de situación familiar/personal
+            document.getElementById('checkbox-hijos').checked = userData.tieneHijos;
+            document.getElementById('checkbox-perros').checked = userData.mascotasActuales.perros;
+            document.getElementById('checkbox-gatos').checked = userData.mascotasActuales.gatos;
+            document.getElementById('checkbox-otras-mascotas').checked = userData.mascotasActuales.otras;
+            document.getElementById('checkbox-no-mascotas').checked = userData.mascotasActuales.ninguna;
+            document.getElementById('textarea-experiencia').value = userData.experiencia || '';
+            
+            // Actualizar preferencias de adopción
+            document.getElementById('display-especie').textContent = userData.preferencias.especie.charAt(0).toUpperCase() + userData.preferencias.especie.slice(1);
+            document.getElementById('display-tamano').textContent = userData.preferencias.tamanos.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+            document.getElementById('display-edad-preferida').textContent = obtenerTextoEdad(userData.preferencias.edad);
+            document.getElementById('display-energia').textContent = userData.preferencias.energia.charAt(0).toUpperCase() + userData.preferencias.energia.slice(1);
+            
+            // Actualizar formulario de preferencias
+            document.getElementById('radio-especie-' + userData.preferencias.especie).checked = true;
+            
+            userData.preferencias.tamanos.forEach(tamano => {
+                document.getElementById('checkbox-tamano-' + tamano).checked = true;
+            });
+            
+            document.getElementById('radio-edad-' + userData.preferencias.edad).checked = true;
+            document.getElementById('select-energia').value = userData.preferencias.energia;
+        }
+        
+        function obtenerTextoEdad(edadCodigo) {
+            const edades = {
+                'cachorro': 'Cachorro (0-1 año)',
+                'joven': 'Joven (1-3 años)',
+                'adulto': 'Adulto (3-7 años)',
+                'senior': 'Senior (7+ años)',
+                'cualquiera': 'Cualquiera'
+            };
+            return edades[edadCodigo] || edadCodigo;
+        }
+        
+        function inicializarEventos() {
+            // Botones de editar/guardar/cancelar por sección
+            document.querySelectorAll('.section-btn.edit').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    iniciarEdicion(section);
+                });
+            });
+            
+            document.querySelectorAll('.section-btn.save').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    guardarEdicion(section);
+                });
+            });
+            
+            document.querySelectorAll('.section-btn.cancel').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    cancelarEdicion(section);
+                });
+            });
+            
+            // Botones globales
+            document.getElementById('btn-save-all').addEventListener('click', guardarTodo);
+            document.getElementById('btn-cancel-all').addEventListener('click', cancelarTodo);
+            document.getElementById('btn-change-password').addEventListener('click', cambiarContrasena);
+            document.getElementById('btn-export-data').addEventListener('click', exportarDatos);
+            
+            // Cambiar avatar
+            document.getElementById('change-avatar-btn').addEventListener('click', abrirModalAvatar);
+        }
+        
+        function iniciarEdicion(section) {
+            // Si ya hay una sección en edición, cancelarla primero
+            if (editingSection && editingSection !== section) {
+                cancelarEdicion(editingSection);
+            }
+            
+            // Guardar datos originales
+            originalData[section] = obtenerDatosSeccion(section);
+            
+            // Mostrar formulario y ocultar visualización
+            document.getElementById('form-' + section).style.display = 'grid';
+            document.getElementById('display-' + section).style.display = 'none';
+            
+            // Cambiar botones
+            document.querySelector(`.section-btn.edit[data-section="${section}"]`).style.display = 'none';
+            document.querySelector(`.section-btn.save[data-section="${section}"]`).style.display = 'inline-flex';
+            document.querySelector(`.section-btn.cancel[data-section="${section}"]`).style.display = 'inline-flex';
+            
+            // Marcar sección como en edición
+            editingSection = section;
+            
+            // Habilitar botones globales
+            document.getElementById('btn-save-all').disabled = false;
+            document.getElementById('btn-cancel-all').disabled = false;
+        }
+        
+        function guardarEdicion(section) {
+            // Validar formulario
+            const form = document.getElementById('form-' + section);
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Obtener nuevos datos
+            const nuevosDatos = obtenerDatosFormulario(section);
+            
+            // Actualizar userData
+            switch(section) {
+                case 'personal':
+                    userData.nombre = nuevosDatos.nombre;
+                    userData.apellidos = nuevosDatos.apellidos;
+                    userData.email = nuevosDatos.email;
+                    userData.telefono = nuevosDatos.telefono;
+                    userData.edad = nuevosDatos.edad;
+                    userData.sexo = nuevosDatos.sexo;
+                    userData.ocupacion = nuevosDatos.ocupacion;
+                    break;
+                    
+                case 'socioeconomico':
+                    userData.vivienda = nuevosDatos.vivienda;
+                    userData.metros = nuevosDatos.metros;
+                    userData.nivelEconomico = nuevosDatos.nivelEconomico;
+                    userData.tienePatio = nuevosDatos.tienePatio;
+                    break;
+                    
+                case 'familiar':
+                    userData.tieneHijos = nuevosDatos.tieneHijos;
+                    userData.mascotasActuales = nuevosDatos.mascotasActuales;
+                    userData.experiencia = nuevosDatos.experiencia;
+                    break;
+                    
+                case 'preferencias':
+                    userData.preferencias = nuevosDatos.preferencias;
+                    break;
+            }
+            
+            // Actualizar visualización
+            cargarDatosUsuario();
+            
+            // Volver a modo visualización
+            document.getElementById('form-' + section).style.display = 'none';
+            document.getElementById('display-' + section).style.display = 'grid';
+            
+            // Cambiar botones
+            document.querySelector(`.section-btn.edit[data-section="${section}"]`).style.display = 'inline-flex';
+            document.querySelector(`.section-btn.save[data-section="${section}"]`).style.display = 'none';
+            document.querySelector(`.section-btn.cancel[data-section="${section}"]`).style.display = 'none';
+            
+            // Limpiar sección en edición
+            editingSection = null;
+            
+            // Actualizar nombre en el panel izquierdo
+            document.getElementById('user-name').textContent = `${userData.nombre} ${userData.apellidos}`;
+            document.getElementById('avatar-initials').textContent = userData.nombre.charAt(0) + userData.apellidos.charAt(0);
+            
+            // Mostrar mensaje de éxito
+            mostrarMensaje('Cambios guardados exitosamente', 'success');
+        }
+        
+        function cancelarEdicion(section) {
+            // Restaurar datos originales
+            if (originalData[section]) {
+                switch(section) {
+                    case 'personal':
+                        Object.assign(userData, originalData[section]);
+                        break;
+                    case 'socioeconomico':
+                    case 'familiar':
+                    case 'preferencias':
+                        userData[section] = originalData[section];
+                        break;
+                }
+                
+                // Actualizar formulario con datos originales
+                cargarDatosUsuario();
+            }
+            
+            // Volver a modo visualización
+            document.getElementById('form-' + section).style.display = 'none';
+            document.getElementById('display-' + section).style.display = 'grid';
+            
+            // Cambiar botones
+            document.querySelector(`.section-btn.edit[data-section="${section}"]`).style.display = 'inline-flex';
+            document.querySelector(`.section-btn.save[data-section="${section}"]`).style.display = 'none';
+            document.querySelector(`.section-btn.cancel[data-section="${section}"]`).style.display = 'none';
+            
+            // Limpiar sección en edición
+            editingSection = null;
+        }
+        
+        function obtenerDatosSeccion(section) {
+            switch(section) {
+                case 'personal':
+                    return {
+                        nombre: userData.nombre,
+                        apellidos: userData.apellidos,
+                        email: userData.email,
+                        telefono: userData.telefono,
+                        edad: userData.edad,
+                        sexo: userData.sexo,
+                        ocupacion: userData.ocupacion
+                    };
+                    
+                case 'socioeconomico':
+                    return {
+                        vivienda: userData.vivienda,
+                        metros: userData.metros,
+                        nivelEconomico: userData.nivelEconomico,
+                        tienePatio: userData.tienePatio
+                    };
+                    
+                case 'familiar':
+                    return {
+                        tieneHijos: userData.tieneHijos,
+                        mascotasActuales: userData.mascotasActuales,
+                        experiencia: userData.experiencia
+                    };
+                    
+                case 'preferencias':
+                    return userData.preferencias;
+                    
+                default:
+                    return {};
+            }
+        }
+        
+        function obtenerDatosFormulario(section) {
+            switch(section) {
+                case 'personal':
+                    return {
+                        nombre: document.getElementById('input-nombre').value,
+                        apellidos: document.getElementById('input-apellidos').value,
+                        email: document.getElementById('input-email').value,
+                        telefono: document.getElementById('input-telefono').value,
+                        edad: parseInt(document.getElementById('input-edad').value),
+                        sexo: document.getElementById('select-sexo').value,
+                        ocupacion: document.getElementById('input-ocupacion').value
+                    };
+                    
+                case 'socioeconomico':
+                    return {
+                        vivienda: document.getElementById('select-vivienda').value,
+                        metros: parseInt(document.getElementById('input-metros').value),
+                        nivelEconomico: document.getElementById('select-nivel-economico').value,
+                        tienePatio: document.getElementById('checkbox-patio').checked
+                    };
+                    
+                case 'familiar':
+                    return {
+                        tieneHijos: document.getElementById('checkbox-hijos').checked,
+                        mascotasActuales: {
+                            perros: document.getElementById('checkbox-perros').checked,
+                            gatos: document.getElementById('checkbox-gatos').checked,
+                            otras: document.getElementById('checkbox-otras-mascotas').checked,
+                            ninguna: document.getElementById('checkbox-no-mascotas').checked
+                        },
+                        experiencia: document.getElementById('textarea-experiencia').value
+                    };
+                    
+                case 'preferencias':
+                    const tamanos = [];
+                    if (document.getElementById('checkbox-tamano-mini').checked) tamanos.push('mini');
+                    if (document.getElementById('checkbox-tamano-chico').checked) tamanos.push('chico');
+                    if (document.getElementById('checkbox-tamano-mediano').checked) tamanos.push('mediano');
+                    if (document.getElementById('checkbox-tamano-grande').checked) tamanos.push('grande');
+                    
+                    return {
+                        especie: document.querySelector('input[name="especie"]:checked').value,
+                        tamanos: tamanos,
+                        edad: document.querySelector('input[name="edad"]:checked').value,
+                        energia: document.getElementById('select-energia').value
+                    };
+                    
+                default:
+                    return {};
+            }
+        }
+        
+        function guardarTodo() {
+            if (!editingSection) {
+                mostrarMensaje('No hay cambios pendientes para guardar', 'info');
+                return;
+            }
+            
+            guardarEdicion(editingSection);
+        }
+        
+        function cancelarTodo() {
+            if (!editingSection) {
+                mostrarMensaje('No hay cambios pendientes para cancelar', 'info');
+                return;
+            }
+            
+            cancelarEdicion(editingSection);
+        }
+        
+        function cambiarContrasena() {
+            const nuevaContrasena = prompt('Ingresa tu nueva contraseña (mínimo 8 caracteres):');
+            
+            if (nuevaContrasena) {
+                if (nuevaContrasena.length < 8) {
+                    alert('La contraseña debe tener al menos 8 caracteres.');
+                    return;
+                }
+                
+                const confirmarContrasena = prompt('Confirma tu nueva contraseña:');
+                
+                if (confirmarContrasena === nuevaContrasena) {
+                    alert('¡Contraseña cambiada exitosamente!');
+                    // En un caso real, aquí se enviaría la nueva contraseña al servidor
+                } else {
+                    alert('Las contraseñas no coinciden. Intenta nuevamente.');
+                }
+            }
+        }
+        
+        function exportarDatos() {
+            // Crear un objeto con todos los datos del usuario
+            const datosExportar = {
+                ...userData,
+                fechaExportacion: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            // Convertir a JSON
+            const datosJSON = JSON.stringify(datosExportar, null, 2);
+            
+            // Crear un blob y descargar
+            const blob = new Blob([datosJSON], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `huellitas-datos-${userData.nombre.toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            URL.revokeObjectURL(url);
+            
+            mostrarMensaje('Datos exportados exitosamente', 'success');
+        }
+        
+        function inicializarAvatarModal() {
+            // Seleccionar avatar
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.avatar-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Subir imagen
+            const avatarUpload = document.getElementById('avatar-upload');
+            const avatarFile = document.getElementById('avatar-file');
+            
+            avatarUpload.addEventListener('click', function() {
+                avatarFile.click();
+            });
+            
+            avatarFile.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (!file.type.match('image.*')) {
+                        alert('Por favor, selecciona un archivo de imagen.');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        // Crear nueva opción de avatar con la imagen subida
+                        const newOption = document.createElement('div');
+                        newOption.className = 'avatar-option selected';
+                        newOption.setAttribute('data-avatar', 'custom');
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'Avatar personalizado';
+                        
+                        newOption.appendChild(img);
+                        
+                        // Remover selección anterior
+                        document.querySelectorAll('.avatar-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Agregar nueva opción
+                        document.getElementById('avatar-options').prepend(newOption);
+                        
+                        // Agregar evento click
+                        newOption.addEventListener('click', function() {
+                            document.querySelectorAll('.avatar-option').forEach(opt => {
+                                opt.classList.remove('selected');
+                            });
+                            this.classList.add('selected');
+                        });
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Guardar avatar
+            document.getElementById('btn-save-avatar').addEventListener('click', function() {
+                const selectedAvatar = document.querySelector('.avatar-option.selected');
+                const avatarType = selectedAvatar.getAttribute('data-avatar');
+                
+                if (avatarType === 'initials') {
+                    userData.avatar = 'initials';
+                    document.getElementById('user-avatar').innerHTML = `
+                        <span id="avatar-initials">${userData.nombre.charAt(0) + userData.apellidos.charAt(0)}</span>
+                        <button class="change-avatar-btn" id="change-avatar-btn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    `;
+                } else if (avatarType === 'custom') {
+                    const imgSrc = selectedAvatar.querySelector('img').src;
+                    userData.avatar = 'custom';
+                    userData.avatarSrc = imgSrc;
+                    
+                    document.getElementById('user-avatar').innerHTML = `
+                        <img src="${imgSrc}" alt="Avatar personalizado">
+                        <button class="change-avatar-btn" id="change-avatar-btn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    `;
+                } else {
+                    const imgSrc = selectedAvatar.querySelector('img').src;
+                    userData.avatar = avatarType;
+                    userData.avatarSrc = imgSrc;
+                    
+                    document.getElementById('user-avatar').innerHTML = `
+                        <img src="${imgSrc}" alt="Avatar">
+                        <button class="change-avatar-btn" id="change-avatar-btn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    `;
+                }
+                
+                // Reasignar evento al botón de cambiar avatar
+                document.getElementById('change-avatar-btn').addEventListener('click', abrirModalAvatar);
+                
+                cerrarModalAvatar();
+                mostrarMensaje('Foto de perfil actualizada exitosamente', 'success');
+            });
+        }
+        
+        function abrirModalAvatar() {
+            document.getElementById('avatarModal').style.display = 'flex';
+        }
+        
+        function cerrarModalAvatar() {
+            document.getElementById('avatarModal').style.display = 'none';
+        }
+        
+        function mostrarMensaje(texto, tipo) {
+            // Crear elemento de mensaje
+            const mensaje = document.createElement('div');
+            mensaje.textContent = texto;
+            mensaje.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            `;
+            
+            if (tipo === 'success') {
+                mensaje.style.background = 'var(--success)';
+                mensaje.style.color = 'white';
+            } else if (tipo === 'error') {
+                mensaje.style.background = 'var(--danger)';
+                mensaje.style.color = 'white';
+            } else {
+                mensaje.style.background = 'var(--warning)';
+                mensaje.style.color = 'var(--dark)';
+            }
+            
+            document.body.appendChild(mensaje);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                mensaje.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(mensaje);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Agregar estilos para animaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Cerrar modal haciendo clic fuera
+        document.getElementById('avatarModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModalAvatar();
+            }
+        });
+        
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModalAvatar();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Servicio Médico</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        :root { --azul: #0071E3; --fondo: #f5f5f7; --blanco: #ffffff; --texto: #1d1d1f; --borde: #d2d2d7; }
+        
+        body { font-family: "Inter", sans-serif; background: var(--fondo); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .card { background: var(--blanco); padding: 40px; border-radius: 24px; width: 100%; max-width: 550px; border: 1px solid var(--borde); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: var(--azul); margin: 0; font-size: 32px; font-weight: 800; }
+        .header p { margin: 5px 0 0; font-weight: 600; color: #86868b; }
+
+        .group { margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: var(--texto); }
+        
+        input, select, textarea { 
+            width: 100%; padding: 14px; border: 1px solid var(--borde); border-radius: 12px; 
+            font-size: 15px; background: #fbfbfd; box-sizing: border-box; transition: 0.2s;
+        }
+        
+        input:focus, select:focus { outline: none; border-color: var(--azul); background: #fff; box-shadow: 0 0 0 4px rgba(0,113,227,0.1); }
+
+        .flex-row { display: flex; gap: 15px; }
+        .flex-row > div { flex: 1; }
+
+        button { 
+            width: 100%; padding: 18px; background: var(--azul); color: white; border: none; 
+            border-radius: 15px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>HUELLITAS</h1>
+        <p>Expediente Clínico</p>
+    </div>
+
+    <form action="/api/servicio-medico" method="POST">
+        
+        <div class="group">
+            <label>Paciente</label>
+            <input list="animales-lista" name="id_animal" placeholder="Nombre o ID del animal" required>
+            <datalist id="animales-lista">
+                </datalist>
+        </div>
+
+        <div class="group">
+            <label>Vacuna</label>
+            <select name="id_vacunacatalogo">
+                <option value="">Seleccionar vacuna</option>
+                <option value="1">Rabia</option>
+                <option value="2">Parvovirus canino</option>
+                <option value="3">Moquillo canino</option>
+                <option value="4">Trivalente felina</option>
+                <option value="5">Leptospirosis</option>
+            </select>
+        </div>
+
+        <div class="flex-row">
+            <div class="group">
+                <label>Fecha Aplicación</label>
+                <input type="date" name="fecha_aplicacion" required>
+            </div>
+            <div class="group">
+                <label>Fecha Refuerzo</label>
+                <input type="date" name="fecha_refuerzo">
+            </div>
+        </div>
+
+        <div class="group">
+            <label>Padecimiento</label>
+            <select name="id_padecimientocatalogo">
+                <option value="">Sin padecimiento</option>
+                <option value="1">Parvovirosis</option>
+                <option value="2">Moquillo Canino</option>
+                <option value="3">Leucemia</option>
+                <option value="4">Calicivirus Felino</option>
+                <option value="5">Insuficiencia Renal</option>
+                <option value="6">Insuficiencia Hepática</option>
+                <option value="7">Soplo Cardíaco</option>
+                <option value="8">Diabetes Mellitus</option>
+                <option value="9">Hipertiroidismo</option>
+                <option value="10">Epilepsia</option>
+                <option value="11">Displasia de Cadera</option>
+                <option value="12">Artritis</option>
+                <option value="13">Osteoartritis</option>
+                <option value="14">Hernia Discal</option>
+                <option value="15">Atrofia Muscular</option>
+                <option value="16">Anemia</option>
+                <option value="17">Gingivitis Severa</option>
+                <option value="18">Otitis Crónica</option>
+                <option value="19">Obesidad</option>
+                <option value="20">Cataratas</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Alergia</label>
+            <select name="id_alergiacatalogo">
+                <option value="">Ninguna</option>
+                <option value="1">Alergia al Pollo</option>
+                <option value="2">Alergia a Cereales/Gluten</option>
+                <option value="3">Alergia al Pescado</option>
+                <option value="4">Alergia a Lácteos</option>
+                <option value="5">Alergia a la Res</option>
+                <option value="6">Alergia al Polen</option>
+                <option value="7">Alergia al Polvo/Ácaros</option>
+                <option value="8">Alergia al Pasto</option>
+                <option value="9">Alergia al Humo de Tabaco</option>
+                <option value="10">Alergia a la Penicilina</option>
+                <option value="11">Alergia a la Amoxicilina</option>
+                <option value="12">Alergia a los AINEs (Antiinflamatorios)</option>
+                <option value="13">Alergia a la Anestesia (General)</option>
+                <option value="14">Alergia a Sulfas</option>
+                <option value="15">DAPP (Alergia a la picadura de Pulga)</option>
+                <option value="16">Alergia a picadura de Garrapata</option>
+                <option value="17">Alergia a picadura de Abeja/Avispa</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Antecedente</label>
+            <select name="id_antecedentecatalogo">
+                <option value="">Sin antecedentes</option>
+                <option value="1">Quirúrgico</option>
+                <option value="2">Inmunológico</option>
+                <option value="3">Patológico Crónico</option>
+                <option value="4">Infeccioso</option>
+                <option value="5">Ortopédico</option>
+                <option value="6">Dermatológico</option>
+                <option value="7">Nutricional</option>
+                <option value="8">Traumático</option>
+            </select>
+        </div>
+
+        <button type="submit">Guardar Registro</button>
+    </form>
+</div>
+
+</body>
+</html>

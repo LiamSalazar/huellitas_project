@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Eventos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #1d1d1f; 
+            --texto-secundario: #86868b;
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            margin: 0; 
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-seccion {
+            text-align: left;
+            margin-bottom: 30px;
+            padding-left: 10px;
+        }
+
+        .header-seccion h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--texto);
+            margin: 0;
+        }
+
+        .grid-eventos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 10px;
+        }
+
+        .card-evento {
+            background: var(--blanco);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--borde-suave);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-evento:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        .evento-img {
+            width: 100%;
+            height: 180px;
+            background: #e5e5ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--texto-secundario);
+        }
+
+        .evento-info {
+            padding: 24px;
+        }
+
+        .evento-fecha {
+            color: var(--azul);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .evento-titulo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--texto);
+            margin: 0 0 10px 0;
+        }
+
+        .evento-detalle {
+            font-size: 15px;
+            color: var(--texto-secundario);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .evento-descripcion {
+            font-size: 14px;
+            color: #424245;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        .btn-asistir {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: var(--azul);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-seccion">
+        <h2>Próximos Eventos</h2>
+    </div>
+
+    <div class="grid-eventos">
+        <div class="card-evento">
+            <div class="evento-img">Imagen del Evento</div>
+            <div class="evento-info">
+                <span class="evento-fecha">15 de Marzo, 2026 - 10:00 AM</span>
+                <h3 class="evento-titulo">Feria de Adopción CDMX</h3>
+                <div class="evento-detalle">Sede: Refugio Norte</div>
+                <div class="evento-detalle">Responsable: Director General</div>
+                <p class="evento-descripcion">
+                    Ven a conocer a tu próximo mejor amigo. Tendremos pasarela de perros y gatos listos para un hogar.
+                </p>
+                <button class="btn-asistir">Registrar Asistencia</button>
+            </div>
+        </div>
+
+        <div class="card-evento">
+            <div class="evento-img">Imagen del Evento</div>
+            <div class="evento-info">
+                <span class="evento-fecha">22 de Marzo, 2026 - 09:00 AM</span>
+                <h3 class="evento-titulo">Campaña de Vacunación</h3>
+                <div class="evento-detalle">Sede: Clínica Huellitas</div>
+                <div class="evento-detalle">Responsable: Área Médica</div>
+                <p class="evento-descripcion">
+                    Vacunación gratuita para mascotas de la comunidad y animales rescatados del refugio.
+                </p>
+                <button class="btn-asistir">Registrar Asistencia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

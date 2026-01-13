@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Catálogo de Mascotas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        /* Layout principal */
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* Panel de filtros */
+        .filter-panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-title i {
+            color: var(--primary);
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fbfbfb;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .filter-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .filter-checkbox label {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .filter-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .filter-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-btn.primary:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .filter-btn.secondary:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Panel de resultados */
+        .results-panel {
+            background: transparent;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .results-count {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .results-count span {
+            color: var(--primary);
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+        }
+
+        /* Grid de mascotas */
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pet-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pet-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .pet-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pet-info {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .pet-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .pet-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .pet-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .pet-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .pet-btn {
+            display: block;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .pet-btn:hover {
+            background: #e05a2b;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            padding: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .detail-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .modal-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #e05a2b;
+        }
+
+        .modal-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .modal-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Búsqueda de raza */
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-result-item:hover {
+            background: #f9f9f9;
+        }
+
+        /* No hay resultados */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .no-results-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .no-results-text {
+            color: #aaa;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .catalog-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-panel {
+                position: static;
+            }
+            
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .pets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="homePageAdoptante.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="nav-links">
+                <a href="homePageAdoptante.html" class="nav-link">Inicio</a>
+                <a href="catalogo.html" class="nav-link active">Mascotas</a>
+                <a href="mi-proceso.html" class="nav-link">Mi Proceso</a>
+                <a href="mis-citas.html" class="nav-link">Mis Citas</a>
+                <a href="mi-perfil.html" class="nav-link">Mi Perfil</a>
+            </div>
+            
+            <a href="homePageAdoptante.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Encuentra a tu compañero ideal</h1>
+            <p class="page-subtitle">Explora nuestro catálogo de mascotas rescatadas. Cada una espera una oportunidad para encontrar un hogar lleno de amor.</p>
+        </div>
+        
+        <div class="catalog-layout">
+            <!-- Panel de filtros -->
+            <aside class="filter-panel">
+                <h2 class="filter-title">
+                    <i class="fas fa-filter"></i>
+                    Filtros de búsqueda
+                </h2>
+                
+                <form id="filtroForm">
+                    <div class="filter-group">
+                        <label class="filter-label">Especie</label>
+                        <select class="filter-select" id="id_animalespecie">
+                            <option value="">Todas las especies</option>
+                            <option value="perro">Perro</option>
+                            <option value="gato">Gato</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Raza</label>
+                        <div class="search-wrapper">
+                            <input type="text" class="filter-input" id="razaSearch" placeholder="Buscar raza..." disabled>
+                            <div class="search-results" id="searchResults"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Sexo</label>
+                        <div class="filter-checkbox-group">
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="sexo-macho" value="macho">
+                                <label for="sexo-macho">Macho</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="sexo-hembra" value="hembra">
+                                <label for="sexo-hembra">Hembra</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Tamaño</label>
+                        <div class="filter-checkbox-group">
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="tamano-mini" value="mini">
+                                <label for="tamano-mini">Mini</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="tamano-chico" value="chico">
+                                <label for="tamano-chico">Chico</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="tamano-mediano" value="mediano">
+                                <label for="tamano-mediano">Mediano</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="checkbox" id="tamano-grande" value="grande">
+                                <label for="tamano-grande">Grande</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Personalidad</label>
+                        <select class="filter-select" id="id_animalcaracter">
+                            <option value="">Cualquier personalidad</option>
+                            <option value="faldero">Faldero</option>
+                            <option value="timido">Tímido</option>
+                            <option value="tranquilo">Tranquilo</option>
+                            <option value="activo">Activo</option>
+                            <option value="jugueton">Juguetón</option>
+                            <option value="independiente">Independiente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button type="button" class="filter-btn primary" id="aplicarFiltros">
+                            Aplicar filtros
+                        </button>
+                        <button type="button" class="filter-btn secondary" id="limpiarFiltros">
+                            Limpiar
+                        </button>
+                    </div>
+                </form>
+            </aside>
+            
+            <!-- Panel de resultados -->
+            <section class="results-panel">
+                <div class="results-header">
+                    <div class="results-count">
+                        Mostrando <span id="count">0</span> de <span id="total">0</span> mascotas
+                    </div>
+                    
+                    <div class="sort-options">
+                        <span class="sort-label">Ordenar por:</span>
+                        <select class="sort-select" id="sortBy">
+                            <option value="nombre">Nombre (A-Z)</option>
+                            <option value="edad">Edad (menor a mayor)</option>
+                            <option value="tamano">Tamaño</option>
+                            <option value="reciente">Más recientes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="pets-grid" id="grid-pacientes">
+                    <!-- Las mascotas se cargarán aquí dinámicamente -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de detalle de mascota -->
+    <div class="modal" id="modalPaciente">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="m-nombre"></h2>
+                <button class="close-btn" onclick="cerrarModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <img id="m-img" class="modal-image" alt="Foto de la mascota">
+                
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <span class="detail-label">Información básica</span>
+                        <div class="detail-value" id="m-especie"></div>
+                        <div class="detail-value" id="m-raza"></div>
+                        <div class="detail-value" id="m-sexo"></div>
+                        <div class="detail-value" id="m-edad"></div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <span class="detail-label">Características físicas</span>
+                        <div class="detail-value" id="m-tamano"></div>
+                        <div class="detail-value" id="m-color"></div>
+                        <div class="detail-value" id="m-ojos"></div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <span class="detail-label">Personalidad</span>
+                        <div class="detail-value" id="m-personalidad"></div>
+                        <div class="detail-value" id="m-caracteristicas"></div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <span class="detail-label">Historia</span>
+                        <div class="detail-value" id="m-medio-llegada"></div>
+                        <div class="detail-value" id="m-estado"></div>
+                        <div class="detail-value" id="m-funcion"></div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="modal-btn primary" id="btn-adoptar">
+                            <i class="fas fa-heart"></i> Iniciar proceso de adopción
+                        </button>
+                        <a href="#" class="modal-btn secondary" id="btn-expediente">
+                            <i class="fas fa-file-medical"></i> Ver expediente completo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de razas
+        const razasPerro = [
+            {id:1,n:"Affenspincher"},{id:2,n:"Afgano"},{id:59,n:"Criolla"},{id:120,n:"Pastor Alemán"},
+            {id:211,n:"Yorkshire Terrier"},{id:212,n:"Labrador"},{id:213,n:"Bulldog"},{id:214,n:"Golden Retriever"},
+            {id:215,n:"Chihuahua"},{id:216,n:"Poodle"},{id:217,n:"Beagle"},{id:218,n:"Boxer"}
+        ]; 
+        
+        const razasGato = [
+            {id:1,n:"Abisinio"},{id:22,n:"Criolla"},{id:62,n:"Siamés"},{id:70,n:"Van Turco"},
+            {id:71,n:"Persa"},{id:72,n:"Maine Coon"},{id:73,n:"Bengalí"},{id:74,n:"Ragdoll"},
+            {id:75,n:"Británico de Pelo Corto"},{id:76,n:"Esfinge"}
+        ]; 
+
+        // Base de datos de mascotas (simulada)
+        let pacientesDB = [
+            { 
+                id: 1,
+                n: "Liam", 
+                e: "Perro", 
+                r: "Pastor Alemán", 
+                s: "Macho", 
+                t: "Grande", 
+                p: "Activo", 
+                i: "../img/liam2.png",
+                edad: "3 años",
+                color: "Negro y café",
+                ojos: "Cafés oscuros",
+                caracteristicas: "Le gusta jugar con pelotas, es obediente y protector",
+                medioLlegada: "Rescate en la calle",
+                estado: "Saludable",
+                funcion: "Compañía"
+            },
+            { 
+                id: 2,
+                n: "Luna", 
+                e: "Gato", 
+                r: "Siamés", 
+                s: "Hembra", 
+                t: "Chico", 
+                p: "Tranquilo", 
+                i: "../img/ia_1.jfif",
+                edad: "2 años",
+                color: "Crema con puntos oscuros",
+                ojos: "Azules",
+                caracteristicas: "Le gusta tomar el sol, es independiente pero cariñosa",
+                medioLlegada: "Entrega voluntaria",
+                estado: "Saludable",
+                funcion: "Compañía"
+            },
+            { 
+                id: 3,
+                n: "Max", 
+                e: "Perro", 
+                r: "Criolla", 
+                s: "Macho", 
+                t: "Mediano", 
+                p: "Faldero", 
+                i: "../img/ia_2.jfif",
+                edad: "4 años",
+                color: "Blanco con manchas café",
+                ojos: "Cafés claros",
+                caracteristicas: "Muy cariñoso, le encanta estar en compañía, es tranquilo",
+                medioLlegada: "Rescate de maltrato",
+                estado: "En recuperación",
+                funcion: "Compañía"
+            },
+            { 
+                id: 4,
+                n: "Bella", 
+                e: "Gato", 
+                r: "Criolla", 
+                s: "Hembra", 
+                t: "Mini", 
+                p: "Juguetón", 
+                i: "https://images.unsplash.com/photo-1514888286974-6d03bde4ba82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                edad: "1 año",
+                color: "Atigrada gris",
+                ojos: "Verdes",
+                caracteristicas: "Muy curiosa, le encanta explorar, es juguetona",
+                medioLlegada: "Rescate en la calle",
+                estado: "Saludable",
+                funcion: "Compañía"
+            },
+            { 
+                id: 5,
+                n: "Rocky", 
+                e: "Perro", 
+                r: "Labrador", 
+                s: "Macho", 
+                t: "Grande", 
+                p: "Activo", 
+                i: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                edad: "5 años",
+                color: "Amarillo",
+                ojos: "Cafés",
+                caracteristicas: "Le encanta el agua, es muy sociable, necesita ejercicio diario",
+                medioLlegada: "Entrega por cambio de domicilio",
+                estado: "Saludable",
+                funcion: "Compañía"
+            }
+        ];
+
+        // Variables globales
+        let currentRazas = [];
+        let filteredPacientes = [...pacientesDB];
+        
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarPacientesDeBase();
+            setupFilters();
+            setupSorting();
+            
+            // Actualizar contadores
+            updateCounters();
+            
+            // Configurar búsqueda de raza
+            const selEsp = document.getElementById('id_animalespecie');
+            const inpRaza = document.getElementById('razaSearch');
+            const resRaza = document.getElementById('searchResults');
+            
+            selEsp.addEventListener('change', () => {
+                if(selEsp.value === "perro") { 
+                    currentRazas = razasPerro; 
+                    inpRaza.disabled = false; 
+                    inpRaza.placeholder = "Buscar raza de perro...";
+                } else if(selEsp.value === "gato") { 
+                    currentRazas = razasGato; 
+                    inpRaza.disabled = false;
+                    inpRaza.placeholder = "Buscar raza de gato...";
+                } else { 
+                    currentRazas = []; 
+                    inpRaza.disabled = true; 
+                    inpRaza.placeholder = "Selecciona una especie primero";
+                }
+                inpRaza.value = "";
+                resRaza.classList.remove('active');
+            });
+            
+            inpRaza.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                const filtered = currentRazas.filter(r => r.n.toLowerCase().includes(val));
+                
+                resRaza.innerHTML = filtered.map(r => 
+                    `<div class="search-result-item" onclick="selectRaza('${r.n}')">${r.n}</div>`
+                ).join('');
+                
+                resRaza.classList.toggle('active', val.length > 0 && filtered.length > 0);
+            });
+            
+            // Cerrar resultados al hacer clic fuera
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-wrapper')) {
+                    resRaza.classList.remove('active');
+                }
+            });
+        });
+        
+        function cargarPacientesDeBase() {
+            renderizar(filteredPacientes);
+        }
+        
+        function renderizar(lista) {
+            const grid = document.getElementById('grid-pacientes');
+            
+            if(lista.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="no-results-title">No se encontraron mascotas</h3>
+                        <p class="no-results-text">Intenta ajustar los filtros de búsqueda o limpiarlos para ver todas las mascotas disponibles.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = lista.map((p) => `
+                <div class="pet-card" onclick="abrirModal(${p.id})">
+                    <div class="pet-badge">${p.e}</div>
+                    <img src="${p.i}" class="pet-image" alt="${p.n}" onerror="this.src='https://via.placeholder.com/300x200?text=Huellitas'">
+                    <div class="pet-info">
+                        <h3 class="pet-name">${p.n}</h3>
+                        <div class="pet-details">
+                            <span class="pet-tag">${p.r}</span>
+                            <span class="pet-tag">${p.s}</span>
+                            <span class="pet-tag">${p.t}</span>
+                            <span class="pet-tag">${p.edad}</span>
+                        </div>
+                        <p class="pet-description">${p.caracteristicas}</p>
+                        <button class="pet-btn">Conocer a ${p.n}</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function abrirModal(id) {
+            const p = pacientesDB.find(pet => pet.id === id);
+            if (!p) return;
+            
+            // Llenar información del modal
+            document.getElementById('m-nombre').textContent = p.n;
+            document.getElementById('m-img').src = p.i;
+            document.getElementById('m-especie').textContent = `Especie: ${p.e}`;
+            document.getElementById('m-raza').textContent = `Raza: ${p.r}`;
+            document.getElementById('m-sexo').textContent = `Sexo: ${p.s}`;
+            document.getElementById('m-edad').textContent = `Edad: ${p.edad}`;
+            document.getElementById('m-tamano').textContent = `Tamaño: ${p.t}`;
+            document.getElementById('m-color').textContent = `Color: ${p.color}`;
+            document.getElementById('m-ojos').textContent = `Color de ojos: ${p.ojos}`;
+            document.getElementById('m-personalidad').textContent = `Personalidad: ${p.p}`;
+            document.getElementById('m-caracteristicas').textContent = `Características: ${p.caracteristicas}`;
+            document.getElementById('m-medio-llegada').textContent = `Medio de llegada: ${p.medioLlegada}`;
+            document.getElementById('m-estado').textContent = `Estado de salud: ${p.estado}`;
+            document.getElementById('m-funcion').textContent = `Función: ${p.funcion}`;
+            
+            // Configurar botones del modal
+            document.getElementById('btn-adoptar').onclick = function() {
+                alert(`Has iniciado el proceso de adopción para ${p.n}. Serás contactado pronto por nuestro equipo.`);
+                cerrarModal();
+            };
+            
+            document.getElementById('btn-expediente').href = `detalle-mascota.html?id=${p.id}`;
+            
+            // Mostrar modal
+            document.getElementById('modalPaciente').style.display = 'flex';
+        }
+        
+        function cerrarModal() { 
+            document.getElementById('modalPaciente').style.display = 'none'; 
+        }
+        
+        function selectRaza(n) { 
+            document.getElementById('razaSearch').value = n; 
+            document.getElementById('searchResults').classList.remove('active'); 
+        }
+        
+        function setupFilters() {
+            document.getElementById('aplicarFiltros').addEventListener('click', aplicarFiltros);
+            document.getElementById('limpiarFiltros').addEventListener('click', limpiarFiltros);
+        }
+        
+        function aplicarFiltros() {
+            const especie = document.getElementById('id_animalespecie').value;
+            const raza = document.getElementById('razaSearch').value.toLowerCase();
+            const sexoMacho = document.getElementById('sexo-macho').checked;
+            const sexoHembra = document.getElementById('sexo-hembra').checked;
+            const personalidad = document.getElementById('id_animalcaracter').value;
+            
+            // Obtener tamaños seleccionados
+            const tamanosSeleccionados = [];
+            if (document.getElementById('tamano-mini').checked) tamanosSeleccionados.push('mini');
+            if (document.getElementById('tamano-chico').checked) tamanosSeleccionados.push('chico');
+            if (document.getElementById('tamano-mediano').checked) tamanosSeleccionados.push('mediano');
+            if (document.getElementById('tamano-grande').checked) tamanosSeleccionados.push('grande');
+            
+            // Filtrar pacientes
+            filteredPacientes = pacientesDB.filter(p => {
+                // Filtro por especie
+                if (especie && p.e.toLowerCase() !== especie) return false;
+                
+                // Filtro por raza
+                if (raza && !p.r.toLowerCase().includes(raza)) return false;
+                
+                // Filtro por sexo
+                if ((sexoMacho || sexoHembra) && 
+                    !((sexoMacho && p.s === 'Macho') || (sexoHembra && p.s === 'Hembra'))) return false;
+                
+                // Filtro por tamaño
+                if (tamanosSeleccionados.length > 0 && !tamanosSeleccionados.includes(p.t.toLowerCase())) return false;
+                
+                // Filtro por personalidad
+                if (personalidad && p.p.toLowerCase() !== personalidad.toLowerCase()) return false;
+                
+                return true;
+            });
+            
+            // Aplicar ordenamiento actual
+            aplicarOrdenamiento();
+            
+            // Renderizar resultados
+            renderizar(filteredPacientes);
+            updateCounters();
+        }
+        
+        function limpiarFiltros() {
+            // Limpiar todos los filtros
+            document.getElementById('filtroForm').reset();
+            document.getElementById('razaSearch').value = '';
+            document.getElementById('razaSearch').disabled = true;
+            document.getElementById('searchResults').classList.remove('active');
+            
+            // Restablecer pacientes
+            filteredPacientes = [...pacientesDB];
+            
+            // Aplicar ordenamiento por defecto
+            document.getElementById('sortBy').value = 'nombre';
+            aplicarOrdenamiento();
+            
+            // Renderizar
+            renderizar(filteredPacientes);
+            updateCounters();
+        }
+        
+        function setupSorting() {
+            document.getElementById('sortBy').addEventListener('change', aplicarOrdenamiento);
+        }
+        
+        function aplicarOrdenamiento() {
+            const sortBy = document.getElementById('sortBy').value;
+            
+            filteredPacientes.sort((a, b) => {
+                switch(sortBy) {
+                    case 'nombre':
+                        return a.n.localeCompare(b.n);
+                    case 'edad':
+                        // Extraer números de la edad (ej: "3 años" -> 3)
+                        const edadA = parseInt(a.edad) || 0;
+                        const edadB = parseInt(b.edad) || 0;
+                        return edadA - edadB;
+                    case 'tamano':
+                        const tamanoOrden = { 'mini': 1, 'chico': 2, 'mediano': 3, 'grande': 4 };
+                        const tamanoA = tamanoOrden[a.t.toLowerCase()] || 0;
+                        const tamanoB = tamanoOrden[b.t.toLowerCase()] || 0;
+                        return tamanoA - tamanoB;
+                    case 'reciente':
+                        // Ordenar por ID (suponiendo que IDs más altos son más recientes)
+                        return b.id - a.id;
+                    default:
+                        return 0;
+                }
+            });
+            
+            renderizar(filteredPacientes);
+        }
+        
+        function updateCounters() {
+            document.getElementById('count').textContent = filteredPacientes.length;
+            document.getElementById('total').textContent = pacientesDB.length;
+        }
+        
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            }
+        });
+        
+        // Cerrar modal haciendo clic fuera
+        document.getElementById('modalPaciente').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+    </script>
+</body>
+</html>

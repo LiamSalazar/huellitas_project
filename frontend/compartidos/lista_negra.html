@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Huellitas - Lista Negra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        :root { 
+            --azul: #0071E3; 
+            --fondo: #f5f5f7; 
+            --blanco: #ffffff; 
+            --texto: #000000; 
+            --borde-suave: #d2d2d7; 
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background: var(--fondo); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        
+        .card { 
+            background: var(--blanco); 
+            padding: 40px; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 420px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--borde-suave);
+        }
+
+        .albergue-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .albergue-header h1 { 
+            color: var(--azul); 
+            font-size: 28px; 
+            font-weight: 800; 
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .albergue-header p {
+            color: var(--texto);
+            font-weight: 600;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .group { margin-bottom: 22px; }
+        
+        label { 
+            display: block; 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--texto); 
+            margin-bottom: 10px; 
+        }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--borde-suave); 
+            border-radius: 12px; 
+            font-size: 16px; 
+            background: #fbfbfb;
+            box-sizing: border-box;
+            color: var(--texto);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        textarea { resize: none; font-family: inherit; }
+
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: var(--azul); 
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--azul); 
+            color: #fff; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 17px;
+            cursor: pointer; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="albergue-header">
+        <h1>Huellitas</h1>
+        <p>Registro de restricción de personas</p>
+    </div>
+
+    <form action="/api/blacklist" method="POST">
+
+        <div class="group">
+            <label>Motivo de la Restricción</label>
+            <select name="id_BlacklistMotivo" required>
+                <option value="" disabled selected>Seleccione el motivo...</option>
+                <option value="1">Maltrato animal comprobado</option>
+                <option value="2">Abandono de mascota previa</option>
+                <option value="3">Datos falsos en solicitud</option>
+                <option value="4">Incumplimiento de contrato</option>
+                <option value="5">Condiciones de vivienda no aptas</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Fecha del Incidente</label>
+            <input type="date" name="fecha_incidente" required>
+        </div>
+
+        <div class="group">
+            <label>Detalle del Incidente</label>
+            <textarea name="detalle_incidente" rows="4" required></textarea>
+        </div>
+
+        <button type="submit">Registrar Bloqueo</button>
+    </form>
+</div>
+
+</body>
+</html>

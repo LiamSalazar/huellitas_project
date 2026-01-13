@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Expediente de Mascota</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title-container {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        .pet-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-available {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .status-reserved {
+            background: rgba(255, 193, 7, 0.1);
+            color: #d4a017;
+        }
+
+        .status-adopted {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Layout de detalle */
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .detail-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panel de imagen e información básica */
+        .image-panel {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .pet-image-large {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .basic-info {
+            padding: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 15px;
+            text-align: right;
+        }
+
+        /* Panel de información detallada */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        /* Historial médico */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-date {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Características de comportamiento */
+        .traits-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .trait-badge {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trait-badge i {
+            color: var(--primary);
+        }
+
+        /* Galería de fotos */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            height: 100px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                width: 100%;
+            }
+            
+            .action-btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .image-panel {
+                position: static;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="homePageAdoptante.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="nav-links">
+                <a href="homePageAdoptante.html" class="nav-link">Inicio</a>
+                <a href="catalogo.html" class="nav-link">Mascotas</a>
+                <a href="mi-proceso.html" class="nav-link">Mi Proceso</a>
+                <a href="mis-citas.html" class="nav-link">Mis Citas</a>
+                <a href="mi-perfil.html" class="nav-link">Mi Perfil</a>
+            </div>
+            
+            <a href="catalogo.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver al catálogo
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container">
+        <!-- Encabezado de página -->
+        <div class="page-header">
+            <div class="page-title-container">
+                <h1 class="page-title" id="pet-name">Liam</h1>
+                <p class="page-subtitle">Expediente completo - Toda la información sobre esta mascota</p>
+                <div class="pet-status status-available">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="pet-status">Disponible para adopción</span>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn primary" id="btn-adoptar">
+                    <i class="fas fa-heart"></i> Iniciar proceso de adopción
+                </button>
+                <a href="catalogo.html" class="action-btn secondary">
+                    <i class="fas fa-paw"></i> Ver otras mascotas
+                </a>
+            </div>
+        </div>
+        
+        <!-- Layout de detalle -->
+        <div class="detail-layout">
+            <!-- Panel izquierdo: Imagen e información básica -->
+            <div class="image-panel">
+                <img id="pet-image" src="../img/liam2.png" alt="Liam" class="pet-image-large">
+                
+                <div class="basic-info">
+                    <div class="info-item">
+                        <span class="info-label">Especie</span>
+                        <span class="info-value" id="info-especie">Perro</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Raza</span>
+                        <span class="info-value" id="info-raza">Pastor Alemán</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sexo</span>
+                        <span class="info-value" id="info-sexo">Macho</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Edad</span>
+                        <span class="info-value" id="info-edad">3 años</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tamaño</span>
+                        <span class="info-value" id="info-tamano">Grande</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Peso</span>
+                        <span class="info-value" id="info-peso">32 kg</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Fecha de ingreso</span>
+                        <span class="info-value" id="info-ingreso">15/03/2023</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ID de expediente</span>
+                        <span class="info-value" id="info-id">HUE-2023-0015</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel derecho: Información detallada -->
+            <div class="info-panel">
+                <!-- Características físicas -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-eye"></i>
+                        Características Físicas
+                    </h2>
+                    
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Color principal</span>
+                            <span class="detail-value" id="color-principal">Negro</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Color secundario</span>
+                            <span class="detail-value" id="color-secundario">Café</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Color de ojos</span>
+                            <span class="detail-value" id="color-ojos">Cafés oscuros</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Tipo de pelaje</span>
+                            <span class="detail-value" id="tipo-pelaje">Corto y denso</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Marcas distintivas</span>
+                            <span class="detail-value" id="marcas">Manchas café en patas y pecho</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Condición dental</span>
+                            <span class="detail-value" id="dental">Excelente</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información de llegada y función -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-home"></i>
+                        Información de Llegada y Función
+                    </h2>
+                    
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Medio de llegada</span>
+                            <span class="detail-value" id="medio-llegada">Rescate en la calle</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Lugar de rescate</span>
+                            <span class="detail-value" id="lugar-rescate">Colonia Roma, CDMX</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Función principal</span>
+                            <span class="detail-value" id="funcion">Compañía</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Estado actual</span>
+                            <span class="detail-value" id="estado-actual">Saludable</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Nivel de actividad</span>
+                            <span class="detail-value" id="nivel-actividad">Alto</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Personalidad y comportamiento -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-brain"></i>
+                        Personalidad y Comportamiento
+                    </h2>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Tipo de personalidad</span>
+                        <span class="detail-value" id="tipo-personalidad">Activo y protector</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Descripción</span>
+                        <span class="detail-value" id="descripcion-personalidad">
+                            Liam es un perro inteligente, leal y muy activo. Le encanta jugar con pelotas y 
+                            realizar actividades al aire libre. Es protector con su familia pero sociable 
+                            cuando se le presenta adecuadamente a nuevas personas y animales.
+                        </span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Características específicas</span>
+                        <div class="traits-container">
+                            <div class="trait-badge">
+                                <i class="fas fa-dog"></i> Juguetón
+                            </div>
+                            <div class="trait-badge">
+                                <i class="fas fa-shield-alt"></i> Protector
+                            </div>
+                            <div class="trait-badge">
+                                <i class="fas fa-graduation-cap"></i> Inteligente
+                            </div>
+                            <div class="trait-badge">
+                                <i class="fas fa-running"></i> Activo
+                            </div>
+                            <div class="trait-badge">
+                                <i class="fas fa-heart"></i> Cariñoso
+                            </div>
+                            <div class="trait-badge">
+                                <i class="fas fa-volume-up"></i> Ladra para alertar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Historial médico -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-file-medical"></i>
+                        Historial Médico
+                    </h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">10/04/2023</div>
+                            <div class="timeline-title">Desparasitación</div>
+                            <div class="timeline-description">Desparasitación interna y externa completada. Producto utilizado: NexGard Spectra.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">05/04/2023</div>
+                            <div class="timeline-title">Vacunación anual</div>
+                            <div class="timeline-description">Aplicación de vacunas múltiples (DHLPP) y antirrábica. Reactor negativo.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">20/03/2023</div>
+                            <div class="timeline-title">Esterilización</div>
+                            <div class="timeline-description">Procedimiento de esterilización realizado sin complicaciones. Recuperación exitosa.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">16/03/2023</div>
+                            <div class="timeline-title">Evaluación inicial</div>
+                            <div class="timeline-description">Chequeo general: peso 30kg, temperatura normal, sin pulgas ni garrapatas. Leve desnutrición detectada.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Requisitos para adopción -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        Requisitos para Adopción
+                    </h2>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Hogar ideal</span>
+                        <span class="detail-value" id="hogar-ideal">
+                            Liam necesita una familia activa que pueda proporcionarle ejercicio diario y 
+                            espacio suficiente para moverse. Ideal para hogares con patio o acceso regular 
+                            a áreas abiertas.
+                        </span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Recomendaciones</span>
+                        <ul style="padding-left: 20px; color: #666; font-size: 14px;">
+                            <li>Experiencia previa con perros de raza grande preferible</li>
+                            <li>Hogar con espacio suficiente para su tamaño</li>
+                            <li>Compromiso de proporcionar ejercicio diario</li>
+                            <li>Paciencia durante el periodo de adaptación</li>
+                            <li>Compromiso de seguimiento post-adopción</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Galería de fotos -->
+                <div class="info-card">
+                    <h2 class="card-title">
+                        <i class="fas fa-images"></i>
+                        Galería de Fotos
+                    </h2>
+                    
+                    <div class="gallery-container">
+                        <div class="gallery-item">
+                            <img src="../img/liam2.png" alt="Liam de frente">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Liam jugando">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Liam descansando">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Liam en el parque">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <p>Conectando corazones desde 2015. Cada huella cuenta una historia de amor y esperanza.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="homePageAdoptante.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Mascotas Disponibles</a></li>
+                    <li><a href="mi-proceso.html">Mi Proceso</a></li>
+                    <li><a href="mi-perfil.html">Mi Perfil</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-phone"></i> 55 2321 8850</p>
+                <p><i class="fas fa-envelope"></i> huellitas@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> ESCOM IPN, Ciudad de México</p>
+                <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 18:00</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Huellitas. Todos los derechos reservados. | Proyecto de Base de Datos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de la mascota (en un caso real, esto vendría de una base de datos o parámetro de URL)
+        const mascotaData = {
+            id: 1,
+            nombre: "Liam",
+            especie: "Perro",
+            raza: "Pastor Alemán",
+            sexo: "Macho",
+            edad: "3 años",
+            tamano: "Grande",
+            peso: "32 kg",
+            fechaIngreso: "15/03/2023",
+            expedienteId: "HUE-2023-0015",
+            colorPrincipal: "Negro",
+            colorSecundario: "Café",
+            colorOjos: "Cafés oscuros",
+            tipoPelaje: "Corto y denso",
+            marcas: "Manchas café en patas y pecho",
+            condicionDental: "Excelente",
+            medioLlegada: "Rescate en la calle",
+            lugarRescate: "Colonia Roma, CDMX",
+            funcion: "Compañía",
+            estadoActual: "Saludable",
+            nivelActividad: "Alto",
+            tipoPersonalidad: "Activo y protector",
+            descripcionPersonalidad: "Liam es un perro inteligente, leal y muy activo. Le encanta jugar con pelotas y realizar actividades al aire libre. Es protector con su familia pero sociable cuando se le presenta adecuadamente a nuevas personas y animales.",
+            hogarIdeal: "Liam necesita una familia activa que pueda proporcionarle ejercicio diario y espacio suficiente para moverse. Ideal para hogares con patio o acceso regular a áreas abiertas.",
+            estadoAdopcion: "available", // available, reserved, adopted
+            imagen: "../img/liam2.png"
+        };
+
+        // Inicializar la página con los datos de la mascota
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener ID de la URL (simulado)
+            const urlParams = new URLSearchParams(window.location.search);
+            const mascotaId = urlParams.get('id') || 1;
+            
+            // En un caso real, aquí buscarías los datos de la mascota por ID
+            // Por ahora usamos los datos de ejemplo
+            
+            // Actualizar todos los elementos con los datos
+            actualizarDatosMascota();
+            
+            // Configurar botón de adopción
+            document.getElementById('btn-adoptar').addEventListener('click', function() {
+                const nombreMascota = mascotaData.nombre;
+                if (confirm(`¿Estás seguro de que deseas iniciar el proceso de adopción para ${nombreMascota}?`)) {
+                    alert(`¡Excelente decisión! Has iniciado el proceso de adopción para ${nombreMascota}. Te contactaremos pronto para continuar con los siguientes pasos.`);
+                    // En un caso real, aquí redirigirías o enviarías datos al servidor
+                }
+            });
+            
+            // Actualizar estado de adopción
+            actualizarEstadoAdopcion();
+        });
+        
+        function actualizarDatosMascota() {
+            // Actualizar encabezado
+            document.getElementById('pet-name').textContent = mascotaData.nombre;
+            document.getElementById('pet-image').src = mascotaData.imagen;
+            document.getElementById('pet-image').alt = mascotaData.nombre;
+            
+            // Actualizar información básica
+            document.getElementById('info-especie').textContent = mascotaData.especie;
+            document.getElementById('info-raza').textContent = mascotaData.raza;
+            document.getElementById('info-sexo').textContent = mascotaData.sexo;
+            document.getElementById('info-edad').textContent = mascotaData.edad;
+            document.getElementById('info-tamano').textContent = mascotaData.tamano;
+            document.getElementById('info-peso').textContent = mascotaData.peso;
+            document.getElementById('info-ingreso').textContent = mascotaData.fechaIngreso;
+            document.getElementById('info-id').textContent = mascotaData.expedienteId;
+            
+            // Actualizar características físicas
+            document.getElementById('color-principal').textContent = mascotaData.colorPrincipal;
+            document.getElementById('color-secundario').textContent = mascotaData.colorSecundario;
+            document.getElementById('color-ojos').textContent = mascotaData.colorOjos;
+            document.getElementById('tipo-pelaje').textContent = mascotaData.tipoPelaje;
+            document.getElementById('marcas').textContent = mascotaData.marcas;
+            document.getElementById('dental').textContent = mascotaData.condicionDental;
+            
+            // Actualizar información de llegada
+            document.getElementById('medio-llegada').textContent = mascotaData.medioLlegada;
+            document.getElementById('lugar-rescate').textContent = mascotaData.lugarRescate;
+            document.getElementById('funcion').textContent = mascotaData.funcion;
+            document.getElementById('estado-actual').textContent = mascotaData.estadoActual;
+            document.getElementById('nivel-actividad').textContent = mascotaData.nivelActividad;
+            
+            // Actualizar personalidad
+            document.getElementById('tipo-personalidad').textContent = mascotaData.tipoPersonalidad;
+            document.getElementById('descripcion-personalidad').textContent = mascotaData.descripcionPersonalidad;
+            document.getElementById('hogar-ideal').textContent = mascotaData.hogarIdeal;
+        }
+        
+        function actualizarEstadoAdopcion() {
+            const statusElement = document.getElementById('pet-status');
+            const statusContainer = document.querySelector('.pet-status');
+            const adoptButton = document.getElementById('btn-adoptar');
+            
+            switch(mascotaData.estadoAdopcion) {
+                case 'available':
+                    statusElement.textContent = 'Disponible para adopción';
+                    statusContainer.className = 'pet-status status-available';
+                    adoptButton.disabled = false;
+                    adoptButton.innerHTML = '<i class="fas fa-heart"></i> Iniciar proceso de adopción';
+                    break;
+                    
+                case 'reserved':
+                    statusElement.textContent = 'Reservado - En proceso de adopción';
+                    statusContainer.className = 'pet-status status-reserved';
+                    adoptButton.disabled = true;
+                    adoptButton.innerHTML = '<i class="fas fa-clock"></i> Mascota reservada';
+                    break;
+                    
+                case 'adopted':
+                    statusElement.textContent = 'Adoptado';
+                    statusContainer.className = 'pet-status status-adopted';
+                    adoptButton.disabled = true;
+                    adoptButton.innerHTML = '<i class="fas fa-check"></i> Mascota adoptada';
+                    break;
+            }
+        }
+        
+        // Simular cambio de estado (solo para demostración)
+        function cambiarEstadoAdopcion(nuevoEstado) {
+            mascotaData.estadoAdopcion = nuevoEstado;
+            actualizarEstadoAdopcion();
+        }
+        
+        // Para demostración: agregar botones para cambiar estado (esto no estaría en producción)
+        window.cambiarEstado = cambiarEstadoAdopcion;
+    </script>
+</body>
+</html>

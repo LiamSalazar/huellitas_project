@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Panel del Adoptante</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #1A936F;
+            --accent: #FFD166;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header y navegación */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Dashboard principal */
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 L100,0 L100,100 Z" fill="white" opacity="0.05"/></svg>');
+            background-size: 100px 100px;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        /* Tarjetas de dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .card-icon.pets {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .card-icon.process {
+            background: rgba(255, 209, 102, 0.1);
+            color: #d4a017;
+        }
+
+        .card-icon.profile {
+            background: rgba(26, 147, 111, 0.1);
+            color: var(--secondary);
+        }
+
+        .card-icon.appointment {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .card-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #d4a017;
+        }
+
+        .status-approved {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-revision {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .appointment-details {
+            background: #f9f9fb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .detail-value {
+            color: var(--dark);
+        }
+
+        .card-footer {
+            margin-top: 1rem;
+        }
+
+        .card-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card-btn:hover {
+            background: #e05a2b;
+            transform: translateY(-2px);
+        }
+
+        .card-btn.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .card-btn.secondary:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Mascotas destacadas */
+        .featured-pets {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pet-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .pet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pet-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .pet-info {
+            padding: 1.5rem;
+        }
+
+        .pet-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .pet-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pet-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .pet-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .pet-btn {
+            display: block;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .pet-btn:hover {
+            background: #e05a2b;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .dashboard {
+                padding: 1rem;
+            }
+            
+            .welcome-section {
+                padding: 1.5rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="homePageAdoptante.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link active">Inicio</a>
+                <a href="catalogo.html" class="nav-link">Mascotas</a>
+                <a href="mi-proceso.html" class="nav-link">Mi Proceso</a>
+                <a href="mis-citas.html" class="nav-link">Mis Citas</a>
+                <a href="../compartidos/eventosDisponibles.html" class="nav-link">Eventos</a>
+                <a href="mi-perfil.html" class="nav-link">Mi Perfil</a>
+            </div>
+            
+            <div class="user-menu">
+                <div class="user-info" onclick="location.href='mi-perfil.html'">
+                    <div class="user-avatar">MH</div>
+                    <div class="user-name">Melanie Hernández</div>
+                </div>
+                <button class="logout-btn" onclick="location.href='../index_secundario.html'">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard principal -->
+    <main class="dashboard" id="dashboard">
+        <!-- Sección de bienvenida -->
+        <section class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">¡Hola, Melanie!</h1>
+                <p class="welcome-subtitle">Bienvenida a tu panel de adoptante. Aquí podrás explorar mascotas disponibles, seguir tu proceso de adopción y gestionar tu perfil.</p>
+            </div>
+        </section>
+
+        <!-- Tarjetas de dashboard -->
+        <div class="dashboard-grid">
+            <!-- Tarjeta: Mascotas disponibles -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Mascotas Disponibles</h3>
+                    <div class="card-icon pets">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Actualmente hay <strong>24</strong> mascotas esperando un hogar. Explora nuestro catálogo y encuentra a tu nuevo compañero.</p>
+                    <div style="margin-top: 15px;">
+                        <div class="pet-tag">12 Perros</div>
+                        <div class="pet-tag">8 Gatos</div>
+                        <div class="pet-tag">4 Otros</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="catalogo.html" class="card-btn">Ver catálogo completo</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta: Mi proceso de adopción -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Mi Proceso de Adopción</h3>
+                    <div class="card-icon process">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="status-indicator status-revision">
+                        <i class="fas fa-clock"></i>
+                        En revisión
+                    </div>
+                    <p style="margin-top: 15px;">Tu solicitud está siendo revisada por nuestro equipo. Te notificaremos cuando haya actualizaciones.</p>
+                    <div class="appointment-details" style="display: none;" id="appointment-info">
+                        <div class="detail-item">
+                            <span class="detail-label">Fecha:</span>
+                            <span class="detail-value">15 Nov 2023</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Hora:</span>
+                            <span class="detail-value">14:30 hrs</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Voluntaria:</span>
+                            <span class="detail-value">Ana García</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="mi-proceso.html" class="card-btn secondary">Ver detalles del proceso</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta: Mi perfil -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Mi Perfil</h3>
+                    <div class="card-icon profile">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Tu perfil está <strong class="status-approved">completo al 100%</strong>. Puedes actualizar tu información cuando lo necesites.</p>
+                    <div style="margin-top: 15px;">
+                        <div class="detail-item">
+                            <span class="detail-label">Nombre:</span>
+                            <span class="detail-value">Melanie Rodríguez</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Correo:</span>
+                            <span class="detail-value">mel@email.com</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Teléfono:</span>
+                            <span class="detail-value">55 1234 5678</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="mi-perfil.html" class="card-btn">Editar perfil</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta: Próxima cita -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Próxima Cita</h3>
+                    <div class="card-icon appointment">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div id="next-appointment">
+                        <p>No tienes citas programadas actualmente.</p>
+                        <div class="appointment-details" style="display: none;">
+                            <div class="detail-item">
+                                <span class="detail-label">Fecha:</span>
+                                <span class="detail-value">--/--/----</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hora:</span>
+                                <span class="detail-value">--:-- hrs</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Motivo:</span>
+                                <span class="detail-value">----------</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="mis-citas.html" class="card-btn secondary">Ver todas las citas</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mascotas destacadas -->
+        <section class="featured-pets">
+            <h2 class="section-title">
+                <i class="fas fa-star"></i>
+                Mascotas Destacadas
+            </h2>
+            
+            <div class="pets-grid">
+                <!-- Mascota 1 -->
+                <div class="pet-card">
+                    <img src="../img/ia_1.jfif" alt="Luna" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">Luna</h3>
+                        <div class="pet-details">
+                            <span class="pet-tag">Perro</span>
+                            <span class="pet-tag">Hembra</span>
+                            <span class="pet-tag">2 años</span>
+                        </div>
+                        <p class="pet-description">Luna es una perrita tranquila y cariñosa. Le encanta pasear y jugar con pelotas. Está lista para encontrar una familia amorosa.</p>
+                        <a href="detalle-mascota.html?id=1" class="pet-btn">Conocer más</a>
+                    </div>
+                </div>
+
+                <!-- Mascota 2 -->
+                <div class="pet-card">
+                    <img src="../img/ia_2.jfif" alt="Max" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">Max</h3>
+                        <div class="pet-details">
+                            <span class="pet-tag">Gato</span>
+                            <span class="pet-tag">Macho</span>
+                            <span class="pet-tag">3 años</span>
+                        </div>
+                        <p class="pet-description">Max es un gato independiente pero muy cariñoso. Le gusta tomar el sol y observar desde la ventana. Ideal para hogares tranquilos.</p>
+                        <a href="detalle-mascota.html?id=2" class="pet-btn">Conocer más</a>
+                    </div>
+                </div>
+
+                <!-- Mascota 3 -->
+                <div class="pet-card">
+                    <img src="../img/liam2.png" alt="Rocky" class="pet-image">
+                    <div class="pet-info">
+                        <h3 class="pet-name">Rocky</h3>
+                        <div class="pet-details">
+                            <span class="pet-tag">Perro</span>
+                            <span class="pet-tag">Macho</span>
+                            <span class="pet-tag">4 años</span>
+                        </div>
+                        <p class="pet-description">Rocky es un perro activo y juguetón. Necesita una familia que pueda brindarle ejercicio diario y mucho amor.</p>
+                        <a href="detalle-mascota.html?id=3" class="pet-btn">Conocer más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <p>Un encuentro, dos salvaciones.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="homePageAdoptante.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Mascotas Disponibles</a></li>
+                    <li><a href="mi-proceso.html">Mi Proceso</a></li>
+                    <li><a href="mi-perfil.html">Mi Perfil</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-phone"></i> 55 2321 8850</p>
+                <p><i class="fas fa-envelope"></i> huellitas@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> ESCOM IPN, Ciudad de México</p>
+                <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 18:00</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Huellitas. Todos los derechos reservados. | Proyecto de Base de Datos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simulación de datos del usuario (en un caso real, esto vendría del servidor)
+        const userData = {
+            name: "Melanie Hernández",
+            email: "mel@email.com",
+            phone: "55 1234 5678",
+            status: "revision", // Puede ser: "revision", "cita", "aprobado", "rechazado"
+            appointment: null // Puede ser un objeto con fecha, hora, voluntaria
+        };
+
+        // Actualizar la información del usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar nombre en el header
+            document.querySelector('.user-avatar').textContent = 
+                userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.querySelector('.user-name').textContent = userData.name;
+            
+            // Actualizar estado del proceso
+            const statusElement = document.querySelector('.status-indicator');
+            const appointmentInfo = document.getElementById('appointment-info');
+            
+            if (userData.status === "cita" && userData.appointment) {
+                statusElement.className = "status-indicator status-approved";
+                statusElement.innerHTML = '<i class="fas fa-calendar-check"></i> Cita programada';
+                
+                appointmentInfo.style.display = 'block';
+                // Aquí actualizarías los datos de la cita
+            } else if (userData.status === "aprobado") {
+                statusElement.className = "status-indicator status-approved";
+                statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Aprobado';
+            }
+            
+            // Si hay cita próxima, actualizar la tarjeta
+            const nextAppointment = document.getElementById('next-appointment');
+            if (userData.appointment) {
+                nextAppointment.innerHTML = `
+                    <p>Tienes una cita programada:</p>
+                    <div class="appointment-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Fecha:</span>
+                            <span class="detail-value">${userData.appointment.date}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Hora:</span>
+                            <span class="detail-value">${userData.appointment.time}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Voluntaria:</span>
+                            <span class="detail-value">${userData.appointment.volunteer}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Efecto de hover en tarjetas
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+        
+        // Navegación activa
+        const currentPage = window.location.pathname.split('/').pop() || 'homePageAdoptante.html';
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (currentPage === linkHref || 
+                (currentPage === '' && linkHref === 'homePageAdoptante.html')) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

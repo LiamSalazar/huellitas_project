@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Gestión de Proceso</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        :root { 
+            --azul: #4285f4; 
+            --fondo: #f0f2f5; 
+            --blanco: #ffffff; 
+            --texto-label: #000000;
+            --borde: #e4e6eb;
+        }
+
+        body { 
+            font-family: "Inter", sans-serif; 
+            background-color: var(--fondo); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 40px 20px;
+        }
+        
+        .card { 
+            background: var(--blanco); 
+            padding: 50px; 
+            border-radius: 40px; 
+            width: 100%; 
+            max-width: 500px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 { 
+            color: var(--azul); 
+            font-size: 32px; 
+            font-weight: 800; 
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .group { 
+            margin-bottom: 25px; 
+            position: relative;
+        }
+
+        label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 800; 
+            color: var(--texto-label); 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+        }
+        
+        input, select { 
+            width: 100%; 
+            padding: 18px 20px; 
+            border: 1px solid var(--borde); 
+            border-radius: 15px; 
+            font-size: 15px; 
+            background: #fbfbfd;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--borde);
+            border-radius: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 10;
+            display: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-results div {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-results div:hover {
+            background: #f0f4ff;
+            color: var(--azul);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--azul);
+            margin: 30px 0 15px 0;
+            border-bottom: 1px solid var(--borde);
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 20px; 
+            background: var(--azul); 
+            color: #fff; 
+            border: none; 
+            border-radius: 18px; 
+            font-weight: 700; 
+            font-size: 16px;
+            cursor: pointer; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>HUELLITAS</h1>
+        <p>Proceso de Adopción</p>
+    </div>
+
+    <form action="/api/proceso-adopcion" method="POST">
+        
+        <div class="group">
+            <label>Buscar Mascota</label>
+            <input type="text" id="animalSearch" placeholder="Nombre de la mascota..." autocomplete="off">
+            <input type="hidden" name="id_Animal" id="animalId" required>
+            <div id="animalResults" class="search-results"></div>
+        </div>
+
+        <div class="group">
+            <label>Buscar Adoptante</label>
+            <input type="text" id="adoptanteSearch" placeholder="Nombre del adoptante..." autocomplete="off">
+            <input type="hidden" name="id_Adoptante" id="adoptanteId" required>
+            <div id="adoptanteResults" class="search-results"></div>
+        </div>
+
+        <div class="group">
+            <label>Buscar Voluntario</label>
+            <input type="text" id="voluntarioSearch" placeholder="Nombre del voluntario..." autocomplete="off">
+            <input type="hidden" name="id_Voluntario" id="voluntarioId">
+            <div id="voluntarioResults" class="search-results"></div>
+        </div>
+
+        <div class="group">
+            <label>Estado del Proceso</label>
+            <select name="id_ProcesoAdopcionEstado" required>
+                <option value="1">Iniciado</option>
+                <option value="2">Contactado</option>
+                <option value="3">Cita programada</option>
+                <option value="4">Convivencia aprobada</option>
+                <option value="5">Documentacion en revision</option>
+                <option value="6">Completado</option>
+                <option value="7">Cancelado</option>
+                <option value="8">Rechazado</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Fecha de Inicio</label>
+            <input type="datetime-local" name="fecha_inicio_Proceso" required>
+        </div>
+
+        <div class="group">
+            <label>Fecha y Hora de Cita</label>
+            <input type="datetime-local" name="fecha_hora_cita">
+        </div>
+
+        <button type="submit">Guardar Registro</button>
+    </form>
+</div>
+
+<script>
+// Estos datos vendrían de tu base de datos mediante una consulta
+const datosBase = {
+    animales: [
+        {id: 101, n: "Firulais (Perro)"},
+        {id: 102, n: "Luna (Gato)"},
+        {id: 103, n: "Max (Perro)"}
+    ],
+    adoptantes: [
+        {id: 501, n: "Juan Pérez"},
+        {id: 502, n: "María García"},
+        {id: 503, n: "Carlos López"}
+    ],
+    voluntarios: [
+        {id: 901, n: "Ana Martínez"},
+        {id: 902, n: "Roberto Gómez"}
+    ]
+};
+
+function setupSearch(inputId, hiddenId, resultsId, data) {
+    const input = document.getElementById(inputId);
+    const hidden = document.getElementById(hiddenId);
+    const results = document.getElementById(resultsId);
+
+    input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+        results.innerHTML = '';
+        if (query.length < 1) {
+            results.style.display = 'none';
+            return;
+        }
+
+        const filtered = data.filter(item => item.n.toLowerCase().includes(query));
+        if (filtered.length > 0) {
+            results.style.display = 'block';
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.n;
+                div.onclick = () => {
+                    input.value = item.n;
+                    hidden.value = item.id;
+                    results.style.display = 'none';
+                };
+                results.appendChild(div);
+            });
+        } else {
+            results.style.display = 'none';
+        }
+    });
+}
+
+// Inicializar buscadores
+setupSearch('animalSearch', 'animalId', 'animalResults', datosBase.animales);
+setupSearch('adoptanteSearch', 'adoptanteId', 'adoptanteResults', datosBase.adoptantes);
+setupSearch('voluntarioSearch', 'voluntarioId', 'voluntarioResults', datosBase.voluntarios);
+
+// Cerrar resultados al hacer clic fuera
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.group')) {
+        document.querySelectorAll('.search-results').forEach(r => r.style.display = 'none');
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Administración de Rescates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2A9D8F;
+            --secondary: #E76F51;
+            --accent: #E9C46A;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --danger: #dc3545;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .user-sede {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        :root {
+    --success: #28a745;
+    --danger: #dc3545;
+    --info: #17a2b8;
+    --white: #ffffff;
+}
+
+/* Estilos de la Card */
+.asistencia-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.asistencia-reloj { display: flex; flex-direction: column; }
+#reloj-digital { font-size: 1.4rem; font-weight: bold; color: #333; }
+.status-box { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-top: 5px; display: inline-block;}
+.status-online { background: #e6fffa; color: var(--success); border: 1px solid var(--success); }
+.status-offline { background: #f8f9fa; color: #6c757d; border: 1px solid #6c757d; }
+
+.btn-asistencia { 
+    padding: 12px 24px; border: none; border-radius: 8px; 
+    cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s;
+}
+.btn-entrada { background: var(--success); color: white; }
+.btn-salida { background: #ffc107; color: #212529; }
+
+/* --- TUS TOAST NOTIFICATIONS --- */
+#asistencia-toast-container { position: fixed; top: 0; right: 0; z-index: 9999; }
+
+.toast {
+    position: fixed; top: 100px; right: 20px;
+    background: var(--white); border-radius: 10px;
+    padding: 15px 20px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    display: flex; align-items: center; gap: 10px;
+    z-index: 9999; min-width: 300px; max-width: 400px;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast.success { border-left: 4px solid var(--success); }
+.toast.error { border-left: 4px solid var(--danger); }
+.toast.info { border-left: 4px solid var(--info); }
+.toast-icon { font-size: 24px; }
+.toast.success .toast-icon { color: var(--success); }
+.toast-content { flex: 1; }
+.toast-title { font-weight: 600; margin-bottom: 5px; }
+.toast-message { font-size: 14px; color: #666; }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Tabs de navegación */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: #f9f9f9;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .dashboard-subtitle {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #238a7c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(42, 157, 143, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        /* Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 1rem;
+        }
+
+        .stat-icon.rescates {
+            background: rgba(42, 157, 143, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .stat-icon.completados {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.urgentes {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Paneles */
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            color: var(--primary);
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Tablas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pendiente {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-completado {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-cancelado {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-urgente {
+            background: rgba(231, 111, 81, 0.1);
+            color: var(--secondary);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .table-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .table-btn.primary:hover {
+            background: #238a7c;
+        }
+
+        .table-btn.secondary {
+            background: transparent;
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .table-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .table-btn.warning {
+            background: transparent;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .table-btn.warning:hover {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .table-btn.danger {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .table-btn.danger:hover {
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* Búsqueda */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-label.required:after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Búsqueda de razas */
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: var(--shadow);
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-result-item:hover {
+            background: #f5f5f7;
+        }
+
+        .search-result-item.selected {
+            background: rgba(42, 157, 143, 0.1);
+            color: var(--primary);
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+
+        .toast.info .toast-icon {
+            color: var(--info);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Tarjetas de animales */
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .animal-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .animal-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .animal-info {
+            padding: 1.2rem;
+        }
+
+        .animal-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .animal-id {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #666;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .animal-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .animal-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Sin resultados */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: auto;
+                padding: 1rem;
+            }
+            
+            .tabs {
+                padding: 0 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .animals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="user-info">
+                <div class="user-avatar">RA</div>
+                <div class="user-details">
+                    <div class="user-name">Roberto Alvarado</div>
+                    <div class="user-role">Coordinador - Administración de Rescates</div>
+                    <div class="user-sede">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sede Central - Coyoacán</span>
+                    </div>
+                </div>
+
+                <button class="logout-btn" onclick="location.href='../index_secundario.html'">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="fas fa-home"></i> Panel Rescates
+            </div>
+            <div class="tab" data-tab="registro-rescate">
+                <i class="fas fa-plus-circle"></i> Registrar Rescate
+            </div>
+            <div class="tab" data-tab="rescates-activos">
+                <i class="fas fa-ambulance"></i> Rescates Activos
+                <span class="badge" id="rescates-badge">5</span>
+            </div>
+            <div class="tab" data-tab="animales-rescatados">
+                <i class="fas fa-paw"></i> Animales Rescatados
+            </div>
+            <div class="tab" data-tab="adopciones">
+                <i class="fas fa-handshake"></i> Adopciones
+            </div>
+            <div class="tab" data-tab="reportes">
+                <i class="fas fa-chart-bar"></i> Reportes
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+
+        <div class="asistencia-card">
+    <div class="asistencia-info">
+        <div class="asistencia-reloj">
+            <span id="reloj-digital">00:00:00</span>
+            <small id="fecha-digital">--/--/----</small>
+        </div>
+        <div id="asistencia-status" class="status-box status-offline">
+            <i class="fas fa-clock"></i> <span>Cargando estado...</span>
+        </div>
+    </div>
+    <button id="btn-toggle-asistencia" class="btn-asistencia btn-entrada">
+        <i class="fas fa-sign-in-alt"></i> Registrar Entrada
+    </button>
+</div>
+
+<div id="asistencia-toast-container"></div>
+
+        <!-- Panel: Dashboard -->
+        <div id="dashboard" class="dashboard-content active">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Panel de Administración de Rescates</h1>
+                    <p class="dashboard-subtitle">Gestión integral de rescates, animales rescatados y procesos de adopción</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-nuevo-rescate">
+                        <i class="fas fa-plus"></i> Nuevo Rescate
+                    </button>
+                    <button class="btn btn-secondary" id="btn-ver-urgentes">
+                        <i class="fas fa-exclamation-triangle"></i> Ver Urgentes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estadísticas rápidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon rescates">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <div class="stat-value" id="stat-total-rescates">24</div>
+                    <div class="stat-label">Rescates Totales</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon en-proceso">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-value" id="stat-en-proceso">8</div>
+                    <div class="stat-label">En Proceso</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon completados">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value" id="stat-completados">14</div>
+                    <div class="stat-label">Completados</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon urgentes">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <div class="stat-value" id="stat-urgentes">2</div>
+                    <div class="stat-label">Urgentes</div>
+                </div>
+            </div>
+
+            <div class="dashboard-panels">
+                <!-- Rescates recientes -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i class="fas fa-history"></i>
+                            Rescates Recientes
+                        </h2>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary btn-sm" id="btn-ver-todos-rescates">
+                                Ver todos
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Rescate</th>
+                                <th>Animal</th>
+                                <th>Ubicación</th>
+                                <th>Reportante</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-rescues">
+                            <!-- Se carga dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Animales rescatados recientemente -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i class="fas fa-heart"></i>
+                            Animales Rescatados Recientemente
+                        </h2>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary btn-sm" id="btn-ver-todos-animales">
+                                Ver todos
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="animals-grid" id="recent-animals">
+                        <!-- Se carga dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adopciones recientes -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-handshake"></i>
+                        Adopciones Recientes
+                    </h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-secondary btn-sm" id="btn-ver-todas-adopciones">
+                            Ver todas
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Adopción</th>
+                            <th>Animal</th>
+                            <th>Adoptante</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-adoptions">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Registro de Rescate -->
+        <div id="registro-rescate" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Registro de Rescate</h1>
+                    <p class="dashboard-subtitle">Complete todos los datos del rescate y del animal</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <form id="form-registro-rescate">
+                    <h3 class="panel-title" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-ambulance"></i> Información del Rescate
+                    </h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha del Reporte</label>
+                            <input type="date" class="form-input" id="fecha-reporte" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Voluntario Asignado</label>
+                            <select class="form-select" id="voluntario-asignado" required>
+                                <option value="">Seleccionar voluntario...</option>
+                                <option value="1">Ana García</option>
+                                <option value="2">Carlos Méndez</option>
+                                <option value="3">Laura Torres</option>
+                                <option value="4">Roberto Alvarado</option>
+                                <option value="5">María Sánchez</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Sede Destino</label>
+                            <select class="form-select" id="sede-destino" required>
+                                <option value="">Seleccionar sede...</option>
+                                <option value="2001">Sede Central CDMX</option>
+                                <option value="2002">Sede Occidente Guadalajara</option>
+                                <option value="2003">Sede Norte Monterrey</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Estado del Rescate</label>
+                            <select class="form-select" id="estado-rescate" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="en_proceso">En Proceso</option>
+                                <option value="completado">Completado</option>
+                                <option value="urgente">Urgente</option>
+                                <option value="cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teléfono del Reportante</label>
+                        <input type="tel" class="form-input" id="telefono-reportante" placeholder="10 dígitos" pattern="[0-9]{10}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones del Rescate</label>
+                        <textarea class="form-textarea" id="observaciones-rescate" placeholder="Detalles del reporte, condiciones del animal, etc."></textarea>
+                    </div>
+                    
+                    <h3 class="panel-title" style="margin: 2rem 0 1.5rem;">
+                        <i class="fas fa-paw"></i> Información del Animal
+                    </h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Nombre del Animal</label>
+                            <input type="text" class="form-input" id="nombre-animal" placeholder="Nombre del animal" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Especie</label>
+                            <select class="form-select" id="especie-animal" required>
+                                <option value="">Seleccionar especie...</option>
+                                <option value="1">Perro</option>
+                                <option value="2">Gato</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Raza</label>
+                        <div class="search-wrapper">
+                            <input type="text" class="form-input" id="raza-search" autocomplete="off" placeholder="Buscar raza...">
+                            <input type="hidden" id="raza-id" required>
+                            <div class="search-results" id="search-results"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label required">Sexo</label>
+                            <select class="form-select" id="sexo-animal" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Macho</option>
+                                <option value="2">Hembra</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Talla</label>
+                            <select class="form-select" id="talla-animal" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Mini</option>
+                                <option value="2">Chico</option>
+                                <option value="3">Mediano</option>
+                                <option value="4">Grande</option>
+                                <option value="5">Gigante</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Tipo</label>
+                            <select class="form-select" id="tipo-animal" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Única</option>
+                                <option value="2">Mestizo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Función</label>
+                            <select class="form-select" id="funcion-animal" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Animal de compañía</option>
+                                <option value="2">Apoyo</option>
+                                <option value="3">Asistencia</option>
+                                <option value="4">Condición de calle</option>
+                                <option value="5">Deportivo</option>
+                                <option value="6">Detectores</option>
+                                <option value="7">Exhibición</option>
+                                <option value="8">Guardia y Protección</option>
+                                <option value="9">Guía de ciegos</option>
+                                <option value="10">Rastreo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Medio de Llegada</label>
+                            <select class="form-select" id="medio-llegada" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Adopción</option>
+                                <option value="2">Compra</option>
+                                <option value="3">Lo rescaté de la calle</option>
+                                <option value="4">Nació en casa</option>
+                                <option value="5">Nació en la calle</option>
+                                <option value="6">Regalo</option>
+                                <option value="7">Vive en la calle</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Patrón de Pelaje</label>
+                            <select class="form-select" id="patron-pelaje" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Alambre</option>
+                                <option value="2">Corto</option>
+                                <option value="3">Doble capa</option>
+                                <option value="4">Duro</option>
+                                <option value="5">Lanoso</option>
+                                <option value="6">Largo</option>
+                                <option value="7">Pelaje nuevo</option>
+                                <option value="8">Sin pelo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Color de Ojos</label>
+                            <select class="form-select" id="color-ojos" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Amarillo</option>
+                                <option value="2">Azul</option>
+                                <option value="3">Bicolor</option>
+                                <option value="4">Café</option>
+                                <option value="5">Gris</option>
+                                <option value="6">Miel</option>
+                                <option value="7">Negro</option>
+                                <option value="8">Verde</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Color Principal</label>
+                        <select class="form-select" id="color-principal" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="1">Amarillo</option>
+                            <option value="2">Azul</option>
+                            <option value="3">Blanco</option>
+                            <option value="4">Café</option>
+                            <option value="5">Caniche</option>
+                            <option value="6">Carbonado</option>
+                            <option value="7">Chocolate</option>
+                            <option value="8">Color único</option>
+                            <option value="9">Dorado</option>
+                            <option value="10">Golondrino</option>
+                            <option value="11">Negro</option>
+                            <option value="12">Otro color</option>
+                            <option value="13">Paja</option>
+                            <option value="14">Plata</option>
+                            <option value="15">Rojo</option>
+                            <option value="16">Sal y Pimienta</option>
+                            <option value="17">Sepia</option>
+                            <option value="18">Tabby</option>
+                            <option value="19">Verde</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label required">Carácter</label>
+                            <select class="form-select" id="caracter-animal" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Faldero</option>
+                                <option value="2">Tímido</option>
+                                <option value="3">Tranquilo</option>
+                                <option value="4">Activo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Peso (kg)</label>
+                            <input type="number" class="form-input" id="peso-animal" step="0.01" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Estado de Salud</label>
+                            <select class="form-select" id="estado-salud" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Bueno</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Crítico</option>
+                                <option value="4">En tratamiento</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Edad (años)</label>
+                            <input type="number" class="form-input" id="edad-anios" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Edad (meses)</label>
+                            <input type="number" class="form-input" id="edad-meses" min="0" max="11" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">URL de Foto del Animal</label>
+                        <input type="url" class="form-input" id="foto-animal" placeholder="https://ejemplo.com/foto.jpg">
+                        <small class="text-muted">Opcional: URL de una foto del animal</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Características Especiales</label>
+                        <textarea class="form-textarea" id="caracteristicas-animal" placeholder="Marcas distintivas, comportamientos especiales, necesidades médicas, etc."></textarea>
+                    </div>
+                    
+                    <h3 class="panel-title" style="margin: 2rem 0 1.5rem;">
+                        <i class="fas fa-map-marker-alt"></i> Ubicación del Rescate
+                    </h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Estado</label>
+                            <input type="text" class="form-input" id="estado-ubicacion" placeholder="Ej: Ciudad de México" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Municipio</label>
+                            <input type="text" class="form-input" id="municipio-ubicacion" placeholder="Ej: Coyoacán" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Colonia</label>
+                            <input type="text" class="form-input" id="colonia-ubicacion" placeholder="Ej: Centro" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Calle</label>
+                            <input type="text" class="form-input" id="calle-ubicacion" placeholder="Nombre de la calle" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Número Exterior</label>
+                            <input type="text" class="form-input" id="num-ext-ubicacion" placeholder="Ej: 123">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Número Interior</label>
+                            <input type="text" class="form-input" id="num-int-ubicacion" placeholder="Ej: 4">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Código Postal</label>
+                            <input type="text" class="form-input" id="cp-ubicacion" pattern="[0-9]{5}" placeholder="5 dígitos" required>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer" style="border-top: none; padding: 0; margin-top: 2rem;">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-times"></i> Limpiar Formulario
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Registrar Rescate
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Panel: Rescates Activos -->
+        <div id="rescates-activos" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Rescates Activos</h1>
+                    <p class="dashboard-subtitle">Seguimiento y gestión de rescates en proceso</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-nuevo-rescate-tab">
+                        <i class="fas fa-plus"></i> Nuevo Rescate
+                    </button>
+                    <button class="btn btn-secondary" id="btn-refrescar-rescates">
+                        <i class="fas fa-sync-alt"></i> Refrescar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-list"></i>
+                        Todos los Rescates
+                    </h2>
+                    <div class="panel-actions">
+                        <div class="search-container" style="width: 300px;">
+                            <input type="text" class="search-input" id="search-rescates" placeholder="Buscar rescate...">
+                            <button class="search-btn" id="btn-search-rescates">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Rescate</th>
+                            <th>Animal</th>
+                            <th>Especie</th>
+                            <th>Ubicación</th>
+                            <th>Reportante</th>
+                            <th>Voluntario</th>
+                            <th>Estado</th>
+                            <th>Fecha Reporte</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-rescues">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Animales Rescatados -->
+        <div id="animales-rescatados" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Animales Rescatados</h1>
+                    <p class="dashboard-subtitle">Gestión de animales rescatados y su estado</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="btn-refrescar-animales-rescatados">
+                        <i class="fas fa-sync-alt"></i> Refrescar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-paw"></i>
+                        Catálogo de Animales Rescatados
+                    </h2>
+                </div>
+                
+                <div class="search-container" style="margin-bottom: 2rem;">
+                    <input type="text" class="search-input" id="search-animales-rescatados" placeholder="Buscar animal por nombre, especie, raza o características...">
+                    <button class="search-btn" id="btn-search-animales-rescatados">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div id="animals-catalog">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Adopciones -->
+        <div id="adopciones" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Adopciones</h1>
+                    <p class="dashboard-subtitle">Lectura y seguimiento de procesos de adopción</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="btn-refrescar-adopciones">
+                        <i class="fas fa-sync-alt"></i> Refrescar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-handshake"></i>
+                        Procesos de Adopción
+                    </h2>
+                    <div class="panel-actions">
+                        <div class="search-container" style="width: 300px;">
+                            <input type="text" class="search-input" id="search-adopciones" placeholder="Buscar adopción...">
+                            <button class="search-btn" id="btn-search-adopciones">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Adopción</th>
+                            <th>Animal</th>
+                            <th>Especie</th>
+                            <th>Adoptante</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Cierre</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-adoptions">
+                        <!-- Se carga dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Panel: Reportes -->
+        <div id="reportes" class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Reportes de Rescates</h1>
+                    <p class="dashboard-subtitle">Estadísticas y análisis de rescates y adopciones</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-generar-reporte-rescates">
+                        <i class="fas fa-file-export"></i> Generar Reporte
+                    </button>
+                </div>
+            </div>
+
+            <div class="dashboard-panels">
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-line"></i>
+                        Rescates Mensuales
+                    </h2>
+                    <div id="chart-rescates" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem; padding: 20px;">
+                        <canvas id="rescates-chart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-pie"></i>
+                        Distribución por Especie
+                    </h2>
+                    <div id="chart-especies" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem; padding: 20px;">
+                        <canvas id="especies-chart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <h2>Huellitas</h2>
+                <p>Un encuentro, dos salvaciones.</p>
+                <br>
+                <p>Administración de Rescates - Gestión integral de rescates y animales</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Acciones Rápidas</h3>
+                <ul>
+                    <li><a href="#" onclick="navigateToTab('dashboard')">Dashboard</a></li>
+                    <li><a href="#" onclick="navigateToTab('registro-rescate')">Registrar Rescate</a></li>
+                    <li><a href="#" onclick="navigateToTab('rescates-activos')">Rescates Activos</a></li>
+                    <li><a href="#" onclick="navigateToTab('animales-rescatados')">Animales Rescatados</a></li>
+                    <li><a href="#" onclick="navigateToTab('adopciones')">Adopciones</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contacto Rescates</h3>
+                <p><i class="fas fa-phone"></i> Emergencias: 555-9876-123</p>
+                <p><i class="fas fa-envelope"></i> rescates@huellitas.org</p>
+                <p><i class="fas fa-user-friends"></i> Roberto Alvarado</p>
+                <p><i class="fas fa-map-marker-alt"></i> Sede Central, Coyoacán</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Refugio Huellitas - Panel de Administración de Rescates. Atención 24/7 para emergencias.</p>
+        </div>
+    </footer>
+
+    <!-- Modal para ver detalles de rescate -->
+    <div class="modal" id="detallesRescateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Detalles del Rescate</h2>
+                <button class="close-btn" onclick="cerrarModal('detallesRescateModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="rescate-detalles">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('detallesRescateModal')">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles de animal -->
+    <div class="modal" id="detallesAnimalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Detalles del Animal</h2>
+                <button class="close-btn" onclick="cerrarModal('detallesAnimalModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="animal-detalles">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('detallesAnimalModal')">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cambiar estado de rescate -->
+    <div class="modal" id="cambiarEstadoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cambiar Estado del Rescate</h2>
+                <button class="close-btn" onclick="cerrarModal('cambiarEstadoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-cambiar-estado">
+                    <input type="hidden" id="rescate-id-estado">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Rescate</label>
+                        <input type="text" class="form-input" id="rescate-info-estado" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Nuevo Estado</label>
+                        <select class="form-select" id="nuevo-estado" required>
+                            <option value="" selected disabled>Seleccionar estado...</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en_proceso">En Proceso</option>
+                            <option value="completado">Completado</option>
+                            <option value="urgente">Urgente</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones del Cambio</label>
+                        <textarea class="form-textarea" id="observaciones-cambio" placeholder="Motivo del cambio de estado..."></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('cambiarEstadoModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-exchange-alt"></i> Cambiar Estado
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para generar reporte -->
+    <div class="modal" id="reporteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Generar Reporte de Rescates</h2>
+                <button class="close-btn" onclick="cerrarModal('reporteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-reporte-rescates">
+                    <div class="form-group">
+                        <label class="form-label required">Tipo de Reporte</label>
+                        <select class="form-select" id="reporte-tipo-rescates" required>
+                            <option value="" selected disabled>Seleccionar tipo...</option>
+                            <option value="mensual">Reporte Mensual</option>
+                            <option value="trimestral">Reporte Trimestral</option>
+                            <option value="anual">Reporte Anual</option>
+                            <option value="personalizado">Personalizado por Fechas</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row" id="reporte-fechas-container" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label required">Fecha Inicial</label>
+                            <input type="date" class="form-input" id="reporte-fecha-inicio">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label required">Fecha Final</label>
+                            <input type="date" class="form-input" id="reporte-fecha-fin">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Formato</label>
+                        <select class="form-select" id="reporte-formato-rescates">
+                            <option value="pdf" selected>PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Incluir</label>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-rescates" checked>
+                                <span>Rescates</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-animales" checked>
+                                <span>Animales Rescatados</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="reporte-incluir-estadisticas" checked>
+                                <span>Estadísticas</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('reporteModal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-file-export"></i> Generar Reporte
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        
+        // Datos de ejemplo para Administración de Rescates
+        const razasData = {
+            1: [
+                {id:1,n:"Affenspincher"},{id:2,n:"Afgano"},{id:3,n:"Airedale Terrier"},
+                {id:4,n:"Akita"},{id:5,n:"Akita Americano"},{id:6,n:"Alco"},
+                {id:7,n:"American Pitbull"},{id:8,n:"Antiguo Pastor Inglés"},
+                {id:9,n:"Antiguo Pointer Danés"},{id:10,n:"Azawakh"},
+                {id:11,n:"Basenji"},{id:12,n:"Basset de los Alpes"},
+                {id:13,n:"Basset Hound"},{id:14,n:"Beagle"},
+                {id:15,n:"Beauceron"},{id:16,n:"Bedlington Terrier"},
+                {id:17,n:"Bernés de la Montaña"},{id:18,n:"Bichón Frise"},
+                {id:19,n:"Bichoón Havanero"},{id:20,n:"Biewer yorkshire terrier"},
+                {id:21,n:"Bloodhound"},{id:22,n:"Boloñés"},
+                {id:23,n:"Border Collie"},{id:24,n:"Border Terrier"},
+                {id:25,n:"Borzoi"},{id:26,n:"Boston Terrier"},
+                {id:27,n:"Bouvier de Appenzeller"},{id:28,n:"Bouvier de Entlebucher"},
+                {id:29,n:"Bouvier de Flandes"},{id:30,n:"Bouvier de las Ardenas"},
+                {id:31,n:"Boxer"},{id:32,n:"Braco de Weimar"},
+                {id:33,n:"Briard"},{id:34,n:"Bulldog Francés"},
+                {id:35,n:"Bulldog inglés"},{id:36,n:"Bullmastiff"},
+                {id:37,n:"Bull Terrier Inglés"},{id:38,n:"Bully"},
+                {id:39,n:"Cairn terrier"},{id:40,n:"Calupoh"},
+                {id:41,n:"Cavalier King Charles Spaniel"},
+                {id:42,n:"Cazador de Alces Noruego"},
+                {id:43,n:"Cazador de Alces Sueco"},
+                {id:44,n:"Chihuahueño de Pelo Corto"},
+                {id:45,n:"Chihuahueño de Pelo Largo"},
+                {id:46,n:"Chow Chow"},{id:47,n:"Cirneco del Etna"},
+                {id:48,n:"Clumber Spaniel"},
+                {id:49,n:"Cobrador de la Bahía de Chesapeake"},
+                {id:50,n:"Cobrador de Labrador"},
+                {id:51,n:"Cobrador de Nueva Escocia"},
+                {id:52,n:"Cobrador Dorado"},
+                {id:53,n:"Cocker Spaniel Americano"},
+                {id:54,n:"Cocker Spaniel Inglés"},
+                {id:55,n:"Collie"},{id:56,n:"Coonhound"},
+                {id:57,n:"Cotton de Tulear"},
+                {id:58,n:"Crestado Chino"},
+                {id:59,n:"Criolla"},
+                {id:60,n:"Dachshund Toy"},
+                {id:61,n:"Dachshund Estándar"},
+                {id:62,n:"Dachshund Miniatura"},
+                {id:63,n:"Dalmata"},
+                {id:64,n:"Dandie Dinmont Terrier"},
+                {id:65,n:"Deerhound"},
+                {id:66,n:"Doberman"},
+                {id:67,n:"Dogo argentino"},
+                {id:68,n:"Dogo de Burdeos"},
+                {id:69,n:"Esquimal americano"},
+                {id:70,n:"Fila Brasileño"},
+                {id:71,n:"Fila de San Miguel"},
+                {id:72,n:"Fox Hound"},
+                {id:73,n:"Fox Terrier"},
+                {id:74,n:"Galgo Español"},
+                {id:75,n:"Galgo Italiano"},
+                {id:76,n:"Gigante de los Pirineos"},
+                {id:77,n:"Golden Retriever"},
+                {id:78,n:"Gran Boyero Suizo"},
+                {id:79,n:"Gran Danés"},
+                {id:80,n:"Gran Perro Japonés"},
+                {id:81,n:"Greyhound"},
+                {id:82,n:"Griffón Belga"},
+                {id:83,n:"Griffón de Brabante"},
+                {id:84,n:"Griffón de Bruselas"},
+                {id:85,n:"Harrier"},
+                {id:86,n:"Hovawart"},
+                {id:87,n:"Husky Siberiano"},
+                {id:88,n:"Irish soft coated wheaten terrier"},
+                {id:89,n:"Jack Russell Terrier"},
+                {id:90,n:"Jingo"},
+                {id:91,n:"Kelpie"},
+                {id:92,n:"Kerry Blue Terrier"},
+                {id:93,n:"King Charles Spaniel"},
+                {id:94,n:"Komondor"},
+                {id:95,n:"Kromfohrlander"},
+                {id:96,n:"Labradoodle"},
+                {id:97,n:"Laika de Siberia"},
+                {id:98,n:"Lakeland Terrier"},
+                {id:99,n:"Lebrel Polaco"},
+                {id:100,n:"Leonberger"},
+                {id:101,n:"Lhasa Apso"},
+                {id:102,n:"Lobero Irlandés"},
+                {id:103,n:"Lundehund"},
+                {id:104,n:"Magyar Agar"},
+                {id:105,n:"Malamute de Alaska"},
+                {id:106,n:"Maltés"},
+                {id:107,n:"Manchester Terrier"},
+                {id:108,n:"Mastín de los Pirineos"},
+                {id:109,n:"Mastín Español"},
+                {id:110,n:"Mastín Inglés"},
+                {id:111,n:"Mastín italiano"},
+                {id:112,n:"Mastín Italiano"},
+                {id:113,n:"Mastín Napolitano"},
+                {id:114,n:"Mastín Tibetano"},
+                {id:115,n:"Norfolk Terrier"},
+                {id:116,n:"Norwich Terrier"},
+                {id:117,n:"Osero Careliano"},
+                {id:118,n:"Otterhound"},
+                {id:119,n:"Papillón"},
+                {id:120,n:"Pastor Alemán"},
+                {id:121,n:"Pastor Australiano"},
+                {id:122,n:"Pastor Belga"},
+                {id:123,n:"Pastor de Islandia"},
+                {id:124,n:"Pastor de los Pirineos"},
+                {id:125,n:"Pastor de Maremma"},
+                {id:126,n:"Pastor de Shetland"},
+                {id:127,n:"Pastor Holandés"},
+                {id:128,n:"Pastor Noruego"},
+                {id:129,n:"Pequeño Perro León"},
+                {id:130,n:"Pequinés"},
+                {id:131,n:"Perro de Aguas Americano"},
+                {id:132,n:"Perro de Aguas de la Romagna"},
+                {id:133,n:"Perro de Aguas Español"},
+                {id:134,n:"Perro de Aguas Irlandés"},
+                {id:135,n:"Perro de Aguas Portugués"},
+                {id:136,n:"Perro de Canaan"},
+                {id:137,n:"Perro de Groenlandia"},
+                {id:138,n:"Perro de los Faraones"},
+                {id:139,n:"Perro de los Visigodos"},
+                {id:140,n:"Perro Finlandés de Laponia"},
+                {id:141,n:"Perro Ganadero Australiano"},
+                {id:142,n:"Perro Lobo Checoslovaco"},
+                {id:143,n:"Perro Sueco de Laponia"},
+                {id:144,n:"Phalene"},
+                {id:145,n:"Pinscher"},
+                {id:146,n:"Pinscher Austriaco"},
+                {id:147,n:"Pinscher miniatura"},
+                {id:148,n:"Podenco Canario"},
+                {id:149,n:"Podenco Ibicenco"},
+                {id:150,n:"Podenco Portugués"},
+                {id:151,n:"Pointer Alemán"},
+                {id:152,n:"Pointer Inglés"},
+                {id:153,n:"Poodle Toy"},
+                {id:154,n:"Poodle Estándar"},
+                {id:155,n:"Poodle Miniatura"},
+                {id:156,n:"Poodle Minitoy"},
+                {id:157,n:"Presa Canario"},
+                {id:158,n:"Pug"},
+                {id:159,n:"Puli"},
+                {id:160,n:"Rhodesian Ridgeback"},
+                {id:161,n:"Rottweiler"},
+                {id:162,n:"Sabueso de Baviera"},
+                {id:163,n:"Sabueso de Hannover"},
+                {id:164,n:"Saluki"},
+                {id:165,n:"Samoyedo"},
+                {id:166,n:"San Bernardo"},
+                {id:167,n:"Schnauzer Estándar"},
+                {id:168,n:"Schnauzer Gigante"},
+                {id:169,n:"Schnauzer Miniatura"},
+                {id:170,n:"Setter Gordon"},
+                {id:171,n:"Setter Inglés"},
+                {id:172,n:"Setter Irlandés"},
+                {id:173,n:"Shar pei"},
+                {id:174,n:"Shiba"},
+                {id:175,n:"Shih Tzu"},
+                {id:176,n:"Silky Terrier"},
+                {id:177,n:"Skye Terrier"},
+                {id:178,n:"Sloughi"},
+                {id:179,n:"Spaniel Bretón"},
+                {id:180,n:"Spaniel Continental Miniatura"},
+                {id:181,n:"Spaniel Francés"},
+                {id:182,n:"Spaniel Japonés"},
+                {id:183,n:"Spaniel Tibetano"},
+                {id:184,n:"Spinone Italiano"},
+                {id:185,n:"Spitz Alemán"},
+                {id:186,n:"Spitz Alemán Toy / Pomerania"},
+                {id:187,n:"Spitz Finlandés"},
+                {id:188,n:"Spitz Japonés"},
+                {id:189,n:"Springer Spaniel Galés"},
+                {id:190,n:"Springer Spaniel Inglés"},
+                {id:191,n:"Staffordshire Bull Terrier"},
+                {id:192,n:"Staffordshire Terrier"},
+                {id:193,n:"Staffordshire Terrier Americano"},
+                {id:194,n:"Sussex Spaniel"},
+                {id:195,n:"Terranova"},
+                {id:196,n:"Terrier Australiano"},
+                {id:197,n:"Terrier Escocés"},
+                {id:198,n:"Terrier Japonés"},
+                {id:199,n:"Terrier Negro Ruso"},
+                {id:200,n:"Terrier Tibetano"},
+                {id:201,n:"Thai Ridgeback"},
+                {id:202,n:"Tosa"},
+                {id:203,n:"Viszla"},
+                {id:204,n:"Volpino Italiano"},
+                {id:205,n:"Weimaraner"},
+                {id:206,n:"Welsh Corgi"},
+                {id:207,n:"West Highland White Terrier"},
+                {id:208,n:"Whippet"},
+                {id:209,n:"Xoloitzcuintle"},
+                {id:210,n:"Xoloitzcuintle miniatura"},
+                {id:211,n:"Yorkshire Terrier"}
+            ],
+            2: [
+                {id:1,n:"Abisinio"},{id:2,n:"American shorthair"},
+                {id:3,n:"American wirehair"},{id:4,n:"Angora turco"},
+                {id:5,n:"Australian Mist"},{id:6,n:"Azul Británico"},
+                {id:7,n:"Azul ruso"},{id:8,n:"Balinés"},
+                {id:9,n:"Bengala"},{id:10,n:"Bobtail Americano"},
+                {id:11,n:"Bobtail Japonés"},{id:12,n:"Bombay"},
+                {id:13,n:"Bosque de Noruega"},{id:14,n:"Brazilian Shorthair"},
+                {id:15,n:"Burmés"},{id:16,n:"Burmilla"},
+                {id:17,n:"California Spangled"},{id:18,n:"Ceilán"},
+                {id:19,n:"Chartreux"},{id:20,n:"Colorpoint Shorthair"},
+                {id:21,n:"Cornish rex"},{id:22,n:"Criolla"},
+                {id:23,n:"Curl Americano"},{id:24,n:"Cymric"},
+                {id:25,n:"Deutsch Langhaar"},{id:26,n:"Devon Rex"},
+                {id:27,n:"Doméstico europeo"},{id:28,n:"Dorado africano"},
+                {id:29,n:"Dragon Li"},{id:30,n:"Exótico"},
+                {id:31,n:"Fold Japonés"},{id:32,n:"German Rex"},
+                {id:33,n:"Habana brown"},{id:34,n:"Himalayo"},
+                {id:35,n:"Javanés"},{id:36,n:"Khao Manee"},
+                {id:37,n:"Korat"},{id:38,n:"LaPerm"},
+                {id:39,n:"Lykoi"},{id:40,n:"Maine Coon"},
+                {id:41,n:"Manx"},{id:42,n:"Mau Egipcio"},
+                {id:43,n:"Munchkin"},{id:44,n:"Nebelung"},
+                {id:45,n:"Ocicat"},{id:46,n:"Ojos azules"},
+                {id:47,n:"Oriental"},{id:48,n:"Oriental de pelo largo"},
+                {id:49,n:"Pelo corto Británico"},{id:50,n:"Persa"},
+                {id:51,n:"Peterbald"},{id:52,n:"Pixie Bob"},
+                {id:53,n:"Rabon Japonés"},{id:54,n:"Ragamuffin"},
+                {id:55,n:"Ragdoll"},{id:56,n:"Sagrado de Birmania"},
+                {id:57,n:"Savannah"},{id:58,n:"Scottish Fold"},
+                {id:59,n:"Selkirk rex"},{id:60,n:"Serengeti"},
+                {id:61,n:"Seychellois"},{id:62,n:"Siamés"},
+                {id:63,n:"Siamés Moderno"},{id:64,n:"Siberiano"},
+                {id:65,n:"Singapura"},{id:66,n:"Snowshoe"},
+                {id:67,n:"Somalí"},{id:68,n:"Sphynx (Esfinge)"},
+                {id:69,n:"Tonkinés"},{id:70,n:"Van Turco"}
+            ]
+        };
+
+        const sampleData = {
+            rescates: [
+                { 
+                    id: 'RES-2024-001', 
+                    animalId: 'HUE-2024-001',
+                    animalNombre: 'Luna',
+                    especie: 'perro',
+                    raza: 'Labrador Retriever',
+                    fechaReporte: '2024-03-15',
+                    telefonoReportante: '5512345678',
+                    voluntario: 'Ana García',
+                    sedeDestino: 'Sede Central CDMX',
+                    estado: 'completado',
+                    estadoUbicacion: 'Ciudad de México',
+                    municipioUbicacion: 'Coyoacán',
+                    coloniaUbicacion: 'Centro',
+                    calleUbicacion: 'Hidalgo',
+                    numExtUbicacion: '123',
+                    numIntUbicacion: '',
+                    cpUbicacion: '04000',
+                    observaciones: 'Perro encontrado abandonado en parque'
+                },
+                { 
+                    id: 'RES-2024-002', 
+                    animalId: 'HUE-2024-002',
+                    animalNombre: 'Michi',
+                    especie: 'gato',
+                    raza: 'Siamés',
+                    fechaReporte: '2024-03-16',
+                    telefonoReportante: '5523456789',
+                    voluntario: 'Carlos Méndez',
+                    sedeDestino: 'Sede Central CDMX',
+                    estado: 'en_proceso',
+                    estadoUbicacion: 'Ciudad de México',
+                    municipioUbicacion: 'Benito Juárez',
+                    coloniaUbicacion: 'Del Valle',
+                    calleUbicacion: 'Reforma',
+                    numExtUbicacion: '456',
+                    numIntUbicacion: '2',
+                    cpUbicacion: '03100',
+                    observaciones: 'Gato atrapado en árbol, necesita rescate urgente'
+                },
+                { 
+                    id: 'RES-2024-003', 
+                    animalId: 'HUE-2024-003',
+                    animalNombre: 'Max',
+                    especie: 'perro',
+                    raza: 'Pastor Alemán',
+                    fechaReporte: '2024-03-14',
+                    telefonoReportante: '5534567890',
+                    voluntario: 'Laura Torres',
+                    sedeDestino: 'Sede Central CDMX',
+                    estado: 'pendiente',
+                    estadoUbicacion: 'Estado de México',
+                    municipioUbicacion: 'Naucalpan',
+                    coloniaUbicacion: 'San Mateo',
+                    calleUbicacion: 'Juárez',
+                    numExtUbicacion: '789',
+                    numIntUbicacion: '',
+                    cpUbicacion: '53100',
+                    observaciones: 'Perro herido encontrado en carretera'
+                },
+                { 
+                    id: 'RES-2024-004', 
+                    animalId: 'HUE-2024-004',
+                    animalNombre: 'Canela',
+                    especie: 'perro',
+                    raza: 'Chihuahua',
+                    fechaReporte: '2024-03-17',
+                    telefonoReportante: '5545678901',
+                    voluntario: 'Roberto Alvarado',
+                    sedeDestino: 'Sede Central CDMX',
+                    estado: 'urgente',
+                    estadoUbicacion: 'Ciudad de México',
+                    municipioUbicacion: 'Álvaro Obregón',
+                    coloniaUbicacion: 'Tolteca',
+                    calleUbicacion: '16 de Septiembre',
+                    numExtUbicacion: '321',
+                    numIntUbicacion: '',
+                    cpUbicacion: '01090',
+                    observaciones: 'Perrita en mal estado de salud, necesita atención veterinaria inmediata'
+                },
+                { 
+                    id: 'RES-2024-005', 
+                    animalId: 'HUE-2024-005',
+                    animalNombre: 'Rocky',
+                    especie: 'perro',
+                    raza: 'Bulldog Francés',
+                    fechaReporte: '2024-03-13',
+                    telefonoReportante: '5556789012',
+                    voluntario: 'María Sánchez',
+                    sedeDestino: 'Sede Central CDMX',
+                    estado: 'completado',
+                    estadoUbicacion: 'Ciudad de México',
+                    municipioUbicacion: 'Miguel Hidalgo',
+                    coloniaUbicacion: 'Polanco',
+                    calleUbicacion: 'Homero',
+                    numExtUbicacion: '654',
+                    numIntUbicacion: 'A',
+                    cpUbicacion: '11560',
+                    observaciones: 'Perro perdido encontrado con placa de identificación'
+                }
+            ],
+            animales: [
+                { 
+                    id: 'HUE-2024-001', 
+                    nombre: 'Luna', 
+                    especie: 'perro', 
+                    raza: 'Labrador Retriever', 
+                    sexo: 'hembra',
+                    talla: 'grande',
+                    tipo: 'única',
+                    funcion: 'animal de compañía',
+                    medioLlegada: 'rescate de la calle',
+                    patronPelaje: 'corto',
+                    colorOjos: 'café',
+                    colorPrincipal: 'negro',
+                    caracter: 'activo',
+                    peso: 25.5,
+                    edadAnios: 2,
+                    edadMeses: 3,
+                    estadoSalud: 'bueno',
+                    foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop',
+                    fechaRegistro: '2024-03-15',
+                    sede: 'Sede Central CDMX',
+                    caracteristicas: 'Juguetona y cariñosa, se lleva bien con otros perros',
+                    estado: 'disponible'
+                },
+                { 
+                    id: 'HUE-2024-002', 
+                    nombre: 'Michi', 
+                    especie: 'gato', 
+                    raza: 'Siamés', 
+                    sexo: 'macho',
+                    talla: 'chico',
+                    tipo: 'única',
+                    funcion: 'animal de compañía',
+                    medioLlegada: 'rescate de la calle',
+                    patronPelaje: 'corto',
+                    colorOjos: 'azul',
+                    colorPrincipal: 'blanco',
+                    caracter: 'tímido',
+                    peso: 4.2,
+                    edadAnios: 1,
+                    edadMeses: 6,
+                    estadoSalud: 'regular',
+                    foto: 'https://images.unsplash.com/photo-1514888286974-6d03bde4ba04?w=400&h=300&fit=crop',
+                    fechaRegistro: '2024-03-16',
+                    sede: 'Sede Central CDMX',
+                    caracteristicas: 'Necesita socialización, asustadizo pero cariñoso',
+                    estado: 'en tratamiento'
+                },
+                { 
+                    id: 'HUE-2024-003', 
+                    nombre: 'Max', 
+                    especie: 'perro', 
+                    raza: 'Pastor Alemán', 
+                    sexo: 'macho',
+                    talla: 'gigante',
+                    tipo: 'mestizo',
+                    funcion: 'animal de compañía',
+                    medioLlegada: 'rescate de la calle',
+                    patronPelaje: 'largo',
+                    colorOjos: 'café',
+                    colorPrincipal: 'negro',
+                    caracter: 'tranquilo',
+                    peso: 32.0,
+                    edadAnios: 3,
+                    edadMeses: 0,
+                    estadoSalud: 'crítico',
+                    foto: 'https://images.unsplash.com/photo-1568572933382-74d440642117?w=400&h=300&fit=crop',
+                    fechaRegistro: '2024-03-14',
+                    sede: 'Sede Central CDMX',
+                    caracteristicas: 'Herido en pata trasera, necesita cirugía',
+                    estado: 'en tratamiento'
+                },
+                { 
+                    id: 'HUE-2024-004', 
+                    nombre: 'Canela', 
+                    especie: 'perro', 
+                    raza: 'Chihuahua', 
+                    sexo: 'hembra',
+                    talla: 'mini',
+                    tipo: 'única',
+                    funcion: 'animal de compañía',
+                    medioLlegada: 'rescate de la calle',
+                    patronPelaje: 'corto',
+                    colorOjos: 'negro',
+                    colorPrincipal: 'café',
+                    caracter: 'faldero',
+                    peso: 2.8,
+                    edadAnios: 4,
+                    edadMeses: 2,
+                    estadoSalud: 'crítico',
+                    foto: 'https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?w=400&h=300&fit=crop',
+                    fechaRegistro: '2024-03-17',
+                    sede: 'Sede Central CDMX',
+                    caracteristicas: 'Desnutrida, necesita alimentación especial',
+                    estado: 'en tratamiento'
+                },
+                { 
+                    id: 'HUE-2024-005', 
+                    nombre: 'Rocky', 
+                    especie: 'perro', 
+                    raza: 'Bulldog Francés', 
+                    sexo: 'macho',
+                    talla: 'mediano',
+                    tipo: 'única',
+                    funcion: 'animal de compañía',
+                    medioLlegada: 'perdido',
+                    patronPelaje: 'corto',
+                    colorOjos: 'café',
+                    colorPrincipal: 'blanco',
+                    caracter: 'tranquilo',
+                    peso: 12.5,
+                    edadAnios: 5,
+                    edadMeses: 0,
+                    estadoSalud: 'bueno',
+                    foto: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=400&h=300&fit=crop',
+                    fechaRegistro: '2024-03-13',
+                    sede: 'Sede Central CDMX',
+                    caracteristicas: 'Ya fue reclamado por su dueño',
+                    estado: 'devuelto'
+                }
+            ],
+            adopciones: [
+                {
+                    id: 'ADP-2024-001',
+                    animalId: 'HUE-2024-001',
+                    animalNombre: 'Luna',
+                    especie: 'perro',
+                    adoptante: 'María González',
+                    fechaInicio: '2024-03-20',
+                    fechaCierre: '2024-03-25',
+                    estado: 'completada'
+                },
+                {
+                    id: 'ADP-2024-002',
+                    animalId: 'HUE-2024-006',
+                    animalNombre: 'Bella',
+                    especie: 'gato',
+                    adoptante: 'Carlos Rodríguez',
+                    fechaInicio: '2024-03-18',
+                    fechaCierre: null,
+                    estado: 'en proceso'
+                },
+                {
+                    id: 'ADP-2024-003',
+                    animalId: 'HUE-2024-007',
+                    animalNombre: 'Thor',
+                    especie: 'perro',
+                    adoptante: 'Laura Martínez',
+                    fechaInicio: '2024-03-22',
+                    fechaCierre: null,
+                    estado: 'pendiente'
+                }
+            ]
+        };
+
+        
+
+        // Variables globales
+        let razasActuales = [];
+        let selectedIndex = -1;
+        let currentRescueToEdit = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar datos
+            cargarRescatesRecientes();
+            cargarAnimalesRecientes();
+            cargarAdopcionesRecientes();
+            cargarTodosRescates();
+            cargarCatalogoAnimales();
+            cargarTodasAdopciones();
+            actualizarEstadisticas();
+            
+            // Configurar navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    navigateToTab(this.getAttribute('data-tab'));
+                });
+            });
+            
+            // Configurar búsqueda de razas
+            const especieSel = document.getElementById('especie-animal');
+            const razaSearch = document.getElementById('raza-search');
+            const razaId = document.getElementById('raza-id');
+            const searchResults = document.getElementById('search-results');
+            
+            function actualizarRazas() {
+                const especieId = especieSel.value;
+                
+                if (especieId && razasData[especieId]) {
+                    razasActuales = razasData[especieId];
+                    razaSearch.value = '';
+                    razaId.value = '';
+                    razaSearch.placeholder = especieId === '1' ? 'Buscar raza de perro...' : 'Buscar raza de gato...';
+                    searchResults.classList.remove('active');
+                }
+            }
+            
+            function filtrarRazas(texto) {
+                if (!texto) return razasActuales;
+                
+                texto = texto.toLowerCase();
+                return razasActuales.filter(r => 
+                    r.n.toLowerCase().includes(texto)
+                );
+            }
+            
+            function mostrarResultados(resultados) {
+                searchResults.innerHTML = '';
+                selectedIndex = -1;
+                
+                if (resultados.length === 0) {
+                    searchResults.innerHTML = '<div class="no-results">No se encontraron razas</div>';
+                    searchResults.classList.add('active');
+                    return;
+                }
+                
+                resultados.forEach((raza, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'search-result-item';
+                    item.textContent = raza.n;
+                    item.dataset.id = raza.id;
+                    item.dataset.name = raza.n;
+                    item.dataset.index = index;
+                    
+                    item.addEventListener('click', () => seleccionarRaza(raza));
+                    searchResults.appendChild(item);
+                });
+                
+                searchResults.classList.add('active');
+            }
+            
+            function seleccionarRaza(raza) {
+                razaSearch.value = raza.n;
+                razaId.value = raza.id;
+                searchResults.classList.remove('active');
+                selectedIndex = -1;
+            }
+            
+            function navigateResults(direction) {
+                const items = searchResults.querySelectorAll('.search-result-item');
+                if (items.length === 0) return;
+                
+                items[selectedIndex]?.classList.remove('selected');
+                
+                if (direction === 'down') {
+                    selectedIndex = selectedIndex < items.length - 1 ? selectedIndex + 1 : 0;
+                } else if (direction === 'up') {
+                    selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : items.length - 1;
+                }
+                
+                items[selectedIndex].classList.add('selected');
+                items[selectedIndex].scrollIntoView({ block: 'nearest' });
+            }
+            
+            razaSearch.addEventListener('input', (e) => {
+                const texto = e.target.value;
+                const resultados = filtrarRazas(texto);
+                mostrarResultados(resultados);
+            });
+            
+            razaSearch.addEventListener('focus', (e) => {
+                if (e.target.value) {
+                    const resultados = filtrarRazas(e.target.value);
+                    mostrarResultados(resultados);
+                } else {
+                    mostrarResultados(razasActuales);
+                }
+            });
+            
+            razaSearch.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    navigateResults('down');
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    navigateResults('up');
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const items = searchResults.querySelectorAll('.search-result-item');
+                    if (selectedIndex >= 0 && items[selectedIndex]) {
+                        const raza = {
+                            id: items[selectedIndex].dataset.id,
+                            n: items[selectedIndex].dataset.name
+                        };
+                        seleccionarRaza(raza);
+                    }
+                } else if (e.key === 'Escape') {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-wrapper')) {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            especieSel.addEventListener('change', actualizarRazas);
+            actualizarRazas(); // Inicializar al cargar
+            
+            // Configurar formulario de registro
+            document.getElementById('form-registro-rescate').addEventListener('submit', registrarRescate);
+            document.getElementById('form-cambiar-estado').addEventListener('submit', cambiarEstadoRescate);
+            document.getElementById('form-reporte-rescates').addEventListener('submit', generarReporteRescates);
+            
+            // Configurar fecha actual
+            document.getElementById('fecha-reporte').value = new Date().toISOString().split('T')[0];
+            
+            // Configurar botones
+            document.getElementById('btn-nuevo-rescate').addEventListener('click', () => navigateToTab('registro-rescate'));
+            document.getElementById('btn-nuevo-rescate-tab').addEventListener('click', () => navigateToTab('registro-rescate'));
+            document.getElementById('btn-ver-urgentes').addEventListener('click', verRescatesUrgentes);
+            
+            // Configurar botones de navegación
+            document.getElementById('btn-ver-todos-rescates').addEventListener('click', () => navigateToTab('rescates-activos'));
+            document.getElementById('btn-ver-todos-animales').addEventListener('click', () => navigateToTab('animales-rescatados'));
+            document.getElementById('btn-ver-todas-adopciones').addEventListener('click', () => navigateToTab('adopciones'));
+            
+            // Configurar refresh buttons
+            document.getElementById('btn-refrescar-rescates').addEventListener('click', () => {
+                cargarTodosRescates();
+                mostrarToast('Lista de rescates actualizada', 'success');
+            });
+            
+            document.getElementById('btn-refrescar-animales-rescatados').addEventListener('click', () => {
+                cargarCatalogoAnimales();
+                mostrarToast('Catálogo de animales actualizado', 'success');
+            });
+            
+            document.getElementById('btn-refrescar-adopciones').addEventListener('click', () => {
+                cargarTodasAdopciones();
+                mostrarToast('Lista de adopciones actualizada', 'success');
+            });
+            
+            // Configurar búsquedas
+            document.getElementById('btn-search-rescates').addEventListener('click', buscarRescates);
+            document.getElementById('search-rescates').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarRescates();
+            });
+            
+            document.getElementById('btn-search-animales-rescatados').addEventListener('click', buscarAnimalesRescatados);
+            document.getElementById('search-animales-rescatados').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarAnimalesRescatados();
+            });
+            
+            document.getElementById('btn-search-adopciones').addEventListener('click', buscarAdopciones);
+            document.getElementById('search-adopciones').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') buscarAdopciones();
+            });
+            
+            // Configurar botones modales
+            document.getElementById('btn-generar-reporte-rescates').addEventListener('click', () => abrirModalReporte());
+            
+            // Configurar cambio de tipo de reporte
+            document.getElementById('reporte-tipo-rescates').addEventListener('change', function() {
+                const fechasContainer = document.getElementById('reporte-fechas-container');
+                fechasContainer.style.display = this.value === 'personalizado' ? 'grid' : 'none';
+            });
+            
+            // Inicializar gráficos
+            setTimeout(() => {
+                inicializarGraficos();
+            }, 1000);
+            
+            // Actualizar badge de rescates
+            actualizarBadgeRescates();
+        });
+
+        // Funciones de navegación
+        function navigateToTab(tabId) {
+            // Remover clase active de todas las tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            // Agregar clase active a la tab clickeada
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.dashboard-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Mostrar contenido correspondiente
+            document.getElementById(tabId).classList.add('active');
+            
+            // Scroll al inicio de la sección
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funciones de carga de datos
+        function cargarRescatesRecientes() {
+            const tbody = document.getElementById('recent-rescues');
+            tbody.innerHTML = '';
+            
+            // Obtener últimos 5 rescates
+            const rescatesRecientes = [...sampleData.rescates]
+                .sort((a, b) => new Date(b.fechaReporte) - new Date(a.fechaReporte))
+                .slice(0, 5);
+            
+            if (rescatesRecientes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-ambulance" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay rescates registrados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            rescatesRecientes.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${rescate.id}</strong></td>
+                    <td>${rescate.animalNombre}</td>
+                    <td>${rescate.municipioUbicacion}, ${rescate.estadoUbicacion}</td>
+                    <td>${rescate.telefonoReportante || 'No disponible'}</td>
+                    <td><span class="status-badge ${getEstadoClase(rescate.estado)}">${getEstadoTexto(rescate.estado)}</span></td>
+                    <td>${formatDate(rescate.fechaReporte)}</td>
+                `;
+                tr.addEventListener('click', () => {
+                    mostrarDetallesRescate(rescate.id);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarAnimalesRecientes() {
+            const container = document.getElementById('recent-animals');
+            container.innerHTML = '';
+            
+            // Obtener últimos 4 animales
+            const animalesRecientes = [...sampleData.animales]
+                .sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro))
+                .slice(0, 4);
+            
+            if (animalesRecientes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">
+                        <i class="fas fa-paw" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                        No hay animales rescatados
+                    </div>
+                `;
+                return;
+            }
+            
+            animalesRecientes.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Disponible';
+                        break;
+                    case 'en tratamiento':
+                        estadoClass = 'status-en-proceso';
+                        estadoText = 'En Tratamiento';
+                        break;
+                    case 'devuelto':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Devuelto';
+                        break;
+                    default:
+                        estadoClass = 'status-pendiente';
+                        estadoText = animal.estado;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.foto}" alt="${animal.nombre}" class="animal-image">
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.nombre}</div>
+                        <div class="animal-id">${animal.id}</div>
+                        <div class="animal-details">
+                            <span class="animal-tag">${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                            <span class="animal-tag">${animal.edadAnios} años</span>
+                            <span class="animal-tag">${animal.raza}</span>
+                        </div>
+                        <div class="status-badge ${estadoClass}" style="margin-top: 10px;">
+                            ${estadoText}
+                        </div>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="mostrarDetallesAnimal('${animal.id}')">
+                            <i class="fas fa-eye"></i> Ver Detalles
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function cargarAdopcionesRecientes() {
+            const tbody = document.getElementById('recent-adoptions');
+            tbody.innerHTML = '';
+            
+            // Obtener últimas 5 adopciones
+            const adopcionesRecientes = [...sampleData.adopciones]
+                .sort((a, b) => new Date(b.fechaInicio) - new Date(a.fechaInicio))
+                .slice(0, 5);
+            
+            if (adopcionesRecientes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-handshake" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay adopciones registradas
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            adopcionesRecientes.forEach(adopcion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${adopcion.id}</strong></td>
+                    <td>${adopcion.animalNombre} (${adopcion.especie})</td>
+                    <td>${adopcion.adoptante}</td>
+                    <td>${formatDate(adopcion.fechaInicio)}</td>
+                    <td><span class="status-badge ${getEstadoAdopcionClase(adopcion.estado)}">${getEstadoAdopcionTexto(adopcion.estado)}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function cargarTodosRescates() {
+            const tbody = document.getElementById('all-rescues');
+            tbody.innerHTML = '';
+            
+            if (sampleData.rescates.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-ambulance" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay rescates registrados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha de reporte descendente
+            const rescatesOrdenados = [...sampleData.rescates].sort((a, b) => 
+                new Date(b.fechaReporte) - new Date(a.fechaReporte)
+            );
+            
+            rescatesOrdenados.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${rescate.id}</strong></td>
+                    <td>${rescate.animalNombre}<br><small>${rescate.animalId}</small></td>
+                    <td>${rescate.especie.charAt(0).toUpperCase() + rescate.especie.slice(1)}</td>
+                    <td>${rescate.municipioUbicacion}, ${rescate.estadoUbicacion}</td>
+                    <td>${rescate.telefonoReportante || 'No disponible'}</td>
+                    <td>${rescate.voluntario}</td>
+                    <td><span class="status-badge ${getEstadoClase(rescate.estado)}">${getEstadoTexto(rescate.estado)}</span></td>
+                    <td>${formatDate(rescate.fechaReporte)}</td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="mostrarDetallesRescate('${rescate.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn primary" onclick="cambiarEstadoRescateModal('${rescate.id}')" title="Cambiar estado">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            actualizarBadgeRescates();
+        }
+
+        function cargarCatalogoAnimales() {
+            const container = document.getElementById('animals-catalog');
+            container.innerHTML = '';
+            
+            if (sampleData.animales.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-paw"></i>
+                        <p>No hay animales rescatados</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha de registro descendente
+            const animalesOrdenados = [...sampleData.animales].sort((a, b) => 
+                new Date(b.fechaRegistro) - new Date(a.fechaRegistro)
+            );
+            
+            animalesOrdenados.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Disponible para adopción';
+                        break;
+                    case 'en tratamiento':
+                        estadoClass = 'status-en-proceso';
+                        estadoText = 'En tratamiento médico';
+                        break;
+                    case 'devuelto':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Devuelto a dueño';
+                        break;
+                    default:
+                        estadoClass = 'status-pendiente';
+                        estadoText = animal.estado;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.foto}" alt="${animal.nombre}" class="animal-image">
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.nombre}</div>
+                        <div class="animal-id">${animal.id}</div>
+                        <div class="animal-details">
+                            <span class="animal-tag">
+                                <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-birthday-cake"></i>
+                                ${animal.edadAnios} años ${animal.edadMeses > 0 ? animal.edadMeses + ' meses' : ''}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-dna"></i>
+                                ${animal.raza}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas ${animal.sexo === 'macho' ? 'fa-mars' : 'fa-venus'}"></i>
+                                ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}
+                            </span>
+                        </div>
+                        <div class="status-badge ${estadoClass}" style="margin: 10px 0;">
+                            <i class="fas fa-heart"></i> ${estadoText}
+                        </div>
+                        <div class="animal-details">
+                            <span class="animal-tag">
+                                <i class="fas fa-weight"></i> ${animal.peso} kg
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-heartbeat"></i> ${getEstadoSaludTexto(animal.estadoSalud)}
+                            </span>
+                        </div>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <button class="btn btn-secondary" style="flex: 1;" onclick="mostrarDetallesAnimal('${animal.id}')">
+                                <i class="fas fa-eye"></i> Detalles
+                            </button>
+                            ${animal.estado === 'disponible' ? 
+                                `<button class="btn btn-primary" style="flex: 1;" onclick="iniciarAdopcion('${animal.id}')">
+                                    <i class="fas fa-handshake"></i> Adoptar
+                                </button>` : ''
+                            }
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function cargarTodasAdopciones() {
+            const tbody = document.getElementById('all-adoptions');
+            tbody.innerHTML = '';
+            
+            if (sampleData.adopciones.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-handshake" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay adopciones registradas
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha de inicio descendente
+            const adopcionesOrdenadas = [...sampleData.adopciones].sort((a, b) => 
+                new Date(b.fechaInicio) - new Date(a.fechaInicio)
+            );
+            
+            adopcionesOrdenadas.forEach(adopcion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${adopcion.id}</strong></td>
+                    <td>${adopcion.animalNombre}<br><small>${adopcion.animalId}</small></td>
+                    <td>${adopcion.especie.charAt(0).toUpperCase() + adopcion.especie.slice(1)}</td>
+                    <td>${adopcion.adoptante}</td>
+                    <td>${formatDate(adopcion.fechaInicio)}</td>
+                    <td>${adopcion.fechaCierre ? formatDate(adopcion.fechaCierre) : 'En proceso'}</td>
+                    <td><span class="status-badge ${getEstadoAdopcionClase(adopcion.estado)}">${getEstadoAdopcionTexto(adopcion.estado)}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function actualizarEstadisticas() {
+            const totalRescates = sampleData.rescates.length;
+            const enProceso = sampleData.rescates.filter(r => r.estado === 'en_proceso').length;
+            const completados = sampleData.rescates.filter(r => r.estado === 'completado').length;
+            const urgentes = sampleData.rescates.filter(r => r.estado === 'urgente').length;
+            
+            document.getElementById('stat-total-rescates').textContent = totalRescates;
+            document.getElementById('stat-en-proceso').textContent = enProceso;
+            document.getElementById('stat-completados').textContent = completados;
+            document.getElementById('stat-urgentes').textContent = urgentes;
+        }
+
+        // Funciones de búsqueda
+        function buscarRescates() {
+            const searchTerm = document.getElementById('search-rescates').value.trim().toLowerCase();
+            
+            const rescatesFiltrados = sampleData.rescates.filter(rescate => 
+                !searchTerm ||
+                rescate.id.toLowerCase().includes(searchTerm) ||
+                rescate.animalNombre.toLowerCase().includes(searchTerm) ||
+                rescate.especie.toLowerCase().includes(searchTerm) ||
+                rescate.raza.toLowerCase().includes(searchTerm) ||
+                rescate.estadoUbicacion.toLowerCase().includes(searchTerm) ||
+                rescate.municipioUbicacion.toLowerCase().includes(searchTerm) ||
+                rescate.telefonoReportante.includes(searchTerm) ||
+                rescate.voluntario.toLowerCase().includes(searchTerm)
+            );
+            
+            const tbody = document.getElementById('all-rescues');
+            tbody.innerHTML = '';
+            
+            if (rescatesFiltrados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No se encontraron rescates con ese criterio
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            rescatesFiltrados.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${rescate.id}</strong></td>
+                    <td>${rescate.animalNombre}<br><small>${rescate.animalId}</small></td>
+                    <td>${rescate.especie.charAt(0).toUpperCase() + rescate.especie.slice(1)}</td>
+                    <td>${rescate.municipioUbicacion}, ${rescate.estadoUbicacion}</td>
+                    <td>${rescate.telefonoReportante || 'No disponible'}</td>
+                    <td>${rescate.voluntario}</td>
+                    <td><span class="status-badge ${getEstadoClase(rescate.estado)}">${getEstadoTexto(rescate.estado)}</span></td>
+                    <td>${formatDate(rescate.fechaReporte)}</td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="mostrarDetallesRescate('${rescate.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn primary" onclick="cambiarEstadoRescateModal('${rescate.id}')" title="Cambiar estado">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function buscarAnimalesRescatados() {
+            const searchTerm = document.getElementById('search-animales-rescatados').value.trim().toLowerCase();
+            
+            const animalesFiltrados = sampleData.animales.filter(animal => 
+                !searchTerm ||
+                animal.id.toLowerCase().includes(searchTerm) ||
+                animal.nombre.toLowerCase().includes(searchTerm) ||
+                animal.especie.toLowerCase().includes(searchTerm) ||
+                animal.raza.toLowerCase().includes(searchTerm) ||
+                animal.caracteristicas.toLowerCase().includes(searchTerm)
+            );
+            
+            const container = document.getElementById('animals-catalog');
+            container.innerHTML = '';
+            
+            if (animalesFiltrados.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron animales con ese criterio</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            animalesFiltrados.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Disponible para adopción';
+                        break;
+                    case 'en tratamiento':
+                        estadoClass = 'status-en-proceso';
+                        estadoText = 'En tratamiento médico';
+                        break;
+                    case 'devuelto':
+                        estadoClass = 'status-completado';
+                        estadoText = 'Devuelto a dueño';
+                        break;
+                    default:
+                        estadoClass = 'status-pendiente';
+                        estadoText = animal.estado;
+                }
+                
+                card.innerHTML = `
+                    <img src="${animal.foto}" alt="${animal.nombre}" class="animal-image">
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.nombre}</div>
+                        <div class="animal-id">${animal.id}</div>
+                        <div class="animal-details">
+                            <span class="animal-tag">
+                                <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-birthday-cake"></i>
+                                ${animal.edadAnios} años ${animal.edadMeses > 0 ? animal.edadMeses + ' meses' : ''}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-dna"></i>
+                                ${animal.raza}
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas ${animal.sexo === 'macho' ? 'fa-mars' : 'fa-venus'}"></i>
+                                ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}
+                            </span>
+                        </div>
+                        <div class="status-badge ${estadoClass}" style="margin: 10px 0;">
+                            <i class="fas fa-heart"></i> ${estadoText}
+                        </div>
+                        <div class="animal-details">
+                            <span class="animal-tag">
+                                <i class="fas fa-weight"></i> ${animal.peso} kg
+                            </span>
+                            <span class="animal-tag">
+                                <i class="fas fa-heartbeat"></i> ${getEstadoSaludTexto(animal.estadoSalud)}
+                            </span>
+                        </div>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <button class="btn btn-secondary" style="flex: 1;" onclick="mostrarDetallesAnimal('${animal.id}')">
+                                <i class="fas fa-eye"></i> Detalles
+                            </button>
+                            ${animal.estado === 'disponible' ? 
+                                `<button class="btn btn-primary" style="flex: 1;" onclick="iniciarAdopcion('${animal.id}')">
+                                    <i class="fas fa-handshake"></i> Adoptar
+                                </button>` : ''
+                            }
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buscarAdopciones() {
+            const searchTerm = document.getElementById('search-adopciones').value.trim().toLowerCase();
+            
+            const adopcionesFiltradas = sampleData.adopciones.filter(adopcion => 
+                !searchTerm ||
+                adopcion.id.toLowerCase().includes(searchTerm) ||
+                adopcion.animalNombre.toLowerCase().includes(searchTerm) ||
+                adopcion.especie.toLowerCase().includes(searchTerm) ||
+                adopcion.adoptante.toLowerCase().includes(searchTerm) ||
+                adopcion.estado.toLowerCase().includes(searchTerm)
+            );
+            
+            const tbody = document.getElementById('all-adoptions');
+            tbody.innerHTML = '';
+            
+            if (adopcionesFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No se encontraron adopciones con ese criterio
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            adopcionesFiltradas.forEach(adopcion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${adopcion.id}</strong></td>
+                    <td>${adopcion.animalNombre}<br><small>${adopcion.animalId}</small></td>
+                    <td>${adopcion.especie.charAt(0).toUpperCase() + adopcion.especie.slice(1)}</td>
+                    <td>${adopcion.adoptante}</td>
+                    <td>${formatDate(adopcion.fechaInicio)}</td>
+                    <td>${adopcion.fechaCierre ? formatDate(adopcion.fechaCierre) : 'En proceso'}</td>
+                    <td><span class="status-badge ${getEstadoAdopcionClase(adopcion.estado)}">${getEstadoAdopcionTexto(adopcion.estado)}</span></td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funciones de formularios
+        function registrarRescate(e) {
+            e.preventDefault();
+            
+            // Obtener datos del rescate
+            const fechaReporte = document.getElementById('fecha-reporte').value;
+            const voluntario = document.getElementById('voluntario-asignado').value;
+            const sedeDestino = document.getElementById('sede-destino').value;
+            const estadoRescate = document.getElementById('estado-rescate').value;
+            const telefonoReportante = document.getElementById('telefono-reportante').value;
+            const observacionesRescate = document.getElementById('observaciones-rescate').value;
+            
+            // Obtener datos del animal
+            const nombreAnimal = document.getElementById('nombre-animal').value;
+            const especie = document.getElementById('especie-animal').value;
+            const razaId = document.getElementById('raza-id').value;
+            const razaNombre = document.getElementById('raza-search').value;
+            const sexo = document.getElementById('sexo-animal').value;
+            const talla = document.getElementById('talla-animal').value;
+            const tipo = document.getElementById('tipo-animal').value;
+            const funcion = document.getElementById('funcion-animal').value;
+            const medioLlegada = document.getElementById('medio-llegada').value;
+            const patronPelaje = document.getElementById('patron-pelaje').value;
+            const colorOjos = document.getElementById('color-ojos').value;
+            const colorPrincipal = document.getElementById('color-principal').value;
+            const caracter = document.getElementById('caracter-animal').value;
+            const peso = parseFloat(document.getElementById('peso-animal').value);
+            const edadAnios = parseInt(document.getElementById('edad-anios').value);
+            const edadMeses = parseInt(document.getElementById('edad-meses').value);
+            const estadoSalud = document.getElementById('estado-salud').value;
+            const fotoAnimal = document.getElementById('foto-animal').value;
+            const caracteristicas = document.getElementById('caracteristicas-animal').value;
+            
+            // Obtener datos de ubicación
+            const estadoUbicacion = document.getElementById('estado-ubicacion').value;
+            const municipioUbicacion = document.getElementById('municipio-ubicacion').value;
+            const coloniaUbicacion = document.getElementById('colonia-ubicacion').value;
+            const calleUbicacion = document.getElementById('calle-ubicacion').value;
+            const numExtUbicacion = document.getElementById('num-ext-ubicacion').value;
+            const numIntUbicacion = document.getElementById('num-int-ubicacion').value;
+            const cpUbicacion = document.getElementById('cp-ubicacion').value;
+            
+            // Validaciones básicas
+            if (!razaId) {
+                mostrarToast('Debe seleccionar una raza válida', 'error');
+                return;
+            }
+            
+            // Generar IDs
+            const nextRescueId = Math.max(...sampleData.rescates.map(r => parseInt(r.id.split('-')[2]))) + 1;
+            const rescueId = `RES-2024-${nextRescueId.toString().padStart(3, '0')}`;
+            
+            const nextAnimalId = Math.max(...sampleData.animales.map(a => parseInt(a.id.split('-')[2]))) + 1;
+            const animalId = `HUE-2024-${nextAnimalId.toString().padStart(3, '0')}`;
+            
+            // Obtener texto de opciones seleccionadas
+            const voluntarioText = document.getElementById('voluntario-asignado').options[document.getElementById('voluntario-asignado').selectedIndex].text;
+            const sedeDestinoText = document.getElementById('sede-destino').options[document.getElementById('sede-destino').selectedIndex].text;
+            const especieText = especie === '1' ? 'perro' : 'gato';
+            const sexoText = sexo === '1' ? 'macho' : 'hembra';
+            
+            // Crear objeto de rescate
+            const nuevoRescate = {
+                id: rescueId,
+                animalId: animalId,
+                animalNombre: nombreAnimal,
+                especie: especieText,
+                raza: razaNombre,
+                fechaReporte: fechaReporte,
+                telefonoReportante: telefonoReportante,
+                voluntario: voluntarioText,
+                sedeDestino: sedeDestinoText,
+                estado: estadoRescate,
+                estadoUbicacion: estadoUbicacion,
+                municipioUbicacion: municipioUbicacion,
+                coloniaUbicacion: coloniaUbicacion,
+                calleUbicacion: calleUbicacion,
+                numExtUbicacion: numExtUbicacion,
+                numIntUbicacion: numIntUbicacion,
+                cpUbicacion: cpUbicacion,
+                observaciones: observacionesRescate
+            };
+            
+            // Crear objeto de animal
+            const nuevoAnimal = {
+                id: animalId,
+                nombre: nombreAnimal,
+                especie: especieText,
+                raza: razaNombre,
+                sexo: sexoText,
+                talla: getTallaTexto(talla),
+                tipo: getTipoTexto(tipo),
+                funcion: getFuncionTexto(funcion),
+                medioLlegada: getMedioLlegadaTexto(medioLlegada),
+                patronPelaje: getPatronPelajeTexto(patronPelaje),
+                colorOjos: getColorOjosTexto(colorOjos),
+                colorPrincipal: getColorPrincipalTexto(colorPrincipal),
+                caracter: getCaracterTexto(caracter),
+                peso: peso,
+                edadAnios: edadAnios,
+                edadMeses: edadMeses,
+                estadoSalud: getEstadoSaludTexto(estadoSalud),
+                foto: fotoAnimal || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=300&fit=crop',
+                fechaRegistro: fechaReporte,
+                sede: sedeDestinoText,
+                caracteristicas: caracteristicas,
+                estado: estadoSalud === '1' ? 'disponible' : 'en tratamiento'
+            };
+            
+            // Agregar a los datos
+            sampleData.rescates.unshift(nuevoRescate);
+            sampleData.animales.unshift(nuevoAnimal);
+            
+            // Actualizar todas las listas
+            cargarRescatesRecientes();
+            cargarAnimalesRecientes();
+            cargarTodosRescates();
+            cargarCatalogoAnimales();
+            actualizarEstadisticas();
+            actualizarBadgeRescates();
+            
+            // Resetear formulario
+            resetForm();
+            
+            mostrarToast('Rescate registrado exitosamente', 'success');
+            navigateToTab('dashboard');
+        }
+
+        function cambiarEstadoRescateModal(rescateId) {
+            const rescate = sampleData.rescates.find(r => r.id === rescateId);
+            if (!rescate) {
+                mostrarToast('Rescate no encontrado', 'error');
+                return;
+            }
+            
+            currentRescueToEdit = rescateId;
+            
+            // Llenar formulario
+            document.getElementById('rescate-id-estado').value = rescateId;
+            document.getElementById('rescate-info-estado').value = 
+                `${rescate.id} - ${rescate.animalNombre} (${rescate.especie})`;
+            document.getElementById('nuevo-estado').value = rescate.estado;
+            document.getElementById('observaciones-cambio').value = '';
+            
+            // Mostrar modal
+            document.getElementById('cambiarEstadoModal').style.display = 'flex';
+        }
+
+        function cambiarEstadoRescate(e) {
+            e.preventDefault();
+            
+            const rescateId = document.getElementById('rescate-id-estado').value;
+            const nuevoEstado = document.getElementById('nuevo-estado').value;
+            const observaciones = document.getElementById('observaciones-cambio').value;
+            
+            // Encontrar y actualizar el rescate
+            const rescateIndex = sampleData.rescates.findIndex(r => r.id === rescateId);
+            if (rescateIndex === -1) {
+                mostrarToast('Error: Rescate no encontrado', 'error');
+                return;
+            }
+            
+            const rescate = sampleData.rescates[rescateIndex];
+            const estadoAnterior = rescate.estado;
+            
+            // Actualizar rescate
+            rescate.estado = nuevoEstado;
+            if (observaciones) {
+                rescate.observaciones += '\n\n' + new Date().toLocaleDateString() + ': ' + observaciones;
+            }
+            
+            // Actualizar todas las listas
+            cargarRescatesRecientes();
+            cargarTodosRescates();
+            actualizarEstadisticas();
+            actualizarBadgeRescates();
+            
+            // Cerrar modal
+            cerrarModal('cambiarEstadoModal');
+            
+            mostrarToast(`Estado cambiado de ${getEstadoTexto(estadoAnterior)} a ${getEstadoTexto(nuevoEstado)}`, 'success');
+        }
+
+        function generarReporteRescates(e) {
+            e.preventDefault();
+            
+            const tipo = document.getElementById('reporte-tipo-rescates').value;
+            const fechaInicio = document.getElementById('reporte-fecha-inicio').value;
+            const fechaFin = document.getElementById('reporte-fecha-fin').value;
+            const formato = document.getElementById('reporte-formato-rescates').value;
+            
+            // Validar fechas para reporte personalizado
+            if (tipo === 'personalizado') {
+                if (!fechaInicio || !fechaFin) {
+                    mostrarToast('Debes seleccionar ambas fechas para el reporte personalizado', 'error');
+                    return;
+                }
+                
+                if (new Date(fechaInicio) > new Date(fechaFin)) {
+                    mostrarToast('La fecha inicial no puede ser mayor a la fecha final', 'error');
+                    return;
+                }
+            }
+            
+            // Simular generación de reporte
+            cerrarModal('reporteModal');
+            
+            // Mostrar mensaje de éxito
+            const tipoReporte = {
+                'mensual': 'Mensual',
+                'trimestral': 'Trimestral',
+                'anual': 'Anual',
+                'personalizado': 'Personalizado'
+            }[tipo];
+            
+            mostrarToast(`Reporte ${tipoReporte} generado exitosamente (${formato.toUpperCase()})`, 'success');
+            
+            // En una implementación real, aquí se descargaría el archivo
+            setTimeout(() => {
+                mostrarToast('Descargando reporte...', 'info');
+            }, 1000);
+        }
+
+        // Funciones auxiliares
+        function mostrarDetallesRescate(rescateId) {
+            const rescate = sampleData.rescates.find(r => r.id === rescateId);
+            if (!rescate) {
+                mostrarToast('Rescate no encontrado', 'error');
+                return;
+            }
+            
+            const detalles = document.getElementById('rescate-detalles');
+            detalles.innerHTML = `
+                <div style="display: grid; gap: 1rem;">
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Información del Rescate</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div><strong>ID:</strong> ${rescate.id}</div>
+                            <div><strong>Animal:</strong> ${rescate.animalNombre} (${rescate.animalId})</div>
+                            <div><strong>Especie:</strong> ${rescate.especie.charAt(0).toUpperCase() + rescate.especie.slice(1)}</div>
+                            <div><strong>Raza:</strong> ${rescate.raza}</div>
+                            <div><strong>Fecha Reporte:</strong> ${formatDate(rescate.fechaReporte)}</div>
+                            <div><strong>Teléfono Reportante:</strong> ${rescate.telefonoReportante || 'No disponible'}</div>
+                            <div><strong>Voluntario:</strong> ${rescate.voluntario}</div>
+                            <div><strong>Sede Destino:</strong> ${rescate.sedeDestino}</div>
+                            <div><strong>Estado:</strong> <span class="status-badge ${getEstadoClase(rescate.estado)}">${getEstadoTexto(rescate.estado)}</span></div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Ubicación del Rescate</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div><strong>Estado:</strong> ${rescate.estadoUbicacion}</div>
+                            <div><strong>Municipio:</strong> ${rescate.municipioUbicacion}</div>
+                            <div><strong>Colonia:</strong> ${rescate.coloniaUbicacion}</div>
+                            <div><strong>Calle:</strong> ${rescate.calleUbicacion}</div>
+                            <div><strong>Número Exterior:</strong> ${rescate.numExtUbicacion || 'N/A'}</div>
+                            <div><strong>Número Interior:</strong> ${rescate.numIntUbicacion || 'N/A'}</div>
+                            <div><strong>Código Postal:</strong> ${rescate.cpUbicacion}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Observaciones</h3>
+                        <p>${rescate.observaciones || 'No hay observaciones'}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detallesRescateModal').style.display = 'flex';
+        }
+
+        function mostrarDetallesAnimal(animalId) {
+            const animal = sampleData.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Animal no encontrado', 'error');
+                return;
+            }
+            
+            const detalles = document.getElementById('animal-detalles');
+            detalles.innerHTML = `
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <img src="${animal.foto}" alt="${animal.nombre}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <div style="flex: 1;">
+                            <h2 style="margin-bottom: 0.5rem; color: var(--dark);">${animal.nombre}</h2>
+                            <div style="background: #f8f9fa; padding: 0.5rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem;">
+                                <strong>${animal.id}</strong>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                                <span class="status-badge ${animal.estado === 'disponible' ? 'status-completado' : animal.estado === 'en tratamiento' ? 'status-en-proceso' : 'status-pendiente'}">
+                                    ${animal.estado.charAt(0).toUpperCase() + animal.estado.slice(1)}
+                                </span>
+                                <span class="status-badge ${getEstadoSaludClase(animal.estadoSalud)}">
+                                    ${animal.estadoSalud.charAt(0).toUpperCase() + animal.estadoSalud.slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Información General</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div><strong>Especie:</strong> ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</div>
+                            <div><strong>Raza:</strong> ${animal.raza}</div>
+                            <div><strong>Sexo:</strong> ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</div>
+                            <div><strong>Talla:</strong> ${animal.talla}</div>
+                            <div><strong>Edad:</strong> ${animal.edadAnios} años ${animal.edadMeses > 0 ? animal.edadMeses + ' meses' : ''}</div>
+                            <div><strong>Peso:</strong> ${animal.peso} kg</div>
+                            <div><strong>Tipo:</strong> ${animal.tipo}</div>
+                            <div><strong>Función:</strong> ${animal.funcion}</div>
+                            <div><strong>Medio de Llegada:</strong> ${animal.medioLlegada}</div>
+                            <div><strong>Fecha Registro:</strong> ${formatDate(animal.fechaRegistro)}</div>
+                            <div><strong>Sede:</strong> ${animal.sede}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Características Físicas</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <div><strong>Patrón de Pelaje:</strong> ${animal.patronPelaje}</div>
+                            <div><strong>Color Principal:</strong> ${animal.colorPrincipal}</div>
+                            <div><strong>Color de Ojos:</strong> ${animal.colorOjos}</div>
+                            <div><strong>Carácter:</strong> ${animal.caracter}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Características Especiales</h3>
+                        <p>${animal.caracteristicas || 'No hay características especiales registradas'}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detallesAnimalModal').style.display = 'flex';
+        }
+
+        function verDetallesAdopcion(adopcionId) {
+            const adopcion = sampleData.adopciones.find(a => a.id === adopcionId);
+            if (!adopcion) {
+                mostrarToast('Adopción no encontrada', 'error');
+                return;
+            }
+            
+            const animal = sampleData.animales.find(a => a.id === adopcion.animalId);
+            
+            const detalles = `
+                ID Adopción: ${adopcion.id}
+                Animal: ${adopcion.animalNombre} (${adopcion.animalId})
+                Especie: ${adopcion.especie}
+                Adoptante: ${adopcion.adoptante}
+                Fecha Inicio: ${formatDate(adopcion.fechaInicio)}
+                Fecha Cierre: ${adopcion.fechaCierre ? formatDate(adopcion.fechaCierre) : 'En proceso'}
+                Estado: ${getEstadoAdopcionTexto(adopcion.estado)}
+                
+                ${animal ? `
+                Información del Animal:
+                - Raza: ${animal.raza}
+                - Edad: ${animal.edadAnios} años ${animal.edadMeses > 0 ? animal.edadMeses + ' meses' : ''}
+                - Peso: ${animal.peso} kg
+                - Estado de Salud: ${getEstadoSaludTexto(animal.estadoSalud)}
+                ` : ''}
+            `;
+            
+            alert(detalles);
+        }
+
+        function iniciarAdopcion(animalId) {
+            const animal = sampleData.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Animal no encontrado', 'error');
+                return;
+            }
+            
+            if (animal.estado !== 'disponible') {
+                mostrarToast('Este animal no está disponible para adopción', 'warning');
+                return;
+            }
+            
+            const adoptante = prompt(`Ingrese el nombre del adoptante para ${animal.nombre}:`);
+            if (!adoptante) return;
+            
+            // Generar ID de adopción
+            const nextAdopcionId = Math.max(...sampleData.adopciones.map(a => parseInt(a.id.split('-')[2]))) + 1;
+            const adopcionId = `ADP-2024-${nextAdopcionId.toString().padStart(3, '0')}`;
+            
+            // Crear nueva adopción
+            const nuevaAdopcion = {
+                id: adopcionId,
+                animalId: animalId,
+                animalNombre: animal.nombre,
+                especie: animal.especie,
+                adoptante: adoptante,
+                fechaInicio: new Date().toISOString().split('T')[0],
+                fechaCierre: null,
+                estado: 'pendiente'
+            };
+            
+            // Agregar a los datos
+            sampleData.adopciones.unshift(nuevaAdopcion);
+            
+            // Actualizar estado del animal
+            animal.estado = 'en proceso de adopción';
+            
+            // Actualizar listas
+            cargarAdopcionesRecientes();
+            cargarTodasAdopciones();
+            cargarCatalogoAnimales();
+            
+            mostrarToast(`Proceso de adopción iniciado para ${animal.nombre}`, 'success');
+        }
+
+        function verRescatesUrgentes() {
+            navigateToTab('rescates-activos');
+            document.getElementById('search-rescates').value = '';
+            
+            const rescatesUrgentes = sampleData.rescates.filter(r => r.estado === 'urgente');
+            
+            const tbody = document.getElementById('all-rescues');
+            tbody.innerHTML = '';
+            
+            if (rescatesUrgentes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #888;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                            No hay rescates urgentes
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            rescatesUrgentes.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${rescate.id}</strong></td>
+                    <td>${rescate.animalNombre}<br><small>${rescate.animalId}</small></td>
+                    <td>${rescate.especie.charAt(0).toUpperCase() + rescate.especie.slice(1)}</td>
+                    <td>${rescate.municipioUbicacion}, ${rescate.estadoUbicacion}</td>
+                    <td>${rescate.telefonoReportante || 'No disponible'}</td>
+                    <td>${rescate.voluntario}</td>
+                    <td><span class="status-badge status-urgente">URGENTE</span></td>
+                    <td>${formatDate(rescate.fechaReporte)}</td>
+                    <td class="table-actions">
+                        <button class="table-btn secondary" onclick="mostrarDetallesRescate('${rescate.id}')" title="Ver detalles">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="table-btn primary" onclick="cambiarEstadoRescateModal('${rescate.id}')" title="Cambiar estado">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funciones de utilidad
+        function getEstadoTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'en_proceso': 'En Proceso',
+                'completado': 'Completado',
+                'urgente': 'Urgente',
+                'cancelado': 'Cancelado'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoClase(estado) {
+            const clases = {
+                'pendiente': 'status-pendiente',
+                'en_proceso': 'status-en-proceso',
+                'completado': 'status-completado',
+                'urgente': 'status-urgente',
+                'cancelado': 'status-cancelado'
+            };
+            return clases[estado] || 'status-pendiente';
+        }
+
+        function getEstadoAdopcionTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'en proceso': 'En Proceso',
+                'completada': 'Completada',
+                'rechazada': 'Rechazada'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoAdopcionClase(estado) {
+            const clases = {
+                'pendiente': 'status-pendiente',
+                'en proceso': 'status-en-proceso',
+                'completada': 'status-completado',
+                'rechazada': 'status-cancelado'
+            };
+            return clases[estado] || 'status-pendiente';
+        }
+
+        function getEstadoSaludTexto(estadoSalud) {
+            const estados = {
+                '1': 'Bueno',
+                '2': 'Regular',
+                '3': 'Crítico',
+                '4': 'En tratamiento'
+            };
+            return estados[estadoSalud] || estadoSalud;
+        }
+
+        function getEstadoSaludClase(estadoSalud) {
+            const clases = {
+                '1': 'status-completado',
+                '2': 'status-pendiente',
+                '3': 'status-urgente',
+                '4': 'status-en-proceso',
+                'bueno': 'status-completado',
+                'regular': 'status-pendiente',
+                'crítico': 'status-urgente',
+                'en tratamiento': 'status-en-proceso'
+            };
+            return clases[estadoSalud] || 'status-pendiente';
+        }
+
+        function getTallaTexto(talla) {
+            const tallas = {
+                '1': 'Mini',
+                '2': 'Chico',
+                '3': 'Mediano',
+                '4': 'Grande',
+                '5': 'Gigante'
+            };
+            return tallas[talla] || talla;
+        }
+
+        function getTipoTexto(tipo) {
+            const tipos = {
+                '1': 'Única',
+                '2': 'Mestizo'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        function getFuncionTexto(funcion) {
+            const funciones = {
+                '1': 'Animal de compañía',
+                '2': 'Apoyo',
+                '3': 'Asistencia',
+                '4': 'Condición de calle',
+                '5': 'Deportivo',
+                '6': 'Detectores',
+                '7': 'Exhibición',
+                '8': 'Guardia y Protección',
+                '9': 'Guía de ciegos',
+                '10': 'Rastreo'
+            };
+            return funciones[funcion] || funcion;
+        }
+
+        function getMedioLlegadaTexto(medioLlegada) {
+            const medios = {
+                '1': 'Adopción',
+                '2': 'Compra',
+                '3': 'Lo rescaté de la calle',
+                '4': 'Nació en casa',
+                '5': 'Nació en la calle',
+                '6': 'Regalo',
+                '7': 'Vive en la calle'
+            };
+            return medios[medioLlegada] || medioLlegada;
+        }
+
+        function getPatronPelajeTexto(patronPelaje) {
+            const patrones = {
+                '1': 'Alambre',
+                '2': 'Corto',
+                '3': 'Doble capa',
+                '4': 'Duro',
+                '5': 'Lanoso',
+                '6': 'Largo',
+                '7': 'Pelaje nuevo',
+                '8': 'Sin pelo'
+            };
+            return patrones[patronPelaje] || patronPelaje;
+        }
+
+        function getColorOjosTexto(colorOjos) {
+            const colores = {
+                '1': 'Amarillo',
+                '2': 'Azul',
+                '3': 'Bicolor',
+                '4': 'Café',
+                '5': 'Gris',
+                '6': 'Miel',
+                '7': 'Negro',
+                '8': 'Verde'
+            };
+            return colores[colorOjos] || colorOjos;
+        }
+
+        function getColorPrincipalTexto(colorPrincipal) {
+            const colores = {
+                '1': 'Amarillo',
+                '2': 'Azul',
+                '3': 'Blanco',
+                '4': 'Café',
+                '5': 'Caniche',
+                '6': 'Carbonado',
+                '7': 'Chocolate',
+                '8': 'Color único',
+                '9': 'Dorado',
+                '10': 'Golondrino',
+                '11': 'Negro',
+                '12': 'Otro color',
+                '13': 'Paja',
+                '14': 'Plata',
+                '15': 'Rojo',
+                '16': 'Sal y Pimienta',
+                '17': 'Sepia',
+                '18': 'Tabby',
+                '19': 'Verde'
+            };
+            return colores[colorPrincipal] || colorPrincipal;
+        }
+
+        function getCaracterTexto(caracter) {
+            const caracteres = {
+                '1': 'Faldero',
+                '2': 'Tímido',
+                '3': 'Tranquilo',
+                '4': 'Activo'
+            };
+            return caracteres[caracter] || caracter;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'No definida';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function actualizarBadgeRescates() {
+            const rescatesUrgentes = sampleData.rescates.filter(r => 
+                r.estado === 'urgente'
+            ).length;
+            
+            const rescatesPendientes = sampleData.rescates.filter(r => 
+                r.estado === 'pendiente'
+            ).length;
+            
+            const total = rescatesUrgentes + rescatesPendientes;
+            
+            const badge = document.getElementById('rescates-badge');
+            if (total > 0) {
+                badge.textContent = total;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('form-registro-rescate').reset();
+            document.getElementById('fecha-reporte').value = new Date().toISOString().split('T')[0];
+            document.getElementById('estado-rescate').value = 'pendiente';
+            
+            // Resetear búsqueda de razas
+            document.getElementById('raza-search').value = '';
+            document.getElementById('raza-id').value = '';
+            document.getElementById('search-results').innerHTML = '';
+            document.getElementById('search-results').classList.remove('active');
+            
+            // Restablecer valores por defecto
+            const especieSel = document.getElementById('especie-animal');
+            if (especieSel.value) {
+                const razasActuales = razasData[especieSel.value];
+                document.getElementById('raza-search').placeholder = especieSel.value === '1' ? 'Buscar raza de perro...' : 'Buscar raza de gato...';
+            }
+        }
+
+        function mostrarToast(mensaje, tipo = 'info') {
+            // Crear toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-message">${mensaje}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+
+        function abrirModalReporte() {
+            document.getElementById('reporteModal').style.display = 'flex';
+            document.getElementById('reporte-fecha-inicio').value = getFirstDayOfMonth();
+            document.getElementById('reporte-fecha-fin').value = new Date().toISOString().split('T')[0];
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function getFirstDayOfMonth() {
+            const date = new Date();
+            date.setDate(1);
+            return date.toISOString().split('T')[0];
+        }
+
+        function inicializarGraficos() {
+            // Gráfico de rescates mensuales
+            const ctxRescates = document.getElementById('rescates-chart');
+            if (ctxRescates) {
+                new Chart(ctxRescates, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Rescates Completados',
+                            data: [8, 12, 15, 10, 18, 24],
+                            backgroundColor: 'rgba(42, 157, 143, 0.8)',
+                            borderColor: 'rgba(42, 157, 143, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Rescates Urgentes',
+                            data: [1, 2, 3, 1, 2, 2],
+                            backgroundColor: 'rgba(231, 111, 81, 0.8)',
+                            borderColor: 'rgba(231, 111, 81, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Cantidad de Rescates'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Gráfico de distribución por especie
+            const ctxEspecies = document.getElementById('especies-chart');
+            if (ctxEspecies) {
+                new Chart(ctxEspecies, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Perros', 'Gatos', 'Otros'],
+                        datasets: [{
+                            data: [65, 30, 5],
+                            backgroundColor: [
+                                'rgba(42, 157, 143, 0.8)',
+                                'rgba(233, 196, 106, 0.8)',
+                                'rgba(231, 111, 81, 0.8)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Configurar click fuera de modales para cerrar
+        window.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Configurar tecla ESC para cerrar modales
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Inicializar badge
+        actualizarBadgeRescates();
+
+const asistenciaSistema = {
+    estado: JSON.parse(localStorage.getItem('asistencia_estado')) || {
+        currentWorkStatus: 'inactive',
+        lastCheckIn: null,
+        logs: []
+    },
+
+    init: function() {
+        this.actualizarReloj();
+        this.actualizarInterfaz();
+        setInterval(() => this.actualizarReloj(), 1000);
+        document.getElementById('btn-toggle-asistencia').addEventListener('click', () => this.toggleRegistro());
+    },
+
+    actualizarReloj: function() {
+        const ahora = new Date();
+        document.getElementById('reloj-digital').textContent = ahora.toLocaleTimeString();
+        document.getElementById('fecha-digital').textContent = ahora.toLocaleDateString();
+    },
+
+    toggleRegistro: function() {
+        const ahora = new Date();
+        const fecha = ahora.toISOString().split('T')[0];
+        const hora = ahora.toTimeString().split(' ')[0].substring(0, 5);
+
+        if (this.estado.currentWorkStatus === 'inactive') {
+            this.estado.currentWorkStatus = 'active';
+            this.estado.lastCheckIn = hora;
+            this.estado.logs.push({ tipo: 'entrada', fecha, hora });
+            this.mostrarNotificacion('¡Entrada Exitosa!', `Registrada a las ${hora}`, 'success', 'fa-check-circle');
+        } else {
+            const entradaHora = this.estado.lastCheckIn;
+            const inicio = new Date(`${fecha}T${entradaHora}:00`);
+            const difMs = ahora - inicio;
+            const horas = Math.floor(difMs / 3600000);
+            const mins = Math.floor((difMs % 3600000) / 60000);
+
+            this.estado.currentWorkStatus = 'inactive';
+            this.estado.logs.push({ tipo: 'salida', fecha, hora });
+            this.mostrarNotificacion('¡Salida Exitosa!', `Tiempo: ${horas}h ${mins}m`, 'success', 'fa-door-open');
+            this.estado.lastCheckIn = null;
+        }
+
+        localStorage.setItem('asistencia_estado', JSON.stringify(this.estado));
+        this.actualizarInterfaz();
+    },
+
+    actualizarInterfaz: function() {
+        const statusDiv = document.getElementById('asistencia-status');
+        const btn = document.getElementById('btn-toggle-asistencia');
+
+        if (this.estado.currentWorkStatus === 'active') {
+            statusDiv.className = 'status-box status-online';
+            statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Activo desde ${this.estado.lastCheckIn}`;
+            btn.className = 'btn-asistencia btn-salida';
+            btn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Registrar Salida`;
+        } else {
+            statusDiv.className = 'status-box status-offline';
+            statusDiv.innerHTML = `<i class="fas fa-clock"></i> No has registrado entrada`;
+            btn.className = 'btn-asistencia btn-entrada';
+            btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Registrar Entrada`;
+        }
+    },
+
+    mostrarNotificacion: function(titulo, mensaje, tipo, icono) {
+        const container = document.getElementById('asistencia-toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${tipo}`;
+        
+        toast.innerHTML = `
+            <i class="fas ${icono} toast-icon"></i>
+            <div class="toast-content">
+                <div class="toast-title">${titulo}</div>
+                <div class="toast-message">${mensaje}</div>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+        `;
+
+        container.appendChild(toast);
+        // Autocerrado tras 5 segundos
+        setTimeout(() => { if(toast) toast.remove(); }, 5000);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => asistenciaSistema.init());
+
+    </script>
+</body>
+</html>
