@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huellitas - Panel Voluntario</title>
+    <title>Huellitas - Panel Voluntarios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +20,6 @@
             --danger: #dc3545;
             --info: #17a2b8;
             --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -157,6 +156,44 @@
             color: var(--dark);
         }
 
+        /* Selector de rol */
+        .rol-selector {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .rol-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rol-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rol-btn:hover {
+            border-color: var(--primary);
+            background: #f8f9fa;
+        }
+
+        .rol-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
         /* Botones */
         .btn {
             padding: 10px 20px;
@@ -181,7 +218,6 @@
         .btn-primary:hover {
             background: #23857a;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.2);
         }
 
         .btn-success {
@@ -189,45 +225,14 @@
             color: white;
         }
 
-        .btn-success:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-
         .btn-warning {
             background: var(--warning);
             color: var(--dark);
         }
 
-        .btn-warning:hover {
-            background: #e0a800;
-            transform: translateY(-2px);
-        }
-
         .btn-danger {
             background: var(--danger);
             color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(42, 157, 143, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 13px;
         }
 
         /* Paneles */
@@ -276,7 +281,6 @@
             background: #f9f9f9;
         }
 
-        /* Estados */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -307,36 +311,95 @@
             color: var(--danger);
         }
 
-        /* Asistencia */
-        .asistencia-card {
+        .status-disponible {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-en-tratamiento {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-adoptado {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        /* Tarjetas de animales */
+        .animal-card {
             background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
         }
 
-        .status-box {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: inline-block;
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
         }
 
-        .status-online {
-            background: #e6fffa;
-            color: var(--success);
-            border: 1px solid var(--success);
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
         }
 
-        .status-offline {
-            background: #f8f9fa;
-            color: #6c757d;
-            border: 1px solid #6c757d;
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         /* Formularios */
@@ -372,91 +435,6 @@
             box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
         }
 
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Modales */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: var(--white);
-            width: 100%;
-            max-width: 600px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 1;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #888;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-btn:hover {
-            background: #f5f5f7;
-            color: var(--dark);
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            position: sticky;
-            bottom: 0;
-            background: white;
-        }
-
         /* Toast */
         .toast {
             position: fixed;
@@ -483,20 +461,8 @@
             border-left: 4px solid var(--success);
         }
 
-        .toast.error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .toast.info {
-            border-left: 4px solid var(--info);
-        }
-
-        .toast-icon {
-            font-size: 24px;
-        }
-
-        .toast.success .toast-icon {
-            color: var(--success);
+        .toast.warning {
+            border-left: 4px solid var(--warning);
         }
 
         /* Responsive */
@@ -515,12 +481,6 @@
             
             .dashboard-header {
                 flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .asistencia-card {
-                flex-direction: column;
-                gap: 1rem;
                 align-items: flex-start;
             }
             
@@ -573,148 +533,99 @@
     <!-- Tabs de navegación -->
     <div class="tabs-container">
         <div class="tabs">
-            <div class="tab active" data-tab="dashboard">
-                <i class="fas fa-home"></i> Dashboard
-            </div>
-            <div class="tab" data-tab="rescates">
-                <i class="fas fa-ambulance"></i> Rescates
-            </div>
-            <div class="tab" data-tab="animales">
+            <div class="tab active" data-tab="animales">
                 <i class="fas fa-paw"></i> Animales
+            </div>
+            <div class="tab" data-tab="veterinario">
+                <i class="fas fa-stethoscope"></i> Veterinario
             </div>
             <div class="tab" data-tab="adopciones">
                 <i class="fas fa-handshake"></i> Adopciones
-            </div>
-            <div class="tab" data-tab="citas">
-                <i class="fas fa-calendar-alt"></i> Citas
-            </div>
-            <div class="tab" data-tab="asistencia">
-                <i class="fas fa-clock"></i> Asistencia
             </div>
         </div>
     </div>
 
     <!-- Contenido principal -->
     <main class="main-container">
-        <!-- Dashboard -->
-        <div id="dashboard" class="dashboard-content active">
-            <div class="dashboard-header">
-                <h1 class="dashboard-title" id="dashboard-title">Panel de Voluntario</h1>
-                <div>
-                    <select class="btn btn-secondary" id="select-rol" style="background: var(--white);">
-                        <option value="">Seleccionar rol...</option>
-                        <option value="rescate">Rescate/Logística</option>
-                        <option value="atencion">Atención a Personas</option>
-                        <option value="limpieza">Limpieza/Mantenimiento</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="asistencia-card">
-                <div>
-                    <div id="reloj-digital" style="font-size: 1.4rem; font-weight: bold; color: #333;">00:00:00</div>
-                    <small id="fecha-digital">--/--/----</small>
-                    <div id="asistencia-status" class="status-box status-offline">
-                        <i class="fas fa-clock"></i> <span>Cargando estado...</span>
-                    </div>
-                </div>
-                <button id="btn-toggle-asistencia" class="btn btn-success">
-                    <i class="fas fa-sign-in-alt"></i> Registrar Entrada
+        <!-- Selector de rol -->
+        <div class="rol-selector">
+            <h3 style="margin-bottom: 15px;">Selecciona tu rol como voluntario:</h3>
+            <div class="rol-buttons">
+                <button class="rol-btn active" data-rol="veterinario">
+                    <i class="fas fa-stethoscope"></i> Veterinario
                 </button>
-            </div>
-
-            <div class="panel">
-                <h2 class="panel-title"><i class="fas fa-chart-line"></i> Estadísticas Rápidas</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: bold; color: var(--primary);" id="stat-total">0</div>
-                        <div style="color: #666; font-size: 14px;">Total Actividades</div>
-                    </div>
-                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: bold; color: var(--success);" id="stat-completadas">0</div>
-                        <div style="color: #666; font-size: 14px;">Completadas</div>
-                    </div>
-                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: bold; color: var(--warning);" id="stat-pendientes">0</div>
-                        <div style="color: #666; font-size: 14px;">Pendientes</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <h2 class="panel-title"><i class="fas fa-history"></i> Actividades Recientes</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Actividad</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recent-activities">
-                        <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">Selecciona un rol para ver actividades</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Rescates -->
-        <div id="rescates" class="dashboard-content">
-            <div class="dashboard-header">
-                <h1 class="dashboard-title">Gestión de Rescates</h1>
-                <button class="btn btn-primary" id="btn-nuevo-rescate">
-                    <i class="fas fa-plus"></i> Nuevo Rescate
+                <button class="rol-btn" data-rol="rescate">
+                    <i class="fas fa-ambulance"></i> Rescate
                 </button>
-            </div>
-
-            <div class="panel">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-list"></i> Rescates Activos</h2>
-                    <div style="position: relative; width: 300px;">
-                        <input type="text" class="form-input" id="search-rescates" placeholder="Buscar rescate...">
-                        <button class="btn btn-sm" id="btn-search-rescates" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; color: #666;">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Animal</th>
-                            <th>Ubicación</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="rescates-table">
-                        <!-- Se llena dinámicamente -->
-                    </tbody>
-                </table>
+                <button class="rol-btn" data-rol="atencion">
+                    <i class="fas fa-comments"></i> Atención a Personas
+                </button>
+                <button class="rol-btn" data-rol="administrativo">
+                    <i class="fas fa-file-alt"></i> Administrativo
+                </button>
             </div>
         </div>
 
         <!-- Animales -->
-        <div id="animales" class="dashboard-content">
+        <div id="animales" class="dashboard-content active">
             <div class="dashboard-header">
                 <h1 class="dashboard-title">Animales Rescatados</h1>
-                <button class="btn btn-primary" id="btn-buscar-animal">
-                    <i class="fas fa-search"></i> Buscar
+                <button class="btn btn-primary" id="btn-nuevo-animal">
+                    <i class="fas fa-plus"></i> Nuevo Animal
                 </button>
             </div>
 
             <div class="panel">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-paw"></i> Animales Disponibles</h2>
-                    <button class="btn btn-secondary btn-sm" id="btn-refrescar-animales">
-                        <i class="fas fa-sync-alt"></i> Refrescar
-                    </button>
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-paw"></i> Lista de Animales</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-animales" placeholder="Buscar animal..." style="padding-left: 40px;">
+                        <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                    </div>
                 </div>
-                <div style="position: relative; margin-bottom: 1rem;">
-                    <input type="text" class="form-input" id="search-animales" placeholder="Buscar animal por nombre, especie o raza...">
-                </div>
+                
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;" id="animales-container">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Veterinario -->
+        <div id="veterinario" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Panel Veterinario</h1>
+                <button class="btn btn-primary" id="btn-nueva-vacuna">
+                    <i class="fas fa-syringe"></i> Nueva Vacuna
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-syringe"></i> Vacunas Pendientes</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-vacunas" placeholder="Buscar vacuna...">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Animal</th>
+                            <th>Vacuna</th>
+                            <th>Fecha Aplicación</th>
+                            <th>Próximo Refuerzo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vacunas-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-file-medical"></i> Historial Médico</h2>
+                <div id="historial-veterinario">
                     <!-- Se llena dinámicamente -->
                 </div>
             </div>
@@ -742,6 +653,7 @@
                             <th>ID Proceso</th>
                             <th>Animal</th>
                             <th>Adoptante</th>
+                            <th>Teléfono</th>
                             <th>Estado</th>
                             <th>Fecha</th>
                             <th>Acciones</th>
@@ -753,131 +665,111 @@
                 </table>
             </div>
         </div>
-
-        <!-- Citas -->
-        <div id="citas" class="dashboard-content">
-            <div class="dashboard-header">
-                <h1 class="dashboard-title">Citas Programadas</h1>
-                <button class="btn btn-primary" id="btn-nueva-cita">
-                    <i class="fas fa-plus"></i> Nueva Cita
-                </button>
-            </div>
-
-            <div class="panel">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-calendar-check"></i> Citas de Hoy</h2>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary btn-sm" id="btn-filtrar-hoy">
-                            <i class="fas fa-calendar-day"></i> Hoy
-                        </button>
-                        <button class="btn btn-secondary btn-sm" id="btn-filtrar-semana">
-                            <i class="fas fa-calendar-week"></i> Esta semana
-                        </button>
-                    </div>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Hora</th>
-                            <th>Adoptante</th>
-                            <th>Animal</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="citas-table">
-                        <!-- Se llena dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Asistencia -->
-        <div id="asistencia" class="dashboard-content">
-            <div class="dashboard-header">
-                <h1 class="dashboard-title">Registro de Asistencia</h1>
-                <button class="btn btn-primary" id="btn-exportar-asistencia">
-                    <i class="fas fa-download"></i> Exportar
-                </button>
-            </div>
-
-            <div class="panel">
-                <h2 class="panel-title"><i class="fas fa-history"></i> Historial de Asistencia</h2>
-                <div style="display: flex; gap: 10px; margin-bottom: 1rem;">
-                    <select class="form-select" style="width: 200px;" id="filtro-periodo">
-                        <option value="hoy">Hoy</option>
-                        <option value="semana">Esta semana</option>
-                        <option value="mes">Este mes</option>
-                        <option value="todo">Todo el historial</option>
-                    </select>
-                    <button class="btn btn-secondary" id="btn-aplicar-filtro">
-                        <i class="fas fa-filter"></i> Filtrar
-                    </button>
-                </div>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Entrada</th>
-                            <th>Salida</th>
-                            <th>Duración</th>
-                        </tr>
-                    </thead>
-                    <tbody id="asistencia-history">
-                        <!-- Se llena dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </main>
 
-    <!-- Modal para nuevo rescate -->
-    <div class="modal" id="modalRescate">
+    <!-- Modal para nuevo animal -->
+    <div class="modal" id="modalAnimal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Registrar Nuevo Rescate</h2>
-                <button class="close-btn" onclick="cerrarModal('modalRescate')">&times;</button>
+                <h2 class="modal-title">Registrar Nuevo Animal</h2>
+                <button class="close-btn" onclick="cerrarModal('modalAnimal')">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="form-rescate">
+                <form id="form-animal">
                     <div class="form-group">
                         <label class="form-label">Nombre del Animal</label>
-                        <input type="text" class="form-input" id="rescate-animal" placeholder="Ej: Luna" required>
+                        <input type="text" class="form-input" id="animal-nombre" placeholder="Ej: Luna" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Especie</label>
-                        <select class="form-select" id="rescate-especie" required>
+                        <select class="form-select" id="animal-especie" required>
                             <option value="">Seleccionar...</option>
                             <option value="perro">Perro</option>
                             <option value="gato">Gato</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Ubicación</label>
-                        <input type="text" class="form-input" id="rescate-ubicacion" placeholder="Ej: Coyoacán, CDMX" required>
+                        <label class="form-label">Raza</label>
+                        <input type="text" class="form-input" id="animal-raza" placeholder="Ej: Labrador" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Edad</label>
+                        <input type="text" class="form-input" id="animal-edad" placeholder="Ej: 2 años" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Sexo</label>
+                        <select class="form-select" id="animal-sexo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="macho">Macho</option>
+                            <option value="hembra">Hembra</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Estado</label>
-                        <select class="form-select" id="rescate-estado" required>
-                            <option value="pendiente">Pendiente</option>
-                            <option value="en_proceso">En Proceso</option>
-                            <option value="urgente">Urgente</option>
+                        <select class="form-select" id="animal-estado" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="en-tratamiento">En Tratamiento</option>
+                            <option value="adoptado">Adoptado</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Observaciones</label>
-                        <textarea class="form-textarea" id="rescate-observaciones" placeholder="Descripción del rescate..."></textarea>
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-textarea" id="animal-descripcion" rows="3" placeholder="Descripción del animal..."></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="cerrarModal('modalRescate')">Cancelar</button>
-                <button class="btn btn-primary" onclick="guardarRescate()">Guardar Rescate</button>
+                <button class="btn btn-secondary" onclick="cerrarModal('modalAnimal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarAnimal()">Guardar Animal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva vacuna -->
+    <div class="modal" id="modalVacuna">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Vacuna</h2>
+                <button class="close-btn" onclick="cerrarModal('modalVacuna')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-vacuna">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Animal</label>
+                        <select class="form-select" id="vacuna-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Vacuna</label>
+                        <select class="form-select" id="vacuna-tipo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="antirrabica">Antirrábica</option>
+                            <option value="polivalente">Polivalente</option>
+                            <option value="leptospirosis">Leptospirosis</option>
+                            <option value="parvovirus">Parvovirus</option>
+                            <option value="moquillo">Moquillo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fecha de Aplicación</label>
+                        <input type="date" class="form-input" id="vacuna-fecha" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalVacuna')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarVacuna()">Guardar Vacuna</button>
             </div>
         </div>
     </div>
@@ -886,7 +778,7 @@
     <div class="modal" id="modalAdopcion">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Iniciar Proceso de Adopción</h2>
+                <h2 class="modal-title">Registrar Nueva Adopción</h2>
                 <button class="close-btn" onclick="cerrarModal('modalAdopcion')">&times;</button>
             </div>
             <div class="modal-body">
@@ -895,985 +787,1053 @@
                         <label class="form-label">Seleccionar Animal</label>
                         <select class="form-select" id="adopcion-animal" required>
                             <option value="">Seleccionar animal...</option>
-                            <!-- Se llena dinámicamente -->
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Nombre del Adoptante</label>
-                        <input type="text" class="form-input" id="adopcion-adoptante" placeholder="Nombre completo" required>
+                        <input type="text" class="form-input" id="adopcion-adoptante" placeholder="Ej: María González" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-input" id="adopcion-telefono" placeholder="10 dígitos" pattern="[0-9]{10}" required>
+                        <input type="tel" class="form-input" id="adopcion-telefono" placeholder="Ej: 555-123-4567" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-input" id="adopcion-email" placeholder="correo@ejemplo.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observaciones</label>
-                        <textarea class="form-textarea" id="adopcion-observaciones" placeholder="Motivo de adopción, condiciones especiales..."></textarea>
+                        <label class="form-label">Estado del Proceso</label>
+                        <select class="form-select" id="adopcion-estado" required>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en-proceso">En Proceso</option>
+                            <option value="aprobada">Aprobada</option>
+                            <option value="rechazada">Rechazada</option>
+                        </select>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="cerrarModal('modalAdopcion')">Cancelar</button>
-                <button class="btn btn-primary" onclick="guardarAdopcion()">Iniciar Adopción</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para nueva cita -->
-    <div class="modal" id="modalCita">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Programar Nueva Cita</h2>
-                <button class="close-btn" onclick="cerrarModal('modalCita')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="form-cita">
-                    <div class="form-group">
-                        <label class="form-label">Seleccionar Adopción</label>
-                        <select class="form-select" id="cita-adopcion" required>
-                            <option value="">Seleccionar proceso...</option>
-                            <!-- Se llena dinámicamente -->
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Fecha</label>
-                        <input type="date" class="form-input" id="cita-fecha" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Hora</label>
-                        <input type="time" class="form-input" id="cita-hora" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Cita</label>
-                        <select class="form-select" id="cita-tipo" required>
-                            <option value="">Seleccionar...</option>
-                            <option value="entrevista">Entrevista Inicial</option>
-                            <option value="conocimiento">Conocimiento del Animal</option>
-                            <option value="seguimiento">Seguimiento</option>
-                            <option value="firma">Firma de Contrato</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observaciones</label>
-                        <textarea class="form-textarea" id="cita-observaciones" placeholder="Preparativos, documentos a llevar..."></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="cerrarModal('modalCita')">Cancelar</button>
-                <button class="btn btn-primary" onclick="guardarCita()">Programar Cita</button>
+                <button class="btn btn-primary" onclick="guardarAdopcion()">Guardar Adopción</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Datos según rol
-        const rolesData = {
+        // Datos de voluntarios
+        const voluntarios = {
+            'veterinario': {
+                name: 'Dr. Roberto Sánchez',
+                role: 'Veterinario',
+                initials: 'DR',
+                icon: 'fa-stethoscope',
+                permisos: ['animales', 'veterinario', 'adopciones'],
+                tareas: [
+                    ['Control de vacunas', 'Revisar calendario de vacunación'],
+                    ['Historial médico', 'Actualizar expedientes'],
+                    ['Cirugías programadas', 'Preparar quirófano']
+                ]
+            },
             'rescate': {
                 name: 'Roberto Alvarado',
-                role: 'Coordinador - Administración de Rescates',
+                role: 'Coordinador de Rescates',
                 initials: 'RA',
-                stats: { total: 24, completadas: 14, pendientes: 8 },
-                activities: [
-                    ['15/03/2024', 'Rescate de Luna en Coyoacán', 'Rescate', 'Completado'],
-                    ['16/03/2024', 'Traslado de Michi a clínica', 'Logística', 'En Proceso'],
-                    ['17/03/2024', 'Reporte de animal herido', 'Reporte', 'Pendiente']
+                icon: 'fa-ambulance',
+                permisos: ['animales', 'adopciones'],
+                tareas: [
+                    ['Rutas de rescate', 'Planificar zonas a cubrir'],
+                    ['Equipos de emergencia', 'Verificar equipo'],
+                    ['Coordinación voluntarios', 'Asignar turnos']
                 ]
             },
             'atencion': {
                 name: 'Ana García',
-                role: 'Voluntaria - Atención a Personas',
+                role: 'Atención a Personas',
                 initials: 'AG',
-                stats: { total: 28, completadas: 12, pendientes: 8 },
-                activities: [
-                    ['20/03/2024', 'Entrevista con María González', 'Adopción', 'Completado'],
-                    ['21/03/2024', 'Seguimiento post-adopción', 'Seguimiento', 'En Proceso'],
-                    ['22/03/2024', 'Programar cita para Carlos', 'Cita', 'Pendiente']
+                icon: 'fa-comments',
+                permisos: ['adopciones'],
+                tareas: [
+                    ['Entrevistas adopción', 'Programar citas'],
+                    ['Seguimiento post-adopción', 'Llamadas de seguimiento'],
+                    ['Orientación al público', 'Atender visitantes']
                 ]
             },
-            'limpieza': {
-                name: 'Martín López',
-                role: 'Voluntario - Limpieza y Mantenimiento',
+            'administrativo': {
+                name: 'María López',
+                role: 'Administrativo',
                 initials: 'ML',
-                stats: { total: 18, completadas: 15, pendientes: 3 },
-                activities: [
-                    ['15/03/2024', 'Limpieza área de perros', 'Limpieza', 'Completado'],
-                    ['16/03/2024', 'Desinfección de jaulas', 'Mantenimiento', 'Completado'],
-                    ['17/03/2024', 'Reparación de cercas', 'Reparación', 'Pendiente']
+                icon: 'fa-file-alt',
+                permisos: ['animales', 'adopciones'],
+                tareas: [
+                    ['Registros diarios', 'Actualizar base de datos'],
+                    ['Reportes mensuales', 'Generar estadísticas'],
+                    ['Coordinación citas', 'Organizar agenda']
                 ]
             }
         };
 
-        // Base de datos simulada
-        const database = {
-            rescates: [
-                { id: 'RES-001', animal: 'Luna', especie: 'perro', ubicacion: 'Coyoacán, CDMX', estado: 'en_proceso', fecha: '2024-03-15', observaciones: 'Perro encontrado abandonado' },
-                { id: 'RES-002', animal: 'Michi', especie: 'gato', ubicacion: 'Benito Juárez, CDMX', estado: 'pendiente', fecha: '2024-03-16', observaciones: 'Gato atrapado en árbol' },
-                { id: 'RES-003', animal: 'Max', especie: 'perro', ubicacion: 'Naucalpan, EdoMex', estado: 'urgente', fecha: '2024-03-14', observaciones: 'Perro herido en carretera' }
+        // Base de datos en localStorage
+        const DB = {
+            animales: JSON.parse(localStorage.getItem('animales')) || [
+                { id: 'HUE-001', nombre: 'Luna', especie: 'perro', raza: 'Labrador', edad: '2 años', sexo: 'hembra', estado: 'disponible', descripcion: 'Juguetona y cariñosa' },
+                { id: 'HUE-002', nombre: 'Michi', especie: 'gato', raza: 'Siamés', edad: '1 año', sexo: 'macho', estado: 'en-tratamiento', descripcion: 'Tímido pero cariñoso' },
+                { id: 'HUE-003', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: '3 años', sexo: 'macho', estado: 'disponible', descripcion: 'Leal y protector' }
             ],
-            animales: [
-                { id: 'HUE-001', nombre: 'Luna', especie: 'perro', raza: 'Labrador', edad: '2 años', sexo: 'Hembra', estado: 'disponible', descripcion: 'Juguetona y cariñosa' },
-                { id: 'HUE-002', nombre: 'Michi', especie: 'gato', raza: 'Siamés', edad: '1 año', sexo: 'Macho', estado: 'en_tratamiento', descripcion: 'Tímido pero cariñoso' },
-                { id: 'HUE-003', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: '3 años', sexo: 'Macho', estado: 'disponible', descripcion: 'Leal y protector' },
-                { id: 'HUE-004', nombre: 'Canela', especie: 'perro', raza: 'Chihuahua', edad: '4 años', sexo: 'Hembra', estado: 'disponible', descripcion: 'Valiente y cariñosa' }
+            vacunas: JSON.parse(localStorage.getItem('vacunas')) || [
+                { id: 'VAC-001', animalId: 'HUE-001', animal: 'Luna', tipo: 'Antirrábica', fecha: '2024-02-15', refuerzo: '2024-03-15', estado: 'pendiente' },
+                { id: 'VAC-002', animalId: 'HUE-002', animal: 'Michi', tipo: 'Polivalente', fecha: '2024-02-20', refuerzo: '2024-03-20', estado: 'pendiente' },
+                { id: 'VAC-003', animalId: 'HUE-003', animal: 'Max', tipo: 'Leptospirosis', fecha: '2024-01-10', refuerzo: '2024-04-10', estado: 'completada' }
             ],
-            adopciones: [
-                { id: 'ADP-001', animalId: 'HUE-001', animal: 'Luna', adoptante: 'María González', telefono: '5512345678', estado: 'en_proceso', fecha: '2024-03-20' },
-                { id: 'ADP-002', animalId: 'HUE-003', animal: 'Max', adoptante: 'Carlos Rodríguez', telefono: '5523456789', estado: 'pendiente', fecha: '2024-03-18' }
-            ],
-            citas: [
-                { id: 'CIT-001', adopcionId: 'ADP-001', adoptante: 'María González', animal: 'Luna', fecha: '2024-03-25', hora: '15:30', tipo: 'conocimiento', estado: 'confirmada' },
-                { id: 'CIT-002', adopcionId: 'ADP-002', adoptante: 'Carlos Rodríguez', animal: 'Max', fecha: '2024-03-22', hora: '11:00', tipo: 'entrevista', estado: 'pendiente' }
+            adopciones: JSON.parse(localStorage.getItem('adopciones')) || [
+                { id: 'ADP-001', animalId: 'HUE-001', animal: 'Luna', adoptante: 'María González', telefono: '555-123-4567', estado: 'en-proceso', fecha: '2024-03-20' },
+                { id: 'ADP-002', animalId: 'HUE-003', animal: 'Max', adoptante: 'Carlos Rodríguez', telefono: '555-987-6543', estado: 'pendiente', fecha: '2024-03-18' }
             ]
         };
 
         // Variables globales
-        let currentRol = '';
-        let currentRescateId = null;
+        let rolActual = 'veterinario';
 
-        // Sistema de asistencia
-        const asistenciaSistema = {
-            estado: JSON.parse(localStorage.getItem('asistencia_estado')) || {
-                currentWorkStatus: 'inactive',
-                lastCheckIn: null,
-                logs: []
-            },
+        // Guardar en localStorage
+        function guardarDB() {
+            localStorage.setItem('animales', JSON.stringify(DB.animales));
+            localStorage.setItem('vacunas', JSON.stringify(DB.vacunas));
+            localStorage.setItem('adopciones', JSON.stringify(DB.adopciones));
+        }
 
-            init: function() {
-                this.actualizarReloj();
-                this.actualizarInterfaz();
-                setInterval(() => this.actualizarReloj(), 1000);
-                document.getElementById('btn-toggle-asistencia').addEventListener('click', () => this.toggleRegistro());
-                this.cargarHistorial();
-                
-                // Configurar filtro de asistencia
-                document.getElementById('btn-aplicar-filtro').addEventListener('click', () => this.cargarHistorial());
-                document.getElementById('btn-exportar-asistencia').addEventListener('click', () => this.exportarAsistencia());
-            },
-
-            actualizarReloj: function() {
-                const ahora = new Date();
-                document.getElementById('reloj-digital').textContent = ahora.toLocaleTimeString();
-                document.getElementById('fecha-digital').textContent = ahora.toLocaleDateString();
-            },
-
-            toggleRegistro: function() {
-                const ahora = new Date();
-                const fecha = ahora.toISOString().split('T')[0];
-                const hora = ahora.toTimeString().split(' ')[0].substring(0, 5);
-
-                if (this.estado.currentWorkStatus === 'inactive') {
-                    this.estado.currentWorkStatus = 'active';
-                    this.estado.lastCheckIn = hora;
-                    this.estado.logs.push({ tipo: 'entrada', fecha, hora });
-                    this.mostrarToast('¡Entrada Exitosa!', `Registrada a las ${hora}`, 'success');
-                } else {
-                    const entradaHora = this.estado.lastCheckIn;
-                    const inicio = new Date(`${fecha}T${entradaHora}:00`);
-                    const difMs = ahora - inicio;
-                    const horas = Math.floor(difMs / 3600000);
-                    const mins = Math.floor((difMs % 3600000) / 60000);
-
-                    this.estado.currentWorkStatus = 'inactive';
-                    this.estado.logs.push({ tipo: 'salida', fecha, hora });
-                    this.mostrarToast('¡Salida Exitosa!', `Trabajaste ${horas}h ${mins}m`, 'success');
-                    this.estado.lastCheckIn = null;
-                }
-
-                localStorage.setItem('asistencia_estado', JSON.stringify(this.estado));
-                this.actualizarInterfaz();
-                this.cargarHistorial();
-            },
-
-            actualizarInterfaz: function() {
-                const statusDiv = document.getElementById('asistencia-status');
-                const btn = document.getElementById('btn-toggle-asistencia');
-
-                if (this.estado.currentWorkStatus === 'active') {
-                    statusDiv.className = 'status-box status-online';
-                    statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Activo desde ${this.estado.lastCheckIn}`;
-                    btn.className = 'btn btn-warning';
-                    btn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Registrar Salida`;
-                } else {
-                    statusDiv.className = 'status-box status-offline';
-                    statusDiv.innerHTML = `<i class="fas fa-clock"></i> No has registrado entrada`;
-                    btn.className = 'btn btn-success';
-                    btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Registrar Entrada`;
-                }
-            },
-
-            cargarHistorial: function() {
-                const periodo = document.getElementById('filtro-periodo').value;
-                const tbody = document.getElementById('asistencia-history');
-                tbody.innerHTML = '';
-
-                if (this.estado.logs.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay registros de asistencia</td></tr>`;
-                    return;
-                }
-
-                // Filtrar por período
-                let logsFiltrados = [...this.estado.logs];
-                const hoy = new Date();
-                
-                if (periodo === 'hoy') {
-                    const hoyStr = hoy.toISOString().split('T')[0];
-                    logsFiltrados = logsFiltrados.filter(log => log.fecha === hoyStr);
-                } else if (periodo === 'semana') {
-                    const inicioSemana = new Date(hoy);
-                    inicioSemana.setDate(hoy.getDate() - hoy.getDay());
-                    logsFiltrados = logsFiltrados.filter(log => new Date(log.fecha) >= inicioSemana);
-                } else if (periodo === 'mes') {
-                    const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-                    logsFiltrados = logsFiltrados.filter(log => new Date(log.fecha) >= inicioMes);
-                }
-
-                // Ordenar por fecha descendente
-                logsFiltrados.sort((a, b) => 
-                    new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + a.hora)
-                );
-
-                // Agrupar entradas y salidas
-                for (let i = 0; i < logsFiltrados.length; i++) {
-                    if (logsFiltrados[i].tipo === 'salida' && i < logsFiltrados.length - 1) {
-                        const salida = logsFiltrados[i];
-                        const entrada = logsFiltrados[i + 1];
-                        
-                        if (entrada.tipo === 'entrada' && entrada.fecha === salida.fecha) {
-                            const tr = document.createElement('tr');
-                            tr.innerHTML = `
-                                <td>${salida.fecha}</td>
-                                <td>${entrada.hora}</td>
-                                <td>${salida.hora}</td>
-                                <td>${this.calcularDuracion(entrada.hora, salida.hora)}</td>
-                            `;
-                            tbody.appendChild(tr);
-                        }
-                    }
-                }
-
-                if (tbody.children.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay registros para este período</td></tr>`;
-                }
-            },
-
-            calcularDuracion: function(entrada, salida) {
-                const [h1, m1] = entrada.split(':').map(Number);
-                const [h2, m2] = salida.split(':').map(Number);
-                const totalMin = (h2 * 60 + m2) - (h1 * 60 + m1);
-                const horas = Math.floor(totalMin / 60);
-                const minutos = totalMin % 60;
-                return `${horas}h ${minutos}m`;
-            },
-
-            exportarAsistencia: function() {
-                const data = JSON.stringify(this.estado.logs, null, 2);
-                const blob = new Blob([data], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `asistencia_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                this.mostrarToast('Historial exportado', 'Se ha descargado el archivo JSON', 'success');
-            },
-
-            mostrarToast: function(titulo, mensaje, tipo) {
-                const toast = document.createElement('div');
-                toast.className = `toast ${tipo}`;
-                toast.innerHTML = `
-                    <div class="toast-icon">
-                        <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-                    </div>
-                    <div class="toast-content">
-                        <div class="toast-message">${mensaje}</div>
-                    </div>
-                    <button class="close-btn" onclick="this.parentElement.remove()" style="background: none; border: none; color: #888; cursor: pointer;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 5000);
-            }
-        };
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configurar navegación por tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    navigateToTab(this.getAttribute('data-tab'));
-                });
+        // Funciones principales
+        function cambiarTab(tabId) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.dashboard-content').forEach(tab => {
+                tab.classList.remove('active');
             });
-
-            // Configurar selector de rol
-            document.getElementById('select-rol').addEventListener('change', function() {
-                cambiarRol(this.value);
-            });
-
-            // Inicializar sistema de asistencia
-            asistenciaSistema.init();
-
-            // Configurar botones principales
-            document.getElementById('btn-nuevo-rescate').addEventListener('click', () => abrirModalRescate());
-            document.getElementById('btn-buscar-animal').addEventListener('click', () => buscarAnimales());
-            document.getElementById('btn-refrescar-animales').addEventListener('click', () => cargarAnimales());
-            document.getElementById('btn-nueva-adopcion').addEventListener('click', () => abrirModalAdopcion());
-            document.getElementById('btn-nueva-cita').addEventListener('click', () => abrirModalCita());
-            document.getElementById('btn-filtrar-hoy').addEventListener('click', () => filtrarCitas('hoy'));
-            document.getElementById('btn-filtrar-semana').addEventListener('click', () => filtrarCitas('semana'));
-
-            // Configurar búsquedas
-            document.getElementById('search-rescates').addEventListener('input', buscarRescates);
-            document.getElementById('btn-search-rescates').addEventListener('click', buscarRescates);
-            document.getElementById('search-animales').addEventListener('input', buscarAnimales);
-            document.getElementById('search-adopciones').addEventListener('input', buscarAdopciones);
-
-            // Inicializar con rol por defecto y cargar datos
-            cambiarRol('');
-            cargarRescates();
-            cargarAnimales();
-            cargarAdopciones();
-            cargarCitas();
-        });
-
-        // Funciones de navegación
-        function navigateToTab(tabId) {
-            document.querySelectorAll('.dashboard-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
             
+            // Remover active de todas las tabs
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activar la tab correspondiente
             document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
-        }
-
-        function cambiarRol(rol) {
-            currentRol = rol;
-            const data = rolesData[rol] || { 
-                name: 'Voluntario', 
-                role: 'Selecciona tu rol',
-                initials: 'V',
-                stats: { total: 0, completadas: 0, pendientes: 0 },
-                activities: []
-            };
-
-            document.getElementById('user-initials').textContent = data.initials;
-            document.getElementById('user-name').textContent = data.name;
-            document.getElementById('user-role').textContent = data.role;
             
-            document.getElementById('dashboard-title').textContent = 
-                rol ? `Panel de ${data.role.split(' - ')[1]}` : 'Panel de Voluntario';
-
-            document.getElementById('stat-total').textContent = data.stats.total;
-            document.getElementById('stat-completadas').textContent = data.stats.completadas;
-            document.getElementById('stat-pendientes').textContent = data.stats.pendientes;
-
-            const tbody = document.getElementById('recent-activities');
-            tbody.innerHTML = '';
-
-            if (data.activities.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay actividades recientes</td></tr>`;
-                return;
-            }
-
-            data.activities.forEach(act => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${act[0]}</td>
-                    <td>${act[1]}</td>
-                    <td>${act[2]}</td>
-                    <td><span class="status-badge status-${act[3].toLowerCase().includes('completado') ? 'completado' : 
-                        act[3].toLowerCase().includes('proceso') ? 'en-proceso' : 'pendiente'}">${act[3]}</span></td>
-                `;
-                tbody.appendChild(tr);
-            });
+            // Cargar datos según la pestaña
+            if (tabId === 'animales') cargarAnimales();
+            else if (tabId === 'veterinario') cargarVeterinario();
+            else if (tabId === 'adopciones') cargarAdopciones();
         }
 
-        // Funciones para Rescates
-        function cargarRescates() {
-            const tbody = document.getElementById('rescates-table');
-            tbody.innerHTML = '';
-
-            database.rescates.forEach(rescate => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${rescate.id}</td>
-                    <td>${rescate.animal} (${rescate.especie})</td>
-                    <td>${rescate.ubicacion}</td>
-                    <td><span class="status-badge status-${rescate.estado}">${getEstadoTexto(rescate.estado)}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesRescate('${rescate.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="editarRescate('${rescate.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function buscarRescates() {
-            const termino = document.getElementById('search-rescates').value.toLowerCase();
-            const tbody = document.getElementById('rescates-table');
-            tbody.innerHTML = '';
-
-            const rescatesFiltrados = database.rescates.filter(rescate => 
-                rescate.id.toLowerCase().includes(termino) ||
-                rescate.animal.toLowerCase().includes(termino) ||
-                rescate.ubicacion.toLowerCase().includes(termino) ||
-                rescate.estado.toLowerCase().includes(termino)
-            );
-
-            if (rescatesFiltrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #888;">No se encontraron rescates</td></tr>`;
-                return;
-            }
-
-            rescatesFiltrados.forEach(rescate => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${rescate.id}</td>
-                    <td>${rescate.animal} (${rescate.especie})</td>
-                    <td>${rescate.ubicacion}</td>
-                    <td><span class="status-badge status-${rescate.estado}">${getEstadoTexto(rescate.estado)}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesRescate('${rescate.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="editarRescate('${rescate.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function abrirModalRescate() {
-            if (!currentRol) {
-                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
-                return;
-            }
+        function seleccionarRol(rol) {
+            rolActual = rol;
+            const voluntario = voluntarios[rol];
             
-            document.getElementById('modalRescate').style.display = 'flex';
-            document.getElementById('rescate-animal').value = '';
-            document.getElementById('rescate-especie').value = '';
-            document.getElementById('rescate-ubicacion').value = '';
-            document.getElementById('rescate-estado').value = 'pendiente';
-            document.getElementById('rescate-observaciones').value = '';
-            currentRescateId = null;
-        }
-
-        function guardarRescate() {
-            const animal = document.getElementById('rescate-animal').value;
-            const especie = document.getElementById('rescate-especie').value;
-            const ubicacion = document.getElementById('rescate-ubicacion').value;
-            const estado = document.getElementById('rescate-estado').value;
-            const observaciones = document.getElementById('rescate-observaciones').value;
-
-            if (!animal || !especie || !ubicacion) {
-                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
-                return;
-            }
-
-            if (currentRescateId) {
-                // Editar rescate existente
-                const index = database.rescates.findIndex(r => r.id === currentRescateId);
-                if (index !== -1) {
-                    database.rescates[index] = {
-                        ...database.rescates[index],
-                        animal,
-                        especie,
-                        ubicacion,
-                        estado,
-                        observaciones
-                    };
-                    asistenciaSistema.mostrarToast('Rescate actualizado', 'El rescate se ha actualizado correctamente', 'success');
-                }
-            } else {
-                // Nuevo rescate
-                const nuevoId = `RES-${(database.rescates.length + 1).toString().padStart(3, '0')}`;
-                database.rescates.push({
-                    id: nuevoId,
-                    animal,
-                    especie,
-                    ubicacion,
-                    estado,
-                    fecha: new Date().toISOString().split('T')[0],
-                    observaciones
-                });
-                asistenciaSistema.mostrarToast('Rescate registrado', `Rescate ${nuevoId} creado exitosamente`, 'success');
-            }
-
-            cargarRescates();
-            cerrarModal('modalRescate');
-        }
-
-        function verDetallesRescate(id) {
-            const rescate = database.rescates.find(r => r.id === id);
-            if (rescate) {
-                alert(`Detalles del Rescate:\n\nID: ${rescate.id}\nAnimal: ${rescate.animal}\nEspecie: ${rescate.especie}\nUbicación: ${rescate.ubicacion}\nEstado: ${getEstadoTexto(rescate.estado)}\nFecha: ${rescate.fecha}\nObservaciones: ${rescate.observaciones || 'Ninguna'}`);
-            }
-        }
-
-        function editarRescate(id) {
-            const rescate = database.rescates.find(r => r.id === id);
-            if (rescate) {
-                document.getElementById('modalRescate').style.display = 'flex';
-                document.getElementById('rescate-animal').value = rescate.animal;
-                document.getElementById('rescate-especie').value = rescate.especie;
-                document.getElementById('rescate-ubicacion').value = rescate.ubicacion;
-                document.getElementById('rescate-estado').value = rescate.estado;
-                document.getElementById('rescate-observaciones').value = rescate.observaciones || '';
-                currentRescateId = id;
-            }
-        }
-
-        // Funciones para Animales
-        function cargarAnimales() {
-            const container = document.getElementById('animales-container');
-            container.innerHTML = '';
-
-            database.animales.forEach(animal => {
-                const card = document.createElement('div');
-                card.style.cssText = 'background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);';
-                card.innerHTML = `
-                    <div style="height: 150px; background: #e0f7fa; display: flex; align-items: center; justify-content: center; color: #00796b; font-size: 48px;">
-                        <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
-                    </div>
-                    <div style="padding: 1rem;">
-                        <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">${animal.nombre}</div>
-                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${animal.id} • ${animal.raza}</div>
-                        <div style="display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap;">
-                            <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.especie}</span>
-                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.edad}</span>
-                            <span style="background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.sexo}</span>
-                        </div>
-                        <div style="font-size: 13px; color: #666; margin-bottom: 15px;">${animal.descripcion}</div>
-                        <span class="status-badge ${animal.estado === 'disponible' ? 'status-completado' : 'status-pendiente'}">
-                            ${animal.estado === 'disponible' ? 'Disponible' : 'En Tratamiento'}
-                        </span>
-                    </div>
-                `;
-                container.appendChild(card);
+            // Actualizar UI
+            document.querySelectorAll('.rol-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
-        }
-
-        function buscarAnimales() {
-            const termino = document.getElementById('search-animales').value.toLowerCase();
-            const container = document.getElementById('animales-container');
-            container.innerHTML = '';
-
-            const animalesFiltrados = database.animales.filter(animal => 
-                animal.nombre.toLowerCase().includes(termino) ||
-                animal.especie.toLowerCase().includes(termino) ||
-                animal.raza.toLowerCase().includes(termino) ||
-                animal.id.toLowerCase().includes(termino)
-            );
-
-            if (animalesFiltrados.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">No se encontraron animales</div>`;
-                return;
-            }
-
-            animalesFiltrados.forEach(animal => {
-                const card = document.createElement('div');
-                card.style.cssText = 'background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);';
-                card.innerHTML = `
-                    <div style="height: 150px; background: #e0f7fa; display: flex; align-items: center; justify-content: center; color: #00796b; font-size: 48px;">
-                        <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
-                    </div>
-                    <div style="padding: 1rem;">
-                        <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">${animal.nombre}</div>
-                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${animal.id} • ${animal.raza}</div>
-                        <div style="display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap;">
-                            <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.especie}</span>
-                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.edad}</span>
-                            <span style="background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.sexo}</span>
-                        </div>
-                        <div style="font-size: 13px; color: #666; margin-bottom: 15px;">${animal.descripcion}</div>
-                        <span class="status-badge ${animal.estado === 'disponible' ? 'status-completado' : 'status-pendiente'}">
-                            ${animal.estado === 'disponible' ? 'Disponible' : 'En Tratamiento'}
-                        </span>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Funciones para Adopciones
-        function cargarAdopciones() {
-            const tbody = document.getElementById('adopciones-table');
-            tbody.innerHTML = '';
-
-            database.adopciones.forEach(adopcion => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${adopcion.id}</td>
-                    <td>${adopcion.animal}</td>
-                    <td>${adopcion.adoptante}<br><small>${adopcion.telefono}</small></td>
-                    <td><span class="status-badge status-${adopcion.estado}">${getEstadoTexto(adopcion.estado)}</span></td>
-                    <td>${adopcion.fecha}</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoAdopcion('${adopcion.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function buscarAdopciones() {
-            const termino = document.getElementById('search-adopciones').value.toLowerCase();
-            const tbody = document.getElementById('adopciones-table');
-            tbody.innerHTML = '';
-
-            const adopcionesFiltradas = database.adopciones.filter(adopcion => 
-                adopcion.id.toLowerCase().includes(termino) ||
-                adopcion.animal.toLowerCase().includes(termino) ||
-                adopcion.adoptante.toLowerCase().includes(termino) ||
-                adopcion.telefono.includes(termino)
-            );
-
-            if (adopcionesFiltradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No se encontraron adopciones</td></tr>`;
-                return;
-            }
-
-            adopcionesFiltradas.forEach(adopcion => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${adopcion.id}</td>
-                    <td>${adopcion.animal}</td>
-                    <td>${adopcion.adoptante}<br><small>${adopcion.telefono}</small></td>
-                    <td><span class="status-badge status-${adopcion.estado}">${getEstadoTexto(adopcion.estado)}</span></td>
-                    <td>${adopcion.fecha}</td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoAdopcion('${adopcion.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function abrirModalAdopcion() {
-            if (!currentRol) {
-                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
-                return;
-            }
+            document.querySelector(`.rol-btn[data-rol="${rol}"]`).classList.add('active');
             
-            const select = document.getElementById('adopcion-animal');
-            select.innerHTML = '<option value="">Seleccionar animal...</option>';
+            // Actualizar información de usuario
+            document.getElementById('user-name').textContent = voluntario.name;
+            document.getElementById('user-role').textContent = voluntario.role;
+            document.getElementById('user-initials').textContent = voluntario.initials;
             
-            // Mostrar solo animales disponibles
-            database.animales.filter(a => a.estado === 'disponible').forEach(animal => {
-                const option = document.createElement('option');
-                option.value = animal.id;
-                option.textContent = `${animal.nombre} (${animal.id}) - ${animal.especie}`;
-                select.appendChild(option);
+            // Actualizar permisos de botones
+            actualizarPermisos(voluntario.permisos);
+            
+            // Mostrar mensaje de bienvenida
+            mostrarToast(`¡Hola ${voluntario.name.split(' ')[0]}!`, `Ahora eres ${voluntario.role}`, 'success');
+        }
+
+        function actualizarPermisos(permisos) {
+            // Ocultar todas las tabs primero
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.style.display = 'none';
             });
             
-            document.getElementById('modalAdopcion').style.display = 'flex';
-        }
-
-        function guardarAdopcion() {
-            const animalId = document.getElementById('adopcion-animal').value;
-            const adoptante = document.getElementById('adopcion-adoptante').value;
-            const telefono = document.getElementById('adopcion-telefono').value;
-            const email = document.getElementById('adopcion-email').value;
-            const observaciones = document.getElementById('adopcion-observaciones').value;
-
-            if (!animalId || !adoptante || !telefono) {
-                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
-                return;
-            }
-
-            const animal = database.animales.find(a => a.id === animalId);
-            if (!animal) {
-                asistenciaSistema.mostrarToast('Animal no encontrado', 'El animal seleccionado no existe', 'error');
-                return;
-            }
-
-            // Crear nueva adopción
-            const nuevoId = `ADP-${(database.adopciones.length + 1).toString().padStart(3, '0')}`;
-            database.adopciones.push({
-                id: nuevoId,
-                animalId,
-                animal: animal.nombre,
-                adoptante,
-                telefono,
-                email,
-                estado: 'pendiente',
-                fecha: new Date().toISOString().split('T')[0],
-                observaciones
+            // Mostrar solo las tabs permitidas
+            permisos.forEach(permiso => {
+                document.querySelector(`.tab[data-tab="${permiso}"]`).style.display = 'flex';
             });
-
-            // Actualizar estado del animal
-            animal.estado = 'en_proceso';
-
-            asistenciaSistema.mostrarToast('Adopción iniciada', `Proceso ${nuevoId} creado exitosamente`, 'success');
-            cargarAdopciones();
-            cargarAnimales();
-            cerrarModal('modalAdopcion');
-        }
-
-        function verDetallesAdopcion(id) {
-            const adopcion = database.adopciones.find(a => a.id === id);
-            if (adopcion) {
-                alert(`Detalles de Adopción:\n\nID: ${adopcion.id}\nAnimal: ${adopcion.animal}\nAdoptante: ${adopcion.adoptante}\nTeléfono: ${adopcion.telefono}\nEmail: ${adopcion.email || 'No especificado'}\nEstado: ${getEstadoTexto(adopcion.estado)}\nFecha: ${adopcion.fecha}\nObservaciones: ${adopcion.observaciones || 'Ninguna'}`);
-            }
-        }
-
-        function cambiarEstadoAdopcion(id) {
-            const adopcion = database.adopciones.find(a => a.id === id);
-            if (adopcion) {
-                const nuevoEstado = prompt(`Cambiar estado de adopción ${id}:\nActual: ${getEstadoTexto(adopcion.estado)}\n\nNuevo estado (pendiente/en_proceso/completado):`);
-                if (nuevoEstado && ['pendiente', 'en_proceso', 'completado'].includes(nuevoEstado)) {
-                    adopcion.estado = nuevoEstado;
-                    
-                    // Si se completa la adopción, actualizar estado del animal
-                    if (nuevoEstado === 'completado') {
-                        const animal = database.animales.find(a => a.id === adopcion.animalId);
-                        if (animal) {
-                            animal.estado = 'adoptado';
-                        }
-                    }
-                    
-                    cargarAdopciones();
-                    cargarAnimales();
-                    asistenciaSistema.mostrarToast('Estado actualizado', `Adopción ${id} ahora está ${getEstadoTexto(nuevoEstado)}`, 'success');
+            
+            // Si la tab activa no está permitida, cambiar a la primera permitida
+            const tabActiva = document.querySelector('.tab.active');
+            if (!tabActiva || tabActiva.style.display === 'none') {
+                const primeraPermitida = document.querySelector(`.tab[data-tab="${permisos[0]}"]`);
+                if (primeraPermitida) {
+                    cambiarTab(permisos[0]);
                 }
             }
-        }
-
-        // Funciones para Citas
-        function cargarCitas() {
-            const tbody = document.getElementById('citas-table');
-            tbody.innerHTML = '';
-
-            const hoy = new Date().toISOString().split('T')[0];
-            const citasHoy = database.citas.filter(cita => cita.fecha === hoy);
-
-            citasHoy.forEach(cita => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${cita.hora}</td>
-                    <td>${cita.adoptante}</td>
-                    <td>${cita.animal}</td>
-                    <td>${getTipoCitaTexto(cita.tipo)}</td>
-                    <td><span class="status-badge status-${cita.estado}">${getEstadoCitaTexto(cita.estado)}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesCita('${cita.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoCita('${cita.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function filtrarCitas(periodo) {
-            const tbody = document.getElementById('citas-table');
-            tbody.innerHTML = '';
-
-            let citasFiltradas = [];
-            const hoy = new Date();
             
-            if (periodo === 'hoy') {
-                const hoyStr = hoy.toISOString().split('T')[0];
-                citasFiltradas = database.citas.filter(cita => cita.fecha === hoyStr);
-            } else if (periodo === 'semana') {
-                const inicioSemana = new Date(hoy);
-                inicioSemana.setDate(hoy.getDate() - hoy.getDay());
-                citasFiltradas = database.citas.filter(cita => new Date(cita.fecha) >= inicioSemana);
-            }
-
-            if (citasFiltradas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No hay citas para este período</td></tr>`;
-                return;
-            }
-
-            citasFiltradas.forEach(cita => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${cita.hora}</td>
-                    <td>${cita.adoptante}</td>
-                    <td>${cita.animal}</td>
-                    <td>${getTipoCitaTexto(cita.tipo)}</td>
-                    <td><span class="status-badge status-${cita.estado}">${getEstadoCitaTexto(cita.estado)}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-secondary" onclick="verDetallesCita('${cita.id}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoCita('${cita.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function abrirModalCita() {
-            if (!currentRol) {
-                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
-                return;
+            // Controlar visibilidad de botones según rol
+            const btnNuevoAnimal = document.getElementById('btn-nuevo-animal');
+            const btnNuevaVacuna = document.getElementById('btn-nueva-vacuna');
+            const btnNuevaAdopcion = document.getElementById('btn-nueva-adopcion');
+            
+            // Solo veterinario puede agregar vacunas
+            if (btnNuevaVacuna) {
+                btnNuevaVacuna.style.display = rolActual === 'veterinario' ? 'flex' : 'none';
             }
             
-            const select = document.getElementById('cita-adopcion');
-            select.innerHTML = '<option value="">Seleccionar proceso de adopción...</option>';
+            // Solo atención y administrativo pueden ver adopciones completas
+            if (rolActual === 'rescate') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'flex';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'none';
+            } else if (rolActual === 'atencion') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'none';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'flex';
+            } else if (rolActual === 'administrativo') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'flex';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'flex';
+            }
+        }
+
+        function abrirModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
             
-            // Mostrar solo adopciones activas
-            database.adopciones.filter(a => a.estado === 'en_proceso').forEach(adopcion => {
-                const option = document.createElement('option');
-                option.value = adopcion.id;
-                option.textContent = `${adopcion.id} - ${adopcion.animal} (${adopcion.adoptante})`;
-                select.appendChild(option);
-            });
+            // Si es modal de vacuna o adopción, cargar animales
+            if (modalId === 'modalVacuna' || modalId === 'modalAdopcion') {
+                cargarAnimalesEnSelect(modalId === 'modalVacuna' ? 'vacuna-animal' : 'adopcion-animal');
+            }
             
-            document.getElementById('modalCita').style.display = 'flex';
-            document.getElementById('cita-fecha').value = new Date().toISOString().split('T')[0];
-            document.getElementById('cita-hora').value = '10:00';
-        }
-
-        function guardarCita() {
-            const adopcionId = document.getElementById('cita-adopcion').value;
-            const fecha = document.getElementById('cita-fecha').value;
-            const hora = document.getElementById('cita-hora').value;
-            const tipo = document.getElementById('cita-tipo').value;
-            const observaciones = document.getElementById('cita-observaciones').value;
-
-            if (!adopcionId || !fecha || !hora || !tipo) {
-                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
-                return;
+            // Si es modal de adopción, poner fecha actual
+            if (modalId === 'modalAdopcion') {
+                document.getElementById('adopcion-estado').value = 'pendiente';
             }
-
-            const adopcion = database.adopciones.find(a => a.id === adopcionId);
-            if (!adopcion) {
-                asistenciaSistema.mostrarToast('Adopción no encontrada', 'El proceso de adopción no existe', 'error');
-                return;
+            
+            // Si es modal de vacuna, poner fecha actual
+            if (modalId === 'modalVacuna') {
+                const hoy = new Date().toISOString().split('T')[0];
+                document.getElementById('vacuna-fecha').value = hoy;
             }
-
-            // Crear nueva cita
-            const nuevoId = `CIT-${(database.citas.length + 1).toString().padStart(3, '0')}`;
-            database.citas.push({
-                id: nuevoId,
-                adopcionId,
-                adoptante: adopcion.adoptante,
-                animal: adopcion.animal,
-                fecha,
-                hora,
-                tipo,
-                estado: 'pendiente',
-                observaciones
-            });
-
-            asistenciaSistema.mostrarToast('Cita programada', `Cita ${nuevoId} creada exitosamente`, 'success');
-            cargarCitas();
-            cerrarModal('modalCita');
-        }
-
-        function verDetallesCita(id) {
-            const cita = database.citas.find(c => c.id === id);
-            if (cita) {
-                alert(`Detalles de Cita:\n\nID: ${cita.id}\nAdopción: ${cita.adopcionId}\nAdoptante: ${cita.adoptante}\nAnimal: ${cita.animal}\nFecha: ${cita.fecha}\nHora: ${cita.hora}\nTipo: ${getTipoCitaTexto(cita.tipo)}\nEstado: ${getEstadoCitaTexto(cita.estado)}\nObservaciones: ${cita.observaciones || 'Ninguna'}`);
-            }
-        }
-
-        function cambiarEstadoCita(id) {
-            const cita = database.citas.find(c => c.id === id);
-            if (cita) {
-                const nuevoEstado = prompt(`Cambiar estado de cita ${id}:\nActual: ${getEstadoCitaTexto(cita.estado)}\n\nNuevo estado (pendiente/confirmada/cancelada/completada):`);
-                if (nuevoEstado && ['pendiente', 'confirmada', 'cancelada', 'completada'].includes(nuevoEstado)) {
-                    cita.estado = nuevoEstado;
-                    cargarCitas();
-                    asistenciaSistema.mostrarToast('Estado actualizado', `Cita ${id} ahora está ${getEstadoCitaTexto(nuevoEstado)}`, 'success');
-                }
-            }
-        }
-
-        // Funciones auxiliares
-        function getEstadoTexto(estado) {
-            const estados = {
-                'pendiente': 'Pendiente',
-                'en_proceso': 'En Proceso',
-                'completado': 'Completado',
-                'urgente': 'Urgente'
-            };
-            return estados[estado] || estado;
-        }
-
-        function getEstadoCitaTexto(estado) {
-            const estados = {
-                'pendiente': 'Pendiente',
-                'confirmada': 'Confirmada',
-                'cancelada': 'Cancelada',
-                'completada': 'Completada'
-            };
-            return estados[estado] || estado;
-        }
-
-        function getTipoCitaTexto(tipo) {
-            const tipos = {
-                'entrevista': 'Entrevista Inicial',
-                'conocimiento': 'Conocimiento del Animal',
-                'seguimiento': 'Seguimiento',
-                'firma': 'Firma de Contrato'
-            };
-            return tipos[tipo] || tipo;
         }
 
         function cerrarModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            // Limpiar formulario
+            document.querySelector(`#${modalId} form`).reset();
         }
 
-        // Configurar click fuera de modales para cerrar
-        window.addEventListener('click', function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
+        // Funciones para animales
+        function cargarAnimales() {
+            const container = document.getElementById('animales-container');
+            const animales = DB.animales;
+            
+            if (animales.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888; grid-column: 1 / -1;">No hay animales registrados</div>';
+                return;
+            }
+            
+            container.innerHTML = animales.map(animal => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible': estadoClass = 'status-disponible'; estadoText = 'Disponible'; break;
+                    case 'en-tratamiento': estadoClass = 'status-en-tratamiento'; estadoText = 'En Tratamiento'; break;
+                    case 'adoptado': estadoClass = 'status-adoptado'; estadoText = 'Adoptado'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
                 }
+                
+                return `
+                    <div class="animal-card">
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : animal.especie === 'gato' ? 'cat' : 'paw'}"></i>
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">${animal.nombre}</h3>
+                                    <div style="font-size: 14px; color: #666;">ID: ${animal.id}</div>
+                                </div>
+                            </div>
+                            <div style="margin: 10px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Especie:</span>
+                                    <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Raza:</span>
+                                    <span>${animal.raza}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Edad:</span>
+                                    <span>${animal.edad}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Sexo:</span>
+                                    <span>${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</span>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <div style="color: #888; font-size: 12px; margin-bottom: 5px;">Descripción:</div>
+                                <div style="font-size: 14px;">${animal.descripcion}</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <span class="status-badge ${estadoClass}">${estadoText}</span>
+                                ${rolActual === 'veterinario' || rolActual === 'administrativo' ? 
+                                    `<button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAnimal('${animal.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>` : 
+                                    `<button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="verDetallesAnimal('${animal.id}')">
+                                        <i class="fas fa-info"></i>
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function cargarAnimalesEnSelect(selectId) {
+            const select = document.getElementById(selectId);
+            let animales = DB.animales;
+            
+            // Para adopciones, solo mostrar animales disponibles
+            if (selectId === 'adopcion-animal') {
+                animales = animales.filter(a => a.estado === 'disponible');
+            }
+            
+            // Limpiar opciones excepto la primera
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // Agregar animales
+            animales.forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.especie} - ${animal.estado})`;
+                select.appendChild(option);
+            });
+        }
+
+        function guardarAnimal() {
+            // Verificar permisos
+            if (rolActual !== 'veterinario' && rolActual !== 'administrativo' && rolActual !== 'rescate') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para agregar animales', 'warning');
+                return;
+            }
+            
+            const nombre = document.getElementById('animal-nombre').value;
+            const especie = document.getElementById('animal-especie').value;
+            const raza = document.getElementById('animal-raza').value;
+            const edad = document.getElementById('animal-edad').value;
+            const sexo = document.getElementById('animal-sexo').value;
+            const estado = document.getElementById('animal-estado').value;
+            const descripcion = document.getElementById('animal-descripcion').value;
+            
+            if (!nombre || !especie || !raza || !edad || !sexo || !estado) {
+                mostrarToast('Error', 'Por favor completa todos los campos obligatorios', 'warning');
+                return;
+            }
+            
+            // Generar ID único
+            const nuevoId = `HUE-${String(DB.animales.length + 1).padStart(3, '0')}`;
+            
+            // Agregar a la base de datos
+            DB.animales.push({
+                id: nuevoId,
+                nombre: nombre,
+                especie: especie,
+                raza: raza,
+                edad: edad,
+                sexo: sexo,
+                estado: estado,
+                descripcion: descripcion || 'Sin descripción'
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalAnimal');
+            
+            // Actualizar tabla
+            cargarAnimales();
+            
+            // Mostrar confirmación
+            mostrarToast('Animal registrado', `Se ha registrado a ${nombre} correctamente`, 'success');
+        }
+
+        function verDetallesAnimal(animalId) {
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (animal) {
+                alert(`Detalles de ${animal.nombre}:\n\n` +
+                      `ID: ${animal.id}\n` +
+                      `Especie: ${animal.especie}\n` +
+                      `Raza: ${animal.raza}\n` +
+                      `Edad: ${animal.edad}\n` +
+                      `Sexo: ${animal.sexo}\n` +
+                      `Estado: ${animal.estado}\n` +
+                      `Descripción: ${animal.descripcion}`);
+            }
+        }
+
+        function eliminarAnimal(animalId) {
+            if (confirm('¿Estás seguro de eliminar este animal?')) {
+                // Verificar si tiene vacunas pendientes
+                const tieneVacunasPendientes = DB.vacunas.some(v => v.animalId === animalId && v.estado === 'pendiente');
+                
+                if (tieneVacunasPendientes) {
+                    mostrarToast('Error', 'No se puede eliminar un animal con vacunas pendientes', 'warning');
+                    return;
+                }
+                
+                // Verificar si está en proceso de adopción
+                const tieneAdopcion = DB.adopciones.some(a => a.animalId === animalId && (a.estado === 'pendiente' || a.estado === 'en-proceso'));
+                
+                if (tieneAdopcion) {
+                    mostrarToast('Error', 'No se puede eliminar un animal en proceso de adopción', 'warning');
+                    return;
+                }
+                
+                // Eliminar de la base de datos
+                const index = DB.animales.findIndex(a => a.id === animalId);
+                if (index !== -1) {
+                    DB.animales.splice(index, 1);
+                    guardarDB();
+                    cargarAnimales();
+                    mostrarToast('Animal eliminado', 'El animal ha sido eliminado correctamente', 'success');
+                }
+            }
+        }
+
+        // Funciones para veterinario
+        function cargarVeterinario() {
+            cargarVacunas();
+            cargarHistorialMedico();
+        }
+
+        function cargarVacunas() {
+            const tbody = document.getElementById('vacunas-table');
+            const vacunas = DB.vacunas;
+            
+            if (vacunas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No hay vacunas registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = vacunas.map(vacuna => {
+                const hoy = new Date();
+                const refuerzo = new Date(vacuna.refuerzo);
+                const diasRestantes = Math.ceil((refuerzo - hoy) / (1000 * 60 * 60 * 24));
+                
+                let estadoClass = vacuna.estado === 'completada' ? 'status-completado' : 'status-pendiente';
+                let estadoText = vacuna.estado === 'completada' ? 'Completada' : 'Pendiente';
+                
+                if (vacuna.estado === 'pendiente' && diasRestantes <= 0) {
+                    estadoClass = 'status-urgente';
+                    estadoText = '¡Vencida!';
+                } else if (vacuna.estado === 'pendiente' && diasRestantes <= 7) {
+                    estadoClass = 'status-warning';
+                    estadoText = `Pronto (${diasRestantes} días)`;
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-${DB.animales.find(a => a.id === vacuna.animalId)?.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${vacuna.animal}
+                            </div>
+                        </td>
+                        <td>${vacuna.tipo}</td>
+                        <td>${vacuna.fecha}</td>
+                        <td>${vacuna.refuerzo}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>
+                            ${vacuna.estado === 'pendiente' && rolActual === 'veterinario' ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px;" onclick="marcarVacunaCompletada('${vacuna.id}')">
+                                    <i class="fas fa-check"></i> Completar
+                                </button>` : 
+                                rolActual === 'veterinario' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarVacuna('${vacuna.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Solo veterinario</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function cargarHistorialMedico() {
+            const container = document.getElementById('historial-veterinario');
+            const historial = DB.vacunas;
+            
+            if (historial.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #888;">No hay historial médico registrado</div>';
+                return;
+            }
+            
+            // Ordenar por fecha descendente
+            const historialOrdenado = [...historial].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            
+            container.innerHTML = historialOrdenado.map(item => `
+                <div style="border-left: 4px solid ${item.estado === 'completada' ? 'var(--success)' : 'var(--warning)'}; padding: 10px 15px; margin-bottom: 15px; background: #f8f9fa; border-radius: 0 8px 8px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <strong>${item.animal} - ${item.tipo}</strong>
+                        <span style="color: #666; font-size: 14px;">${item.fecha}</span>
+                    </div>
+                    <div style="color: #666; font-size: 14px;">
+                        <div>Estado: <span class="status-badge ${item.estado === 'completada' ? 'status-completado' : 'status-pendiente'}">${item.estado === 'completada' ? 'Completada' : 'Pendiente'}</span></div>
+                        ${item.estado === 'pendiente' ? `<div>Próximo refuerzo: ${item.refuerzo}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function guardarVacuna() {
+            // Solo veterinario puede agregar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede registrar vacunas', 'warning');
+                return;
+            }
+            
+            const animalId = document.getElementById('vacuna-animal').value;
+            const tipo = document.getElementById('vacuna-tipo').value;
+            const fecha = document.getElementById('vacuna-fecha').value;
+            
+            if (!animalId || !tipo || !fecha) {
+                mostrarToast('Error', 'Por favor completa todos los campos', 'warning');
+                return;
+            }
+            
+            // Buscar animal
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error', 'Animal no encontrado', 'warning');
+                return;
+            }
+            
+            // Calcular fecha de refuerzo (30 días después)
+            const fechaRefuerzo = new Date(fecha);
+            fechaRefuerzo.setDate(fechaRefuerzo.getDate() + 30);
+            
+            // Generar ID único
+            const nuevoId = `VAC-${String(DB.vacunas.length + 1).padStart(3, '0')}`;
+            
+            // Agregar a la base de datos
+            DB.vacunas.push({
+                id: nuevoId,
+                animalId: animalId,
+                animal: animal.nombre,
+                tipo: tipo,
+                fecha: fecha,
+                refuerzo: fechaRefuerzo.toISOString().split('T')[0],
+                estado: 'pendiente'
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalVacuna');
+            
+            // Actualizar panel de veterinario
+            cargarVeterinario();
+            
+            // Mostrar confirmación
+            mostrarToast('Vacuna registrada', `Vacuna ${tipo} aplicada a ${animal.nombre}`, 'success');
+        }
+
+        function marcarVacunaCompletada(vacunaId) {
+            // Solo veterinario puede completar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede completar vacunas', 'warning');
+                return;
+            }
+            
+            const vacuna = DB.vacunas.find(v => v.id === vacunaId);
+            if (vacuna) {
+                vacuna.estado = 'completada';
+                guardarDB();
+                cargarVeterinario();
+                mostrarToast('Vacuna completada', 'La vacuna ha sido marcada como completada', 'success');
+            }
+        }
+
+        function eliminarVacuna(vacunaId) {
+            // Solo veterinario puede eliminar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede eliminar vacunas', 'warning');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de eliminar este registro de vacuna?')) {
+                const index = DB.vacunas.findIndex(v => v.id === vacunaId);
+                if (index !== -1) {
+                    DB.vacunas.splice(index, 1);
+                    guardarDB();
+                    cargarVeterinario();
+                    mostrarToast('Vacuna eliminada', 'El registro ha sido eliminado', 'success');
+                }
+            }
+        }
+
+        // Funciones para adopciones
+        function cargarAdopciones() {
+            const tbody = document.getElementById('adopciones-table');
+            const adopciones = DB.adopciones;
+            
+            if (adopciones.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #888;">No hay adopciones registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = adopciones.map(adopcion => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(adopcion.estado) {
+                    case 'pendiente': estadoClass = 'status-pendiente'; estadoText = 'Pendiente'; break;
+                    case 'en-proceso': estadoClass = 'status-en-proceso'; estadoText = 'En Proceso'; break;
+                    case 'aprobada': estadoClass = 'status-completado'; estadoText = 'Aprobada'; break;
+                    case 'rechazada': estadoClass = 'status-urgente'; estadoText = 'Rechazada'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${adopcion.id}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-paw"></i>
+                                ${adopcion.animal}
+                            </div>
+                        </td>
+                        <td>${adopcion.adoptante}</td>
+                        <td>${adopcion.telefono}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>${adopcion.fecha}</td>
+                        <td>
+                            ${(rolActual === 'atencion' || rolActual === 'administrativo') && (adopcion.estado === 'pendiente' || adopcion.estado === 'en-proceso') ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" onclick="aprobarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="rechazarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>` : 
+                                rolActual === 'administrativo' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Consulta al equipo</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function guardarAdopcion() {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'Solo atención y administrativo pueden registrar adopciones', 'warning');
+                return;
+            }
+            
+            const animalId = document.getElementById('adopcion-animal').value;
+            const adoptante = document.getElementById('adopcion-adoptante').value;
+            const telefono = document.getElementById('adopcion-telefono').value;
+            const estado = document.getElementById('adopcion-estado').value;
+            
+            if (!animalId || !adoptante || !telefono) {
+                mostrarToast('Error', 'Por favor completa todos los campos', 'warning');
+                return;
+            }
+            
+            // Buscar animal
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error', 'Animal no encontrado', 'warning');
+                return;
+            }
+            
+            // Verificar si el animal ya está en proceso de adopción
+            const adopcionExistente = DB.adopciones.find(a => a.animalId === animalId && (a.estado === 'pendiente' || a.estado === 'en-proceso'));
+            if (adopcionExistente) {
+                mostrarToast('Error', 'Este animal ya está en proceso de adopción', 'warning');
+                return;
+            }
+            
+            // Generar ID único
+            const nuevoId = `ADP-${String(DB.adopciones.length + 1).padStart(3, '0')}`;
+            const fecha = new Date().toISOString().split('T')[0];
+            
+            // Agregar a la base de datos
+            DB.adopciones.push({
+                id: nuevoId,
+                animalId: animalId,
+                animal: animal.nombre,
+                adoptante: adoptante,
+                telefono: telefono,
+                estado: estado,
+                fecha: fecha
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalAdopcion');
+            
+            // Actualizar tabla de adopciones
+            cargarAdopciones();
+            
+            // Mostrar confirmación
+            mostrarToast('Adopción registrada', `Proceso de adopción iniciado para ${animal.nombre}`, 'success');
+        }
+
+        function aprobarAdopcion(adopcionId) {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para aprobar adopciones', 'warning');
+                return;
+            }
+            
+            const adopcion = DB.adopciones.find(a => a.id === adopcionId);
+            if (adopcion) {
+                adopcion.estado = 'aprobada';
+                
+                // Actualizar estado del animal
+                const animal = DB.animales.find(a => a.id === adopcion.animalId);
+                if (animal) {
+                    animal.estado = 'adoptado';
+                }
+                
+                guardarDB();
+                cargarAdopciones();
+                cargarAnimales();
+                mostrarToast('Adopción aprobada', 'El proceso de adopción ha sido aprobado', 'success');
+            }
+        }
+
+        function rechazarAdopcion(adopcionId) {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para rechazar adopciones', 'warning');
+                return;
+            }
+            
+            const adopcion = DB.adopciones.find(a => a.id === adopcionId);
+            if (adopcion) {
+                adopcion.estado = 'rechazada';
+                guardarDB();
+                cargarAdopciones();
+                mostrarToast('Adopción rechazada', 'El proceso de adopción ha sido rechazado', 'warning');
+            }
+        }
+
+        function eliminarAdopcion(adopcionId) {
+            // Solo administrativo puede eliminar adopciones
+            if (rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'Solo el administrativo puede eliminar adopciones', 'warning');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de eliminar este registro de adopción?')) {
+                const index = DB.adopciones.findIndex(a => a.id === adopcionId);
+                if (index !== -1) {
+                    DB.adopciones.splice(index, 1);
+                    guardarDB();
+                    cargarAdopciones();
+                    mostrarToast('Adopción eliminada', 'El registro ha sido eliminado', 'success');
+                }
+            }
+        }
+
+        // Funciones de búsqueda
+        function buscarAnimales(termino) {
+            const animalesFiltrados = DB.animales.filter(animal => 
+                animal.nombre.toLowerCase().includes(termino.toLowerCase()) ||
+                animal.raza.toLowerCase().includes(termino.toLowerCase()) ||
+                animal.id.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const container = document.getElementById('animales-container');
+            
+            if (animalesFiltrados.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888; grid-column: 1 / -1;">No se encontraron animales</div>';
+                return;
+            }
+            
+            // Similar a cargarAnimales pero con los datos filtrados
+            container.innerHTML = animalesFiltrados.map(animal => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible': estadoClass = 'status-disponible'; estadoText = 'Disponible'; break;
+                    case 'en-tratamiento': estadoClass = 'status-en-tratamiento'; estadoText = 'En Tratamiento'; break;
+                    case 'adoptado': estadoClass = 'status-adoptado'; estadoText = 'Adoptado'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <div class="animal-card">
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : animal.especie === 'gato' ? 'cat' : 'paw'}"></i>
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">${animal.nombre}</h3>
+                                    <div style="font-size: 14px; color: #666;">ID: ${animal.id}</div>
+                                </div>
+                            </div>
+                            <div style="margin: 10px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Especie:</span>
+                                    <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Raza:</span>
+                                    <span>${animal.raza}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Edad:</span>
+                                    <span>${animal.edad}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Sexo:</span>
+                                    <span>${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</span>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <div style="color: #888; font-size: 12px; margin-bottom: 5px;">Descripción:</div>
+                                <div style="font-size: 14px;">${animal.descripcion}</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <span class="status-badge ${estadoClass}">${estadoText}</span>
+                                ${rolActual === 'veterinario' || rolActual === 'administrativo' ? 
+                                    `<button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAnimal('${animal.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>` : 
+                                    `<button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="verDetallesAnimal('${animal.id}')">
+                                        <i class="fas fa-info"></i>
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buscarVacunas(termino) {
+            const vacunasFiltradas = DB.vacunas.filter(vacuna => 
+                vacuna.animal.toLowerCase().includes(termino.toLowerCase()) ||
+                vacuna.tipo.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const tbody = document.getElementById('vacunas-table');
+            
+            if (vacunasFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No se encontraron vacunas</td></tr>';
+                return;
+            }
+            
+            // Similar a cargarVacunas pero con los datos filtrados
+            tbody.innerHTML = vacunasFiltradas.map(vacuna => {
+                const hoy = new Date();
+                const refuerzo = new Date(vacuna.refuerzo);
+                const diasRestantes = Math.ceil((refuerzo - hoy) / (1000 * 60 * 60 * 24));
+                
+                let estadoClass = vacuna.estado === 'completada' ? 'status-completado' : 'status-pendiente';
+                let estadoText = vacuna.estado === 'completada' ? 'Completada' : 'Pendiente';
+                
+                if (vacuna.estado === 'pendiente' && diasRestantes <= 0) {
+                    estadoClass = 'status-urgente';
+                    estadoText = '¡Vencida!';
+                } else if (vacuna.estado === 'pendiente' && diasRestantes <= 7) {
+                    estadoClass = 'status-warning';
+                    estadoText = `Pronto (${diasRestantes} días)`;
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-${DB.animales.find(a => a.id === vacuna.animalId)?.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${vacuna.animal}
+                            </div>
+                        </td>
+                        <td>${vacuna.tipo}</td>
+                        <td>${vacuna.fecha}</td>
+                        <td>${vacuna.refuerzo}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>
+                            ${vacuna.estado === 'pendiente' && rolActual === 'veterinario' ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px;" onclick="marcarVacunaCompletada('${vacuna.id}')">
+                                    <i class="fas fa-check"></i> Completar
+                                </button>` : 
+                                rolActual === 'veterinario' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarVacuna('${vacuna.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Solo veterinario</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function buscarAdopciones(termino) {
+            const adopcionesFiltradas = DB.adopciones.filter(adopcion => 
+                adopcion.animal.toLowerCase().includes(termino.toLowerCase()) ||
+                adopcion.adoptante.toLowerCase().includes(termino.toLowerCase()) ||
+                adopcion.id.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const tbody = document.getElementById('adopciones-table');
+            
+            if (adopcionesFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #888;">No se encontraron adopciones</td></tr>';
+                return;
+            }
+            
+            // Similar a cargarAdopciones pero con los datos filtrados
+            tbody.innerHTML = adopcionesFiltradas.map(adopcion => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(adopcion.estado) {
+                    case 'pendiente': estadoClass = 'status-pendiente'; estadoText = 'Pendiente'; break;
+                    case 'en-proceso': estadoClass = 'status-en-proceso'; estadoText = 'En Proceso'; break;
+                    case 'aprobada': estadoClass = 'status-completado'; estadoText = 'Aprobada'; break;
+                    case 'rechazada': estadoClass = 'status-urgente'; estadoText = 'Rechazada'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${adopcion.id}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-paw"></i>
+                                ${adopcion.animal}
+                            </div>
+                        </td>
+                        <td>${adopcion.adoptante}</td>
+                        <td>${adopcion.telefono}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>${adopcion.fecha}</td>
+                        <td>
+                            ${(rolActual === 'atencion' || rolActual === 'administrativo') && (adopcion.estado === 'pendiente' || adopcion.estado === 'en-proceso') ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" onclick="aprobarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="rechazarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>` : 
+                                rolActual === 'administrativo' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Consulta al equipo</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Función para mostrar notificaciones
+        function mostrarToast(titulo, mensaje, tipo) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`;
+            toast.innerHTML = `
+                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-triangle'}" style="color: ${tipo === 'success' ? 'var(--success)' : 'var(--warning)'};"></i>
+                <div>
+                    <strong>${titulo}</strong><br>
+                    <small>${mensaje}</small>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    cambiarTab(tabId);
+                });
+            });
+            
+            // Selector de rol
+            document.querySelectorAll('.rol-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const rol = this.getAttribute('data-rol');
+                    seleccionarRol(rol);
+                });
+            });
+            
+            // Botones para abrir modales
+            document.getElementById('btn-nuevo-animal').addEventListener('click', function() {
+                abrirModal('modalAnimal');
+            });
+            
+            document.getElementById('btn-nueva-vacuna').addEventListener('click', function() {
+                abrirModal('modalVacuna');
+            });
+            
+            document.getElementById('btn-nueva-adopcion').addEventListener('click', function() {
+                abrirModal('modalAdopcion');
+            });
+            
+            // Búsquedas en tiempo real
+            document.getElementById('search-animales').addEventListener('input', function() {
+                buscarAnimales(this.value);
+            });
+            
+            document.getElementById('search-vacunas').addEventListener('input', function() {
+                buscarVacunas(this.value);
+            });
+            
+            document.getElementById('search-adopciones').addEventListener('input', function() {
+                buscarAdopciones(this.value);
+            });
+            
+            // Inicializar con rol veterinario
+            seleccionarRol('veterinario');
+            
+            // Cargar datos iniciales
+            cargarAnimales();
+            cargarVeterinario();
+            cargarAdopciones();
+        });
+
+        // Prevenir que los clics en modales cierren el modal
+        document.querySelectorAll('.modal-content').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                e.stopPropagation();
             });
         });
 
-        // Configurar tecla ESC para cerrar modales
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => {
-                    if (modal.style.display === 'flex') {
-                        modal.style.display = 'none';
-                    }
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function() {
+                this.style.display = 'none';
+            });
+        });
+
+        // Manejar tecla ESC para cerrar modales
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
                 });
             }
         });
