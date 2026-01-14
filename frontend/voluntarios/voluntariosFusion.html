@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Panel Voluntario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2A9D8F;
+            --secondary: #264653;
+            --accent: #E9C46A;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 78px;
+            z-index: 999;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: #f9f9f9;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Botones */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #23857a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.2);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(42, 157, 143, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        /* Paneles */
+        .panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tablas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* Estados */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pendiente {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-completado {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-urgente {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        /* Asistencia */
+        .asistencia-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .status-box {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .status-online {
+            background: #e6fffa;
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-offline {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f7;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 300px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                padding: 0 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .asistencia-card {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+
+        /* Animaciones */
+        .dashboard-content {
+            display: none;
+        }
+        
+        .dashboard-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="user-initials">V</div>
+                <div>
+                    <div class="user-name" id="user-name">Voluntario</div>
+                    <div class="user-role" id="user-role">Selecciona tu rol</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">
+                <i class="fas fa-home"></i> Dashboard
+            </div>
+            <div class="tab" data-tab="rescates">
+                <i class="fas fa-ambulance"></i> Rescates
+            </div>
+            <div class="tab" data-tab="animales">
+                <i class="fas fa-paw"></i> Animales
+            </div>
+            <div class="tab" data-tab="adopciones">
+                <i class="fas fa-handshake"></i> Adopciones
+            </div>
+            <div class="tab" data-tab="citas">
+                <i class="fas fa-calendar-alt"></i> Citas
+            </div>
+            <div class="tab" data-tab="asistencia">
+                <i class="fas fa-clock"></i> Asistencia
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard-content active">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title" id="dashboard-title">Panel de Voluntario</h1>
+                <div>
+                    <select class="btn btn-secondary" id="select-rol" style="background: var(--white);">
+                        <option value="">Seleccionar rol...</option>
+                        <option value="rescate">Rescate/Logística</option>
+                        <option value="atencion">Atención a Personas</option>
+                        <option value="limpieza">Limpieza/Mantenimiento</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="asistencia-card">
+                <div>
+                    <div id="reloj-digital" style="font-size: 1.4rem; font-weight: bold; color: #333;">00:00:00</div>
+                    <small id="fecha-digital">--/--/----</small>
+                    <div id="asistencia-status" class="status-box status-offline">
+                        <i class="fas fa-clock"></i> <span>Cargando estado...</span>
+                    </div>
+                </div>
+                <button id="btn-toggle-asistencia" class="btn btn-success">
+                    <i class="fas fa-sign-in-alt"></i> Registrar Entrada
+                </button>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-chart-line"></i> Estadísticas Rápidas</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--primary);" id="stat-total">0</div>
+                        <div style="color: #666; font-size: 14px;">Total Actividades</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--success);" id="stat-completadas">0</div>
+                        <div style="color: #666; font-size: 14px;">Completadas</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                        <div style="font-size: 32px; font-weight: bold; color: var(--warning);" id="stat-pendientes">0</div>
+                        <div style="color: #666; font-size: 14px;">Pendientes</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-history"></i> Actividades Recientes</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Actividad</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-activities">
+                        <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">Selecciona un rol para ver actividades</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Rescates -->
+        <div id="rescates" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Gestión de Rescates</h1>
+                <button class="btn btn-primary" id="btn-nuevo-rescate">
+                    <i class="fas fa-plus"></i> Nuevo Rescate
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-list"></i> Rescates Activos</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-rescates" placeholder="Buscar rescate...">
+                        <button class="btn btn-sm" id="btn-search-rescates" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; color: #666;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Animal</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rescates-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Animales -->
+        <div id="animales" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Animales Rescatados</h1>
+                <button class="btn btn-primary" id="btn-buscar-animal">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-paw"></i> Animales Disponibles</h2>
+                    <button class="btn btn-secondary btn-sm" id="btn-refrescar-animales">
+                        <i class="fas fa-sync-alt"></i> Refrescar
+                    </button>
+                </div>
+                <div style="position: relative; margin-bottom: 1rem;">
+                    <input type="text" class="form-input" id="search-animales" placeholder="Buscar animal por nombre, especie o raza...">
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;" id="animales-container">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Adopciones -->
+        <div id="adopciones" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Procesos de Adopción</h1>
+                <button class="btn btn-primary" id="btn-nueva-adopcion">
+                    <i class="fas fa-plus"></i> Nueva Adopción
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-handshake"></i> Adopciones en Proceso</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-adopciones" placeholder="Buscar adopción...">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Proceso</th>
+                            <th>Animal</th>
+                            <th>Adoptante</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adopciones-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Citas -->
+        <div id="citas" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Citas Programadas</h1>
+                <button class="btn btn-primary" id="btn-nueva-cita">
+                    <i class="fas fa-plus"></i> Nueva Cita
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-calendar-check"></i> Citas de Hoy</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary btn-sm" id="btn-filtrar-hoy">
+                            <i class="fas fa-calendar-day"></i> Hoy
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="btn-filtrar-semana">
+                            <i class="fas fa-calendar-week"></i> Esta semana
+                        </button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Adoptante</th>
+                            <th>Animal</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="citas-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Asistencia -->
+        <div id="asistencia" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Registro de Asistencia</h1>
+                <button class="btn btn-primary" id="btn-exportar-asistencia">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-history"></i> Historial de Asistencia</h2>
+                <div style="display: flex; gap: 10px; margin-bottom: 1rem;">
+                    <select class="form-select" style="width: 200px;" id="filtro-periodo">
+                        <option value="hoy">Hoy</option>
+                        <option value="semana">Esta semana</option>
+                        <option value="mes">Este mes</option>
+                        <option value="todo">Todo el historial</option>
+                    </select>
+                    <button class="btn btn-secondary" id="btn-aplicar-filtro">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Duración</th>
+                        </tr>
+                    </thead>
+                    <tbody id="asistencia-history">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para nuevo rescate -->
+    <div class="modal" id="modalRescate">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Nuevo Rescate</h2>
+                <button class="close-btn" onclick="cerrarModal('modalRescate')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-rescate">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Animal</label>
+                        <input type="text" class="form-input" id="rescate-animal" placeholder="Ej: Luna" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Especie</label>
+                        <select class="form-select" id="rescate-especie" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="perro">Perro</option>
+                            <option value="gato">Gato</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ubicación</label>
+                        <input type="text" class="form-input" id="rescate-ubicacion" placeholder="Ej: Coyoacán, CDMX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" id="rescate-estado" required>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en_proceso">En Proceso</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="rescate-observaciones" placeholder="Descripción del rescate..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalRescate')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarRescate()">Guardar Rescate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva adopción -->
+    <div class="modal" id="modalAdopcion">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Iniciar Proceso de Adopción</h2>
+                <button class="close-btn" onclick="cerrarModal('modalAdopcion')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-adopcion">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Animal</label>
+                        <select class="form-select" id="adopcion-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Adoptante</label>
+                        <input type="text" class="form-input" id="adopcion-adoptante" placeholder="Nombre completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" id="adopcion-telefono" placeholder="10 dígitos" pattern="[0-9]{10}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-input" id="adopcion-email" placeholder="correo@ejemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="adopcion-observaciones" placeholder="Motivo de adopción, condiciones especiales..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalAdopcion')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarAdopcion()">Iniciar Adopción</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva cita -->
+    <div class="modal" id="modalCita">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Programar Nueva Cita</h2>
+                <button class="close-btn" onclick="cerrarModal('modalCita')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-cita">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Adopción</label>
+                        <select class="form-select" id="cita-adopcion" required>
+                            <option value="">Seleccionar proceso...</option>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-input" id="cita-fecha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Hora</label>
+                        <input type="time" class="form-input" id="cita-hora" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Cita</label>
+                        <select class="form-select" id="cita-tipo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="entrevista">Entrevista Inicial</option>
+                            <option value="conocimiento">Conocimiento del Animal</option>
+                            <option value="seguimiento">Seguimiento</option>
+                            <option value="firma">Firma de Contrato</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-textarea" id="cita-observaciones" placeholder="Preparativos, documentos a llevar..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalCita')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarCita()">Programar Cita</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos según rol
+        const rolesData = {
+            'rescate': {
+                name: 'Roberto Alvarado',
+                role: 'Coordinador - Administración de Rescates',
+                initials: 'RA',
+                stats: { total: 24, completadas: 14, pendientes: 8 },
+                activities: [
+                    ['15/03/2024', 'Rescate de Luna en Coyoacán', 'Rescate', 'Completado'],
+                    ['16/03/2024', 'Traslado de Michi a clínica', 'Logística', 'En Proceso'],
+                    ['17/03/2024', 'Reporte de animal herido', 'Reporte', 'Pendiente']
+                ]
+            },
+            'atencion': {
+                name: 'Ana García',
+                role: 'Voluntaria - Atención a Personas',
+                initials: 'AG',
+                stats: { total: 28, completadas: 12, pendientes: 8 },
+                activities: [
+                    ['20/03/2024', 'Entrevista con María González', 'Adopción', 'Completado'],
+                    ['21/03/2024', 'Seguimiento post-adopción', 'Seguimiento', 'En Proceso'],
+                    ['22/03/2024', 'Programar cita para Carlos', 'Cita', 'Pendiente']
+                ]
+            },
+            'limpieza': {
+                name: 'Martín López',
+                role: 'Voluntario - Limpieza y Mantenimiento',
+                initials: 'ML',
+                stats: { total: 18, completadas: 15, pendientes: 3 },
+                activities: [
+                    ['15/03/2024', 'Limpieza área de perros', 'Limpieza', 'Completado'],
+                    ['16/03/2024', 'Desinfección de jaulas', 'Mantenimiento', 'Completado'],
+                    ['17/03/2024', 'Reparación de cercas', 'Reparación', 'Pendiente']
+                ]
+            }
+        };
+
+        // Base de datos simulada
+        const database = {
+            rescates: [
+                { id: 'RES-001', animal: 'Luna', especie: 'perro', ubicacion: 'Coyoacán, CDMX', estado: 'en_proceso', fecha: '2024-03-15', observaciones: 'Perro encontrado abandonado' },
+                { id: 'RES-002', animal: 'Michi', especie: 'gato', ubicacion: 'Benito Juárez, CDMX', estado: 'pendiente', fecha: '2024-03-16', observaciones: 'Gato atrapado en árbol' },
+                { id: 'RES-003', animal: 'Max', especie: 'perro', ubicacion: 'Naucalpan, EdoMex', estado: 'urgente', fecha: '2024-03-14', observaciones: 'Perro herido en carretera' }
+            ],
+            animales: [
+                { id: 'HUE-001', nombre: 'Luna', especie: 'perro', raza: 'Labrador', edad: '2 años', sexo: 'Hembra', estado: 'disponible', descripcion: 'Juguetona y cariñosa' },
+                { id: 'HUE-002', nombre: 'Michi', especie: 'gato', raza: 'Siamés', edad: '1 año', sexo: 'Macho', estado: 'en_tratamiento', descripcion: 'Tímido pero cariñoso' },
+                { id: 'HUE-003', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: '3 años', sexo: 'Macho', estado: 'disponible', descripcion: 'Leal y protector' },
+                { id: 'HUE-004', nombre: 'Canela', especie: 'perro', raza: 'Chihuahua', edad: '4 años', sexo: 'Hembra', estado: 'disponible', descripcion: 'Valiente y cariñosa' }
+            ],
+            adopciones: [
+                { id: 'ADP-001', animalId: 'HUE-001', animal: 'Luna', adoptante: 'María González', telefono: '5512345678', estado: 'en_proceso', fecha: '2024-03-20' },
+                { id: 'ADP-002', animalId: 'HUE-003', animal: 'Max', adoptante: 'Carlos Rodríguez', telefono: '5523456789', estado: 'pendiente', fecha: '2024-03-18' }
+            ],
+            citas: [
+                { id: 'CIT-001', adopcionId: 'ADP-001', adoptante: 'María González', animal: 'Luna', fecha: '2024-03-25', hora: '15:30', tipo: 'conocimiento', estado: 'confirmada' },
+                { id: 'CIT-002', adopcionId: 'ADP-002', adoptante: 'Carlos Rodríguez', animal: 'Max', fecha: '2024-03-22', hora: '11:00', tipo: 'entrevista', estado: 'pendiente' }
+            ]
+        };
+
+        // Variables globales
+        let currentRol = '';
+        let currentRescateId = null;
+
+        // Sistema de asistencia
+        const asistenciaSistema = {
+            estado: JSON.parse(localStorage.getItem('asistencia_estado')) || {
+                currentWorkStatus: 'inactive',
+                lastCheckIn: null,
+                logs: []
+            },
+
+            init: function() {
+                this.actualizarReloj();
+                this.actualizarInterfaz();
+                setInterval(() => this.actualizarReloj(), 1000);
+                document.getElementById('btn-toggle-asistencia').addEventListener('click', () => this.toggleRegistro());
+                this.cargarHistorial();
+                
+                // Configurar filtro de asistencia
+                document.getElementById('btn-aplicar-filtro').addEventListener('click', () => this.cargarHistorial());
+                document.getElementById('btn-exportar-asistencia').addEventListener('click', () => this.exportarAsistencia());
+            },
+
+            actualizarReloj: function() {
+                const ahora = new Date();
+                document.getElementById('reloj-digital').textContent = ahora.toLocaleTimeString();
+                document.getElementById('fecha-digital').textContent = ahora.toLocaleDateString();
+            },
+
+            toggleRegistro: function() {
+                const ahora = new Date();
+                const fecha = ahora.toISOString().split('T')[0];
+                const hora = ahora.toTimeString().split(' ')[0].substring(0, 5);
+
+                if (this.estado.currentWorkStatus === 'inactive') {
+                    this.estado.currentWorkStatus = 'active';
+                    this.estado.lastCheckIn = hora;
+                    this.estado.logs.push({ tipo: 'entrada', fecha, hora });
+                    this.mostrarToast('¡Entrada Exitosa!', `Registrada a las ${hora}`, 'success');
+                } else {
+                    const entradaHora = this.estado.lastCheckIn;
+                    const inicio = new Date(`${fecha}T${entradaHora}:00`);
+                    const difMs = ahora - inicio;
+                    const horas = Math.floor(difMs / 3600000);
+                    const mins = Math.floor((difMs % 3600000) / 60000);
+
+                    this.estado.currentWorkStatus = 'inactive';
+                    this.estado.logs.push({ tipo: 'salida', fecha, hora });
+                    this.mostrarToast('¡Salida Exitosa!', `Trabajaste ${horas}h ${mins}m`, 'success');
+                    this.estado.lastCheckIn = null;
+                }
+
+                localStorage.setItem('asistencia_estado', JSON.stringify(this.estado));
+                this.actualizarInterfaz();
+                this.cargarHistorial();
+            },
+
+            actualizarInterfaz: function() {
+                const statusDiv = document.getElementById('asistencia-status');
+                const btn = document.getElementById('btn-toggle-asistencia');
+
+                if (this.estado.currentWorkStatus === 'active') {
+                    statusDiv.className = 'status-box status-online';
+                    statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Activo desde ${this.estado.lastCheckIn}`;
+                    btn.className = 'btn btn-warning';
+                    btn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Registrar Salida`;
+                } else {
+                    statusDiv.className = 'status-box status-offline';
+                    statusDiv.innerHTML = `<i class="fas fa-clock"></i> No has registrado entrada`;
+                    btn.className = 'btn btn-success';
+                    btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Registrar Entrada`;
+                }
+            },
+
+            cargarHistorial: function() {
+                const periodo = document.getElementById('filtro-periodo').value;
+                const tbody = document.getElementById('asistencia-history');
+                tbody.innerHTML = '';
+
+                if (this.estado.logs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay registros de asistencia</td></tr>`;
+                    return;
+                }
+
+                // Filtrar por período
+                let logsFiltrados = [...this.estado.logs];
+                const hoy = new Date();
+                
+                if (periodo === 'hoy') {
+                    const hoyStr = hoy.toISOString().split('T')[0];
+                    logsFiltrados = logsFiltrados.filter(log => log.fecha === hoyStr);
+                } else if (periodo === 'semana') {
+                    const inicioSemana = new Date(hoy);
+                    inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+                    logsFiltrados = logsFiltrados.filter(log => new Date(log.fecha) >= inicioSemana);
+                } else if (periodo === 'mes') {
+                    const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+                    logsFiltrados = logsFiltrados.filter(log => new Date(log.fecha) >= inicioMes);
+                }
+
+                // Ordenar por fecha descendente
+                logsFiltrados.sort((a, b) => 
+                    new Date(b.fecha + 'T' + b.hora) - new Date(a.fecha + 'T' + a.hora)
+                );
+
+                // Agrupar entradas y salidas
+                for (let i = 0; i < logsFiltrados.length; i++) {
+                    if (logsFiltrados[i].tipo === 'salida' && i < logsFiltrados.length - 1) {
+                        const salida = logsFiltrados[i];
+                        const entrada = logsFiltrados[i + 1];
+                        
+                        if (entrada.tipo === 'entrada' && entrada.fecha === salida.fecha) {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${salida.fecha}</td>
+                                <td>${entrada.hora}</td>
+                                <td>${salida.hora}</td>
+                                <td>${this.calcularDuracion(entrada.hora, salida.hora)}</td>
+                            `;
+                            tbody.appendChild(tr);
+                        }
+                    }
+                }
+
+                if (tbody.children.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay registros para este período</td></tr>`;
+                }
+            },
+
+            calcularDuracion: function(entrada, salida) {
+                const [h1, m1] = entrada.split(':').map(Number);
+                const [h2, m2] = salida.split(':').map(Number);
+                const totalMin = (h2 * 60 + m2) - (h1 * 60 + m1);
+                const horas = Math.floor(totalMin / 60);
+                const minutos = totalMin % 60;
+                return `${horas}h ${minutos}m`;
+            },
+
+            exportarAsistencia: function() {
+                const data = JSON.stringify(this.estado.logs, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `asistencia_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                this.mostrarToast('Historial exportado', 'Se ha descargado el archivo JSON', 'success');
+            },
+
+            mostrarToast: function(titulo, mensaje, tipo) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${tipo}`;
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    </div>
+                    <div class="toast-content">
+                        <div class="toast-message">${mensaje}</div>
+                    </div>
+                    <button class="close-btn" onclick="this.parentElement.remove()" style="background: none; border: none; color: #888; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 5000);
+            }
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    navigateToTab(this.getAttribute('data-tab'));
+                });
+            });
+
+            // Configurar selector de rol
+            document.getElementById('select-rol').addEventListener('change', function() {
+                cambiarRol(this.value);
+            });
+
+            // Inicializar sistema de asistencia
+            asistenciaSistema.init();
+
+            // Configurar botones principales
+            document.getElementById('btn-nuevo-rescate').addEventListener('click', () => abrirModalRescate());
+            document.getElementById('btn-buscar-animal').addEventListener('click', () => buscarAnimales());
+            document.getElementById('btn-refrescar-animales').addEventListener('click', () => cargarAnimales());
+            document.getElementById('btn-nueva-adopcion').addEventListener('click', () => abrirModalAdopcion());
+            document.getElementById('btn-nueva-cita').addEventListener('click', () => abrirModalCita());
+            document.getElementById('btn-filtrar-hoy').addEventListener('click', () => filtrarCitas('hoy'));
+            document.getElementById('btn-filtrar-semana').addEventListener('click', () => filtrarCitas('semana'));
+
+            // Configurar búsquedas
+            document.getElementById('search-rescates').addEventListener('input', buscarRescates);
+            document.getElementById('btn-search-rescates').addEventListener('click', buscarRescates);
+            document.getElementById('search-animales').addEventListener('input', buscarAnimales);
+            document.getElementById('search-adopciones').addEventListener('input', buscarAdopciones);
+
+            // Inicializar con rol por defecto y cargar datos
+            cambiarRol('');
+            cargarRescates();
+            cargarAnimales();
+            cargarAdopciones();
+            cargarCitas();
+        });
+
+        // Funciones de navegación
+        function navigateToTab(tabId) {
+            document.querySelectorAll('.dashboard-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        function cambiarRol(rol) {
+            currentRol = rol;
+            const data = rolesData[rol] || { 
+                name: 'Voluntario', 
+                role: 'Selecciona tu rol',
+                initials: 'V',
+                stats: { total: 0, completadas: 0, pendientes: 0 },
+                activities: []
+            };
+
+            document.getElementById('user-initials').textContent = data.initials;
+            document.getElementById('user-name').textContent = data.name;
+            document.getElementById('user-role').textContent = data.role;
+            
+            document.getElementById('dashboard-title').textContent = 
+                rol ? `Panel de ${data.role.split(' - ')[1]}` : 'Panel de Voluntario';
+
+            document.getElementById('stat-total').textContent = data.stats.total;
+            document.getElementById('stat-completadas').textContent = data.stats.completadas;
+            document.getElementById('stat-pendientes').textContent = data.stats.pendientes;
+
+            const tbody = document.getElementById('recent-activities');
+            tbody.innerHTML = '';
+
+            if (data.activities.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #888;">No hay actividades recientes</td></tr>`;
+                return;
+            }
+
+            data.activities.forEach(act => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${act[0]}</td>
+                    <td>${act[1]}</td>
+                    <td>${act[2]}</td>
+                    <td><span class="status-badge status-${act[3].toLowerCase().includes('completado') ? 'completado' : 
+                        act[3].toLowerCase().includes('proceso') ? 'en-proceso' : 'pendiente'}">${act[3]}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funciones para Rescates
+        function cargarRescates() {
+            const tbody = document.getElementById('rescates-table');
+            tbody.innerHTML = '';
+
+            database.rescates.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${rescate.id}</td>
+                    <td>${rescate.animal} (${rescate.especie})</td>
+                    <td>${rescate.ubicacion}</td>
+                    <td><span class="status-badge status-${rescate.estado}">${getEstadoTexto(rescate.estado)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesRescate('${rescate.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editarRescate('${rescate.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function buscarRescates() {
+            const termino = document.getElementById('search-rescates').value.toLowerCase();
+            const tbody = document.getElementById('rescates-table');
+            tbody.innerHTML = '';
+
+            const rescatesFiltrados = database.rescates.filter(rescate => 
+                rescate.id.toLowerCase().includes(termino) ||
+                rescate.animal.toLowerCase().includes(termino) ||
+                rescate.ubicacion.toLowerCase().includes(termino) ||
+                rescate.estado.toLowerCase().includes(termino)
+            );
+
+            if (rescatesFiltrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #888;">No se encontraron rescates</td></tr>`;
+                return;
+            }
+
+            rescatesFiltrados.forEach(rescate => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${rescate.id}</td>
+                    <td>${rescate.animal} (${rescate.especie})</td>
+                    <td>${rescate.ubicacion}</td>
+                    <td><span class="status-badge status-${rescate.estado}">${getEstadoTexto(rescate.estado)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesRescate('${rescate.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editarRescate('${rescate.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalRescate() {
+            if (!currentRol) {
+                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
+                return;
+            }
+            
+            document.getElementById('modalRescate').style.display = 'flex';
+            document.getElementById('rescate-animal').value = '';
+            document.getElementById('rescate-especie').value = '';
+            document.getElementById('rescate-ubicacion').value = '';
+            document.getElementById('rescate-estado').value = 'pendiente';
+            document.getElementById('rescate-observaciones').value = '';
+            currentRescateId = null;
+        }
+
+        function guardarRescate() {
+            const animal = document.getElementById('rescate-animal').value;
+            const especie = document.getElementById('rescate-especie').value;
+            const ubicacion = document.getElementById('rescate-ubicacion').value;
+            const estado = document.getElementById('rescate-estado').value;
+            const observaciones = document.getElementById('rescate-observaciones').value;
+
+            if (!animal || !especie || !ubicacion) {
+                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            if (currentRescateId) {
+                // Editar rescate existente
+                const index = database.rescates.findIndex(r => r.id === currentRescateId);
+                if (index !== -1) {
+                    database.rescates[index] = {
+                        ...database.rescates[index],
+                        animal,
+                        especie,
+                        ubicacion,
+                        estado,
+                        observaciones
+                    };
+                    asistenciaSistema.mostrarToast('Rescate actualizado', 'El rescate se ha actualizado correctamente', 'success');
+                }
+            } else {
+                // Nuevo rescate
+                const nuevoId = `RES-${(database.rescates.length + 1).toString().padStart(3, '0')}`;
+                database.rescates.push({
+                    id: nuevoId,
+                    animal,
+                    especie,
+                    ubicacion,
+                    estado,
+                    fecha: new Date().toISOString().split('T')[0],
+                    observaciones
+                });
+                asistenciaSistema.mostrarToast('Rescate registrado', `Rescate ${nuevoId} creado exitosamente`, 'success');
+            }
+
+            cargarRescates();
+            cerrarModal('modalRescate');
+        }
+
+        function verDetallesRescate(id) {
+            const rescate = database.rescates.find(r => r.id === id);
+            if (rescate) {
+                alert(`Detalles del Rescate:\n\nID: ${rescate.id}\nAnimal: ${rescate.animal}\nEspecie: ${rescate.especie}\nUbicación: ${rescate.ubicacion}\nEstado: ${getEstadoTexto(rescate.estado)}\nFecha: ${rescate.fecha}\nObservaciones: ${rescate.observaciones || 'Ninguna'}`);
+            }
+        }
+
+        function editarRescate(id) {
+            const rescate = database.rescates.find(r => r.id === id);
+            if (rescate) {
+                document.getElementById('modalRescate').style.display = 'flex';
+                document.getElementById('rescate-animal').value = rescate.animal;
+                document.getElementById('rescate-especie').value = rescate.especie;
+                document.getElementById('rescate-ubicacion').value = rescate.ubicacion;
+                document.getElementById('rescate-estado').value = rescate.estado;
+                document.getElementById('rescate-observaciones').value = rescate.observaciones || '';
+                currentRescateId = id;
+            }
+        }
+
+        // Funciones para Animales
+        function cargarAnimales() {
+            const container = document.getElementById('animales-container');
+            container.innerHTML = '';
+
+            database.animales.forEach(animal => {
+                const card = document.createElement('div');
+                card.style.cssText = 'background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);';
+                card.innerHTML = `
+                    <div style="height: 150px; background: #e0f7fa; display: flex; align-items: center; justify-content: center; color: #00796b; font-size: 48px;">
+                        <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">${animal.nombre}</div>
+                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${animal.id} • ${animal.raza}</div>
+                        <div style="display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.especie}</span>
+                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.edad}</span>
+                            <span style="background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.sexo}</span>
+                        </div>
+                        <div style="font-size: 13px; color: #666; margin-bottom: 15px;">${animal.descripcion}</div>
+                        <span class="status-badge ${animal.estado === 'disponible' ? 'status-completado' : 'status-pendiente'}">
+                            ${animal.estado === 'disponible' ? 'Disponible' : 'En Tratamiento'}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buscarAnimales() {
+            const termino = document.getElementById('search-animales').value.toLowerCase();
+            const container = document.getElementById('animales-container');
+            container.innerHTML = '';
+
+            const animalesFiltrados = database.animales.filter(animal => 
+                animal.nombre.toLowerCase().includes(termino) ||
+                animal.especie.toLowerCase().includes(termino) ||
+                animal.raza.toLowerCase().includes(termino) ||
+                animal.id.toLowerCase().includes(termino)
+            );
+
+            if (animalesFiltrados.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">No se encontraron animales</div>`;
+                return;
+            }
+
+            animalesFiltrados.forEach(animal => {
+                const card = document.createElement('div');
+                card.style.cssText = 'background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);';
+                card.innerHTML = `
+                    <div style="height: 150px; background: #e0f7fa; display: flex; align-items: center; justify-content: center; color: #00796b; font-size: 48px;">
+                        <i class="fas fa-${animal.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">${animal.nombre}</div>
+                        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">${animal.id} • ${animal.raza}</div>
+                        <div style="display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <span style="background: #e3f2fd; color: #1565c0; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.especie}</span>
+                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.edad}</span>
+                            <span style="background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 12px; font-size: 11px;">${animal.sexo}</span>
+                        </div>
+                        <div style="font-size: 13px; color: #666; margin-bottom: 15px;">${animal.descripcion}</div>
+                        <span class="status-badge ${animal.estado === 'disponible' ? 'status-completado' : 'status-pendiente'}">
+                            ${animal.estado === 'disponible' ? 'Disponible' : 'En Tratamiento'}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Funciones para Adopciones
+        function cargarAdopciones() {
+            const tbody = document.getElementById('adopciones-table');
+            tbody.innerHTML = '';
+
+            database.adopciones.forEach(adopcion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${adopcion.id}</td>
+                    <td>${adopcion.animal}</td>
+                    <td>${adopcion.adoptante}<br><small>${adopcion.telefono}</small></td>
+                    <td><span class="status-badge status-${adopcion.estado}">${getEstadoTexto(adopcion.estado)}</span></td>
+                    <td>${adopcion.fecha}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoAdopcion('${adopcion.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function buscarAdopciones() {
+            const termino = document.getElementById('search-adopciones').value.toLowerCase();
+            const tbody = document.getElementById('adopciones-table');
+            tbody.innerHTML = '';
+
+            const adopcionesFiltradas = database.adopciones.filter(adopcion => 
+                adopcion.id.toLowerCase().includes(termino) ||
+                adopcion.animal.toLowerCase().includes(termino) ||
+                adopcion.adoptante.toLowerCase().includes(termino) ||
+                adopcion.telefono.includes(termino)
+            );
+
+            if (adopcionesFiltradas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No se encontraron adopciones</td></tr>`;
+                return;
+            }
+
+            adopcionesFiltradas.forEach(adopcion => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${adopcion.id}</td>
+                    <td>${adopcion.animal}</td>
+                    <td>${adopcion.adoptante}<br><small>${adopcion.telefono}</small></td>
+                    <td><span class="status-badge status-${adopcion.estado}">${getEstadoTexto(adopcion.estado)}</span></td>
+                    <td>${adopcion.fecha}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesAdopcion('${adopcion.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoAdopcion('${adopcion.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalAdopcion() {
+            if (!currentRol) {
+                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
+                return;
+            }
+            
+            const select = document.getElementById('adopcion-animal');
+            select.innerHTML = '<option value="">Seleccionar animal...</option>';
+            
+            // Mostrar solo animales disponibles
+            database.animales.filter(a => a.estado === 'disponible').forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.id}) - ${animal.especie}`;
+                select.appendChild(option);
+            });
+            
+            document.getElementById('modalAdopcion').style.display = 'flex';
+        }
+
+        function guardarAdopcion() {
+            const animalId = document.getElementById('adopcion-animal').value;
+            const adoptante = document.getElementById('adopcion-adoptante').value;
+            const telefono = document.getElementById('adopcion-telefono').value;
+            const email = document.getElementById('adopcion-email').value;
+            const observaciones = document.getElementById('adopcion-observaciones').value;
+
+            if (!animalId || !adoptante || !telefono) {
+                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            const animal = database.animales.find(a => a.id === animalId);
+            if (!animal) {
+                asistenciaSistema.mostrarToast('Animal no encontrado', 'El animal seleccionado no existe', 'error');
+                return;
+            }
+
+            // Crear nueva adopción
+            const nuevoId = `ADP-${(database.adopciones.length + 1).toString().padStart(3, '0')}`;
+            database.adopciones.push({
+                id: nuevoId,
+                animalId,
+                animal: animal.nombre,
+                adoptante,
+                telefono,
+                email,
+                estado: 'pendiente',
+                fecha: new Date().toISOString().split('T')[0],
+                observaciones
+            });
+
+            // Actualizar estado del animal
+            animal.estado = 'en_proceso';
+
+            asistenciaSistema.mostrarToast('Adopción iniciada', `Proceso ${nuevoId} creado exitosamente`, 'success');
+            cargarAdopciones();
+            cargarAnimales();
+            cerrarModal('modalAdopcion');
+        }
+
+        function verDetallesAdopcion(id) {
+            const adopcion = database.adopciones.find(a => a.id === id);
+            if (adopcion) {
+                alert(`Detalles de Adopción:\n\nID: ${adopcion.id}\nAnimal: ${adopcion.animal}\nAdoptante: ${adopcion.adoptante}\nTeléfono: ${adopcion.telefono}\nEmail: ${adopcion.email || 'No especificado'}\nEstado: ${getEstadoTexto(adopcion.estado)}\nFecha: ${adopcion.fecha}\nObservaciones: ${adopcion.observaciones || 'Ninguna'}`);
+            }
+        }
+
+        function cambiarEstadoAdopcion(id) {
+            const adopcion = database.adopciones.find(a => a.id === id);
+            if (adopcion) {
+                const nuevoEstado = prompt(`Cambiar estado de adopción ${id}:\nActual: ${getEstadoTexto(adopcion.estado)}\n\nNuevo estado (pendiente/en_proceso/completado):`);
+                if (nuevoEstado && ['pendiente', 'en_proceso', 'completado'].includes(nuevoEstado)) {
+                    adopcion.estado = nuevoEstado;
+                    
+                    // Si se completa la adopción, actualizar estado del animal
+                    if (nuevoEstado === 'completado') {
+                        const animal = database.animales.find(a => a.id === adopcion.animalId);
+                        if (animal) {
+                            animal.estado = 'adoptado';
+                        }
+                    }
+                    
+                    cargarAdopciones();
+                    cargarAnimales();
+                    asistenciaSistema.mostrarToast('Estado actualizado', `Adopción ${id} ahora está ${getEstadoTexto(nuevoEstado)}`, 'success');
+                }
+            }
+        }
+
+        // Funciones para Citas
+        function cargarCitas() {
+            const tbody = document.getElementById('citas-table');
+            tbody.innerHTML = '';
+
+            const hoy = new Date().toISOString().split('T')[0];
+            const citasHoy = database.citas.filter(cita => cita.fecha === hoy);
+
+            citasHoy.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${cita.hora}</td>
+                    <td>${cita.adoptante}</td>
+                    <td>${cita.animal}</td>
+                    <td>${getTipoCitaTexto(cita.tipo)}</td>
+                    <td><span class="status-badge status-${cita.estado}">${getEstadoCitaTexto(cita.estado)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesCita('${cita.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoCita('${cita.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarCitas(periodo) {
+            const tbody = document.getElementById('citas-table');
+            tbody.innerHTML = '';
+
+            let citasFiltradas = [];
+            const hoy = new Date();
+            
+            if (periodo === 'hoy') {
+                const hoyStr = hoy.toISOString().split('T')[0];
+                citasFiltradas = database.citas.filter(cita => cita.fecha === hoyStr);
+            } else if (periodo === 'semana') {
+                const inicioSemana = new Date(hoy);
+                inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+                citasFiltradas = database.citas.filter(cita => new Date(cita.fecha) >= inicioSemana);
+            }
+
+            if (citasFiltradas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No hay citas para este período</td></tr>`;
+                return;
+            }
+
+            citasFiltradas.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${cita.hora}</td>
+                    <td>${cita.adoptante}</td>
+                    <td>${cita.animal}</td>
+                    <td>${getTipoCitaTexto(cita.tipo)}</td>
+                    <td><span class="status-badge status-${cita.estado}">${getEstadoCitaTexto(cita.estado)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="verDetallesCita('${cita.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="cambiarEstadoCita('${cita.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirModalCita() {
+            if (!currentRol) {
+                asistenciaSistema.mostrarToast('Selecciona un rol', 'Debes seleccionar un rol primero', 'error');
+                return;
+            }
+            
+            const select = document.getElementById('cita-adopcion');
+            select.innerHTML = '<option value="">Seleccionar proceso de adopción...</option>';
+            
+            // Mostrar solo adopciones activas
+            database.adopciones.filter(a => a.estado === 'en_proceso').forEach(adopcion => {
+                const option = document.createElement('option');
+                option.value = adopcion.id;
+                option.textContent = `${adopcion.id} - ${adopcion.animal} (${adopcion.adoptante})`;
+                select.appendChild(option);
+            });
+            
+            document.getElementById('modalCita').style.display = 'flex';
+            document.getElementById('cita-fecha').value = new Date().toISOString().split('T')[0];
+            document.getElementById('cita-hora').value = '10:00';
+        }
+
+        function guardarCita() {
+            const adopcionId = document.getElementById('cita-adopcion').value;
+            const fecha = document.getElementById('cita-fecha').value;
+            const hora = document.getElementById('cita-hora').value;
+            const tipo = document.getElementById('cita-tipo').value;
+            const observaciones = document.getElementById('cita-observaciones').value;
+
+            if (!adopcionId || !fecha || !hora || !tipo) {
+                asistenciaSistema.mostrarToast('Campos requeridos', 'Completa todos los campos obligatorios', 'error');
+                return;
+            }
+
+            const adopcion = database.adopciones.find(a => a.id === adopcionId);
+            if (!adopcion) {
+                asistenciaSistema.mostrarToast('Adopción no encontrada', 'El proceso de adopción no existe', 'error');
+                return;
+            }
+
+            // Crear nueva cita
+            const nuevoId = `CIT-${(database.citas.length + 1).toString().padStart(3, '0')}`;
+            database.citas.push({
+                id: nuevoId,
+                adopcionId,
+                adoptante: adopcion.adoptante,
+                animal: adopcion.animal,
+                fecha,
+                hora,
+                tipo,
+                estado: 'pendiente',
+                observaciones
+            });
+
+            asistenciaSistema.mostrarToast('Cita programada', `Cita ${nuevoId} creada exitosamente`, 'success');
+            cargarCitas();
+            cerrarModal('modalCita');
+        }
+
+        function verDetallesCita(id) {
+            const cita = database.citas.find(c => c.id === id);
+            if (cita) {
+                alert(`Detalles de Cita:\n\nID: ${cita.id}\nAdopción: ${cita.adopcionId}\nAdoptante: ${cita.adoptante}\nAnimal: ${cita.animal}\nFecha: ${cita.fecha}\nHora: ${cita.hora}\nTipo: ${getTipoCitaTexto(cita.tipo)}\nEstado: ${getEstadoCitaTexto(cita.estado)}\nObservaciones: ${cita.observaciones || 'Ninguna'}`);
+            }
+        }
+
+        function cambiarEstadoCita(id) {
+            const cita = database.citas.find(c => c.id === id);
+            if (cita) {
+                const nuevoEstado = prompt(`Cambiar estado de cita ${id}:\nActual: ${getEstadoCitaTexto(cita.estado)}\n\nNuevo estado (pendiente/confirmada/cancelada/completada):`);
+                if (nuevoEstado && ['pendiente', 'confirmada', 'cancelada', 'completada'].includes(nuevoEstado)) {
+                    cita.estado = nuevoEstado;
+                    cargarCitas();
+                    asistenciaSistema.mostrarToast('Estado actualizado', `Cita ${id} ahora está ${getEstadoCitaTexto(nuevoEstado)}`, 'success');
+                }
+            }
+        }
+
+        // Funciones auxiliares
+        function getEstadoTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'en_proceso': 'En Proceso',
+                'completado': 'Completado',
+                'urgente': 'Urgente'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getEstadoCitaTexto(estado) {
+            const estados = {
+                'pendiente': 'Pendiente',
+                'confirmada': 'Confirmada',
+                'cancelada': 'Cancelada',
+                'completada': 'Completada'
+            };
+            return estados[estado] || estado;
+        }
+
+        function getTipoCitaTexto(tipo) {
+            const tipos = {
+                'entrevista': 'Entrevista Inicial',
+                'conocimiento': 'Conocimiento del Animal',
+                'seguimiento': 'Seguimiento',
+                'firma': 'Firma de Contrato'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Configurar click fuera de modales para cerrar
+        window.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Configurar tecla ESC para cerrar modales
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

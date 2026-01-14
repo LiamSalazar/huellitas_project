@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huellitas - Panel Veterinario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
         :root {
             --primary: #FF6B35;
             --secondary: #1A936F;
@@ -16,28 +20,16 @@
             --dark: #1d1d1f;
             --light: #f5f5f7;
             --white: #ffffff;
-            --border: #d2d2d7;
             --success: #28a745;
             --warning: #ffc107;
-            --info: #17a2b8;
             --danger: #dc3545;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Inter Tight", sans-serif;
+            --info: #17a2b8;
+            --border: #d2d2d7;
         }
 
         body {
             background: var(--light);
             color: var(--dark);
-            line-height: 1.6;
-            min-height: 100vh;
         }
 
         /* Header */
@@ -53,10 +45,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            height: 70px;
+            padding: 1rem 2rem;
         }
 
         .logo {
@@ -66,77 +55,12 @@
             text-decoration: none;
         }
 
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
         .logo h1 {
             font-size: 24px;
             color: var(--primary);
             font-weight: 800;
         }
 
-        /* Card de Registro / HORAS TRABAJADAS*/
-:root {
-    --success: #28a745;
-    --danger: #dc3545;
-    --info: #17a2b8;
-    --white: #ffffff;
-}
-
-/* Estilos de la Card */
-.asistencia-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.asistencia-reloj { display: flex; flex-direction: column; }
-#reloj-digital { font-size: 1.4rem; font-weight: bold; color: #333; }
-.status-box { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-top: 5px; display: inline-block;}
-.status-online { background: #e6fffa; color: var(--success); border: 1px solid var(--success); }
-.status-offline { background: #f8f9fa; color: #6c757d; border: 1px solid #6c757d; }
-
-.btn-asistencia { 
-    padding: 12px 24px; border: none; border-radius: 8px; 
-    cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s;
-}
-.btn-entrada { background: var(--success); color: white; }
-.btn-salida { background: #ffc107; color: #212529; }
-
-/* --- TUS TOAST NOTIFICATIONS --- */
-#asistencia-toast-container { position: fixed; top: 0; right: 0; z-index: 9999; }
-
-.toast {
-    position: fixed; top: 100px; right: 20px;
-    background: var(--white); border-radius: 10px;
-    padding: 15px 20px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-    display: flex; align-items: center; gap: 10px;
-    z-index: 9999; min-width: 300px; max-width: 400px;
-    animation: slideInRight 0.3s ease;
-}
-
-@keyframes slideInRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-.toast.success { border-left: 4px solid var(--success); }
-.toast.error { border-left: 4px solid var(--danger); }
-.toast.info { border-left: 4px solid var(--info); }
-.toast-icon { font-size: 24px; }
-.toast.success .toast-icon { color: var(--success); }
-.toast-content { flex: 1; }
-.toast-title { font-weight: 600; margin-bottom: 5px; }
-.toast-message { font-size: 14px; color: #666; }
-
-/* TERMINA */
         .user-info {
             display: flex;
             align-items: center;
@@ -156,30 +80,7 @@
             font-size: 14px;
         }
 
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .user-role {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .user-sede {
-            font-size: 12px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-                .logout-btn {
+        .logout-btn {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--dark);
@@ -188,7 +89,7 @@
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .logout-btn:hover {
@@ -196,27 +97,16 @@
             color: var(--primary);
         }
 
-        /* Tabs de navegación */
+        /* Tabs */
         .tabs-container {
             background: var(--white);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 70px;
-            z-index: 999;
         }
 
         .tabs {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
-            gap: 0;
+            padding: 0 2rem;
             overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .tabs::-webkit-scrollbar {
-            display: none;
         }
 
         .tab {
@@ -225,10 +115,8 @@
             color: var(--dark);
             font-weight: 600;
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             border-bottom: 3px solid transparent;
-            transition: var(--transition);
+            transition: all 0.3s ease;
             white-space: nowrap;
             display: flex;
             align-items: center;
@@ -246,58 +134,83 @@
             border-bottom-color: var(--primary);
         }
 
-        .tab .badge {
-            background: var(--danger);
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            min-width: 18px;
-            text-align: center;
-        }
-
         /* Contenido principal */
         .main-container {
+            padding: 2rem;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
-        /* Dashboard header */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .section {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .dashboard-title {
             font-size: 28px;
             font-weight: 700;
             color: var(--dark);
+            margin-bottom: 1rem;
         }
 
         .dashboard-subtitle {
             color: #666;
             font-size: 16px;
-            max-width: 600px;
+            margin-bottom: 2rem;
         }
 
-        .header-actions {
+        /* Grid y cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
             display: flex;
+            align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
+        /* Botones */
         .btn {
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
             border: none;
             text-decoration: none;
             display: inline-flex;
@@ -314,7 +227,6 @@
         .btn-primary:hover {
             background: #e05a2b;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
         }
 
         .btn-secondary {
@@ -327,97 +239,14 @@
             background: rgba(255, 107, 53, 0.1);
         }
 
-        .btn-danger {
-            background: transparent;
-            color: var(--danger);
-            border: 2px solid var(--danger);
-        }
-
-        .btn-danger:hover {
-            background: rgba(220, 53, 69, 0.1);
-        }
-
-        /* Registro de entrada/salida */
-        .asistencia-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: sans-serif;
-}
-.asistencia-reloj { display: flex; flex-direction: column; }
-#reloj-digital { font-size: 1.4rem; font-weight: bold; color: #333; }
-.status-box { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-top: 5px; }
-.status-online { background: #e6fffa; color: #28a745; border: 1px solid #28a745; }
-.status-offline { background: #f8f9fa; color: #6c757d; border: 1px solid #6c757d; }
-.btn-asistencia { 
-    padding: 12px 24px; border: none; border-radius: 8px; 
-    cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s;
-}
-.btn-entrada { background: #28a745; color: white; }
-.btn-salida { background: #ffc107; color: #212529; }
-#asistencia-toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
-.toast-msg { background: #333; color: white; padding: 12px 20px; border-radius: 5px; margin-bottom: 10px; animation: slideIn 0.3s; }
-@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        /* Paneles del dashboard */
-        .dashboard-panels {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 1100px) {
-            .dashboard-panels {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .panel {
-            background: var(--white);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .panel-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-title i {
-            color: var(--primary);
-        }
-
-        .panel-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Tabla de vacunas */
-        .vaccines-table {
+        /* Tablas */
+        table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
         }
 
-        .vaccines-table th {
+        th {
             background: #f8f9fa;
             padding: 12px 15px;
             text-align: left;
@@ -427,13 +256,13 @@
             border-bottom: 2px solid var(--border);
         }
 
-        .vaccines-table td {
+        td {
             padding: 12px 15px;
             border-bottom: 1px solid #f0f0f0;
             font-size: 14px;
         }
 
-        .vaccines-table tr:hover {
+        tr:hover {
             background: #f9f9f9;
         }
 
@@ -457,193 +286,7 @@
             color: var(--success);
         }
 
-        .status-overdue {
-            background: rgba(220, 53, 69, 0.1);
-            color: var(--danger);
-        }
-
-        .vaccine-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .table-btn {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .table-btn.primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .table-btn.primary:hover {
-            background: #e05a2b;
-        }
-
-        .table-btn.secondary {
-            background: transparent;
-            color: var(--dark);
-            border: 1px solid var(--border);
-        }
-
-        .table-btn.secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .table-btn.danger {
-            background: transparent;
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .table-btn.danger:hover {
-            background: rgba(220, 53, 69, 0.1);
-        }
-
-        /* Búsqueda de animales */
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 45px 14px 15px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 15px;
-            transition: var(--transition);
-            background: white;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Información del animal */
-        .animal-info-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
-
-        .animal-info-card.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 1rem;
-        }
-
-        .animal-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-        }
-
-        .animal-details {
-            flex: 1;
-        }
-
-        .animal-name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .animal-id {
-            font-family: monospace;
-            background: var(--white);
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        .animal-meta {
-            display: flex;
-            gap: 10px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Formularios para el animal */
-        .forms-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .form-card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .form-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .form-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-title i {
-            color: var(--primary);
-        }
-
+        /* Formularios */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -656,208 +299,25 @@
             color: var(--dark);
         }
 
-        .form-label.required:after {
-            content: " *";
-            color: var(--danger);
-        }
-
         .form-input,
-        .form-select,
-        .form-textarea {
+        .form-select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 14px;
             background: white;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
+        .form-select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 1.5rem;
-        }
-
-        .form-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .form-btn.primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .form-btn.primary:hover {
-            background: #e05a2b;
-        }
-
-        .form-btn.secondary {
-            background: transparent;
-            color: var(--dark);
-            border: 1px solid var(--border);
-        }
-
-        .form-btn.secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Catálogos en select */
-        .form-select option[disabled] {
-            color: #999;
-        }
-
-        /* Historial médico del animal */
-        .medical-history {
-            margin-top: 2rem;
-        }
-
-        .history-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-        }
-
-        .history-tab {
-            padding: 12px 20px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #666;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 2px solid transparent;
-            white-space: nowrap;
-        }
-
-        .history-tab:hover {
-            color: var(--primary);
-        }
-
-        .history-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .history-content {
-            display: none;
-        }
-
-        .history-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .history-item {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            border-left: 4px solid var(--primary);
-            border: 1px solid var(--border);
-        }
-
-        .history-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .history-item-title {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .history-item-date {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .history-item-content {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Esterilización */
-        .sterilization-card {
-            background: #f0f9ff;
-            border: 1px solid #b3e0ff;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .sterilization-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .sterilization-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgba(23, 162, 184, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--info);
-            font-size: 18px;
-        }
-
-        .sterilization-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-sterilized {
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-        }
-
-        .status-not-sterilized {
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--warning);
-        }
-
-        /* Modales */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -871,7 +331,10 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
         }
 
         .modal-content {
@@ -897,10 +360,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 1;
         }
 
         .modal-title {
@@ -915,163 +374,52 @@
             font-size: 24px;
             color: #888;
             cursor: pointer;
-            transition: var(--transition);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-btn:hover {
-            background: #f5f5f7;
-            color: var(--dark);
+            transition: all 0.3s ease;
         }
 
         .modal-body {
             padding: 1.5rem;
         }
 
-        .modal-footer {
+        /* Animal info */
+        .animal-info-card {
+            background: #f8f9fa;
+            border-radius: 10px;
             padding: 1.5rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            position: sticky;
-            bottom: 0;
-            background: white;
-        }
-
-        /* Alertas */
-        .alert {
-            padding: 15px;
-            border-radius: 10px;
             margin-bottom: 1.5rem;
-            display: none;
-            align-items: center;
-            gap: 10px;
         }
 
-        .alert.success {
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(40, 167, 69, 0.2);
-        }
-
-        .alert.error {
-            background: rgba(220, 53, 69, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(220, 53, 69, 0.2);
-        }
-
-        .alert.info {
-            background: rgba(23, 162, 184, 0.1);
-            color: var(--info);
-            border: 1px solid rgba(23, 162, 184, 0.2);
-        }
-
-        .alert.warning {
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(255, 193, 7, 0.2);
-        }
-
-        .alert i {
-            font-size: 20px;
-        }
-
-        .alert.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Toast notifications */
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: var(--white);
-            border-radius: 10px;
-            padding: 15px 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        .animal-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            z-index: 9999;
-            min-width: 300px;
-            max-width: 400px;
-            animation: slideInRight 0.3s ease;
+            gap: 15px;
+            margin-bottom: 1rem;
         }
 
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .toast.success {
-            border-left: 4px solid var(--success);
-        }
-
-        .toast.error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .toast.info {
-            border-left: 4px solid var(--info);
-        }
-
-        .toast-icon {
+        .animal-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 24px;
         }
 
-        .toast.success .toast-icon {
-            color: var(--success);
-        }
-
-        .toast.error .toast-icon {
-            color: var(--danger);
-        }
-
-        .toast.info .toast-icon {
-            color: var(--info);
-        }
-
-        .toast-content {
-            flex: 1;
-        }
-
-        .toast-title {
-            font-weight: 600;
+        .animal-name {
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 5px;
         }
 
-        .toast-message {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .toast-close {
-            background: none;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-        }
-
-        /* Sin resultados */
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: #888;
-        }
-
-        .no-results i {
-            font-size: 48px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        .animal-id {
+            font-family: monospace;
+            background: var(--white);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
         }
 
         /* Footer */
@@ -1090,51 +438,6 @@
             gap: 2rem;
         }
 
-        .footer-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .footer-logo img {
-            height: 50px;
-            width: auto;
-        }
-
-        .footer-links h3,
-        .footer-contact h3 {
-            font-size: 18px;
-            margin-bottom: 1rem;
-            color: white;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .footer-contact p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .footer-bottom {
             text-align: center;
             margin-top: 3rem;
@@ -1144,27 +447,12 @@
             font-size: 14px;
         }
 
-        .status-active {
-    background: rgba(40, 167, 69, 0.1);
-    color: var(--success);
-}
-
-.status-inactive {
-    background: rgba(108, 117, 125, 0.1);
-    color: #6c757d;
-}
-
-.btn-warning {
-    background: var(--warning);
-    color: var(--dark);
-}
-
         /* Responsive */
         @media (max-width: 768px) {
             .navbar {
-                padding: 0 1rem;
-                height: auto;
                 padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
             }
             
             .tabs {
@@ -1175,46 +463,8 @@
                 padding: 1rem;
             }
             
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .dashboard-panels {
+            .grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .panel-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .vaccines-table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .forms-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .modal-content {
-                max-height: 80vh;
-            }
-            
-            .time-registration {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .toast {
-                left: 20px;
-                right: 20px;
-                max-width: none;
             }
         }
     </style>
@@ -1224,25 +474,24 @@
     <header class="header">
         <nav class="navbar">
             <a href="../index.html" class="logo">
-                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
+                <!-- Aquí va tu logo original -->
+                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 8px; 
+                          display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fas fa-paw"></i>
+                </div>
                 <h1>Huellitas</h1>
             </a>
             
             <div class="user-info">
                 <div class="user-avatar">DR</div>
-                <div class="user-details">
-                    <div class="user-name">Dr. Roberto Sánchez</div>
-                    <div class="user-role">Voluntario Veterinario</div>
-                    <div class="user-sede">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Sede Norte - Lindavista</span>
-                    </div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 600; font-size: 14px;">Dr. Roberto Sánchez</span>
+                    <span style="font-size: 12px; color: #666;">Voluntario Veterinario</span>
                 </div>
 
                 <button class="logout-btn" onclick="location.href='../index_secundario.html'">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </button>
-
             </div>
         </nav>
     </header>
@@ -1250,20 +499,19 @@
     <!-- Tabs de navegación -->
     <div class="tabs-container">
         <div class="tabs">
-            <div class="tab active" data-tab="dashboard" data-section="dashboard">
+            <div class="tab active" onclick="showSection('dashboard')">
                 <i class="fas fa-home"></i> Panel Veterinario
             </div>
-            <div class="tab" data-tab="vacunas" data-section="vacunas">
+            <div class="tab" onclick="showSection('vacunas')">
                 <i class="fas fa-syringe"></i> Vacunas
-                <span class="badge" id="vacunas-badge">3</span>
             </div>
-            <div class="tab" data-tab="animales" data-section="animales">
+            <div class="tab" onclick="showSection('animales')">
                 <i class="fas fa-paw"></i> Animales
             </div>
-            <div class="tab" data-tab="historial" data-section="historial">
+            <div class="tab" onclick="showSection('historial')">
                 <i class="fas fa-file-medical"></i> Historial
             </div>
-            <div class="tab" data-tab="reportes" data-section="reportes">
+            <div class="tab" onclick="showSection('reportes')">
                 <i class="fas fa-chart-bar"></i> Reportes
             </div>
         </div>
@@ -1271,474 +519,174 @@
 
     <!-- Contenido principal -->
     <main class="main-container">
-        <!-- Alertas globales -->
-        <div id="global-alert" class="alert"></div>
-
-        <!-- Registro de entrada/salida -->
-<div class="asistencia-card">
-    <div class="asistencia-info">
-        <div class="asistencia-reloj">
-            <span id="reloj-digital">00:00:00</span>
-            <small id="fecha-digital">--/--/----</small>
-        </div>
-        <div id="asistencia-status" class="status-box status-offline">
-            <i class="fas fa-clock"></i> <span>Cargando estado...</span>
-        </div>
-    </div>
-    <button id="btn-toggle-asistencia" class="btn-asistencia btn-entrada">
-        <i class="fas fa-sign-in-alt"></i> Registrar Entrada
-    </button>
-</div>
-
-<div id="asistencia-toast-container"></div>
-
-        <!-- Panel: Dashboard -->
-        <div id="dashboard" class="dashboard-content active">
-            <div class="dashboard-header">
-                <div>
-                    <h1 class="dashboard-title">Panel Veterinario</h1>
-                    <p class="dashboard-subtitle">Gestión médica integral de animales del refugio</p>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btn-registrar-vacuna-modal">
-                        <i class="fas fa-syringe"></i> Nueva Vacuna
-                    </button>
-                    <button class="btn btn-secondary" id="btn-buscar-animal">
-                        <i class="fas fa-search"></i> Buscar Animal
-                    </button>
-                </div>
-            </div>
-
-            <!-- Estadísticas rápidas -->
-            <div class="dashboard-panels">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2 class="panel-title">
-                            <i class="fas fa-syringe"></i>
-                            Vacunas Pendientes
-                        </h2>
-                        <div class="panel-actions">
-                            <button class="btn btn-secondary btn-sm" id="btn-ver-todas-vacunas">
-                                Ver todas
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <table class="vaccines-table">
-                        <thead>
-                            <tr>
-                                <th>ID Animal</th>
-                                <th>Nombre</th>
-                                <th>Vacuna</th>
-                                <th>Refuerzo</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="pending-vaccines">
-                            <!-- Se carga dinámicamente -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2 class="panel-title">
-                            <i class="fas fa-exclamation-circle"></i>
-                            Gestión por Animal
-                        </h2>
-                    </div>
-                    
-                    <div class="search-container">
-                        <input type="text" class="search-input" id="search-animal" placeholder="Buscar animal por ID o nombre...">
-                        <button class="search-btn" id="btn-search">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="animal-info-card" id="animal-info">
-                        <div class="animal-header">
-                            <div class="animal-avatar">
-                                <i class="fas fa-dog"></i>
-                            </div>
-                            <div class="animal-details">
-                                <div class="animal-name" id="current-animal-name">Max</div>
-                                <div class="animal-id" id="current-animal-id">HUE-2024-010</div>
-                                <div class="animal-meta" id="current-animal-meta">
-                                    <span>Perro • 3 años • Pastor Alemán</span>
-                                </div>
-                            </div>
-                            <div class="sterilization-status status-not-sterilized" id="sterilization-status">
-                                <i class="fas fa-stethoscope"></i> No esterilizado
-                            </div>
-                        </div>
-                        
-                        <!-- Formularios para el animal -->
-                        <div class="forms-container">
-                            <!-- Formulario de alergia -->
-                            <div class="form-card">
-                                <h3 class="form-title">
-                                    <i class="fas fa-allergies"></i>
-                                    Nueva Alergia
-                                </h3>
-                                <form id="form-alergia">
-                                    <div class="form-group">
-                                        <label class="form-label required">Tipo de Alergia</label>
-                                        <select class="form-select" id="alergia-tipo" required>
-                                            <option value="" selected disabled>Seleccionar tipo...</option>
-                                            <option value="alimentaria">Alimentaria</option>
-                                            <option value="medicamentosa">Medicamentosa</option>
-                                            <option value="ambiental">Ambiental</option>
-                                            <option value="cutanea">Cutánea</option>
-                                            <option value="respiratoria">Respiratoria</option>
-                                            <option value="otros">Otros</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label required">Alérgeno</label>
-                                        <input type="text" class="form-input" id="alergia-alergeno" placeholder="Ej: Pollo, Penicilina, Polen..." required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Gravedad</label>
-                                        <select class="form-select" id="alergia-gravedad">
-                                            <option value="leve">Leve</option>
-                                            <option value="moderada" selected>Moderada</option>
-                                            <option value="grave">Grave</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Síntomas</label>
-                                        <textarea class="form-textarea" id="alergia-sintomas" placeholder="Describe los síntomas observados..."></textarea>
-                                    </div>
-                                    
-                                    <div class="form-actions">
-                                        <button type="reset" class="form-btn secondary">
-                                            Limpiar
-                                        </button>
-                                        <button type="submit" class="form-btn primary">
-                                            <i class="fas fa-save"></i> Guardar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <!-- Formulario de padecimiento -->
-                            <div class="form-card">
-                                <h3 class="form-title">
-                                    <i class="fas fa-file-medical"></i>
-                                    Nuevo Padecimiento
-                                </h3>
-                                <form id="form-padecimiento">
-                                    <div class="form-group">
-                                        <label class="form-label required">Tipo</label>
-                                        <select class="form-select" id="padecimiento-tipo" required>
-                                            <option value="" selected disabled>Seleccionar tipo...</option>
-                                            <option value="infeccioso">Infeccioso</option>
-                                            <option value="cronico">Crónico</option>
-                                            <option value="hereditario">Hereditario</option>
-                                            <option value="traumatico">Traumático</option>
-                                            <option value="metabolico">Metabólico</option>
-                                            <option value="neurologico">Neurológico</option>
-                                            <option value="cardiovascular">Cardiovascular</option>
-                                            <option value="dermatologico">Dermatológico</option>
-                                            <option value="otros">Otros</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label required">Nombre</label>
-                                        <input type="text" class="form-input" id="padecimiento-nombre" placeholder="Ej: Moquillo, Parvovirus, Artrosis..." required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Fecha Diagnóstico</label>
-                                        <input type="date" class="form-input" id="padecimiento-fecha">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Tratamiento</label>
-                                        <textarea class="form-textarea" id="padecimiento-tratamiento" placeholder="Describe el tratamiento prescrito..."></textarea>
-                                    </div>
-                                    
-                                    <div class="form-actions">
-                                        <button type="reset" class="form-btn secondary">
-                                            Limpiar
-                                        </button>
-                                        <button type="submit" class="form-btn primary">
-                                            <i class="fas fa-save"></i> Guardar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <!-- Formulario de esterilización -->
-                            <div class="form-card">
-                                <h3 class="form-title">
-                                    <i class="fas fa-stethoscope"></i>
-                                    Esterilización
-                                </h3>
-                                <form id="form-esterilizacion">
-                                    <div class="form-group">
-                                        <label class="form-label required">Fecha de Procedimiento</label>
-                                        <input type="date" class="form-input" id="esterilizacion-fecha" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Tipo de Procedimiento</label>
-                                        <select class="form-select" id="esterilizacion-tipo">
-                                            <option value="ovariohisterectomia">Ovariohisterectomía</option>
-                                            <option value="orquiectomia">Orquiectomía</option>
-                                            <option value="laparoscopica">Laparoscópica</option>
-                                            <option value="otros">Otros</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label">Observaciones</label>
-                                        <textarea class="form-textarea" id="esterilizacion-observaciones" placeholder="Estado de recuperación, medicamentos, cuidados..."></textarea>
-                                    </div>
-                                    
-                                    <div class="form-actions">
-                                        <button type="reset" class="form-btn secondary">
-                                            Limpiar
-                                        </button>
-                                        <button type="submit" class="form-btn primary">
-                                            <i class="fas fa-save"></i> Actualizar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <!-- Historial médico -->
-                        <div class="medical-history">
-                            <div class="history-tabs">
-                                <div class="history-tab active" data-history="alergias">Alergias</div>
-                                <div class="history-tab" data-history="padecimientos">Padecimientos</div>
-                                <div class="history-tab" data-history="vacunas">Vacunas</div>
-                                <div class="history-tab" data-history="esterilizaciones">Esterilizaciones</div>
-                            </div>
-                            
-                            <div id="historial-alergias" class="history-content active">
-                                <div class="history-list" id="alergias-list">
-                                    <!-- Se carga dinámicamente -->
-                                </div>
-                            </div>
-                            
-                            <div id="historial-padecimientos" class="history-content">
-                                <div class="history-list" id="padecimientos-list">
-                                    <!-- Se carga dinámicamente -->
-                                </div>
-                            </div>
-                            
-                            <div id="historial-vacunas" class="history-content">
-                                <div class="history-list" id="vacunas-list">
-                                    <!-- Se carga dinámicamente -->
-                                </div>
-                            </div>
-                            
-                            <div id="historial-esterilizaciones" class="history-content">
-                                <div class="history-list" id="esterilizaciones-list">
-                                    <!-- Se carga dinámicamente -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Panel: Vacunas -->
-        <div id="vacunas" class="dashboard-content">
-            <div class="dashboard-header">
-                <div>
-                    <h1 class="dashboard-title">Gestión de Vacunas</h1>
-                    <p class="dashboard-subtitle">Registro y control de vacunación de animales</p>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btn-nueva-vacuna-tab">
-                        <i class="fas fa-plus"></i> Nueva Vacuna
-                    </button>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">
-                        <i class="fas fa-syringe"></i>
-                        Registro de Vacunas
-                    </h2>
-                    <div class="panel-actions">
-                        <div class="search-container" style="width: 300px;">
-                            <input type="text" class="search-input" id="search-vacunas" placeholder="Buscar vacuna...">
-                            <button class="search-btn" id="btn-search-vacunas">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <table class="vaccines-table">
-                    <thead>
-                        <tr>
-                            <th>ID Animal</th>
-                            <th>ID Vacuna</th>
-                            <th>Nombre Vacuna</th>
-                            <th>Fecha Aplicación</th>
-                            <th>Fecha Refuerzo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="all-vaccines">
-                        <!-- Se carga dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Panel: Animales -->
-        <div id="animales" class="dashboard-content">
-            <div class="dashboard-header">
-                <div>
-                    <h1 class="dashboard-title">Gestión de Animales</h1>
-                    <p class="dashboard-subtitle">Consulta y actualización de información médica</p>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btn-nuevo-animal">
-                        <i class="fas fa-plus"></i> Nuevo Animal
-                    </button>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">
-                        <i class="fas fa-paw"></i>
-                        Lista de Animales
-                    </h2>
-                </div>
-                
-                <div class="search-container" style="margin-bottom: 2rem;">
-                    <input type="text" class="search-input" id="search-all-animals" placeholder="Buscar animal por ID, nombre o características...">
-                    <button class="search-btn" id="btn-search-all">
-                        <i class="fas fa-search"></i>
+        
+        <!-- Dashboard -->
+        <section id="dashboard" class="section active">
+            <h1 class="dashboard-title">Panel Veterinario</h1>
+            <p class="dashboard-subtitle">Gestión médica integral de animales del refugio</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><i class="fas fa-syringe"></i> Vacunas Pendientes</h3>
+                    <p style="font-size: 32px; font-weight: bold; color: var(--primary);">3</p>
+                    <p>Próximos refuerzos programados</p>
+                    <button class="btn btn-secondary" style="margin-top: 10px;" onclick="showSection('vacunas')">
+                        Ver detalles
                     </button>
                 </div>
                 
-                <div id="animals-list">
+                <div class="card">
+                    <h3><i class="fas fa-paw"></i> Animales Activos</h3>
+                    <p style="font-size: 32px; font-weight: bold; color: var(--secondary);">24</p>
+                    <p>12 perros, 12 gatos en tratamiento</p>
+                    <button class="btn btn-secondary" style="margin-top: 10px;" onclick="showSection('animales')">
+                        Ver todos
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-calendar-check"></i> Citas Hoy</h3>
+                    <p style="font-size: 32px; font-weight: bold; color: var(--warning);">5</p>
+                    <p>Revisiones y tratamientos programados</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 2rem;">Acciones Rápidas</h2>
+            <div class="grid">
+                <div class="card" onclick="abrirModal('nueva-vacuna')" style="cursor: pointer;">
+                    <h3><i class="fas fa-plus-circle"></i> Registrar Vacuna</h3>
+                    <p>Registrar nueva vacuna aplicada</p>
+                </div>
+                
+                <div class="card" onclick="abrirModal('nuevo-animal')" style="cursor: pointer;">
+                    <h3><i class="fas fa-user-plus"></i> Registrar Animal</h3>
+                    <p>Agregar nueva mascota al sistema</p>
+                </div>
+                
+                <div class="card" onclick="generarReporte('diario')" style="cursor: pointer;">
+                    <h3><i class="fas fa-file-medical-alt"></i> Reporte Diario</h3>
+                    <p>Generar reporte de actividades</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vacunas -->
+        <section id="vacunas" class="section">
+            <h1 class="dashboard-title">Gestión de Vacunas</h1>
+            <p class="dashboard-subtitle">Registro y control de vacunación de animales</p>
+            
+            <button class="btn btn-primary" onclick="abrirModal('nueva-vacuna')">
+                <i class="fas fa-plus"></i> Nueva Vacuna
+            </button>
+
+            <table style="margin-top: 2rem;">
+                <thead>
+                    <tr>
+                        <th>ID Animal</th>
+                        <th>Nombre</th>
+                        <th>Vacuna</th>
+                        <th>Fecha Aplicación</th>
+                        <th>Próximo Refuerzo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-vacunas">
                     <!-- Se carga dinámicamente -->
-                </div>
-            </div>
-        </div>
+                </tbody>
+            </table>
+        </section>
 
-        <!-- Panel: Historial -->
-        <div id="historial" class="dashboard-content">
-            <div class="dashboard-header">
-                <div>
-                    <h1 class="dashboard-title">Historial Médico</h1>
-                    <p class="dashboard-subtitle">Registro completo de atenciones médicas</p>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btn-generar-reporte">
-                        <i class="fas fa-print"></i> Generar Reporte
-                    </button>
-                </div>
-            </div>
+        <!-- Animales -->
+        <section id="animales" class="section">
+            <h1 class="dashboard-title">Gestión de Animales</h1>
+            <p class="dashboard-subtitle">Consulta y actualización de información médica</p>
+            
+            <button class="btn btn-primary" onclick="abrirModal('nuevo-animal')">
+                <i class="fas fa-plus"></i> Nuevo Animal
+            </button>
 
-            <div class="panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">
-                        <i class="fas fa-history"></i>
-                        Historial Completo
-                    </h2>
-                </div>
-                
-                <div class="search-container" style="margin-bottom: 2rem;">
-                    <input type="text" class="search-input" id="search-history" placeholder="Buscar en historial...">
-                    <button class="search-btn" id="btn-search-history">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
-                <div id="full-history">
-                    <!-- Se carga dinámicamente -->
-                </div>
+            <div class="grid" style="margin-top: 2rem;" id="lista-animales">
+                <!-- Se carga dinámicamente -->
             </div>
-        </div>
+        </section>
 
-        <!-- Panel: Reportes -->
-        <div id="reportes" class="dashboard-content">
-            <div class="dashboard-header">
-                <div>
-                    <h1 class="dashboard-title">Reportes Médicos</h1>
-                    <p class="dashboard-subtitle">Análisis y estadísticas de salud animal</p>
-                </div>
-                
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btn-exportar-reportes">
-                        <i class="fas fa-download"></i> Exportar
-                    </button>
-                </div>
+        <!-- Historial -->
+        <section id="historial" class="section">
+            <h1 class="dashboard-title">Historial Médico</h1>
+            <p class="dashboard-subtitle">Registro completo de atenciones médicas</p>
+            
+            <div id="historial-contenido">
+                <!-- Se carga dinámicamente -->
             </div>
+        </section>
 
-            <div class="dashboard-panels">
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <i class="fas fa-chart-line"></i>
-                        Estadísticas de Vacunación
-                    </h2>
-                    <div id="chart-vacunacion" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem;">
-                        <canvas id="vacunas-chart" width="400" height="300"></canvas>
-                    </div>
+        <!-- Reportes -->
+        <section id="reportes" class="section">
+            <h1 class="dashboard-title">Reportes Médicos</h1>
+            <p class="dashboard-subtitle">Análisis y estadísticas de salud animal</p>
+            
+            <div class="grid">
+                <div class="card" onclick="generarReporte('rescates-hoy')" style="cursor: pointer;">
+                    <h3><i class="fas fa-calendar-day"></i> Rescates de Hoy</h3>
+                    <p>Mascotas rescatadas hoy con datos del rescate</p>
                 </div>
                 
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <i class="fas fa-chart-pie"></i>
-                        Distribución de Enfermedades
-                    </h2>
-                    <div id="chart-enfermedades" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 10px; margin-top: 1rem;">
-                        <canvas id="enfermedades-chart" width="400" height="300"></canvas>
-                    </div>
+                <div class="card" onclick="generarReporte('adopciones-multiples')" style="cursor: pointer;">
+                    <h3><i class="fas fa-users"></i> Adopciones Múltiples</h3>
+                    <p>Personas que han adoptado más de una mascota</p>
+                </div>
+                
+                <div class="card" onclick="generarReporte('vacunas-completas')" style="cursor: pointer;">
+                    <h3><i class="fas fa-syringe"></i> Vacunas al Corriente</h3>
+                    <p>Animales con todas sus vacunas actualizadas</p>
+                </div>
+                
+                <div class="card" onclick="generarReporte('adoptantes-ideales')" style="cursor: pointer;">
+                    <h3><i class="fas fa-star"></i> Adoptantes Ideales</h3>
+                    <p>Relación mascota-adoptante compatible</p>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="../img/LogoPNG.png" alt="Huellitas Logo">
-                <h2>Huellitas</h2>
-                <p>Un encuentro, dos salvaciones.</p>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                    <div style="width: 50px; height: 50px; background: white; border-radius: 8px; 
+                              display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                        <i class="fas fa-paw" style="font-size: 24px;"></i>
+                    </div>
+                    <h2 style="color: white;">Huellitas</h2>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.7);">Un encuentro, dos salvaciones.</p>
                 <br>
-                <p>Panel Veterinario - Gestión médica de animales del refugio</p>
+                <p style="color: rgba(255, 255, 255, 0.7);">Panel Veterinario - Gestión médica de animales del refugio</p>
             </div>
             
             <div class="footer-links">
-                <h3>Acciones Rápidas</h3>
-                <ul>
-                    <li><a href="#" onclick="navigateToTab('dashboard')">Dashboard</a></li>
-                    <li><a href="#" onclick="navigateToTab('vacunas')">Vacunas</a></li>
-                    <li><a href="#" onclick="navigateToTab('animales')">Animales</a></li>
-                    <li><a href="#" onclick="navigateToTab('historial')">Historial</a></li>
-                    <li><a href="#" onclick="navigateToTab('reportes')">Reportes</a></li>
+                <h3 style="color: white; margin-bottom: 1rem;">Acciones Rápidas</h3>
+                <ul style="list-style: none;">
+                    <li><a href="#" onclick="showSection('dashboard')" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">Dashboard</a></li>
+                    <li><a href="#" onclick="showSection('vacunas')" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">Vacunas</a></li>
+                    <li><a href="#" onclick="showSection('animales')" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">Animales</a></li>
+                    <li><a href="#" onclick="showSection('historial')" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">Historial</a></li>
+                    <li><a href="#" onclick="showSection('reportes')" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">Reportes</a></li>
                 </ul>
             </div>
             
             <div class="footer-contact">
-                <h3>Contacto Veterinario</h3>
-                <p><i class="fas fa-phone"></i> Emergencias: 555-1234-567</p>
-                <p><i class="fas fa-envelope"></i> veterinaria@huellitas.org</p>
-                <p><i class="fas fa-user-md"></i> Dr. Roberto Sánchez</p>
-                <p><i class="fas fa-map-marker-alt"></i> Sede Norte, Lindavista</p>
+                <h3 style="color: white; margin-bottom: 1rem;">Contacto Veterinario</h3>
+                <p style="color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-phone"></i> Emergencias: 555-1234-567
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-envelope"></i> veterinaria@huellitas.org
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-user-md"></i> Dr. Roberto Sánchez
+                </p>
             </div>
         </div>
         
@@ -1747,217 +695,52 @@
         </div>
     </footer>
 
-    <!-- Modal para nueva vacuna -->
-    <div class="modal" id="vacunaModal">
+    <!-- Modal Nueva Vacuna -->
+    <div id="modal-nueva-vacuna" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Registrar Nueva Vacuna</h2>
-                <button class="close-btn" onclick="cerrarModal('vacunaModal')">&times;</button>
+                <button class="close-btn" onclick="cerrarModal('nueva-vacuna')">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="form-nueva-vacuna">
+                <form id="form-nueva-vacuna" onsubmit="guardarVacuna(event)">
                     <div class="form-group">
-                        <label class="form-label required">Animal</label>
-                        <select class="form-select" id="vacuna-animal" required>
-                            <option value="" selected disabled>Seleccionar animal...</option>
-                            <!-- Se llena dinámicamente -->
+                        <label class="form-label">Animal</label>
+                        <select class="form-select" required>
+                            <option value="">Seleccionar animal...</option>
+                            <option value="HUE-2024-001">Luna (HUE-2024-001)</option>
+                            <option value="HUE-2024-002">Max (HUE-2024-002)</option>
+                            <option value="HUE-2024-003">Michi (HUE-2024-003)</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label required">Tipo de Vacuna</label>
-                        <select class="form-select" id="vacuna-tipo" required>
-                            <option value="" selected disabled>Seleccionar tipo...</option>
-                            <option value="antirrabica">Antirrábica</option>
-                            <option value="polivalente">Polivalente (Moquillo, Parvovirus, Hepatitis)</option>
-                            <option value="leptospirosis">Leptospirosis</option>
-                            <option value="tricomona">Tricomona Felina</option>
-                            <option value="panleucopenia">Panleucopenia Felina</option>
-                            <option value="rinotraqueitis">Rinotraqueitis Viral</option>
-                            <option value="calicivirus">Calicivirus Felino</option>
-                            <option value="otros">Otros</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Nombre de la Vacuna</label>
-                        <input type="text" class="form-input" id="vacuna-nombre" placeholder="Ej: Nobivac Rabies, Vanguard Plus..." required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Fecha de Aplicación</label>
-                        <input type="date" class="form-input" id="vacuna-fecha-aplicacion" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Fecha de Refuerzo</label>
-                        <input type="date" class="form-input" id="vacuna-fecha-refuerzo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Lote</label>
-                        <input type="text" class="form-input" id="vacuna-lote" placeholder="Número de lote">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Fabricante</label>
-                        <input type="text" class="form-input" id="vacuna-fabricante" placeholder="Nombre del fabricante">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observaciones</label>
-                        <textarea class="form-textarea" id="vacuna-observaciones" placeholder="Reacciones, sitio de aplicación, condiciones..."></textarea>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('vacunaModal')">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Guardar Vacuna
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para nuevo animal -->
-    <div class="modal" id="animalModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Registrar Nuevo Animal</h2>
-                <button class="close-btn" onclick="cerrarModal('animalModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="form-nuevo-animal">
-                    <div class="form-group">
-                        <label class="form-label required">Nombre</label>
-                        <input type="text" class="form-input" id="animal-nombre" placeholder="Nombre del animal" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Especie</label>
-                        <select class="form-select" id="animal-especie" required>
-                            <option value="" selected disabled>Seleccionar especie...</option>
-                            <option value="perro">Perro</option>
-                            <option value="gato">Gato</option>
-                            <option value="otros">Otros</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Raza</label>
-                        <input type="text" class="form-input" id="animal-raza" placeholder="Raza o mezcla" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Edad</label>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="number" class="form-input" id="animal-edad-numero" placeholder="Número" min="0" max="30" required style="flex: 1;">
-                            <select class="form-select" id="animal-edad-unidad" required style="flex: 1;">
-                                <option value="meses">Meses</option>
-                                <option value="años" selected>Años</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Sexo</label>
-                        <select class="form-select" id="animal-sexo">
-                            <option value="macho">Macho</option>
-                            <option value="hembra">Hembra</option>
-                            <option value="desconocido">Desconocido</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Fecha de Ingreso</label>
-                        <input type="date" class="form-input" id="animal-fecha-ingreso" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Condición al Ingreso</label>
-                        <textarea class="form-textarea" id="animal-condicion" placeholder="Estado de salud, observaciones..."></textarea>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('animalModal')">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Registrar Animal
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para editar vacuna -->
-    <div class="modal" id="editarVacunaModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Editar Vacuna</h2>
-                <button class="close-btn" onclick="cerrarModal('editarVacunaModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="form-editar-vacuna">
-                    <input type="hidden" id="editar-vacuna-id">
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Animal</label>
-                        <select class="form-select" id="editar-vacuna-animal" required disabled>
-                            <!-- Se llena dinámicamente -->
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Tipo de Vacuna</label>
-                        <select class="form-select" id="editar-vacuna-tipo" required>
-                            <option value="" selected disabled>Seleccionar tipo...</option>
+                        <label class="form-label">Tipo de Vacuna</label>
+                        <select class="form-select" required>
+                            <option value="">Seleccionar...</option>
                             <option value="antirrabica">Antirrábica</option>
                             <option value="polivalente">Polivalente</option>
                             <option value="leptospirosis">Leptospirosis</option>
-                            <option value="tricomona">Tricomona Felina</option>
-                            <option value="panleucopenia">Panleucopenia Felina</option>
-                            <option value="rinotraqueitis">Rinotraqueitis Viral</option>
-                            <option value="calicivirus">Calicivirus Felino</option>
-                            <option value="otros">Otros</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label required">Nombre de la Vacuna</label>
-                        <input type="text" class="form-input" id="editar-vacuna-nombre" required>
+                        <label class="form-label">Fecha de Aplicación</label>
+                        <input type="date" class="form-input" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label required">Fecha de Aplicación</label>
-                        <input type="date" class="form-input" id="editar-vacuna-fecha-aplicacion" required>
+                        <label class="form-label">Próximo Refuerzo</label>
+                        <input type="date" class="form-input" required>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label required">Fecha de Refuerzo</label>
-                        <input type="date" class="form-input" id="editar-vacuna-fecha-refuerzo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Lote</label>
-                        <input type="text" class="form-input" id="editar-vacuna-lote">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observaciones</label>
-                        <textarea class="form-textarea" id="editar-vacuna-observaciones"></textarea>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('editarVacunaModal')">
+                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                        <button type="button" class="btn" onclick="cerrarModal('nueva-vacuna')" 
+                                style="background: #ccc; flex: 1;">
                             Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Guardar Cambios
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <i class="fas fa-save"></i> Guardar
                         </button>
                     </div>
                 </form>
@@ -1965,414 +748,221 @@
         </div>
     </div>
 
-    <!-- Modal para confirmar eliminación -->
-    <div class="modal" id="confirmarEliminarModal">
+    <!-- Modal Nuevo Animal -->
+    <div id="modal-nuevo-animal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Confirmar Eliminación</h2>
-                <button class="close-btn" onclick="cerrarModal('confirmarEliminarModal')">&times;</button>
+                <h2 class="modal-title">Registrar Nuevo Animal</h2>
+                <button class="close-btn" onclick="cerrarModal('nuevo-animal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="confirmar-eliminar-mensaje">¿Estás seguro de eliminar este registro?</p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModal('confirmarEliminarModal')">
-                        Cancelar
-                    </button>
-                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para generar reporte -->
-    <div class="modal" id="reporteModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Generar Reporte Médico</h2>
-                <button class="close-btn" onclick="cerrarModal('reporteModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="form-reporte">
+                <form id="form-nuevo-animal" onsubmit="guardarAnimal(event)">
                     <div class="form-group">
-                        <label class="form-label required">Tipo de Reporte</label>
-                        <select class="form-select" id="reporte-tipo" required>
-                            <option value="" selected disabled>Seleccionar tipo...</option>
-                            <option value="vacunacion">Reporte de Vacunación</option>
-                            <option value="enfermedades">Reporte de Enfermedades</option>
-                            <option value="esterilizaciones">Reporte de Esterilizaciones</option>
-                            <option value="completo">Reporte Médico Completo</option>
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Especie</label>
+                        <select class="form-select" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="perro">Perro</option>
+                            <option value="gato">Gato</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label required">Fecha Inicial</label>
-                        <input type="date" class="form-input" id="reporte-fecha-inicio" required>
+                        <label class="form-label">Raza</label>
+                        <input type="text" class="form-input">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label required">Fecha Final</label>
-                        <input type="date" class="form-input" id="reporte-fecha-fin" required>
+                        <label class="form-label">Edad</label>
+                        <input type="text" class="form-input" placeholder="Ej: 2 años, 6 meses">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Formato</label>
-                        <select class="form-select" id="reporte-formato">
-                            <option value="pdf" selected>PDF</option>
-                            <option value="excel">Excel</option>
-                            <option value="csv">CSV</option>
-                        </select>
+                        <label class="form-label">Condición de Salud</label>
+                        <textarea class="form-input" rows="3"></textarea>
                     </div>
                     
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="cerrarModal('reporteModal')">
+                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                        <button type="button" class="btn" onclick="cerrarModal('nuevo-animal')" 
+                                style="background: #ccc; flex: 1;">
                             Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-file-export"></i> Generar Reporte
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <i class="fas fa-save"></i> Guardar
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <!-- Script para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-//registrar salida y entrada
-const asistenciaSistema = {
-    estado: JSON.parse(localStorage.getItem('asistencia_estado')) || {
-        currentWorkStatus: 'inactive',
-        lastCheckIn: null,
-        logs: []
-    },
-
-    init: function() {
-        this.actualizarReloj();
-        this.actualizarInterfaz();
-        setInterval(() => this.actualizarReloj(), 1000);
-        document.getElementById('btn-toggle-asistencia').addEventListener('click', () => this.toggleRegistro());
-    },
-
-    actualizarReloj: function() {
-        const ahora = new Date();
-        document.getElementById('reloj-digital').textContent = ahora.toLocaleTimeString();
-        document.getElementById('fecha-digital').textContent = ahora.toLocaleDateString();
-    },
-
-    toggleRegistro: function() {
-        const ahora = new Date();
-        const fecha = ahora.toISOString().split('T')[0];
-        const hora = ahora.toTimeString().split(' ')[0].substring(0, 5);
-
-        if (this.estado.currentWorkStatus === 'inactive') {
-            this.estado.currentWorkStatus = 'active';
-            this.estado.lastCheckIn = hora;
-            this.estado.logs.push({ tipo: 'entrada', fecha, hora });
-            this.mostrarNotificacion('¡Entrada Exitosa!', `Registrada a las ${hora}`, 'success', 'fa-check-circle');
-        } else {
-            const entradaHora = this.estado.lastCheckIn;
-            const inicio = new Date(`${fecha}T${entradaHora}:00`);
-            const difMs = ahora - inicio;
-            const horas = Math.floor(difMs / 3600000);
-            const mins = Math.floor((difMs % 3600000) / 60000);
-
-            this.estado.currentWorkStatus = 'inactive';
-            this.estado.logs.push({ tipo: 'salida', fecha, hora });
-            this.mostrarNotificacion('¡Salida Exitosa!', `Tiempo: ${horas}h ${mins}m`, 'success', 'fa-door-open');
-            this.estado.lastCheckIn = null;
-        }
-
-        localStorage.setItem('asistencia_estado', JSON.stringify(this.estado));
-        this.actualizarInterfaz();
-    },
-
-    actualizarInterfaz: function() {
-        const statusDiv = document.getElementById('asistencia-status');
-        const btn = document.getElementById('btn-toggle-asistencia');
-
-        if (this.estado.currentWorkStatus === 'active') {
-            statusDiv.className = 'status-box status-online';
-            statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> Activo desde ${this.estado.lastCheckIn}`;
-            btn.className = 'btn-asistencia btn-salida';
-            btn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Registrar Salida`;
-        } else {
-            statusDiv.className = 'status-box status-offline';
-            statusDiv.innerHTML = `<i class="fas fa-clock"></i> No has registrado entrada`;
-            btn.className = 'btn-asistencia btn-entrada';
-            btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Registrar Entrada`;
-        }
-    },
-
-    mostrarNotificacion: function(titulo, mensaje, tipo, icono) {
-        const container = document.getElementById('asistencia-toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${tipo}`;
-        
-        toast.innerHTML = `
-            <i class="fas ${icono} toast-icon"></i>
-            <div class="toast-content">
-                <div class="toast-title">${titulo}</div>
-                <div class="toast-message">${mensaje}</div>
-            </div>
-            <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-        `;
-
-        container.appendChild(toast);
-        // Autocerrado tras 5 segundos
-        setTimeout(() => { if(toast) toast.remove(); }, 5000);
-    }
-};
-
-document.addEventListener('DOMContentLoaded', () => asistenciaSistema.init());
-//termina
-
-        // Datos de ejemplo mejorados
-        const sampleData = {
-            pendingVaccines: [
-                { idAnimal: 'HUE-2024-001', nombre: 'Luna', vacuna: 'Antirrábica', refuerzo: '2024-03-15', estado: 'pendiente' },
-                { idAnimal: 'HUE-2024-005', nombre: 'Rocky', vacuna: 'Polivalente', refuerzo: '2024-03-18', estado: 'pendiente' },
-                { idAnimal: 'HUE-2024-008', nombre: 'Michi', vacuna: 'Tricomona', refuerzo: '2024-03-20', estado: 'pendiente' }
+        // Datos de ejemplo
+        const datos = {
+            mascotas: [
+                { 
+                    id: 'HUE-2024-001', 
+                    nombre: 'Luna', 
+                    especie: 'Perro', 
+                    raza: 'Labrador Retriever', 
+                    edad: '2 años',
+                    sexo: 'hembra',
+                    estado: 'saludable',
+                    fechaIngreso: '2024-01-15',
+                    esterilizado: true
+                },
+                { 
+                    id: 'HUE-2024-002', 
+                    nombre: 'Max', 
+                    especie: 'Perro', 
+                    raza: 'Pastor Alemán', 
+                    edad: '3 años',
+                    sexo: 'macho',
+                    estado: 'tratamiento',
+                    fechaIngreso: '2024-01-20',
+                    esterilizado: false
+                },
+                { 
+                    id: 'HUE-2024-003', 
+                    nombre: 'Michi', 
+                    especie: 'Gato', 
+                    raza: 'Siamés', 
+                    edad: '1 año',
+                    sexo: 'macho',
+                    estado: 'saludable',
+                    fechaIngreso: '2024-02-01',
+                    esterilizado: true
+                }
             ],
-            allVaccines: [
-                { id: 'VAC-001', idAnimal: 'HUE-2024-001', nombreAnimal: 'Luna', tipo: 'antirrabica', nombreVacuna: 'Nobivac Rabies', fechaAplicacion: '2024-02-15', fechaRefuerzo: '2024-03-15', lote: 'LOT-2024-001', fabricante: 'MSD Animal Health', observaciones: 'Sin reacciones adversas' },
-                { id: 'VAC-002', idAnimal: 'HUE-2024-002', nombreAnimal: 'Max', tipo: 'polivalente', nombreVacuna: 'Vanguard Plus 5', fechaAplicacion: '2024-02-20', fechaRefuerzo: '2024-03-20', lote: 'LOT-2024-002', fabricante: 'Zoetis', observaciones: 'Aplicado en músculo dorsal' },
-                { id: 'VAC-003', idAnimal: 'HUE-2024-005', nombreAnimal: 'Rocky', tipo: 'leptospirosis', nombreVacuna: 'Leptavoid-H', fechaAplicacion: '2024-02-25', fechaRefuerzo: '2024-03-25', lote: 'LOT-2024-003', fabricante: 'Intervet', observaciones: '' },
-                { id: 'VAC-004', idAnimal: 'HUE-2024-008', nombreAnimal: 'Michi', tipo: 'tricomona', nombreVacuna: 'Felocell 4', fechaAplicacion: '2024-02-28', fechaRefuerzo: '2024-03-28', lote: 'LOT-2024-004', fabricante: 'Zoetis', observaciones: 'Controlar temperatura' }
+            vacunas: [
+                { 
+                    id: 'VAC-001', 
+                    animalId: 'HUE-2024-001', 
+                    animalNombre: 'Luna',
+                    tipo: 'Antirrábica',
+                    fechaAplicacion: '2024-02-15',
+                    fechaRefuerzo: '2024-03-15',
+                    estado: 'pendiente'
+                },
+                { 
+                    id: 'VAC-002', 
+                    animalId: 'HUE-2024-002', 
+                    animalNombre: 'Max',
+                    tipo: 'Polivalente',
+                    fechaAplicacion: '2024-02-20',
+                    fechaRefuerzo: '2024-03-20',
+                    estado: 'pendiente'
+                },
+                { 
+                    id: 'VAC-003', 
+                    animalId: 'HUE-2024-001', 
+                    animalNombre: 'Luna',
+                    tipo: 'Leptospirosis',
+                    fechaAplicacion: '2024-01-10',
+                    fechaRefuerzo: '2024-04-10',
+                    estado: 'completada'
+                }
             ],
-            animals: [
-                { id: 'HUE-2024-001', nombre: 'Luna', especie: 'perro', raza: 'Labrador Retriever', edad: { numero: 2, unidad: 'años' }, sexo: 'hembra', fechaIngreso: '2024-01-15', condicion: 'Rescatada de la calle, buen estado general', esterilizado: true, fechaEsterilizacion: '2024-02-01' },
-                { id: 'HUE-2024-002', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: { numero: 3, unidad: 'años' }, sexo: 'macho', fechaIngreso: '2024-01-20', condicion: 'Abandonado, requiere cuidado dental', esterilizado: false },
-                { id: 'HUE-2024-003', nombre: 'Michi', especie: 'gato', raza: 'Siamés', edad: { numero: 1, unidad: 'años' }, sexo: 'macho', fechaIngreso: '2024-02-01', condicion: 'Rescatado de azotea, desnutrido', esterilizado: true, fechaEsterilizacion: '2024-02-15' },
-                { id: 'HUE-2024-004', nombre: 'Canela', especie: 'perro', raza: 'Chihuahua', edad: { numero: 4, unidad: 'años' }, sexo: 'hembra', fechaIngreso: '2024-02-05', condicion: 'Dueño falleció, necesita socialización', esterilizado: true, fechaEsterilizacion: '2024-02-20' },
-                { id: 'HUE-2024-005', nombre: 'Rocky', especie: 'perro', raza: 'Bulldog Francés', edad: { numero: 5, unidad: 'años' }, sexo: 'macho', fechaIngreso: '2024-02-10', condicion: 'Problemas respiratorios', esterilizado: false },
-                { id: 'HUE-2024-010', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: { numero: 3, unidad: 'años' }, sexo: 'macho', fechaIngreso: '2024-01-25', condicion: 'Rescatado de maltrato', esterilizado: false }
-            ],
-            alergias: [
-                { id: 'ALG-001', animalId: 'HUE-2024-010', tipo: 'Alimentaria', alergeno: 'Pollo', gravedad: 'Moderada', sintomas: 'Picazón en piel, enrojecimiento', fecha: '2024-01-15' },
-                { id: 'ALG-002', animalId: 'HUE-2024-010', tipo: 'Medicamentosa', alergeno: 'Penicilina', gravedad: 'Grave', sintomas: 'Anafilaxia, dificultad respiratoria', fecha: '2024-02-01' }
-            ],
-            padecimientos: [
-                { id: 'PAD-001', animalId: 'HUE-2024-010', tipo: 'Infeccioso', nombre: 'Moquillo Canino', fecha: '2024-01-20', tratamiento: 'Antibióticos, fluidoterapia, reposo' },
-                { id: 'PAD-002', animalId: 'HUE-2024-010', tipo: 'Crónico', nombre: 'Artritis', fecha: '2023-12-10', tratamiento: 'Antiinflamatorios, suplementos articulares' }
-            ],
-            historialVacunas: [
-                { id: 'VAC-001', animalId: 'HUE-2024-010', nombre: 'Polivalente', fecha: '2024-01-10', refuerzo: '2024-02-10' },
-                { id: 'VAC-002', animalId: 'HUE-2024-010', nombre: 'Antirrábica', fecha: '2024-01-15', refuerzo: '2024-04-15' }
-            ],
-            esterilizaciones: [
-                { id: 'EST-001', animalId: 'HUE-2024-001', fecha: '2024-02-01', tipo: 'ovariohisterectomia', observaciones: 'Recuperación normal' },
-                { id: 'EST-002', animalId: 'HUE-2024-003', fecha: '2024-02-15', tipo: 'orquiectomia', observaciones: 'Sin complicaciones' },
-                { id: 'EST-003', animalId: 'HUE-2024-004', fecha: '2024-02-20', tipo: 'ovariohisterectomia', observaciones: 'Requiere cuidado especial' }
+            historial: [
+                { 
+                    id: 'HIS-001', 
+                    animalId: 'HUE-2024-001', 
+                    tipo: 'vacuna',
+                    descripcion: 'Vacuna Antirrábica aplicada',
+                    fecha: '2024-02-15',
+                    veterinario: 'Dr. Roberto Sánchez'
+                },
+                { 
+                    id: 'HIS-002', 
+                    animalId: 'HUE-2024-002', 
+                    tipo: 'consulta',
+                    descripcion: 'Consulta general - Estado estable',
+                    fecha: '2024-02-18',
+                    veterinario: 'Dr. Roberto Sánchez'
+                }
             ]
         };
 
-        // Variables globales
-        let currentAnimalId = 'HUE-2024-010';
-        let itemToDelete = null;
-        let currentVacunaToEdit = null;
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar datos
-            cargarVacunasPendientes();
-            cargarTodasVacunas();
-            cargarAnimales();
-            cargarHistorialCompleto();
-            cargarAnimal(currentAnimalId);
+        // Funciones principales
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
             
-            // Configurar navegación por tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    navigateToTab(this.getAttribute('data-tab'));
+            // Mostrar sección seleccionada
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+                
+                // Cargar datos de la sección
+                switch(sectionId) {
+                    case 'dashboard':
+                        // Ya cargado por defecto
+                        break;
+                    case 'vacunas':
+                        cargarVacunas();
+                        break;
+                    case 'animales':
+                        cargarAnimales();
+                        break;
+                    case 'historial':
+                        cargarHistorial();
+                        break;
+                    case 'reportes':
+                        // No necesita carga adicional
+                        break;
+                }
+            }
+            
+            // Actualizar tabs
+            const clickedTab = event?.target?.closest('.tab');
+            if (clickedTab) {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('active');
                 });
-            });
-            
-            // Configurar tabs de historial
-            document.querySelectorAll('.history-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remover clase active de todas las tabs
-                    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
-                    // Agregar clase active a la tab clickeada
-                    this.classList.add('active');
-                    
-                    // Ocultar todos los contenidos
-                    document.querySelectorAll('.history-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Mostrar contenido correspondiente
-                    const historyId = 'historial-' + this.getAttribute('data-history');
-                    document.getElementById(historyId).classList.add('active');
-                });
-            });
-            
-            // Configurar búsqueda de animal
-            document.getElementById('btn-search').addEventListener('click', buscarAnimal);
-            document.getElementById('search-animal').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') buscarAnimal();
-            });
-            
-            // Configurar formularios
-            document.getElementById('form-alergia').addEventListener('submit', registrarAlergia);
-            document.getElementById('form-padecimiento').addEventListener('submit', registrarPadecimiento);
-            document.getElementById('form-esterilizacion').addEventListener('submit', actualizarEsterilizacion);
-            document.getElementById('form-nueva-vacuna').addEventListener('submit', guardarNuevaVacuna);
-            document.getElementById('form-nuevo-animal').addEventListener('submit', guardarNuevoAnimal);
-            document.getElementById('form-editar-vacuna').addEventListener('submit', guardarEditarVacuna);
-            document.getElementById('form-reporte').addEventListener('submit', generarReporte);
-            
-            // Configurar botones modales
-            document.getElementById('btn-registrar-vacuna-modal').addEventListener('click', () => abrirModalVacuna());
-            document.getElementById('btn-nueva-vacuna-tab').addEventListener('click', () => abrirModalVacuna());
-            document.getElementById('btn-nuevo-animal').addEventListener('click', () => abrirModalAnimal());
-            document.getElementById('btn-generar-reporte').addEventListener('click', () => abrirModalReporte());
-            document.getElementById('btn-exportar-reportes').addEventListener('click', () => mostrarToast('Exportando reportes...', 'info'));
-            document.getElementById('btn-ver-todas-vacunas').addEventListener('click', () => navigateToTab('vacunas'));
-            
-            // Configurar búsquedas
-            document.getElementById('btn-search-all').addEventListener('click', buscarTodosAnimales);
-            document.getElementById('search-all-animals').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') buscarTodosAnimales();
-            });
-            
-            document.getElementById('btn-search-vacunas').addEventListener('click', buscarVacunas);
-            document.getElementById('search-vacunas').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') buscarVacunas();
-            });
-            
-            document.getElementById('btn-search-history').addEventListener('click', buscarHistorial);
-            document.getElementById('search-history').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') buscarHistorial();
-            });
-            
-            // Configurar confirmación de eliminación
-            document.getElementById('btn-confirmar-eliminar').addEventListener('click', confirmarEliminacion);
-            
-            // Configurar fecha actual en formularios
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('esterilizacion-fecha').value = today;
-            document.getElementById('padecimiento-fecha').value = today;
-            document.getElementById('vacuna-fecha-aplicacion').value = today;
-            document.getElementById('vacuna-fecha-refuerzo').value = getNextMonthDate();
-            document.getElementById('animal-fecha-ingreso').value = today;
-            document.getElementById('reporte-fecha-inicio').value = getFirstDayOfMonth();
-            document.getElementById('reporte-fecha-fin').value = today;
-            
-            // Llenar select de animales en modal de vacuna
-            llenarSelectAnimales();
-            
-            // Inicializar gráficos
-            setTimeout(() => {
-                inicializarGraficos();
-            }, 1000);
-        });
-
-        // Funciones de navegación
-        function navigateToTab(tabId) {
-            // Remover clase active de todas las tabs
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            // Agregar clase active a la tab clickeada
-            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
-            
-            // Ocultar todos los contenidos
-            document.querySelectorAll('.dashboard-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Mostrar contenido correspondiente
-            document.getElementById(tabId).classList.add('active');
-            
-            // Scroll al inicio de la sección
-            document.getElementById(tabId).scrollIntoView({ behavior: 'smooth' });
-            
-            // Actualizar badge de vacunas pendientes
-            if (tabId === 'vacunas') {
-                actualizarBadgeVacunas();
+                clickedTab.classList.add('active');
             }
         }
 
-        function navigateToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+        function abrirModal(modalId) {
+            const modal = document.getElementById(`modal-${modalId}`);
+            if (modal) {
+                modal.classList.add('active');
+            }
+        }
+
+        function cerrarModal(modalId) {
+            const modal = document.getElementById(`modal-${modalId}`);
+            if (modal) {
+                modal.classList.remove('active');
             }
         }
 
         // Funciones de carga de datos
-        function cargarVacunasPendientes() {
-            const tbody = document.getElementById('pending-vaccines');
+        function cargarVacunas() {
+            const tbody = document.getElementById('tabla-vacunas');
+            if (!tbody) return;
+            
             tbody.innerHTML = '';
             
-            if (sampleData.pendingVaccines.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 2rem; color: #888;">
-                            <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                            No hay vacunas pendientes
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            sampleData.pendingVaccines.forEach(vacuna => {
+            datos.vacunas.forEach(vacuna => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><strong>${vacuna.idAnimal}</strong></td>
-                    <td>${vacuna.nombre}</td>
-                    <td>${vacuna.vacuna}</td>
-                    <td>${formatDate(vacuna.refuerzo)}</td>
-                    <td><span class="status-badge status-pending"><i class="fas fa-clock"></i> Pendiente</span></td>
-                `;
-                tr.addEventListener('click', () => {
-                    navigateToTab('vacunas');
-                    setTimeout(() => {
-                        navigateToSection('all-vaccines');
-                    }, 300);
-                });
-                tbody.appendChild(tr);
-            });
-        }
-
-        function cargarTodasVacunas() {
-            const tbody = document.getElementById('all-vaccines');
-            tbody.innerHTML = '';
-            
-            if (sampleData.allVaccines.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
-                            <i class="fas fa-syringe" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                            No hay vacunas registradas
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            sampleData.allVaccines.forEach(vacuna => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${vacuna.idAnimal}</strong><br><small>${vacuna.nombreAnimal}</small></td>
-                    <td>${vacuna.id}</td>
-                    <td>${vacuna.nombreVacuna}<br><small class="text-muted">${getTipoVacuna(vacuna.tipo)}</small></td>
-                    <td>${formatDate(vacuna.fechaAplicacion)}</td>
-                    <td>${formatDate(vacuna.fechaRefuerzo)}<br>
-                        <span class="status-badge ${getRefuerzoStatus(vacuna.fechaRefuerzo)}">
-                            <i class="fas ${getRefuerzoIcon(vacuna.fechaRefuerzo)}"></i> ${getRefuerzoText(vacuna.fechaRefuerzo)}
+                    <td>${vacuna.animalId}</td>
+                    <td><strong>${vacuna.animalNombre}</strong></td>
+                    <td>${vacuna.tipo}</td>
+                    <td>${formatearFecha(vacuna.fechaAplicacion)}</td>
+                    <td>${formatearFecha(vacuna.fechaRefuerzo)}</td>
+                    <td>
+                        <span class="status-badge ${vacuna.estado === 'pendiente' ? 'status-pending' : 'status-completed'}">
+                            <i class="fas ${vacuna.estado === 'pendiente' ? 'fa-clock' : 'fa-check-circle'}"></i>
+                            ${vacuna.estado === 'pendiente' ? 'Pendiente' : 'Completada'}
                         </span>
-                    </td>
-                    <td class="vaccine-actions">
-                        <button class="table-btn secondary" onclick="editarVacuna('${vacuna.id}')" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="table-btn danger" onclick="solicitarEliminarVacuna('${vacuna.id}', '${vacuna.nombreVacuna}')" title="Eliminar">
-                            <i class="fas fa-trash"></i>
-                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -2380,1115 +970,233 @@ document.addEventListener('DOMContentLoaded', () => asistenciaSistema.init());
         }
 
         function cargarAnimales() {
-            const container = document.getElementById('animals-list');
+            const container = document.getElementById('lista-animales');
+            if (!container) return;
+            
             container.innerHTML = '';
             
-            if (sampleData.animals.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-paw"></i>
-                        <p>No hay animales registrados</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            sampleData.animals.forEach(animal => {
+            datos.mascotas.forEach(animal => {
                 const card = document.createElement('div');
-                card.className = 'animal-info-card';
-                card.style.display = 'block';
-                card.style.marginBottom = '1rem';
+                card.className = 'card';
                 card.style.cursor = 'pointer';
-                card.addEventListener('click', () => {
-                    navigateToTab('dashboard');
-                    setTimeout(() => {
-                        cargarAnimal(animal.id);
-                        document.getElementById('animal-info').scrollIntoView({ behavior: 'smooth' });
-                    }, 300);
-                });
+                card.onclick = () => verDetalleAnimal(animal.id);
                 
                 card.innerHTML = `
                     <div class="animal-header">
                         <div class="animal-avatar">
-                            <i class="fas fa-${animal.especie}"></i>
+                            <i class="fas fa-${animal.especie.toLowerCase()}"></i>
                         </div>
-                        <div class="animal-details">
+                        <div>
                             <div class="animal-name">${animal.nombre}</div>
                             <div class="animal-id">${animal.id}</div>
-                            <div class="animal-meta">
-                                <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)} • ${animal.edad.numero} ${animal.edad.unidad} • ${animal.raza}</span>
-                            </div>
-                        </div>
-                        <div class="sterilization-status ${animal.esterilizado ? 'status-sterilized' : 'status-not-sterilized'}">
-                            <i class="fas fa-stethoscope"></i> ${animal.esterilizado ? 'Esterilizado' : 'No esterilizado'}
                         </div>
                     </div>
-                    <div style="text-align: right; margin-top: 1rem;">
-                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); cargarAnimal('${animal.id}'); navigateToTab('dashboard');">
-                            <i class="fas fa-stethoscope"></i> Atender
-                        </button>
+                    <div style="margin-top: 1rem;">
+                        <p><strong>Especie:</strong> ${animal.especie}</p>
+                        <p><strong>Raza:</strong> ${animal.raza}</p>
+                        <p><strong>Edad:</strong> ${animal.edad}</p>
+                        <p><strong>Estado:</strong> ${animal.estado}</p>
+                    </div>
+                    <button class="btn btn-secondary" style="margin-top: 10px; width: 100%;"
+                            onclick="event.stopPropagation(); verDetalleAnimal('${animal.id}')">
+                        <i class="fas fa-eye"></i> Ver Detalles
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function cargarHistorial() {
+            const container = document.getElementById('historial-contenido');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            datos.historial.forEach(registro => {
+                const animal = datos.mascotas.find(a => a.id === registro.animalId);
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h4>${animal?.nombre || 'Animal'} (${registro.animalId})</h4>
+                            <p style="color: #666; margin-top: 5px;">${registro.descripcion}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <small style="color: #999;">${formatearFecha(registro.fecha)}</small>
+                            <p style="font-size: 12px; color: #666;">${registro.veterinario}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; padding: 5px 10px; background: #f0f0f0; 
+                                border-radius: 5px; display: inline-block;">
+                        <small style="text-transform: uppercase; font-weight: bold;">${registro.tipo}</small>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        function cargarAnimal(animalId) {
-            currentAnimalId = animalId;
-            const animal = sampleData.animals.find(a => a.id === animalId);
+        // Funciones específicas
+        function verDetalleAnimal(animalId) {
+            const animal = datos.mascotas.find(a => a.id === animalId);
+            if (!animal) return;
             
-            if (!animal) {
-                mostrarToast('Animal no encontrado', 'error');
-                return;
-            }
-            
-            // Actualizar información del animal
-            document.getElementById('current-animal-name').textContent = animal.nombre;
-            document.getElementById('current-animal-id').textContent = animal.id;
-            document.getElementById('current-animal-meta').innerHTML = `
-                <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)} • ${animal.edad.numero} ${animal.edad.unidad} • ${animal.raza} • ${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</span>
-            `;
-            
-            // Actualizar estado de esterilización
-            const statusElement = document.getElementById('sterilization-status');
-            if (animal.esterilizado) {
-                statusElement.className = 'sterilization-status status-sterilized';
-                statusElement.innerHTML = `<i class="fas fa-stethoscope"></i> Esterilizado ${animal.fechaEsterilizacion ? '(' + formatDate(animal.fechaEsterilizacion) + ')' : ''}`;
-                document.getElementById('esterilizacion-fecha').value = animal.fechaEsterilizacion || '';
-            } else {
-                statusElement.className = 'sterilization-status status-not-sterilized';
-                statusElement.innerHTML = `<i class="fas fa-stethoscope"></i> No esterilizado`;
-                document.getElementById('esterilizacion-fecha').value = '';
-            }
-            
-            // Mostrar card
-            document.getElementById('animal-info').classList.add('active');
-            
-            // Cargar historiales específicos del animal
-            cargarAlergiasAnimal(animalId);
-            cargarPadecimientosAnimal(animalId);
-            cargarVacunasAnimal(animalId);
-            cargarEsterilizacionesAnimal(animalId);
-            
-            mostrarToast(`Cargando información de ${animal.nombre}`, 'success');
-        }
-
-        function cargarAlergiasAnimal(animalId) {
-            const container = document.getElementById('alergias-list');
-            const alergias = sampleData.alergias.filter(a => a.animalId === animalId);
-            
-            container.innerHTML = '';
-            
-            if (alergias.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #888;">
-                        <i class="fas fa-allergies" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                        No hay alergias registradas
-                    </div>
-                `;
-                return;
-            }
-            
-            alergias.forEach(alergia => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title">${alergia.tipo}: ${alergia.alergeno}</div>
-                        <div class="history-item-date">${formatDate(alergia.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        <strong>Gravedad:</strong> ${alergia.gravedad}<br>
-                        <strong>Síntomas:</strong> ${alergia.sintomas || 'No especificados'}
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function cargarPadecimientosAnimal(animalId) {
-            const container = document.getElementById('padecimientos-list');
-            const padecimientos = sampleData.padecimientos.filter(p => p.animalId === animalId);
-            
-            container.innerHTML = '';
-            
-            if (padecimientos.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #888;">
-                        <i class="fas fa-file-medical" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                        No hay padecimientos registrados
-                    </div>
-                `;
-                return;
-            }
-            
-            padecimientos.forEach(padecimiento => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title">${padecimiento.nombre} (${padecimiento.tipo})</div>
-                        <div class="history-item-date">${formatDate(padecimiento.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        <strong>Tratamiento:</strong> ${padecimiento.tratamiento || 'No especificado'}
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function cargarVacunasAnimal(animalId) {
-            const container = document.getElementById('vacunas-list');
-            const vacunas = sampleData.historialVacunas.filter(v => v.animalId === animalId);
-            
-            container.innerHTML = '';
-            
-            if (vacunas.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #888;">
-                        <i class="fas fa-syringe" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                        No hay vacunas registradas
-                    </div>
-                `;
-                return;
-            }
-            
-            vacunas.forEach(vacuna => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title">${vacuna.nombre}</div>
-                        <div class="history-item-date">${formatDate(vacuna.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        <strong>Próximo refuerzo:</strong> ${formatDate(vacuna.refuerzo)}
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function cargarEsterilizacionesAnimal(animalId) {
-            const container = document.getElementById('esterilizaciones-list');
-            const esterilizaciones = sampleData.esterilizaciones.filter(e => e.animalId === animalId);
-            
-            container.innerHTML = '';
-            
-            if (esterilizaciones.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: #888;">
-                        <i class="fas fa-stethoscope" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                        No hay esterilizaciones registradas
-                    </div>
-                `;
-                return;
-            }
-            
-            esterilizaciones.forEach(esterilizacion => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title">${getTipoEsterilizacion(esterilizacion.tipo)}</div>
-                        <div class="history-item-date">${formatDate(esterilizacion.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        ${esterilizacion.observaciones || 'Sin observaciones'}
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function cargarHistorialCompleto() {
-            const container = document.getElementById('full-history');
-            container.innerHTML = '';
-            
-            // Combinar todos los historiales
-            const allHistory = [
-                ...sampleData.alergias.map(a => ({ tipo: 'alergia', ...a })),
-                ...sampleData.padecimientos.map(p => ({ tipo: 'padecimiento', ...p })),
-                ...sampleData.historialVacunas.map(v => ({ tipo: 'vacuna', ...v })),
-                ...sampleData.esterilizaciones.map(e => ({ tipo: 'esterilizacion', ...e }))
-            ];
-            
-            // Ordenar por fecha descendente
-            allHistory.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-            
-            if (allHistory.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-history"></i>
-                        <p>No hay historial médico registrado</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            allHistory.forEach(item => {
-                const animal = sampleData.animals.find(a => a.id === item.animalId);
-                const animalNombre = animal ? animal.nombre : 'Desconocido';
-                
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                
-                let contenido = '';
-                let icono = '';
-                
-                switch(item.tipo) {
-                    case 'alergia':
-                        icono = 'fa-allergies';
-                        contenido = `<strong>Alergia ${item.tipo}:</strong> ${item.alergeno}<br>
-                                    <strong>Gravedad:</strong> ${item.gravedad}<br>
-                                    <strong>Síntomas:</strong> ${item.sintomas || 'No especificados'}`;
-                        break;
-                    case 'padecimiento':
-                        icono = 'fa-file-medical';
-                        contenido = `<strong>Padecimiento (${item.tipo}):</strong> ${item.nombre}<br>
-                                    <strong>Tratamiento:</strong> ${item.tratamiento || 'No especificado'}`;
-                        break;
-                    case 'vacuna':
-                        icono = 'fa-syringe';
-                        contenido = `<strong>Vacuna:</strong> ${item.nombre}<br>
-                                    <strong>Próximo refuerzo:</strong> ${formatDate(item.refuerzo)}`;
-                        break;
-                    case 'esterilizacion':
-                        icono = 'fa-stethoscope';
-                        contenido = `<strong>Esterilización:</strong> ${getTipoEsterilizacion(item.tipo)}<br>
-                                    <strong>Observaciones:</strong> ${item.observaciones || 'Sin observaciones'}`;
-                        break;
-                }
-                
-                historyItem.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title"><i class="fas ${icono}"></i> ${animalNombre} (${item.animalId})</div>
-                        <div class="history-item-date">${formatDate(item.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        ${contenido}
-                    </div>
-                `;
-                container.appendChild(historyItem);
-            });
-        }
-
-        // Funciones de búsqueda
-        function buscarAnimal() {
-            const searchTerm = document.getElementById('search-animal').value.trim().toLowerCase();
-            if (!searchTerm) {
-                mostrarToast('Por favor ingresa un término de búsqueda', 'info');
-                return;
-            }
-            
-            // Buscar animal
-            const animal = sampleData.animals.find(a => 
-                a.id.toLowerCase() === searchTerm || 
-                a.nombre.toLowerCase().includes(searchTerm)
-            );
-            
-            if (animal) {
-                cargarAnimal(animal.id);
-                mostrarToast(`Animal encontrado: ${animal.nombre}`, 'success');
-            } else {
-                mostrarToast('No se encontró el animal', 'error');
-            }
-        }
-
-        function buscarTodosAnimales() {
-            const searchTerm = document.getElementById('search-all-animals').value.trim().toLowerCase();
-            
-            // Filtrar animales
-            const filteredAnimals = sampleData.animals.filter(animal => 
-                !searchTerm ||
-                animal.id.toLowerCase().includes(searchTerm) ||
-                animal.nombre.toLowerCase().includes(searchTerm) ||
-                animal.especie.toLowerCase().includes(searchTerm) ||
-                animal.raza.toLowerCase().includes(searchTerm)
-            );
-            
-            const container = document.getElementById('animals-list');
-            container.innerHTML = '';
-            
-            if (filteredAnimals.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron animales con ese criterio</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            filteredAnimals.forEach(animal => {
-                const card = document.createElement('div');
-                card.className = 'animal-info-card';
-                card.style.display = 'block';
-                card.style.marginBottom = '1rem';
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', () => {
-                    navigateToTab('dashboard');
-                    setTimeout(() => {
-                        cargarAnimal(animal.id);
-                        document.getElementById('animal-info').scrollIntoView({ behavior: 'smooth' });
-                    }, 300);
-                });
-                
-                card.innerHTML = `
-                    <div class="animal-header">
-                        <div class="animal-avatar">
-                            <i class="fas fa-${animal.especie}"></i>
+            // Crear modal de detalle
+            const modalHTML = `
+                <div class="modal active">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Detalle del Animal</h2>
+                            <button class="close-btn" onclick="this.closest('.modal').classList.remove('active')">&times;</button>
                         </div>
-                        <div class="animal-details">
-                            <div class="animal-name">${animal.nombre}</div>
-                            <div class="animal-id">${animal.id}</div>
-                            <div class="animal-meta">
-                                <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)} • ${animal.edad.numero} ${animal.edad.unidad} • ${animal.raza}</span>
+                        <div class="modal-body">
+                            <div class="animal-info-card">
+                                <div class="animal-header">
+                                    <div class="animal-avatar">
+                                        <i class="fas fa-${animal.especie.toLowerCase()}"></i>
+                                    </div>
+                                    <div>
+                                        <div class="animal-name">${animal.nombre}</div>
+                                        <div class="animal-id">${animal.id}</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 1.5rem;">
+                                    <h3>Información General</h3>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td><strong>Especie:</strong></td>
+                                            <td>${animal.especie}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Raza:</strong></td>
+                                            <td>${animal.raza}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Edad:</strong></td>
+                                            <td>${animal.edad}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sexo:</strong></td>
+                                            <td>${animal.sexo}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Estado:</strong></td>
+                                            <td>${animal.estado}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Fecha Ingreso:</strong></td>
+                                            <td>${formatearFecha(animal.fechaIngreso)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Esterilizado:</strong></td>
+                                            <td>${animal.esterilizado ? 'Sí' : 'No'}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                                <div style="margin-top: 1.5rem;">
+                                    <h3>Historial Médico</h3>
+                                    <div id="historial-animal">
+                                        ${cargarHistorialAnimal(animalId)}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="sterilization-status ${animal.esterilizado ? 'status-sterilized' : 'status-not-sterilized'}">
-                            <i class="fas fa-stethoscope"></i> ${animal.esterilizado ? 'Esterilizado' : 'No esterilizado'}
-                        </div>
                     </div>
-                    <div style="text-align: right; margin-top: 1rem;">
-                        <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); cargarAnimal('${animal.id}'); navigateToTab('dashboard');">
-                            <i class="fas fa-stethoscope"></i> Atender
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function buscarVacunas() {
-            const searchTerm = document.getElementById('search-vacunas').value.trim().toLowerCase();
-            
-            // Filtrar vacunas
-            const filteredVacunas = sampleData.allVaccines.filter(vacuna => 
-                !searchTerm ||
-                vacuna.id.toLowerCase().includes(searchTerm) ||
-                vacuna.idAnimal.toLowerCase().includes(searchTerm) ||
-                vacuna.nombreAnimal.toLowerCase().includes(searchTerm) ||
-                vacuna.nombreVacuna.toLowerCase().includes(searchTerm) ||
-                vacuna.tipo.toLowerCase().includes(searchTerm)
-            );
-            
-            const tbody = document.getElementById('all-vaccines');
-            tbody.innerHTML = '';
-            
-            if (filteredVacunas.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
-                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
-                            No se encontraron vacunas con ese criterio
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            filteredVacunas.forEach(vacuna => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${vacuna.idAnimal}</strong><br><small>${vacuna.nombreAnimal}</small></td>
-                    <td>${vacuna.id}</td>
-                    <td>${vacuna.nombreVacuna}<br><small class="text-muted">${getTipoVacuna(vacuna.tipo)}</small></td>
-                    <td>${formatDate(vacuna.fechaAplicacion)}</td>
-                    <td>${formatDate(vacuna.fechaRefuerzo)}<br>
-                        <span class="status-badge ${getRefuerzoStatus(vacuna.fechaRefuerzo)}">
-                            <i class="fas ${getRefuerzoIcon(vacuna.fechaRefuerzo)}"></i> ${getRefuerzoText(vacuna.fechaRefuerzo)}
-                        </span>
-                    </td>
-                    <td class="vaccine-actions">
-                        <button class="table-btn secondary" onclick="editarVacuna('${vacuna.id}')" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="table-btn danger" onclick="solicitarEliminarVacuna('${vacuna.id}', '${vacuna.nombreVacuna}')" title="Eliminar">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function buscarHistorial() {
-            const searchTerm = document.getElementById('search-history').value.trim().toLowerCase();
-            
-            // Combinar todos los historiales
-            const allHistory = [
-                ...sampleData.alergias.map(a => ({ tipo: 'alergia', ...a })),
-                ...sampleData.padecimientos.map(p => ({ tipo: 'padecimiento', ...p })),
-                ...sampleData.historialVacunas.map(v => ({ tipo: 'vacuna', ...v })),
-                ...sampleData.esterilizaciones.map(e => ({ tipo: 'esterilizacion', ...e }))
-            ];
-            
-            // Filtrar
-            const filteredHistory = allHistory.filter(item => {
-                if (!searchTerm) return true;
-                
-                const animal = sampleData.animals.find(a => a.id === item.animalId);
-                const animalNombre = animal ? animal.nombre.toLowerCase() : '';
-                
-                return animalNombre.includes(searchTerm) ||
-                    item.animalId.toLowerCase().includes(searchTerm) ||
-                    (item.nombre && item.nombre.toLowerCase().includes(searchTerm)) ||
-                    (item.alergeno && item.alergeno.toLowerCase().includes(searchTerm)) ||
-                    (item.tipo && item.tipo.toLowerCase().includes(searchTerm));
-            });
-            
-            // Ordenar por fecha descendente
-            filteredHistory.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-            
-            const container = document.getElementById('full-history');
-            container.innerHTML = '';
-            
-            if (filteredHistory.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <p>No se encontraron registros con ese criterio</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            filteredHistory.forEach(item => {
-                const animal = sampleData.animals.find(a => a.id === item.animalId);
-                const animalNombre = animal ? animal.nombre : 'Desconocido';
-                
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                
-                let contenido = '';
-                let icono = '';
-                
-                switch(item.tipo) {
-                    case 'alergia':
-                        icono = 'fa-allergies';
-                        contenido = `<strong>Alergia ${item.tipo}:</strong> ${item.alergeno}<br>
-                                    <strong>Gravedad:</strong> ${item.gravedad}<br>
-                                    <strong>Síntomas:</strong> ${item.sintomas || 'No especificados'}`;
-                        break;
-                    case 'padecimiento':
-                        icono = 'fa-file-medical';
-                        contenido = `<strong>Padecimiento (${item.tipo}):</strong> ${item.nombre}<br>
-                                    <strong>Tratamiento:</strong> ${item.tratamiento || 'No especificado'}`;
-                        break;
-                    case 'vacuna':
-                        icono = 'fa-syringe';
-                        contenido = `<strong>Vacuna:</strong> ${item.nombre}<br>
-                                    <strong>Próximo refuerzo:</strong> ${formatDate(item.refuerzo)}`;
-                        break;
-                    case 'esterilizacion':
-                        icono = 'fa-stethoscope';
-                        contenido = `<strong>Esterilización:</strong> ${getTipoEsterilizacion(item.tipo)}<br>
-                                    <strong>Observaciones:</strong> ${item.observaciones || 'Sin observaciones'}`;
-                        break;
-                }
-                
-                historyItem.innerHTML = `
-                    <div class="history-item-header">
-                        <div class="history-item-title"><i class="fas ${icono}"></i> ${animalNombre} (${item.animalId})</div>
-                        <div class="history-item-date">${formatDate(item.fecha)}</div>
-                    </div>
-                    <div class="history-item-content">
-                        ${contenido}
-                    </div>
-                `;
-                container.appendChild(historyItem);
-            });
-        }
-
-        // Funciones de formularios
-        function registrarAlergia(e) {
-            e.preventDefault();
-            
-            const tipo = document.getElementById('alergia-tipo').value;
-            const alergeno = document.getElementById('alergia-alergeno').value;
-            const gravedad = document.getElementById('alergia-gravedad').value;
-            const sintomas = document.getElementById('alergia-sintomas').value;
-            
-            // Crear nueva alergia
-            const nuevaAlergia = {
-                id: 'ALG-' + (sampleData.alergias.length + 1).toString().padStart(3, '0'),
-                animalId: currentAnimalId,
-                tipo: tipo.charAt(0).toUpperCase() + tipo.slice(1),
-                alergeno,
-                gravedad,
-                sintomas,
-                fecha: new Date().toISOString().split('T')[0]
-            };
-            
-            // Agregar a los datos
-            sampleData.alergias.unshift(nuevaAlergia);
-            
-            // Actualizar historial
-            cargarAlergiasAnimal(currentAnimalId);
-            cargarHistorialCompleto();
-            
-            // Resetear formulario
-            e.target.reset();
-            document.getElementById('alergia-gravedad').value = 'moderada';
-            
-            mostrarToast('Alergia registrada exitosamente', 'success');
-        }
-
-        function registrarPadecimiento(e) {
-            e.preventDefault();
-            
-            const tipo = document.getElementById('padecimiento-tipo').value;
-            const nombre = document.getElementById('padecimiento-nombre').value;
-            const fecha = document.getElementById('padecimiento-fecha').value;
-            const tratamiento = document.getElementById('padecimiento-tratamiento').value;
-            
-            // Crear nuevo padecimiento
-            const nuevoPadecimiento = {
-                id: 'PAD-' + (sampleData.padecimientos.length + 1).toString().padStart(3, '0'),
-                animalId: currentAnimalId,
-                tipo: tipo.charAt(0).toUpperCase() + tipo.slice(1),
-                nombre,
-                fecha: fecha || new Date().toISOString().split('T')[0],
-                tratamiento
-            };
-            
-            // Agregar a los datos
-            sampleData.padecimientos.unshift(nuevoPadecimiento);
-            
-            // Actualizar historial
-            cargarPadecimientosAnimal(currentAnimalId);
-            cargarHistorialCompleto();
-            
-            // Resetear formulario
-            e.target.reset();
-            document.getElementById('padecimiento-fecha').value = new Date().toISOString().split('T')[0];
-            
-            mostrarToast('Padecimiento registrado exitosamente', 'success');
-        }
-
-        function actualizarEsterilizacion(e) {
-            e.preventDefault();
-            
-            const fecha = document.getElementById('esterilizacion-fecha').value;
-            const tipo = document.getElementById('esterilizacion-tipo').value;
-            const observaciones = document.getElementById('esterilizacion-observaciones').value;
-            
-            // Actualizar animal
-            const animalIndex = sampleData.animals.findIndex(a => a.id === currentAnimalId);
-            if (animalIndex !== -1) {
-                sampleData.animals[animalIndex].esterilizado = true;
-                sampleData.animals[animalIndex].fechaEsterilizacion = fecha;
-                
-                // Actualizar estado en pantalla
-                const statusElement = document.getElementById('sterilization-status');
-                statusElement.className = 'sterilization-status status-sterilized';
-                statusElement.innerHTML = `<i class="fas fa-stethoscope"></i> Esterilizado (${formatDate(fecha)})`;
-                
-                // Agregar a esterilizaciones
-                const nuevaEsterilizacion = {
-                    id: 'EST-' + (sampleData.esterilizaciones.length + 1).toString().padStart(3, '0'),
-                    animalId: currentAnimalId,
-                    fecha,
-                    tipo,
-                    observaciones
-                };
-                
-                sampleData.esterilizaciones.unshift(nuevaEsterilizacion);
-                
-                // Actualizar historiales
-                cargarEsterilizacionesAnimal(currentAnimalId);
-                cargarHistorialCompleto();
-                cargarAnimales(); // Actualizar lista de animales
-                
-                // Resetear formulario
-                e.target.reset();
-                document.getElementById('esterilizacion-fecha').value = new Date().toISOString().split('T')[0];
-                
-                mostrarToast('Esterilización actualizada exitosamente', 'success');
-            } else {
-                mostrarToast('Error: Animal no encontrado', 'error');
-            }
-        }
-
-        function guardarNuevaVacuna(e) {
-            e.preventDefault();
-            
-            const animalId = document.getElementById('vacuna-animal').value;
-            const tipo = document.getElementById('vacuna-tipo').value;
-            const nombre = document.getElementById('vacuna-nombre').value;
-            const fechaAplicacion = document.getElementById('vacuna-fecha-aplicacion').value;
-            const fechaRefuerzo = document.getElementById('vacuna-fecha-refuerzo').value;
-            const lote = document.getElementById('vacuna-lote').value;
-            const fabricante = document.getElementById('vacuna-fabricante').value;
-            const observaciones = document.getElementById('vacuna-observaciones').value;
-            
-            // Obtener información del animal
-            const animal = sampleData.animals.find(a => a.id === animalId);
-            
-            // Crear nueva vacuna
-            const nuevaVacuna = {
-                id: 'VAC-' + (sampleData.allVaccines.length + 1).toString().padStart(3, '0'),
-                idAnimal: animalId,
-                nombreAnimal: animal ? animal.nombre : 'Desconocido',
-                tipo,
-                nombreVacuna: nombre,
-                fechaAplicacion,
-                fechaRefuerzo,
-                lote,
-                fabricante,
-                observaciones
-            };
-            
-            // Agregar a los datos
-            sampleData.allVaccines.unshift(nuevaVacuna);
-            
-            // Agregar también al historial de vacunas
-            sampleData.historialVacunas.unshift({
-                id: nuevaVacuna.id,
-                animalId,
-                nombre,
-                fecha: fechaAplicacion,
-                refuerzo: fechaRefuerzo
-            });
-            
-            // Actualizar listas
-            cargarTodasVacunas();
-            cargarVacunasAnimal(animalId);
-            cargarHistorialCompleto();
-            actualizarBadgeVacunas();
-            
-            // Cerrar modal y resetear formulario
-            cerrarModal('vacunaModal');
-            e.target.reset();
-            document.getElementById('vacuna-fecha-aplicacion').value = new Date().toISOString().split('T')[0];
-            document.getElementById('vacuna-fecha-refuerzo').value = getNextMonthDate();
-            
-            mostrarToast('Vacuna registrada exitosamente', 'success');
-        }
-
-        function guardarNuevoAnimal(e) {
-            e.preventDefault();
-            
-            const nombre = document.getElementById('animal-nombre').value;
-            const especie = document.getElementById('animal-especie').value;
-            const raza = document.getElementById('animal-raza').value;
-            const edadNumero = document.getElementById('animal-edad-numero').value;
-            const edadUnidad = document.getElementById('animal-edad-unidad').value;
-            const sexo = document.getElementById('animal-sexo').value;
-            const fechaIngreso = document.getElementById('animal-fecha-ingreso').value;
-            const condicion = document.getElementById('animal-condicion').value;
-            
-            // Generar ID único
-            const nextId = Math.max(...sampleData.animals.map(a => parseInt(a.id.split('-')[2]))) + 1;
-            const nuevoId = `HUE-2024-${nextId.toString().padStart(3, '0')}`;
-            
-            // Crear nuevo animal
-            const nuevoAnimal = {
-                id: nuevoId,
-                nombre,
-                especie,
-                raza,
-                edad: { numero: parseInt(edadNumero), unidad: edadUnidad },
-                sexo,
-                fechaIngreso,
-                condicion,
-                esterilizado: false
-            };
-            
-            // Agregar a los datos
-            sampleData.animals.unshift(nuevoAnimal);
-            
-            // Actualizar listas
-            cargarAnimales();
-            llenarSelectAnimales();
-            
-            // Cargar el nuevo animal
-            cargarAnimal(nuevoId);
-            
-            // Cerrar modal y resetear formulario
-            cerrarModal('animalModal');
-            e.target.reset();
-            document.getElementById('animal-fecha-ingreso').value = new Date().toISOString().split('T')[0];
-            document.getElementById('animal-edad-unidad').value = 'años';
-            document.getElementById('animal-sexo').value = 'macho';
-            
-            mostrarToast('Animal registrado exitosamente', 'success');
-            navigateToTab('dashboard');
-        }
-
-        function guardarEditarVacuna(e) {
-            e.preventDefault();
-            
-            const vacunaId = document.getElementById('editar-vacuna-id').value;
-            const tipo = document.getElementById('editar-vacuna-tipo').value;
-            const nombre = document.getElementById('editar-vacuna-nombre').value;
-            const fechaAplicacion = document.getElementById('editar-vacuna-fecha-aplicacion').value;
-            const fechaRefuerzo = document.getElementById('editar-vacuna-fecha-refuerzo').value;
-            const lote = document.getElementById('editar-vacuna-lote').value;
-            const observaciones = document.getElementById('editar-vacuna-observaciones').value;
-            
-            // Encontrar y actualizar la vacuna
-            const vacunaIndex = sampleData.allVaccines.findIndex(v => v.id === vacunaId);
-            if (vacunaIndex !== -1) {
-                sampleData.allVaccines[vacunaIndex].tipo = tipo;
-                sampleData.allVaccines[vacunaIndex].nombreVacuna = nombre;
-                sampleData.allVaccines[vacunaIndex].fechaAplicacion = fechaAplicacion;
-                sampleData.allVaccines[vacunaIndex].fechaRefuerzo = fechaRefuerzo;
-                sampleData.allVaccines[vacunaIndex].lote = lote;
-                sampleData.allVaccines[vacunaIndex].observaciones = observaciones;
-                
-                // Actualizar también en historialVacunas si existe
-                const historialIndex = sampleData.historialVacunas.findIndex(v => v.id === vacunaId);
-                if (historialIndex !== -1) {
-                    sampleData.historialVacunas[historialIndex].nombre = nombre;
-                    sampleData.historialVacunas[historialIndex].fecha = fechaAplicacion;
-                    sampleData.historialVacunas[historialIndex].refuerzo = fechaRefuerzo;
-                }
-                
-                // Actualizar listas
-                cargarTodasVacunas();
-                if (currentAnimalId === sampleData.allVaccines[vacunaIndex].idAnimal) {
-                    cargarVacunasAnimal(currentAnimalId);
-                }
-                cargarHistorialCompleto();
-                actualizarBadgeVacunas();
-                
-                // Cerrar modal
-                cerrarModal('editarVacunaModal');
-                
-                mostrarToast('Vacuna actualizada exitosamente', 'success');
-            } else {
-                mostrarToast('Error: Vacuna no encontrada', 'error');
-            }
-        }
-
-        function generarReporte(e) {
-            e.preventDefault();
-            
-            const tipo = document.getElementById('reporte-tipo').value;
-            const fechaInicio = document.getElementById('reporte-fecha-inicio').value;
-            const fechaFin = document.getElementById('reporte-fecha-fin').value;
-            const formato = document.getElementById('reporte-formato').value;
-            
-            // Validar fechas
-            if (new Date(fechaInicio) > new Date(fechaFin)) {
-                mostrarToast('La fecha inicial no puede ser mayor a la fecha final', 'error');
-                return;
-            }
-            
-            // Simular generación de reporte
-            cerrarModal('reporteModal');
-            
-            // Mostrar mensaje de éxito con detalles
-            const tipoReporte = {
-                'vacunacion': 'de Vacunación',
-                'enfermedades': 'de Enfermedades',
-                'esterilizaciones': 'de Esterilizaciones',
-                'completo': 'Médico Completo'
-            }[tipo];
-            
-            mostrarToast(`Reporte ${tipoReporte} generado exitosamente (${formato.toUpperCase()})`, 'success');
-            
-            // En una implementación real, aquí se descargaría el archivo
-            setTimeout(() => {
-                mostrarToast('Descargando reporte...', 'info');
-            }, 1000);
-        }
-
-        // Funciones de modales
-        function abrirModalVacuna() {
-            document.getElementById('vacunaModal').style.display = 'flex';
-            document.getElementById('vacuna-fecha-aplicacion').value = new Date().toISOString().split('T')[0];
-            document.getElementById('vacuna-fecha-refuerzo').value = getNextMonthDate();
-        }
-
-        function abrirModalAnimal() {
-            document.getElementById('animalModal').style.display = 'flex';
-        }
-
-        function abrirModalReporte() {
-            document.getElementById('reporteModal').style.display = 'flex';
-        }
-
-        function editarVacuna(vacunaId) {
-            const vacuna = sampleData.allVaccines.find(v => v.id === vacunaId);
-            if (!vacuna) {
-                mostrarToast('Vacuna no encontrada', 'error');
-                return;
-            }
-            
-            currentVacunaToEdit = vacunaId;
-            
-            // Llenar formulario
-            document.getElementById('editar-vacuna-id').value = vacunaId;
-            document.getElementById('editar-vacuna-animal').innerHTML = `
-                <option value="${vacuna.idAnimal}" selected>${vacuna.nombreAnimal} (${vacuna.idAnimal})</option>
+                </div>
             `;
-            document.getElementById('editar-vacuna-tipo').value = vacuna.tipo;
-            document.getElementById('editar-vacuna-nombre').value = vacuna.nombreVacuna;
-            document.getElementById('editar-vacuna-fecha-aplicacion').value = vacuna.fechaAplicacion;
-            document.getElementById('editar-vacuna-fecha-refuerzo').value = vacuna.fechaRefuerzo;
-            document.getElementById('editar-vacuna-lote').value = vacuna.lote || '';
-            document.getElementById('editar-vacuna-observaciones').value = vacuna.observaciones || '';
             
-            // Mostrar modal
-            document.getElementById('editarVacunaModal').style.display = 'flex';
+            // Crear modal temporal
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = modalHTML;
+            document.body.appendChild(tempDiv.firstChild);
         }
 
-        function solicitarEliminarVacuna(vacunaId, nombreVacuna) {
-            itemToDelete = { tipo: 'vacuna', id: vacunaId };
-            document.getElementById('confirmar-eliminar-mensaje').textContent = 
-                `¿Estás seguro de eliminar la vacuna "${nombreVacuna}" (${vacunaId})? Esta acción no se puede deshacer.`;
-            document.getElementById('confirmarEliminarModal').style.display = 'flex';
-        }
-
-        function confirmarEliminacion() {
-            if (!itemToDelete) return;
-            
-            if (itemToDelete.tipo === 'vacuna') {
-                // Eliminar vacuna de todas las listas
-                sampleData.allVaccines = sampleData.allVaccines.filter(v => v.id !== itemToDelete.id);
-                sampleData.historialVacunas = sampleData.historialVacunas.filter(v => v.id !== itemToDelete.id);
-                
-                // Actualizar listas
-                cargarTodasVacunas();
-                cargarHistorialCompleto();
-                actualizarBadgeVacunas();
-                
-                mostrarToast('Vacuna eliminada exitosamente', 'success');
+        function cargarHistorialAnimal(animalId) {
+            const historiales = datos.historial.filter(h => h.animalId === animalId);
+            if (historiales.length === 0) {
+                return '<p style="color: #999; text-align: center;">No hay historial registrado</p>';
             }
             
-            cerrarModal('confirmarEliminarModal');
-            itemToDelete = null;
-        }
-
-        function cerrarModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Funciones auxiliares
-        function llenarSelectAnimales() {
-            const select = document.getElementById('vacuna-animal');
-            select.innerHTML = '<option value="" selected disabled>Seleccionar animal...</option>';
-            
-            sampleData.animals.forEach(animal => {
-                const option = document.createElement('option');
-                option.value = animal.id;
-                option.textContent = `${animal.nombre} (${animal.id}) - ${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}`;
-                select.appendChild(option);
+            let html = '';
+            historiales.forEach(historial => {
+                html += `
+                    <div style="padding: 10px; border-bottom: 1px solid #eee; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>${historial.descripcion}</strong>
+                            <small>${formatearFecha(historial.fecha)}</small>
+                        </div>
+                        <small style="color: #666;">${historial.veterinario}</small>
+                    </div>
+                `;
             });
+            return html;
         }
 
-        function getTipoVacuna(tipo) {
-            const tipos = {
-                'antirrabica': 'Antirrábica',
-                'polivalente': 'Polivalente',
-                'leptospirosis': 'Leptospirosis',
-                'tricomona': 'Tricomona Felina',
-                'panleucopenia': 'Panleucopenia Felina',
-                'rinotraqueitis': 'Rinotraqueitis Viral',
-                'calicivirus': 'Calicivirus Felino',
-                'otros': 'Otros'
+        function guardarVacuna(event) {
+            event.preventDefault();
+            alert('Vacuna registrada exitosamente');
+            cerrarModal('nueva-vacuna');
+            // Aquí iría la lógica para guardar en base de datos
+            cargarVacunas(); // Recargar la lista
+        }
+
+        function guardarAnimal(event) {
+            event.preventDefault();
+            alert('Animal registrado exitosamente');
+            cerrarModal('nuevo-animal');
+            // Aquí iría la lógica para guardar en base de datos
+            cargarAnimales(); // Recargar la lista
+        }
+
+        function generarReporte(tipo) {
+            const reportes = {
+                'diario': 'Reporte diario de actividades',
+                'rescates-hoy': 'Mascotas rescatadas hoy',
+                'adopciones-multiples': 'Adopciones múltiples',
+                'vacunas-completas': 'Vacunas al corriente',
+                'adoptantes-ideales': 'Adoptantes ideales'
             };
-            return tipos[tipo] || tipo;
-        }
-
-        function getTipoEsterilizacion(tipo) {
-            const tipos = {
-                'ovariohisterectomia': 'Ovariohisterectomía',
-                'orquiectomia': 'Orquiectomía',
-                'laparoscopica': 'Laparoscópica',
-                'otros': 'Otros'
-            };
-            return tipos[tipo] || tipo;
-        }
-
-        function getRefuerzoStatus(fechaRefuerzo) {
-            const hoy = new Date();
-            const refuerzo = new Date(fechaRefuerzo);
-            const diferenciaDias = Math.floor((refuerzo - hoy) / (1000 * 60 * 60 * 24));
             
-            if (diferenciaDias < 0) return 'status-overdue';
-            if (diferenciaDias <= 7) return 'status-pending';
-            return 'status-completed';
+            alert(`Generando reporte: ${reportes[tipo] || 'Reporte'}`);
+            // Aquí iría la lógica para generar el reporte específico
         }
 
-        function getRefuerzoIcon(fechaRefuerzo) {
-            const status = getRefuerzoStatus(fechaRefuerzo);
-            if (status === 'status-overdue') return 'fa-exclamation-triangle';
-            if (status === 'status-pending') return 'fa-clock';
-            return 'fa-check-circle';
-        }
-
-        function getRefuerzoText(fechaRefuerzo) {
-            const hoy = new Date();
-            const refuerzo = new Date(fechaRefuerzo);
-            const diferenciaDias = Math.floor((refuerzo - hoy) / (1000 * 60 * 60 * 24));
-            
-            if (diferenciaDias < 0) return 'Vencido';
-            if (diferenciaDias === 0) return 'Hoy';
-            if (diferenciaDias === 1) return 'Mañana';
-            if (diferenciaDias <= 7) return `En ${diferenciaDias} días`;
-            return 'Programado';
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'No definida';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('es-ES', {
+        function formatearFecha(fechaStr) {
+            if (!fechaStr) return 'No definida';
+            const fecha = new Date(fechaStr);
+            return fecha.toLocaleDateString('es-ES', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
             });
         }
 
-        function getNextMonthDate() {
-            const date = new Date();
-            date.setMonth(date.getMonth() + 1);
-            return date.toISOString().split('T')[0];
-        }
-
-        function getFirstDayOfMonth() {
-            const date = new Date();
-            date.setDate(1);
-            return date.toISOString().split('T')[0];
-        }
-
-        function actualizarBadgeVacunas() {
-            const hoy = new Date();
-            const vacunasPendientes = sampleData.allVaccines.filter(v => {
-                const refuerzo = new Date(v.fechaRefuerzo);
-                const diferenciaDias = Math.floor((refuerzo - hoy) / (1000 * 60 * 60 * 24));
-                return diferenciaDias <= 7 && diferenciaDias >= 0;
-            }).length;
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar datos iniciales
+            cargarVacunas();
+            cargarAnimales();
+            cargarHistorial();
             
-            const badge = document.getElementById('vacunas-badge');
-            if (vacunasPendientes > 0) {
-                badge.textContent = vacunasPendientes;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-
-        function mostrarToast(mensaje, tipo = 'info') {
-            // Crear toast
-            const toast = document.createElement('div');
-            toast.className = `toast ${tipo}`;
-            toast.innerHTML = `
-                <div class="toast-icon">
-                    <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-                </div>
-                <div class="toast-content">
-                    <div class="toast-message">${mensaje}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Auto-eliminar después de 5 segundos
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.remove();
+            // Cerrar modales al hacer click fuera
+            document.addEventListener('click', (event) => {
+                if (event.target.classList.contains('modal')) {
+                    event.target.classList.remove('active');
                 }
-            }, 5000);
-        }
-
-        function inicializarGraficos() {
-            // Gráfico de vacunación
-            const ctxVacunas = document.getElementById('vacunas-chart');
-            if (ctxVacunas) {
-                new Chart(ctxVacunas, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Vacunas Aplicadas',
-                            data: [12, 19, 15, 25, 22, 30],
-                            backgroundColor: 'rgba(255, 107, 53, 0.8)',
-                            borderColor: 'rgba(255, 107, 53, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: true
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Cantidad'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+            });
             
-            // Gráfico de enfermedades
-            const ctxEnfermedades = document.getElementById('enfermedades-chart');
-            if (ctxEnfermedades) {
-                new Chart(ctxEnfermedades, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Infecciosas', 'Crónicas', 'Traumáticas', 'Hereditarias', 'Otros'],
-                        datasets: [{
-                            data: [35, 25, 15, 10, 15],
-                            backgroundColor: [
-                                'rgba(255, 107, 53, 0.8)',
-                                'rgba(26, 147, 111, 0.8)',
-                                'rgba(255, 209, 102, 0.8)',
-                                'rgba(23, 162, 184, 0.8)',
-                                'rgba(108, 117, 125, 0.8)'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Configurar click fuera de modales para cerrar
-        window.addEventListener('click', function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
+            // Cerrar con tecla ESC
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    document.querySelectorAll('.modal.active').forEach(modal => {
+                        modal.classList.remove('active');
+                    });
                 }
             });
         });
-
-        // Configurar tecla ESC para cerrar modales
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => {
-                    if (modal.style.display === 'flex') {
-                        modal.style.display = 'none';
-                    }
-                });
-            }
-        });
-
-        // Inicializar badge de vacunas
-        actualizarBadgeVacunas();
     </script>
 </body>
 </html>
