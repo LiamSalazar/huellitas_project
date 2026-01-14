@@ -569,7 +569,6 @@
     <div class="main-container">
         <!-- Indicador de progreso -->
         <div class="progress-container">
-            <div class="progress-step active">1</div>
             <div class="progress-step">2</div>
             <div class="progress-step">3</div>
         </div>
@@ -577,57 +576,10 @@
         <!-- Formulario -->
         <div class="form-container">
             <!-- Sección 1: Información Personal -->
-            <div class="form-section active" id="section-personal">
-                <h2 class="section-title">
-                    <i class="fas fa-user"></i>
-                    Información Personal
-                </h2>
-                <p class="section-subtitle">Completa tus datos básicos para crear tu cuenta de voluntario.</p>
-                
-                <form id="formPersonal">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label required">Nombre(s)</label>
-                            <input type="text" class="form-input" id="nombre" name="nombre" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">Apellidos</label>
-                            <input type="text" class="form-input" id="apellidos" name="apellidos" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">Teléfono Celular</label>
-                            <input type="tel" class="form-input" id="telefono" name="telefono" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">Correo Electrónico</label>
-                            <input type="email" class="form-input" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">Contraseña</label>
-                            <input type="password" class="form-input" id="password" name="password" required minlength="6">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">Confirmar Contraseña</label>
-                            <input type="password" class="form-input" id="confirm-password" name="confirm_password" required minlength="6">
-                        </div>
-                    </div>
-                </form>
-                
-                <div class="form-navigation">
-                    <div></div> <!-- Espacio vacío para alinear a la derecha -->
-                    <button class="nav-btn next" id="next-to-role">
-                        Siguiente <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
+            
 
             <!-- Sección 2: Información de Voluntario -->
-            <div class="form-section" id="section-role">
+            <div class="form-section active" id="section-role">
                 <h2 class="section-title">
                     <i class="fas fa-users"></i>
                     Información de Voluntario
@@ -636,26 +588,18 @@
                 
                 <form id="formRole">
                     <div class="form-grid">
+                        
                         <div class="form-group">
                             <label class="form-label required">Rol en el Refugio</label>
-                            <select class="form-select" id="rol" name="rol" required>
-                                <option value="" selected disabled>Seleccionar rol...</option>
-                                <option value="veterinario">Veterinario</option>
-                                <option value="administrativo">Administrativo / Rescate</option>
-                                <option value="mantenimiento-limpieza">Mantenimiento y Limpieza</option>
-                                <option value="atencion-personas">Atención a Personas</option>
+                            <select class="form-select" id="rol" name="id_voluntariorol" required>
+                                <option value="" selected disabled>Cargando roles...</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label required">Sede Principal</label>
-                            <select class="form-select" id="sede" name="sede" required>
-                                <option value="" selected disabled>Seleccionar sede...</option>
-                                <option value="sede-norte">Sede Norte - Lindavista</option>
-                                <option value="sede-sur">Sede Sur - Coyoacán</option>
-                                <option value="sede-este">Sede Este - Iztapalapa</option>
-                                <option value="sede-oeste">Sede Oeste - Álvaro Obregón</option>
-                                <option value="sede-centro">Sede Centro - Cuauhtémoc</option>
+                            <select class="form-select" id="sede" name="id_sede" required>
+                                <option value="" selected disabled>Cargando sedes...</option>
                             </select>
                         </div>
                         
@@ -674,9 +618,7 @@
                 </form>
                 
                 <div class="form-navigation">
-                    <button class="nav-btn prev" id="prev-to-personal">
-                        <i class="fas fa-arrow-left"></i> Anterior
-                    </button>
+
                     <button class="nav-btn next" id="next-to-documents">
                         Siguiente <i class="fas fa-arrow-right"></i>
                     </button>
@@ -722,9 +664,7 @@
                                 <div class="file-upload-text">
                                     <h3>Carta Compromiso</h3>
                                     <p>Formato: PDF. Tamaño máximo: 5MB</p>
-                                    <button type="button" class="file-upload-btn" onclick="descargarFormatoCarta()" style="margin-right: 10px;">
-                                        <i class="fas fa-download"></i> Descargar Formato
-                                    </button>
+
                                 </div>
                                 <p></p>
                                 <br>
@@ -792,485 +732,253 @@
         <p>&copy; 2026 Huellitas. Todos los derechos reservados. | Proyecto de Base de Datos</p>
         <p>¿Ya tienes una cuenta? <a href="../index_secundario.html" style="color: var(--primary); font-weight: 600;">Inicia sesión aquí</a></p>
     </div>
+<script>
+    // Configuración Base
+    const API_BASE = "http://127.0.0.1:8000/api";
+    let currentSection = 2; // Empezamos en la sección de Rol
 
-    <script>
-        // Variables globales
-        let currentSection = 1;
-        const totalSections = 3;
+    // --- 1. AL CARGAR LA PÁGINA ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const idPersona = localStorage.getItem('id_persona');
+
+        if (!idPersona) {
+            alert("No se detectó una sesión activa. Regresando al inicio.");
+            window.location.href = "../index.html";
+            return;
+        }
+
+        // Inicializamos directamente en la sección 2
+        currentSection = 2;
+        actualizarProgreso(2); 
         
-        // Datos del formulario
-        const formData = {
-            personal: {},
-            role: {},
-            documents: {}
+        inicializarNavegacion();
+        inicializarFecha();
+        inicializarSubidaArchivos();
+        
+        // Listener para Cédula Profesional
+        document.getElementById('rol').addEventListener('change', function() {
+            const cedulaGroup = document.getElementById('cedula-group');
+            if (['veterinario', 'administrativo'].includes(this.value)) {
+                cedulaGroup.style.display = 'flex';
+                document.getElementById('cedula').required = true;
+            } else {
+                cedulaGroup.style.display = 'none';
+                document.getElementById('cedula').required = false;
+            }
+        });
+    });
+
+    // --- 2. LÓGICA DE NAVEGACIÓN CORREGIDA ---
+    function inicializarNavegacion() {
+        // Botón Siguiente de la Sección 2 a la 3
+        const btnNext = document.getElementById('next-to-documents');
+        if (btnNext) {
+            btnNext.onclick = () => { 
+                if(validarSeccionRole()) {
+                    navegarA(3); 
+                } else {
+                    alert("Por favor, completa los campos obligatorios de esta sección.");
+                }
+            };
+        }
+
+        // Botón Anterior de la Sección 3 a la 2
+        const btnPrev = document.getElementById('prev-to-role');
+        if (btnPrev) {
+            btnPrev.onclick = () => navegarA(2);
+        }
+
+        // Botón Final
+        document.getElementById('submit-registration').onclick = () => { 
+            if(validarSeccionDocuments()) {
+                enviarRegistro(); 
+            } else {
+                alert("Por favor, sube los documentos obligatorios y acepta los términos.");
+            }
         };
 
-        // Inicializar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            inicializarNavegacion();
-            inicializarEventos();
-            inicializarFecha();
-            
-            // Configurar campo de cédula profesional según el rol
-            document.getElementById('rol').addEventListener('change', function() {
-                const rol = this.value;
-                const cedulaGroup = document.getElementById('cedula-group');
-                
-                if (rol === 'veterinario' || rol === 'administrativo') {
-                    cedulaGroup.style.display = 'flex';
-                    document.getElementById('cedula').required = true;
-                } else {
-                    cedulaGroup.style.display = 'none';
-                    document.getElementById('cedula').required = false;
-                    document.getElementById('cedula').value = '';
-                }
-            });
-            
-            // Configurar subida de archivos
-            inicializarSubidaArchivos();
-        });
-        
-        function inicializarNavegacion() {
-            // Botones de siguiente
-            document.getElementById('next-to-role').addEventListener('click', function() {
-                if (validarSeccionPersonal()) {
-                    navegarA(2);
-                }
-            });
-            
-            document.getElementById('next-to-documents').addEventListener('click', function() {
-                if (validarSeccionRole()) {
-                    navegarA(3);
-                }
-            });
-            
-            // Botones de anterior
-            document.getElementById('prev-to-personal').addEventListener('click', function() {
-                navegarA(1);
-            });
-            
-            document.getElementById('prev-to-role').addEventListener('click', function() {
-                navegarA(2);
-            });
-            
-            // Botón de envío
-            document.getElementById('submit-registration').addEventListener('click', function() {
-                if (validarSeccionDocuments()) {
-                    enviarRegistro();
-                }
-            });
-            
-            // Botón para ir al homepage
-            document.getElementById('btn-go-homepage').addEventListener('click', function() {
-                redirigirSegunRol();
-            });
-        }
-        
-        function inicializarEventos() {
-            // Validar contraseña en tiempo real
-            document.getElementById('confirm-password').addEventListener('input', function() {
-                validarCoincidenciaPassword();
-            });
-            
-            // Validar fecha de inicio
-            document.getElementById('fecha-inicio').addEventListener('change', function() {
-                validarFechaInicio();
-            });
-        }
-        
-        function inicializarFecha() {
-            // Establecer fecha mínima para hoy
-            const hoy = new Date().toISOString().split('T')[0];
-            document.getElementById('fecha-inicio').min = hoy;
-            
-            // Establecer fecha por defecto para mañana
-            const manana = new Date();
-            manana.setDate(manana.getDate() + 1);
-            const mananaFormateada = manana.toISOString().split('T')[0];
-            document.getElementById('fecha-inicio').value = mananaFormateada;
-        }
-        
-        function inicializarSubidaArchivos() {
-            const archivos = ['ine-file', 'carta-file'];
-            
-            archivos.forEach(archivoId => {
-                const input = document.getElementById(archivoId);
-                const listId = archivoId.replace('-file', '-list');
-                
-                input.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (!file) return;
-                    
-                    // Validar tamaño (5MB máximo)
-                    if (file.size > 5 * 1024 * 1024) {
-                        alert('El archivo es demasiado grande. El tamaño máximo es 5MB.');
-                        this.value = '';
-                        return;
-                    }
-                    
-                    // Mostrar el archivo en la lista
-                    mostrarArchivo(file, this.id, listId);
-                });
-            });
-        }
-        
-        function mostrarArchivo(file, inputId, listId) {
-            const fileList = document.getElementById(listId);
-            
-            // Crear elemento para el archivo
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            
-            // Obtener icono según tipo de archivo
-            let fileIcon = 'fa-file';
-            if (file.type.includes('image/')) {
-                fileIcon = 'fa-file-image';
-            } else if (file.type.includes('pdf')) {
-                fileIcon = 'fa-file-pdf';
-            }
-            
-            // Formatear tamaño
-            const fileSize = formatearTamañoArchivo(file.size);
-            
-            fileItem.innerHTML = `
-                <div class="file-info">
-                    <i class="fas ${fileIcon} file-icon"></i>
-                    <div>
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-size">${fileSize}</div>
-                    </div>
-                </div>
-                <button type="button" class="remove-file" onclick="removerArchivo('${inputId}', '${listId}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            // Limpiar lista y agregar nuevo archivo
-            fileList.innerHTML = '';
-            fileList.appendChild(fileItem);
-        }
-        
-        function removerArchivo(inputId, listId) {
-            const input = document.getElementById(inputId);
-            const fileList = document.getElementById(listId);
-            
-            // Limpiar input y lista
-            input.value = '';
-            fileList.innerHTML = '';
-        }
-        
-        function formatearTamañoArchivo(bytes) {
-            if (bytes < 1024) return bytes + ' bytes';
-            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-            else return (bytes / 1048576).toFixed(1) + ' MB';
-        }
-        
-        function navegarA(sectionNumber) {
-            // Ocultar sección actual
-            document.querySelectorAll('.form-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Mostrar nueva sección
-            document.getElementById(`section-${getSectionName(sectionNumber)}`).classList.add('active');
-            
-            // Actualizar progreso
-            actualizarProgreso(sectionNumber);
-            
-            // Actualizar sección actual
-            currentSection = sectionNumber;
-            
-            // Guardar datos de la sección anterior
-            guardarDatosSeccion();
-        }
-        
-        function getSectionName(sectionNumber) {
-            switch(sectionNumber) {
-                case 1: return 'personal';
-                case 2: return 'role';
-                case 3: return 'documents';
-                default: return 'personal';
-            }
-        }
-        
-        function actualizarProgreso(sectionNumber) {
-            const steps = document.querySelectorAll('.progress-step');
-            
-            steps.forEach((step, index) => {
-                step.classList.remove('active', 'completed');
-                
-                if (index + 1 < sectionNumber) {
-                    step.classList.add('completed');
-                } else if (index + 1 === sectionNumber) {
-                    step.classList.add('active');
-                }
-            });
-        }
-        
-        function guardarDatosSeccion() {
-            // Guardar datos de la sección actual
-            switch(currentSection) {
-                case 1:
-                    formData.personal = obtenerDatosPersonal();
-                    break;
-                case 2:
-                    formData.role = obtenerDatosRole();
-                    break;
-                case 3:
-                    formData.documents = obtenerDatosDocuments();
-                    break;
-            }
-        }
-        
-        function obtenerDatosPersonal() {
-            return {
-                nombre: document.getElementById('nombre').value,
-                apellidos: document.getElementById('apellidos').value,
-                telefono: document.getElementById('telefono').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value
-            };
-        }
-        
-        function obtenerDatosRole() {
-            return {
-                rol: document.getElementById('rol').value,
-                sede: document.getElementById('sede').value,
-                fechaInicio: document.getElementById('fecha-inicio').value,
-                cedula: document.getElementById('cedula').value
-            };
-        }
-        
-        function obtenerDatosDocuments() {
-            return {
-                ine: document.getElementById('ine-file').files[0]?.name || '',
-                carta: document.getElementById('carta-file').files[0]?.name || '',
-                terminos: document.getElementById('terminos').checked
-            };
-        }
-        
-        // Funciones de validación
-        function validarSeccionPersonal() {
-            const nombre = document.getElementById('nombre').value.trim();
-            const apellidos = document.getElementById('apellidos').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            
-            // Validaciones básicas
-            if (!nombre || !apellidos || !telefono || !email || !password || !confirmPassword) {
-                alert('Por favor, completa todos los campos obligatorios.');
-                return false;
-            }
-            
-            if (!validarEmail(email)) {
-                alert('Por favor, ingresa un correo electrónico válido.');
-                return false;
-            }
-            
-            if (password.length < 6) {
-                alert('La contraseña debe tener al menos 6 caracteres.');
-                return false;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('Las contraseñas no coinciden.');
-                return false;
-            }
-            
-            return true;
-        }
-        
-        function validarSeccionRole() {
-            const rol = document.getElementById('rol').value;
-            const sede = document.getElementById('sede').value;
-            const fechaInicio = document.getElementById('fecha-inicio').value;
-            
-            if (!rol || !sede || !fechaInicio) {
-                alert('Por favor, completa todos los campos obligatorios.');
-                return false;
-            }
-            
-            // Validar fecha de inicio
-            if (!validarFechaInicio()) {
-                return false;
-            }
-            
-            // Validar cédula profesional si es requerida
-            if ((rol === 'veterinario' || rol === 'administrativo') && !document.getElementById('cedula').value.trim()) {
-                alert('Por favor, ingresa tu cédula profesional.');
-                return false;
-            }
-            
-            return true;
-        }
-        
-        function validarSeccionDocuments() {
-            const ineFile = document.getElementById('ine-file').files[0];
-            const cartaFile = document.getElementById('carta-file').files[0];
-            const terminos = document.getElementById('terminos').checked;
-            
-            if (!ineFile) {
-                alert('Por favor, sube tu identificación oficial.');
-                return false;
-            }
-            
-            if (!cartaFile) {
-                alert('Por favor, sube tu carta compromiso firmada.');
-                return false;
-            }
-            
-            if (!terminos) {
-                alert('Debes aceptar los términos y condiciones para continuar.');
-                return false;
-            }
-            
-            return true;
-        }
-        
-        function validarEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-        
-        function validarCoincidenciaPassword() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const confirmInput = document.getElementById('confirm-password');
-            
-            if (password && confirmPassword && password !== confirmPassword) {
-                confirmInput.style.borderColor = '#dc3545';
-                confirmInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
-            } else {
-                confirmInput.style.borderColor = '';
-                confirmInput.style.boxShadow = '';
-            }
-        }
-        
-        function validarFechaInicio() {
-            const fechaInput = document.getElementById('fecha-inicio');
-            const fecha = new Date(fechaInput.value);
-            const hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-            
-            if (fecha < hoy) {
-                alert('La fecha de inicio no puede ser anterior a hoy.');
-                fechaInput.style.borderColor = '#dc3545';
-                fechaInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
-                return false;
-            } else {
-                fechaInput.style.borderColor = '';
-                fechaInput.style.boxShadow = '';
-                return true;
-            }
-        }
-        
-        function enviarRegistro() {
-            // Guardar todos los datos
-            guardarDatosSeccion();
-            
-            // Aquí normalmente enviarías los datos al servidor
-            // Por ahora, simulamos un envío exitoso
-            
-            // Mostrar modal de confirmación
-            mostrarModalConfirmacion();
-        }
-        
-        function mostrarModalConfirmacion() {
-            const modal = document.getElementById('confirmationModal');
-            const mensaje = document.getElementById('modal-message');
-            
-            // Personalizar mensaje según el rol
-            const rol = formData.role.rol;
-            let rolTexto = '';
-            
-            switch(rol) {
-                case 'veterinario':
-                    rolTexto = 'Veterinario';
-                    break;
-                case 'administrativo':
-                    rolTexto = 'Administrativo';
-                    break;
-                case 'mantenimiento-limpieza':
-                    rolTexto = 'Mantenimiento y Limpieza';
-                    break;
-                case 'atencion-personas':
-                    rolTexto = 'Atención a Personas';
-                    break;
-                default:
-                    rolTexto = 'Voluntario';
-            }
-            
-            mensaje.innerHTML = `
-                ¡Felicidades!<br><br>
-                Tu registro como <strong>${rolTexto}</strong> ha sido completado exitosamente. 
-                <br>
-                <small>Fecha de inicio: ${formatearFecha(formData.role.fechaInicio)}</small>
-            `;
-            
-            modal.style.display = 'flex';
-        }
-        
-        function cerrarModal() {
-            document.getElementById('confirmationModal').style.display = 'none';
-        }
-        
-        function redirigirSegunRol() {
-    const rol = formData.role.rol;
-    let url = '';
-    
-    // Verificar primero qué rol tiene
-    console.log("Rol seleccionado:", rol); // Para depuración
-    
-    switch(rol) {
-        case 'veterinario':
-            url = '../voluntarios/homePageSalud.html';
-            break;
-        case 'administrativo':
-            url = '../voluntarios/homePageRescateAdmin.html';
-            break;
-        case 'mantenimiento-limpieza':
-            url = '../voluntarios/homePageLimpiezaM.html';
-            break;
-        case 'atencion-personas':
-            url = '../voluntarios/homePageVAtenPer.html';
-            break;
-        default:
-            url = '../voluntarios/homePageGeneral.html';
+        document.getElementById('btn-go-homepage').onclick = () => redirigirSegunRol();
     }
-    
-    console.log("URL a redirigir:", url); // Para depuración
-    
-    // Redirigir a la página correspondiente
-    window.location.href = url;
+
+    function navegarA(sectionNumber) {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        
+        // Mostrar la sección correspondiente
+        const sectionId = sectionNumber === 2 ? 'section-role' : 'section-documents';
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) targetSection.classList.add('active');
+        
+        actualizarProgreso(sectionNumber);
+        currentSection = sectionNumber;
+    }
+
+    function actualizarProgreso(sectionNumber) {
+        const steps = document.querySelectorAll('.progress-step');
+        steps.forEach((step, idx) => {
+            step.classList.remove('active', 'completed');
+            // Como saltamos el paso 1, lo marcamos siempre como completado
+            if (idx === 0) {
+                step.classList.add('completed');
+                step.innerHTML = '<i class="fas fa-check"></i>';
+            } 
+            // Lógica para pasos 2 y 3
+            else if (idx + 1 < sectionNumber) {
+                step.classList.add('completed');
+            } else if (idx + 1 === sectionNumber) {
+                step.classList.add('active');
+            }
+        });
+    }
+
+    function getSectionName(num) {
+        return num === 2 ? 'role' : 'documents';
+    }
+
+    // --- 3. VALIDACIONES ---
+    function validarSeccionRole() {
+        // Verifica si el formulario de la sección 2 es válido
+        return document.getElementById('formRole').checkValidity();
+    }
+
+    function validarSeccionDocuments() {
+        // Verifica si el formulario de la sección 3 es válido y si aceptó términos
+        const tieneIne = document.getElementById('ine-file').files.length > 0;
+        const aceptoTerminos = document.getElementById('terminos').checked;
+        return tieneIne && aceptoTerminos;
+    }
+
+    // --- 4. ENVÍO Y UTILS (Se mantienen tus funciones) ---
+    // --- CARGA DINÁMICA DE CATÁLOGOS ---
+async function cargarCombos() {
+    try {
+        // Cargar Roles (Ajusta la URL según tu router de Django)
+        const resRoles = await fetch(`${API_BASE}/users/voluntariorol/`);
+        const roles = await resRoles.json();
+        const selectRol = document.getElementById('rol');
+        selectRol.innerHTML = '<option value="" selected disabled>Seleccionar rol...</option>';
+        roles.forEach(r => {
+            selectRol.innerHTML += `<option value="${r.id_voluntariorol}">${r.nombre_voluntariorol}</option>`;
+        });
+
+        // Cargar Sedes
+        const resSedes = await fetch(`${API_BASE}/users/sede/`);
+        const sedes = await resSedes.json();
+        const selectSede = document.getElementById('sede');
+        selectSede.innerHTML = '<option value="" selected disabled>Seleccionar sede...</option>';
+        sedes.forEach(s => {
+            selectSede.innerHTML += `<option value="${s.id_sede}">${s.nombre_sede}</option>`;
+        });
+    } catch (error) {
+        console.error("Error al cargar catálogos:", error);
+    }
 }
-        
-        function descargarFormatoCarta() {
-            alert('Descargando formato de carta compromiso...');
-            // En un caso real, aquí se descargaría un archivo PDF
-            // Por ahora, solo mostramos un mensaje
+
+// --- ENVÍO DE DATOS A LA TABLA VOLUNTARIO ---
+async function enviarRegistro() {
+    const idPersona = localStorage.getItem('id_persona');
+    
+    // 1. Creamos el contenedor FormData (necesario para archivos)
+    const formData = new FormData();
+    
+    // 2. Agregamos los datos de texto (asegúrate que los IDs del HTML sean correctos)
+    formData.append("id_persona", idPersona);
+    formData.append("id_voluntariorol", document.getElementById('rol').value);
+    formData.append("id_sede", document.getElementById('sede').value);
+    formData.append("fecha_inicio", document.getElementById('fecha-inicio').value);
+    formData.append("cedula_profesional", document.getElementById('cedula').value || "");
+    formData.append("estado_voluntario", "Activo");
+    formData.append("horas_semanales", 0);
+
+    // 3. Agregamos los ARCHIVOS reales de los inputs
+    const inputIne = document.getElementById('ine-file');
+    const inputCarta = document.getElementById('carta-file');
+
+    if (inputIne.files[0]) {
+        formData.append("ruta_ine_voluntario", inputIne.files[0]);
+    }
+    if (inputCarta.files[0]) {
+        formData.append("ruta_carta_compromiso_voluntario", inputCarta.files[0]);
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/users/voluntarios/`, {
+            method: 'POST',
+            // ¡IMPORTANTE!: No pongas headers de Content-Type. 
+            // El navegador lo pondrá automáticamente como multipart/form-data
+            body: formData 
+        });
+
+        if (response.ok) {
+            const resultado = await response.json();
+            
+            // 1. Guardar datos en la sesión (Igual que antes)
+            // Esto asegura que la siguiente página sepa quién eres
+            localStorage.setItem('nombre_usuario', resultado.nombre || localStorage.getItem('nombre_usuario'));
+            localStorage.setItem('rol_usuario', 'voluntario'); // O el rol que devuelva tu API
+            
+            // 2. Notificar al usuario (Opcional)
+            alert("¡Registro de voluntario completado con éxito!");
+
+            // 3. Redirigir a la página principal
+            window.location.href = "../voluntarios/homePageGeneral.html";
+        } else {
+            const error = await response.json();
+            console.error("Detalle del error:", error);
+            // Esto te dirá exactamente qué campo falta o está mal nombrado
+            alert("Error al guardar: " + JSON.stringify(error));
         }
-        
-        function formatearFecha(fechaISO) {
-            const fecha = new Date(fechaISO);
-            const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
-            return fecha.toLocaleDateString('es-ES', opciones);
-        }
-        
-        // Cerrar modal haciendo clic fuera
-        document.getElementById('confirmationModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                cerrarModal();
+    } catch (err) {
+        alert("Error de conexión con el servidor.");
+    }
+}
+
+// Llamar a cargarCombos cuando la página esté lista
+document.addEventListener('DOMContentLoaded', () => {
+    cargarCombos();
+    currentSection = 2;
+    actualizarProgreso(2); 
+    inicializarNavegacion();
+    inicializarFecha();
+    inicializarSubidaArchivos();
+});
+
+
+
+    function inicializarFecha() {
+        const hoy = new Date().toISOString().split('T')[0];
+        document.getElementById('fecha-inicio').min = hoy;
+        document.getElementById('fecha-inicio').value = hoy;
+    }
+
+    function inicializarSubidaArchivos() {
+        ['ine-file', 'carta-file'].forEach(id => {
+            const input = document.getElementById(id);
+            if(input) {
+                input.onchange = function() {
+                    const list = document.getElementById(id.replace('-file', '-list'));
+                    if(this.files[0]) {
+                        list.innerHTML = `<div class="file-item"><i class="fas fa-check"></i> ${this.files[0].name}</div>`;
+                    }
+                };
             }
         });
-        
-        // Cerrar modal con Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                cerrarModal();
-            }
-        });
-    </script>
+    }
+
+    function mostrarModalConfirmacion() {
+        document.getElementById('confirmationModal').style.display = 'flex';
+    }
+
+    function redirigirSegunRol() {
+        const rol = document.getElementById('rol').value;
+        const rutas = {
+            'veterinario': '../voluntarios/homePageSalud.html',
+            'administrativo': '../voluntarios/homePageRescateAdmin.html',
+            'mantenimiento-limpieza': '../voluntarios/homePageLimpiezaM.html',
+            'atencion-personas': '../voluntarios/homePageVAtenPer.html'
+        };
+        window.location.href = rutas[rol] || '../voluntarios/homePageGeneral.html';
+    }
+</script>
 </body>
 </html>

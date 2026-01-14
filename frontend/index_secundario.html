@@ -598,14 +598,18 @@
             const data = await response.json();
 
             if (response.ok) {
-                // GUARDAMOS EN MEMORIA TEMPORAL
-                localStorage.setItem('access_token', data.access);
                 localStorage.setItem('id_persona', data.id_persona);
                 localStorage.setItem('user_nombre', data.nombre);
                 
-                // SALTO DIRECTO A ROLES
-                mostrarPantallaRoles(data.nombre);
-            } else {
+                if (data.rol === "director") {
+                    window.location.href = "voluntarios/homePageDirector.html";
+                } else if (data.rol === "voluntario") {
+                    window.location.href = "voluntarios/homePageGeneral.html";
+                } else {
+                    window.location.href = "adoptante/homePageAdoptante.html"; // Si es "ninguno" o "adoptante" (por ahora)
+                }
+            }
+             else {
                 alert("Error: " + (data.error || "Credenciales incorrectas"));
             }
         } catch (error) {
@@ -628,7 +632,7 @@
             apellidos_persona: document.getElementById('register-apellidos').value,
             telefono_persona: document.getElementById('register-telefono').value,
             email_persona: document.getElementById('register-email').value,
-            password_usuario: password
+            pass_persona: password
         };
 
         try {

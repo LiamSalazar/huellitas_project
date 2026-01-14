@@ -155,7 +155,13 @@ class Colorprincipal(models.Model):
 class Fotografia(models.Model):
     id_fotografia = models.AutoField(primary_key=True)
     id_animal = models.ForeignKey('animals.Animal', models.DO_NOTHING, db_column='id_animal')
-    ruta_archivo_fotografia = models.CharField(max_length=300)
+    ruta_archivo_fotografia = models.ImageField( # Usamos ImageField para fotos
+        upload_to='animales/fotos/', 
+        max_length=300,
+        null=True, 
+        blank=True
+    )
+
 
     class Meta:
         managed = False
@@ -233,7 +239,12 @@ class Reporteanimal(models.Model):
     id_colorprincipal = models.ForeignKey('animals.Colorprincipal', models.DO_NOTHING, db_column='id_colorprincipal', blank=True, null=True)
     id_colorojos = models.ForeignKey('animals.Colorojos', models.DO_NOTHING, db_column='id_colorojos', blank=True, null=True)
     telefono_reportante = models.CharField(max_length=20, blank=True, null=True)
-    ruta_foto_reporteanimal = models.CharField(max_length=300, blank=True, null=True)
+    ruta_foto_reporteanimal = models.ImageField(
+        upload_to='reportes/animales/', 
+        max_length=300, 
+        blank=True, 
+        null=True
+    )
     fecha_reporteanimal = models.DateTimeField()
     id_voluntarioasignado = models.ForeignKey('users.Voluntario', models.DO_NOTHING, db_column='id_voluntarioasignado', blank=True, null=True)
     id_sededestino = models.ForeignKey('animals.Sede', models.DO_NOTHING, db_column='id_sededestino', blank=True, null=True)

@@ -16,10 +16,25 @@ class Adoptante(models.Model):
     id_personasexo = models.ForeignKey('users.Personasexo', models.DO_NOTHING, db_column='id_personasexo')
     hijos_pequenos_adoptante = models.BooleanField()
     id_adoptanteniveleconomico = models.ForeignKey('adoptions.Adoptanteniveleconomico', models.DO_NOTHING, db_column='id_adoptanteniveleconomico')
-    ruta_identificacion_adoptante = models.CharField(max_length=300, blank=True, null=True)
-    ruta_comprobante_domicilio_adoptante = models.CharField(max_length=300, blank=True, null=True)
-    ruta_responsiva_adoptante = models.CharField(max_length=300, blank=True, null=True)
-
+    ruta_identificacion_adoptante = models.FileField(
+        upload_to='adopciones/identificaciones/', 
+        max_length=300, 
+        blank=True, 
+        null=True
+    )
+    ruta_comprobante_domicilio_adoptante = models.FileField(
+        upload_to='adopciones/comprobantes/', 
+        max_length=300, 
+        blank=True, 
+        null=True
+    )
+    ruta_responsiva_adoptante = models.FileField(
+        upload_to='adopciones/responsivas/', 
+        max_length=300, 
+        blank=True, 
+        null=True
+    )
+    
     class Meta:
         managed = False
         db_table = 'Adoptante'

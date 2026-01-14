@@ -67,8 +67,21 @@ class Voluntario(models.Model):
     id_persona = models.OneToOneField('users.Persona', models.DO_NOTHING, db_column='id_persona')
     id_voluntariorol = models.ForeignKey('users.Voluntariorol', models.DO_NOTHING, db_column='id_voluntariorol')
     cedula_profesional_voluntario = models.CharField(max_length=30, blank=True, null=True)
-    ruta_ine_voluntario = models.CharField(max_length=300)
-    ruta_carta_compromiso_voluntario = models.CharField(max_length=300)
+    # upload_to crea las subcarpetas dentro de 'media' automáticamente
+    ruta_ine_voluntario = models.FileField(
+        upload_to='voluntarios/ine/', 
+        max_length=300,
+        null=True, # Permite que esté vacío en la BD
+        blank=True # Permite que el formulario lo envíe vacío
+    )
+    
+    ruta_carta_compromiso_voluntario = models.FileField(
+        upload_to='voluntarios/cartas/', 
+        max_length=300,
+        null=True, 
+        blank=True
+    )
+
 
     class Meta:
         managed = False

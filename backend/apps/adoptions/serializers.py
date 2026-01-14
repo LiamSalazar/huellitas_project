@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Procesoadopcion, Procesoadopcionestado, ValidarAdoptante
+from .models import Procesoadopcion, Procesoadopcionestado, ValidarAdoptante, Adoptante
 from apps.animals.models import Animal
 
 class ProcesoAdopcionSerializer(serializers.ModelSerializer):
@@ -32,4 +32,9 @@ class ProcesoAdopcionSerializer(serializers.ModelSerializer):
 class ValidarAdoptanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ValidarAdoptante
+        fields = '__all__'
+
+class AdoptanteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adoptante
         fields = '__all__'

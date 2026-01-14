@@ -410,25 +410,6 @@
                     </div>
                     
                     <div class="form-grid">
-                        <div class="input-group">
-                            <label class="required">Nombre(s)</label>
-                            <input type="text" name="nombre_Persona" required>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="required">Apellidos</label>
-                            <input type="text" name="apellidos_Persona" required>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="required">Teléfono</label>
-                            <input type="tel" name="telefono_Persona" required>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="required">Correo Electrónico</label>
-                            <input type="email" name="email_Persona" required>
-                        </div>
                         
                         <div class="input-group">
                             <label class="required">Edad</label>
@@ -533,20 +514,12 @@
                                     <label for="tiene_gatos">Sí, tengo gato(s)</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="otras_mascotas" name="otras_mascotas">
-                                    <label for="otras_mascotas">Otras mascotas</label>
-                                </div>
-                                <div class="checkbox-item">
                                     <input type="checkbox" id="no_mascotas" name="no_mascotas">
                                     <label for="no_mascotas">No tengo mascotas actualmente</label>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="input-group full-width">
-                            <label>Experiencia previa con mascotas</label>
-                            <textarea name="experiencia_mascotas" rows="4" placeholder="Describe tu experiencia previa con mascotas, si la tienes..."></textarea>
-                        </div>
                     </div>
                 </div>
                 
@@ -596,7 +569,7 @@
                         
                         <!-- Carta Responsiva -->
                         <div class="input-group full-width">
-                            <label class="required">Carta Responsiva (descargar formato, firmar y subir)</label>
+                            <label class="required">Carta Responsiva (firmar y subir)</label>
                             <div class="file-upload-container" id="carta-container">
                                 <div class="file-upload-icon">
                                     <i class="fas fa-file-signature"></i>
@@ -604,9 +577,7 @@
                                 <div class="file-upload-text">
                                     <h3>Carta Responsiva</h3>
                                     <p>Formato: PDF. Tamaño máximo: 5MB</p>
-                                    <a href="#" class="file-upload-btn" style="text-decoration: none; margin-right: 10px;">
-                                        <i class="fas fa-download"></i> Descargar Formato
-                                    </a>
+
                                     <p></p>
                                 </div>
                                 <input type="file" class="file-input" id="carta" accept=".pdf" required>
@@ -629,166 +600,135 @@
             </form>
         </div>
     </div>
+<script>
+    const API_BASE = "http://127.0.0.1:8000/api";
 
-    <script>
-        // Manejo de subida de archivos
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configurar los eventos para los inputs de archivo
-            const fileInputs = document.querySelectorAll('.file-input');
-            
-            fileInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (!file) return;
-                    
-                    // Validar tamaño (5MB máximo)
-                    if (file.size > 5 * 1024 * 1024) {
-                        alert('El archivo es demasiado grande. El tamaño máximo es 5MB.');
-                        this.value = '';
-                        return;
-                    }
-                    
-                    // Mostrar el archivo en la lista
-                    displayFile(file, this.id);
-                });
-            });
-            
-            // Inicializar indicador de progreso
-            updateProgress();
-            
-            // Observar cambios en los formularios para actualizar progreso
-            const formInputs = document.querySelectorAll('#adoptante-form input, #adoptante-form select');
-            formInputs.forEach(input => {
-                input.addEventListener('change', updateProgress);
-                input.addEventListener('input', updateProgress);
+    document.addEventListener('DOMContentLoaded', function() {
+        const idPersona = localStorage.getItem('id_persona');
+        if (!idPersona) {
+            alert("No se detectó un registro previo. Por favor, completa primero tus datos básicos.");
+            return;
+        }
+
+        // Configuración de archivos
+        const fileInputs = document.querySelectorAll('.file-input');
+        fileInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file && file.size > 5 * 1024 * 1024) {
+                    alert('El archivo es demasiado grande (Máx 5MB).');
+                    this.value = '';
+                    return;
+                }
+                if (file) displayFile(file, this.id);
+                updateProgress();
             });
         });
-        
-        // Función para mostrar archivo en la lista
-        function displayFile(file, inputId) {
-            const fileListId = inputId + '-list';
-            const fileList = document.getElementById(fileListId);
-            
-            // Crear elemento para el archivo
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            
-            // Obtener icono según tipo de archivo
-            let fileIcon = 'fa-file';
-            if (file.type.includes('image/')) {
-                fileIcon = 'fa-file-image';
-            } else if (file.type.includes('pdf')) {
-                fileIcon = 'fa-file-pdf';
-            }
-            
-            // Formatear tamaño
-            const fileSize = formatFileSize(file.size);
-            
-            fileItem.innerHTML = `
-                <div class="file-info">
-                    <i class="fas ${fileIcon} file-icon"></i>
-                    <div>
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-size">${fileSize}</div>
-                    </div>
+
+        const formInputs = document.querySelectorAll('#adoptante-form input, #adoptante-form select');
+        formInputs.forEach(input => {
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('input', updateProgress);
+        });
+
+        updateProgress();
+    });
+
+    function displayFile(file, inputId) {
+        const fileList = document.getElementById(inputId + '-list');
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        let fileIcon = file.type.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image';
+        fileItem.innerHTML = `
+            <div class="file-info">
+                <i class="fas ${fileIcon} file-icon"></i>
+                <div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${(file.size / 1024 / 1024).toFixed(1)} MB</div>
                 </div>
-                <button type="button" class="remove-file" onclick="removeFile('${inputId}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
+            </div>
+            <button type="button" class="remove-file" onclick="removeFile('${inputId}')"><i class="fas fa-times"></i></button>`;
+        fileList.innerHTML = '';
+        fileList.appendChild(fileItem);
+    }
+
+    function removeFile(inputId) {
+        document.getElementById(inputId).value = '';
+        document.getElementById(inputId + '-list').innerHTML = '';
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const steps = document.querySelectorAll('.progress-step');
+        const sections = ['datos', 'socioeconomico', 'familiar', 'documentos'];
+        sections.forEach((section, index) => {
+            const step = steps[index];
+            const secDiv = document.getElementById('section-' + section);
+            if(!secDiv) return;
+            const inputs = secDiv.querySelectorAll('input[required], select[required]');
+            let completed = Array.from(inputs).every(i => i.type === 'file' ? i.files.length > 0 : i.value.trim() !== '');
             
-            // Limpiar lista y agregar nuevo archivo
-            fileList.innerHTML = '';
-            fileList.appendChild(fileItem);
-        }
-        
-        // Función para eliminar archivo
-        function removeFile(inputId) {
-            const input = document.getElementById(inputId);
-            const fileList = document.getElementById(inputId + '-list');
-            
-            // Limpiar input y lista
-            input.value = '';
-            fileList.innerHTML = '';
-        }
-        
-        // Función para formatear tamaño de archivo
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' bytes';
-            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-            else return (bytes / 1048576).toFixed(1) + ' MB';
-        }
-        
-        // Función para actualizar indicador de progreso
-        function updateProgress() {
-            const steps = document.querySelectorAll('.progress-step');
-            const sections = ['datos', 'socioeconomico', 'familiar', 'documentos'];
-            
-            // Verificar qué secciones están completas
-            sections.forEach((section, index) => {
-                const step = steps[index];
-                const sectionElement = document.getElementById('section-' + section);
-                const inputs = sectionElement.querySelectorAll('input[required], select[required]');
-                
-                let completed = true;
-                
-                // Verificar si todos los campos requeridos están llenos
-                inputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        completed = false;
-                    }
-                    
-                    // Para archivos, verificar que se haya seleccionado uno
-                    if (input.type === 'file' && input.files.length === 0) {
-                        completed = false;
-                    }
-                });
-                
-                // Actualizar estado del paso
-                if (completed) {
-                    step.classList.add('completed');
-                    step.classList.remove('active');
-                } else if (index === 0 || steps[index-1].classList.contains('completed')) {
-                    step.classList.add('active');
-                    step.classList.remove('completed');
-                } else {
-                    step.classList.remove('active', 'completed');
-                }
-            });
-        }
-        
-        // Validación del formulario al enviar
-        document.getElementById('adoptante-form').addEventListener('submit', function(event) {
-            // Validar que todos los campos requeridos estén completos
-            const requiredInputs = this.querySelectorAll('[required]');
-            let valid = true;
-            
-            requiredInputs.forEach(input => {
-                if (!input.value.trim()) {
-                    valid = false;
-                    input.style.borderColor = '#ff4444';
-                } else {
-                    input.style.borderColor = '';
-                }
-                
-                // Validar archivos
-                if (input.type === 'file' && input.files.length === 0) {
-                    valid = false;
-                    input.parentElement.style.borderColor = '#ff4444';
-                } else if (input.type === 'file') {
-                    input.parentElement.style.borderColor = '';
-                }
-            });
-            
-            if (!valid) {
-                event.preventDefault();
-                alert('Por favor, completa todos los campos requeridos antes de enviar el formulario.');
-            } else {
-                // Simular envío exitoso (en un caso real, aquí se enviaría al servidor)
-                alert('¡Registro exitoso! Tu solicitud ha sido enviada y será revisada por nuestro equipo.');
-                // En un caso real, aquí redirigirías o enviarías los datos al servidor
-            }
+            if (completed) { step.classList.add('completed'); step.classList.remove('active'); }
+            else if (index === 0 || steps[index-1].classList.contains('completed')) { step.classList.add('active'); step.classList.remove('completed'); }
+            else { step.classList.remove('active', 'completed'); }
         });
-    </script>
+    }
+
+    // --- ENVÍO DE DATOS CORREGIDO ---
+    document.getElementById('adoptante-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const idPersona = localStorage.getItem('id_persona');
+        const formData = new FormData();
+
+        // MAPEOS SEGÚN TU SQL (Insert_Data_Huellitas.sql)
+        const sexoMap = { "masculino": 1, "femenino": 2, "otro": 3, "prefiero-no-decir": 3 };
+        const viviendaMap = { "casa": 1, "departamento": 2, "renta": 2, "familiar": 1, "compartida": 2, "otro": 1 };
+        const nivelMap = { "bajo": 1, "medio-bajo": 1, "medio": 2, "medio-alto": 3, "alto": 3 };
+
+        // Datos obligatorios según tu modelo Django
+        formData.append('id_persona', idPersona);
+        formData.append('edad_adoptante', document.getElementsByName('edad')[0].value);
+        formData.append('ocupacion_adoptante', document.getElementsByName('ocupacion')[0].value);
+        formData.append('metros_vivienda_adoptante', document.getElementsByName('metros_vivienda')[0].value);
+
+        // Foreign Keys con mapeo seguro
+        formData.append('id_personasexo', sexoMap[document.getElementsByName('sexo')[0].value] || 3);
+        formData.append('id_viviendatipo', viviendaMap[document.getElementsByName('tipo_vivienda')[0].value] || 1);
+        formData.append('id_adoptanteniveleconomico', nivelMap[document.getElementsByName('nivel_economico')[0].value] || 1);
+
+        // Booleanos
+        formData.append('patio_adoptante', document.getElementById('patio').checked);
+        formData.append('hijos_pequenos_adoptante', document.getElementById('hijos').checked);
+        formData.append('tiene_perros_adoptante', document.getElementById('tiene_perros').checked);
+        formData.append('tiene_gatos_adoptante', document.getElementById('tiene_gatos').checked);
+
+        // Archivos
+        formData.append('ruta_identificacion_adoptante', document.getElementById('identificacion').files[0]);
+        formData.append('ruta_comprobante_domicilio_adoptante', document.getElementById('domicilio').files[0]);
+        formData.append('ruta_responsiva_adoptante', document.getElementById('carta').files[0]);
+
+        try {
+            const response = await fetch(`${API_BASE}/adoptions/adoptantes/`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('id_persona');
+                alert('¡Registro exitoso! Bienvenido a la comunidad.');
+                // Redirección forzada
+                window.location.assign("homePageAdoptante.html");
+            } else {
+                const result = await response.json();
+                let errorMsg = "Error en el registro:\n";
+                for (const key in result) { errorMsg += `- ${key}: ${result[key]}\n`; }
+                alert(errorMsg);
+            }
+        } catch (error) {
+            alert('No se pudo conectar con el servidor.');
+        }
+    });
+</script>
 </body>
 </html>

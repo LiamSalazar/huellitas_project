@@ -133,9 +133,8 @@ INSERT INTO "VoluntarioRol" (id_voluntariorol, nombre_voluntariorol) VALUES
   (3, 'Administrativo'),
   (4, 'Mantenimiento'),
   (5, 'Limpieza'),
-  (6, 'Direccion'),
-  (7, 'Atencion_personas'),
-  (8, 'Rescate')
+  (6, 'Atencion_personas'),
+  (7, 'Rescate')
 ON CONFLICT (id_voluntarioRol) DO NOTHING;
 
 INSERT INTO "ProcesoAdopcionEstado" (id_procesoadopcionestado, nombre_procesoadopcionestado) VALUES
