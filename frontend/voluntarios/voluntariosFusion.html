@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas - Panel Voluntarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2A9D8F;
+            --secondary: #264653;
+            --accent: #E9C46A;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter Tight", sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 78px;
+            z-index: 999;
+        }
+
+        .tabs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: #f9f9f9;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Contenido principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Selector de rol */
+        .rol-selector {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .rol-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rol-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rol-btn:hover {
+            border-color: var(--primary);
+            background: #f8f9fa;
+        }
+
+        .rol-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Botones */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #23857a;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Paneles */
+        .panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tablas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pendiente {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-en-proceso {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-completado {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-urgente {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .status-disponible {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-en-tratamiento {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-adoptado {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        /* Tarjetas de animales */
+        .animal-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 300px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                padding: 0 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+
+        /* Animaciones */
+        .dashboard-content {
+            display: none;
+        }
+        
+        .dashboard-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="../index.html" class="logo">
+                <h1>Huellitas</h1>
+            </a>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="user-initials">V</div>
+                <div>
+                    <div class="user-name" id="user-name">Voluntario</div>
+                    <div class="user-role" id="user-role">Selecciona tu rol</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Tabs de navegación -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" data-tab="animales">
+                <i class="fas fa-paw"></i> Animales
+            </div>
+            <div class="tab" data-tab="veterinario">
+                <i class="fas fa-stethoscope"></i> Veterinario
+            </div>
+            <div class="tab" data-tab="adopciones">
+                <i class="fas fa-handshake"></i> Adopciones
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="main-container">
+        <!-- Selector de rol -->
+        <div class="rol-selector">
+            <h3 style="margin-bottom: 15px;">Selecciona tu rol como voluntario:</h3>
+            <div class="rol-buttons">
+                <button class="rol-btn active" data-rol="veterinario">
+                    <i class="fas fa-stethoscope"></i> Veterinario
+                </button>
+                <button class="rol-btn" data-rol="rescate">
+                    <i class="fas fa-ambulance"></i> Rescate
+                </button>
+                <button class="rol-btn" data-rol="atencion">
+                    <i class="fas fa-comments"></i> Atención a Personas
+                </button>
+                <button class="rol-btn" data-rol="administrativo">
+                    <i class="fas fa-file-alt"></i> Administrativo
+                </button>
+            </div>
+        </div>
+
+        <!-- Animales -->
+        <div id="animales" class="dashboard-content active">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Animales Rescatados</h1>
+                <button class="btn btn-primary" id="btn-nuevo-animal">
+                    <i class="fas fa-plus"></i> Nuevo Animal
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-paw"></i> Lista de Animales</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-animales" placeholder="Buscar animal..." style="padding-left: 40px;">
+                        <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;" id="animales-container">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Veterinario -->
+        <div id="veterinario" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Panel Veterinario</h1>
+                <button class="btn btn-primary" id="btn-nueva-vacuna">
+                    <i class="fas fa-syringe"></i> Nueva Vacuna
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-syringe"></i> Vacunas Pendientes</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-vacunas" placeholder="Buscar vacuna...">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Animal</th>
+                            <th>Vacuna</th>
+                            <th>Fecha Aplicación</th>
+                            <th>Próximo Refuerzo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vacunas-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-file-medical"></i> Historial Médico</h2>
+                <div id="historial-veterinario">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Adopciones -->
+        <div id="adopciones" class="dashboard-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Procesos de Adopción</h1>
+                <button class="btn btn-primary" id="btn-nueva-adopcion">
+                    <i class="fas fa-plus"></i> Nueva Adopción
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="panel-title" style="margin: 0;"><i class="fas fa-handshake"></i> Adopciones en Proceso</h2>
+                    <div style="position: relative; width: 300px;">
+                        <input type="text" class="form-input" id="search-adopciones" placeholder="Buscar adopción...">
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID Proceso</th>
+                            <th>Animal</th>
+                            <th>Adoptante</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adopciones-table">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para nuevo animal -->
+    <div class="modal" id="modalAnimal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Nuevo Animal</h2>
+                <button class="close-btn" onclick="cerrarModal('modalAnimal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-animal">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Animal</label>
+                        <input type="text" class="form-input" id="animal-nombre" placeholder="Ej: Luna" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Especie</label>
+                        <select class="form-select" id="animal-especie" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="perro">Perro</option>
+                            <option value="gato">Gato</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Raza</label>
+                        <input type="text" class="form-input" id="animal-raza" placeholder="Ej: Labrador" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Edad</label>
+                        <input type="text" class="form-input" id="animal-edad" placeholder="Ej: 2 años" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Sexo</label>
+                        <select class="form-select" id="animal-sexo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="macho">Macho</option>
+                            <option value="hembra">Hembra</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" id="animal-estado" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="en-tratamiento">En Tratamiento</option>
+                            <option value="adoptado">Adoptado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-textarea" id="animal-descripcion" rows="3" placeholder="Descripción del animal..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalAnimal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarAnimal()">Guardar Animal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva vacuna -->
+    <div class="modal" id="modalVacuna">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Vacuna</h2>
+                <button class="close-btn" onclick="cerrarModal('modalVacuna')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-vacuna">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Animal</label>
+                        <select class="form-select" id="vacuna-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Vacuna</label>
+                        <select class="form-select" id="vacuna-tipo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="antirrabica">Antirrábica</option>
+                            <option value="polivalente">Polivalente</option>
+                            <option value="leptospirosis">Leptospirosis</option>
+                            <option value="parvovirus">Parvovirus</option>
+                            <option value="moquillo">Moquillo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fecha de Aplicación</label>
+                        <input type="date" class="form-input" id="vacuna-fecha" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalVacuna')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarVacuna()">Guardar Vacuna</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nueva adopción -->
+    <div class="modal" id="modalAdopcion">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Nueva Adopción</h2>
+                <button class="close-btn" onclick="cerrarModal('modalAdopcion')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-adopcion">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Animal</label>
+                        <select class="form-select" id="adopcion-animal" required>
+                            <option value="">Seleccionar animal...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Adoptante</label>
+                        <input type="text" class="form-input" id="adopcion-adoptante" placeholder="Ej: María González" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" id="adopcion-telefono" placeholder="Ej: 555-123-4567" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Estado del Proceso</label>
+                        <select class="form-select" id="adopcion-estado" required>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en-proceso">En Proceso</option>
+                            <option value="aprobada">Aprobada</option>
+                            <option value="rechazada">Rechazada</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="cerrarModal('modalAdopcion')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarAdopcion()">Guardar Adopción</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de voluntarios
+        const voluntarios = {
+            'veterinario': {
+                name: 'Dr. Roberto Sánchez',
+                role: 'Veterinario',
+                initials: 'DR',
+                icon: 'fa-stethoscope',
+                permisos: ['animales', 'veterinario', 'adopciones'],
+                tareas: [
+                    ['Control de vacunas', 'Revisar calendario de vacunación'],
+                    ['Historial médico', 'Actualizar expedientes'],
+                    ['Cirugías programadas', 'Preparar quirófano']
+                ]
+            },
+            'rescate': {
+                name: 'Roberto Alvarado',
+                role: 'Coordinador de Rescates',
+                initials: 'RA',
+                icon: 'fa-ambulance',
+                permisos: ['animales', 'adopciones'],
+                tareas: [
+                    ['Rutas de rescate', 'Planificar zonas a cubrir'],
+                    ['Equipos de emergencia', 'Verificar equipo'],
+                    ['Coordinación voluntarios', 'Asignar turnos']
+                ]
+            },
+            'atencion': {
+                name: 'Ana García',
+                role: 'Atención a Personas',
+                initials: 'AG',
+                icon: 'fa-comments',
+                permisos: ['adopciones'],
+                tareas: [
+                    ['Entrevistas adopción', 'Programar citas'],
+                    ['Seguimiento post-adopción', 'Llamadas de seguimiento'],
+                    ['Orientación al público', 'Atender visitantes']
+                ]
+            },
+            'administrativo': {
+                name: 'María López',
+                role: 'Administrativo',
+                initials: 'ML',
+                icon: 'fa-file-alt',
+                permisos: ['animales', 'adopciones'],
+                tareas: [
+                    ['Registros diarios', 'Actualizar base de datos'],
+                    ['Reportes mensuales', 'Generar estadísticas'],
+                    ['Coordinación citas', 'Organizar agenda']
+                ]
+            }
+        };
+
+        // Base de datos en localStorage
+        const DB = {
+            animales: JSON.parse(localStorage.getItem('animales')) || [
+                { id: 'HUE-001', nombre: 'Luna', especie: 'perro', raza: 'Labrador', edad: '2 años', sexo: 'hembra', estado: 'disponible', descripcion: 'Juguetona y cariñosa' },
+                { id: 'HUE-002', nombre: 'Michi', especie: 'gato', raza: 'Siamés', edad: '1 año', sexo: 'macho', estado: 'en-tratamiento', descripcion: 'Tímido pero cariñoso' },
+                { id: 'HUE-003', nombre: 'Max', especie: 'perro', raza: 'Pastor Alemán', edad: '3 años', sexo: 'macho', estado: 'disponible', descripcion: 'Leal y protector' }
+            ],
+            vacunas: JSON.parse(localStorage.getItem('vacunas')) || [
+                { id: 'VAC-001', animalId: 'HUE-001', animal: 'Luna', tipo: 'Antirrábica', fecha: '2024-02-15', refuerzo: '2024-03-15', estado: 'pendiente' },
+                { id: 'VAC-002', animalId: 'HUE-002', animal: 'Michi', tipo: 'Polivalente', fecha: '2024-02-20', refuerzo: '2024-03-20', estado: 'pendiente' },
+                { id: 'VAC-003', animalId: 'HUE-003', animal: 'Max', tipo: 'Leptospirosis', fecha: '2024-01-10', refuerzo: '2024-04-10', estado: 'completada' }
+            ],
+            adopciones: JSON.parse(localStorage.getItem('adopciones')) || [
+                { id: 'ADP-001', animalId: 'HUE-001', animal: 'Luna', adoptante: 'María González', telefono: '555-123-4567', estado: 'en-proceso', fecha: '2024-03-20' },
+                { id: 'ADP-002', animalId: 'HUE-003', animal: 'Max', adoptante: 'Carlos Rodríguez', telefono: '555-987-6543', estado: 'pendiente', fecha: '2024-03-18' }
+            ]
+        };
+
+        // Variables globales
+        let rolActual = 'veterinario';
+
+        // Guardar en localStorage
+        function guardarDB() {
+            localStorage.setItem('animales', JSON.stringify(DB.animales));
+            localStorage.setItem('vacunas', JSON.stringify(DB.vacunas));
+            localStorage.setItem('adopciones', JSON.stringify(DB.adopciones));
+        }
+
+        // Funciones principales
+        function cambiarTab(tabId) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.dashboard-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover active de todas las tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activar la tab correspondiente
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            
+            // Cargar datos según la pestaña
+            if (tabId === 'animales') cargarAnimales();
+            else if (tabId === 'veterinario') cargarVeterinario();
+            else if (tabId === 'adopciones') cargarAdopciones();
+        }
+
+        function seleccionarRol(rol) {
+            rolActual = rol;
+            const voluntario = voluntarios[rol];
+            
+            // Actualizar UI
+            document.querySelectorAll('.rol-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.rol-btn[data-rol="${rol}"]`).classList.add('active');
+            
+            // Actualizar información de usuario
+            document.getElementById('user-name').textContent = voluntario.name;
+            document.getElementById('user-role').textContent = voluntario.role;
+            document.getElementById('user-initials').textContent = voluntario.initials;
+            
+            // Actualizar permisos de botones
+            actualizarPermisos(voluntario.permisos);
+            
+            // Mostrar mensaje de bienvenida
+            mostrarToast(`¡Hola ${voluntario.name.split(' ')[0]}!`, `Ahora eres ${voluntario.role}`, 'success');
+        }
+
+        function actualizarPermisos(permisos) {
+            // Ocultar todas las tabs primero
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Mostrar solo las tabs permitidas
+            permisos.forEach(permiso => {
+                document.querySelector(`.tab[data-tab="${permiso}"]`).style.display = 'flex';
+            });
+            
+            // Si la tab activa no está permitida, cambiar a la primera permitida
+            const tabActiva = document.querySelector('.tab.active');
+            if (!tabActiva || tabActiva.style.display === 'none') {
+                const primeraPermitida = document.querySelector(`.tab[data-tab="${permisos[0]}"]`);
+                if (primeraPermitida) {
+                    cambiarTab(permisos[0]);
+                }
+            }
+            
+            // Controlar visibilidad de botones según rol
+            const btnNuevoAnimal = document.getElementById('btn-nuevo-animal');
+            const btnNuevaVacuna = document.getElementById('btn-nueva-vacuna');
+            const btnNuevaAdopcion = document.getElementById('btn-nueva-adopcion');
+            
+            // Solo veterinario puede agregar vacunas
+            if (btnNuevaVacuna) {
+                btnNuevaVacuna.style.display = rolActual === 'veterinario' ? 'flex' : 'none';
+            }
+            
+            // Solo atención y administrativo pueden ver adopciones completas
+            if (rolActual === 'rescate') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'flex';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'none';
+            } else if (rolActual === 'atencion') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'none';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'flex';
+            } else if (rolActual === 'administrativo') {
+                if (btnNuevoAnimal) btnNuevoAnimal.style.display = 'flex';
+                if (btnNuevaAdopcion) btnNuevaAdopcion.style.display = 'flex';
+            }
+        }
+
+        function abrirModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            
+            // Si es modal de vacuna o adopción, cargar animales
+            if (modalId === 'modalVacuna' || modalId === 'modalAdopcion') {
+                cargarAnimalesEnSelect(modalId === 'modalVacuna' ? 'vacuna-animal' : 'adopcion-animal');
+            }
+            
+            // Si es modal de adopción, poner fecha actual
+            if (modalId === 'modalAdopcion') {
+                document.getElementById('adopcion-estado').value = 'pendiente';
+            }
+            
+            // Si es modal de vacuna, poner fecha actual
+            if (modalId === 'modalVacuna') {
+                const hoy = new Date().toISOString().split('T')[0];
+                document.getElementById('vacuna-fecha').value = hoy;
+            }
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            // Limpiar formulario
+            document.querySelector(`#${modalId} form`).reset();
+        }
+
+        // Funciones para animales
+        function cargarAnimales() {
+            const container = document.getElementById('animales-container');
+            const animales = DB.animales;
+            
+            if (animales.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888; grid-column: 1 / -1;">No hay animales registrados</div>';
+                return;
+            }
+            
+            container.innerHTML = animales.map(animal => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible': estadoClass = 'status-disponible'; estadoText = 'Disponible'; break;
+                    case 'en-tratamiento': estadoClass = 'status-en-tratamiento'; estadoText = 'En Tratamiento'; break;
+                    case 'adoptado': estadoClass = 'status-adoptado'; estadoText = 'Adoptado'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <div class="animal-card">
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : animal.especie === 'gato' ? 'cat' : 'paw'}"></i>
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">${animal.nombre}</h3>
+                                    <div style="font-size: 14px; color: #666;">ID: ${animal.id}</div>
+                                </div>
+                            </div>
+                            <div style="margin: 10px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Especie:</span>
+                                    <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Raza:</span>
+                                    <span>${animal.raza}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Edad:</span>
+                                    <span>${animal.edad}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Sexo:</span>
+                                    <span>${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</span>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <div style="color: #888; font-size: 12px; margin-bottom: 5px;">Descripción:</div>
+                                <div style="font-size: 14px;">${animal.descripcion}</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <span class="status-badge ${estadoClass}">${estadoText}</span>
+                                ${rolActual === 'veterinario' || rolActual === 'administrativo' ? 
+                                    `<button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAnimal('${animal.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>` : 
+                                    `<button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="verDetallesAnimal('${animal.id}')">
+                                        <i class="fas fa-info"></i>
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function cargarAnimalesEnSelect(selectId) {
+            const select = document.getElementById(selectId);
+            let animales = DB.animales;
+            
+            // Para adopciones, solo mostrar animales disponibles
+            if (selectId === 'adopcion-animal') {
+                animales = animales.filter(a => a.estado === 'disponible');
+            }
+            
+            // Limpiar opciones excepto la primera
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // Agregar animales
+            animales.forEach(animal => {
+                const option = document.createElement('option');
+                option.value = animal.id;
+                option.textContent = `${animal.nombre} (${animal.especie} - ${animal.estado})`;
+                select.appendChild(option);
+            });
+        }
+
+        function guardarAnimal() {
+            // Verificar permisos
+            if (rolActual !== 'veterinario' && rolActual !== 'administrativo' && rolActual !== 'rescate') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para agregar animales', 'warning');
+                return;
+            }
+            
+            const nombre = document.getElementById('animal-nombre').value;
+            const especie = document.getElementById('animal-especie').value;
+            const raza = document.getElementById('animal-raza').value;
+            const edad = document.getElementById('animal-edad').value;
+            const sexo = document.getElementById('animal-sexo').value;
+            const estado = document.getElementById('animal-estado').value;
+            const descripcion = document.getElementById('animal-descripcion').value;
+            
+            if (!nombre || !especie || !raza || !edad || !sexo || !estado) {
+                mostrarToast('Error', 'Por favor completa todos los campos obligatorios', 'warning');
+                return;
+            }
+            
+            // Generar ID único
+            const nuevoId = `HUE-${String(DB.animales.length + 1).padStart(3, '0')}`;
+            
+            // Agregar a la base de datos
+            DB.animales.push({
+                id: nuevoId,
+                nombre: nombre,
+                especie: especie,
+                raza: raza,
+                edad: edad,
+                sexo: sexo,
+                estado: estado,
+                descripcion: descripcion || 'Sin descripción'
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalAnimal');
+            
+            // Actualizar tabla
+            cargarAnimales();
+            
+            // Mostrar confirmación
+            mostrarToast('Animal registrado', `Se ha registrado a ${nombre} correctamente`, 'success');
+        }
+
+        function verDetallesAnimal(animalId) {
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (animal) {
+                alert(`Detalles de ${animal.nombre}:\n\n` +
+                      `ID: ${animal.id}\n` +
+                      `Especie: ${animal.especie}\n` +
+                      `Raza: ${animal.raza}\n` +
+                      `Edad: ${animal.edad}\n` +
+                      `Sexo: ${animal.sexo}\n` +
+                      `Estado: ${animal.estado}\n` +
+                      `Descripción: ${animal.descripcion}`);
+            }
+        }
+
+        function eliminarAnimal(animalId) {
+            if (confirm('¿Estás seguro de eliminar este animal?')) {
+                // Verificar si tiene vacunas pendientes
+                const tieneVacunasPendientes = DB.vacunas.some(v => v.animalId === animalId && v.estado === 'pendiente');
+                
+                if (tieneVacunasPendientes) {
+                    mostrarToast('Error', 'No se puede eliminar un animal con vacunas pendientes', 'warning');
+                    return;
+                }
+                
+                // Verificar si está en proceso de adopción
+                const tieneAdopcion = DB.adopciones.some(a => a.animalId === animalId && (a.estado === 'pendiente' || a.estado === 'en-proceso'));
+                
+                if (tieneAdopcion) {
+                    mostrarToast('Error', 'No se puede eliminar un animal en proceso de adopción', 'warning');
+                    return;
+                }
+                
+                // Eliminar de la base de datos
+                const index = DB.animales.findIndex(a => a.id === animalId);
+                if (index !== -1) {
+                    DB.animales.splice(index, 1);
+                    guardarDB();
+                    cargarAnimales();
+                    mostrarToast('Animal eliminado', 'El animal ha sido eliminado correctamente', 'success');
+                }
+            }
+        }
+
+        // Funciones para veterinario
+        function cargarVeterinario() {
+            cargarVacunas();
+            cargarHistorialMedico();
+        }
+
+        function cargarVacunas() {
+            const tbody = document.getElementById('vacunas-table');
+            const vacunas = DB.vacunas;
+            
+            if (vacunas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No hay vacunas registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = vacunas.map(vacuna => {
+                const hoy = new Date();
+                const refuerzo = new Date(vacuna.refuerzo);
+                const diasRestantes = Math.ceil((refuerzo - hoy) / (1000 * 60 * 60 * 24));
+                
+                let estadoClass = vacuna.estado === 'completada' ? 'status-completado' : 'status-pendiente';
+                let estadoText = vacuna.estado === 'completada' ? 'Completada' : 'Pendiente';
+                
+                if (vacuna.estado === 'pendiente' && diasRestantes <= 0) {
+                    estadoClass = 'status-urgente';
+                    estadoText = '¡Vencida!';
+                } else if (vacuna.estado === 'pendiente' && diasRestantes <= 7) {
+                    estadoClass = 'status-warning';
+                    estadoText = `Pronto (${diasRestantes} días)`;
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-${DB.animales.find(a => a.id === vacuna.animalId)?.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${vacuna.animal}
+                            </div>
+                        </td>
+                        <td>${vacuna.tipo}</td>
+                        <td>${vacuna.fecha}</td>
+                        <td>${vacuna.refuerzo}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>
+                            ${vacuna.estado === 'pendiente' && rolActual === 'veterinario' ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px;" onclick="marcarVacunaCompletada('${vacuna.id}')">
+                                    <i class="fas fa-check"></i> Completar
+                                </button>` : 
+                                rolActual === 'veterinario' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarVacuna('${vacuna.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Solo veterinario</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function cargarHistorialMedico() {
+            const container = document.getElementById('historial-veterinario');
+            const historial = DB.vacunas;
+            
+            if (historial.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #888;">No hay historial médico registrado</div>';
+                return;
+            }
+            
+            // Ordenar por fecha descendente
+            const historialOrdenado = [...historial].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            
+            container.innerHTML = historialOrdenado.map(item => `
+                <div style="border-left: 4px solid ${item.estado === 'completada' ? 'var(--success)' : 'var(--warning)'}; padding: 10px 15px; margin-bottom: 15px; background: #f8f9fa; border-radius: 0 8px 8px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <strong>${item.animal} - ${item.tipo}</strong>
+                        <span style="color: #666; font-size: 14px;">${item.fecha}</span>
+                    </div>
+                    <div style="color: #666; font-size: 14px;">
+                        <div>Estado: <span class="status-badge ${item.estado === 'completada' ? 'status-completado' : 'status-pendiente'}">${item.estado === 'completada' ? 'Completada' : 'Pendiente'}</span></div>
+                        ${item.estado === 'pendiente' ? `<div>Próximo refuerzo: ${item.refuerzo}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function guardarVacuna() {
+            // Solo veterinario puede agregar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede registrar vacunas', 'warning');
+                return;
+            }
+            
+            const animalId = document.getElementById('vacuna-animal').value;
+            const tipo = document.getElementById('vacuna-tipo').value;
+            const fecha = document.getElementById('vacuna-fecha').value;
+            
+            if (!animalId || !tipo || !fecha) {
+                mostrarToast('Error', 'Por favor completa todos los campos', 'warning');
+                return;
+            }
+            
+            // Buscar animal
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error', 'Animal no encontrado', 'warning');
+                return;
+            }
+            
+            // Calcular fecha de refuerzo (30 días después)
+            const fechaRefuerzo = new Date(fecha);
+            fechaRefuerzo.setDate(fechaRefuerzo.getDate() + 30);
+            
+            // Generar ID único
+            const nuevoId = `VAC-${String(DB.vacunas.length + 1).padStart(3, '0')}`;
+            
+            // Agregar a la base de datos
+            DB.vacunas.push({
+                id: nuevoId,
+                animalId: animalId,
+                animal: animal.nombre,
+                tipo: tipo,
+                fecha: fecha,
+                refuerzo: fechaRefuerzo.toISOString().split('T')[0],
+                estado: 'pendiente'
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalVacuna');
+            
+            // Actualizar panel de veterinario
+            cargarVeterinario();
+            
+            // Mostrar confirmación
+            mostrarToast('Vacuna registrada', `Vacuna ${tipo} aplicada a ${animal.nombre}`, 'success');
+        }
+
+        function marcarVacunaCompletada(vacunaId) {
+            // Solo veterinario puede completar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede completar vacunas', 'warning');
+                return;
+            }
+            
+            const vacuna = DB.vacunas.find(v => v.id === vacunaId);
+            if (vacuna) {
+                vacuna.estado = 'completada';
+                guardarDB();
+                cargarVeterinario();
+                mostrarToast('Vacuna completada', 'La vacuna ha sido marcada como completada', 'success');
+            }
+        }
+
+        function eliminarVacuna(vacunaId) {
+            // Solo veterinario puede eliminar vacunas
+            if (rolActual !== 'veterinario') {
+                mostrarToast('Permiso denegado', 'Solo el veterinario puede eliminar vacunas', 'warning');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de eliminar este registro de vacuna?')) {
+                const index = DB.vacunas.findIndex(v => v.id === vacunaId);
+                if (index !== -1) {
+                    DB.vacunas.splice(index, 1);
+                    guardarDB();
+                    cargarVeterinario();
+                    mostrarToast('Vacuna eliminada', 'El registro ha sido eliminado', 'success');
+                }
+            }
+        }
+
+        // Funciones para adopciones
+        function cargarAdopciones() {
+            const tbody = document.getElementById('adopciones-table');
+            const adopciones = DB.adopciones;
+            
+            if (adopciones.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #888;">No hay adopciones registradas</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = adopciones.map(adopcion => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(adopcion.estado) {
+                    case 'pendiente': estadoClass = 'status-pendiente'; estadoText = 'Pendiente'; break;
+                    case 'en-proceso': estadoClass = 'status-en-proceso'; estadoText = 'En Proceso'; break;
+                    case 'aprobada': estadoClass = 'status-completado'; estadoText = 'Aprobada'; break;
+                    case 'rechazada': estadoClass = 'status-urgente'; estadoText = 'Rechazada'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${adopcion.id}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-paw"></i>
+                                ${adopcion.animal}
+                            </div>
+                        </td>
+                        <td>${adopcion.adoptante}</td>
+                        <td>${adopcion.telefono}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>${adopcion.fecha}</td>
+                        <td>
+                            ${(rolActual === 'atencion' || rolActual === 'administrativo') && (adopcion.estado === 'pendiente' || adopcion.estado === 'en-proceso') ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" onclick="aprobarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="rechazarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>` : 
+                                rolActual === 'administrativo' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Consulta al equipo</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function guardarAdopcion() {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'Solo atención y administrativo pueden registrar adopciones', 'warning');
+                return;
+            }
+            
+            const animalId = document.getElementById('adopcion-animal').value;
+            const adoptante = document.getElementById('adopcion-adoptante').value;
+            const telefono = document.getElementById('adopcion-telefono').value;
+            const estado = document.getElementById('adopcion-estado').value;
+            
+            if (!animalId || !adoptante || !telefono) {
+                mostrarToast('Error', 'Por favor completa todos los campos', 'warning');
+                return;
+            }
+            
+            // Buscar animal
+            const animal = DB.animales.find(a => a.id === animalId);
+            if (!animal) {
+                mostrarToast('Error', 'Animal no encontrado', 'warning');
+                return;
+            }
+            
+            // Verificar si el animal ya está en proceso de adopción
+            const adopcionExistente = DB.adopciones.find(a => a.animalId === animalId && (a.estado === 'pendiente' || a.estado === 'en-proceso'));
+            if (adopcionExistente) {
+                mostrarToast('Error', 'Este animal ya está en proceso de adopción', 'warning');
+                return;
+            }
+            
+            // Generar ID único
+            const nuevoId = `ADP-${String(DB.adopciones.length + 1).padStart(3, '0')}`;
+            const fecha = new Date().toISOString().split('T')[0];
+            
+            // Agregar a la base de datos
+            DB.adopciones.push({
+                id: nuevoId,
+                animalId: animalId,
+                animal: animal.nombre,
+                adoptante: adoptante,
+                telefono: telefono,
+                estado: estado,
+                fecha: fecha
+            });
+            
+            // Guardar en localStorage
+            guardarDB();
+            
+            // Cerrar modal
+            cerrarModal('modalAdopcion');
+            
+            // Actualizar tabla de adopciones
+            cargarAdopciones();
+            
+            // Mostrar confirmación
+            mostrarToast('Adopción registrada', `Proceso de adopción iniciado para ${animal.nombre}`, 'success');
+        }
+
+        function aprobarAdopcion(adopcionId) {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para aprobar adopciones', 'warning');
+                return;
+            }
+            
+            const adopcion = DB.adopciones.find(a => a.id === adopcionId);
+            if (adopcion) {
+                adopcion.estado = 'aprobada';
+                
+                // Actualizar estado del animal
+                const animal = DB.animales.find(a => a.id === adopcion.animalId);
+                if (animal) {
+                    animal.estado = 'adoptado';
+                }
+                
+                guardarDB();
+                cargarAdopciones();
+                cargarAnimales();
+                mostrarToast('Adopción aprobada', 'El proceso de adopción ha sido aprobado', 'success');
+            }
+        }
+
+        function rechazarAdopcion(adopcionId) {
+            // Verificar permisos
+            if (rolActual !== 'atencion' && rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'No tienes permisos para rechazar adopciones', 'warning');
+                return;
+            }
+            
+            const adopcion = DB.adopciones.find(a => a.id === adopcionId);
+            if (adopcion) {
+                adopcion.estado = 'rechazada';
+                guardarDB();
+                cargarAdopciones();
+                mostrarToast('Adopción rechazada', 'El proceso de adopción ha sido rechazado', 'warning');
+            }
+        }
+
+        function eliminarAdopcion(adopcionId) {
+            // Solo administrativo puede eliminar adopciones
+            if (rolActual !== 'administrativo') {
+                mostrarToast('Permiso denegado', 'Solo el administrativo puede eliminar adopciones', 'warning');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de eliminar este registro de adopción?')) {
+                const index = DB.adopciones.findIndex(a => a.id === adopcionId);
+                if (index !== -1) {
+                    DB.adopciones.splice(index, 1);
+                    guardarDB();
+                    cargarAdopciones();
+                    mostrarToast('Adopción eliminada', 'El registro ha sido eliminado', 'success');
+                }
+            }
+        }
+
+        // Funciones de búsqueda
+        function buscarAnimales(termino) {
+            const animalesFiltrados = DB.animales.filter(animal => 
+                animal.nombre.toLowerCase().includes(termino.toLowerCase()) ||
+                animal.raza.toLowerCase().includes(termino.toLowerCase()) ||
+                animal.id.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const container = document.getElementById('animales-container');
+            
+            if (animalesFiltrados.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #888; grid-column: 1 / -1;">No se encontraron animales</div>';
+                return;
+            }
+            
+            // Similar a cargarAnimales pero con los datos filtrados
+            container.innerHTML = animalesFiltrados.map(animal => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(animal.estado) {
+                    case 'disponible': estadoClass = 'status-disponible'; estadoText = 'Disponible'; break;
+                    case 'en-tratamiento': estadoClass = 'status-en-tratamiento'; estadoText = 'En Tratamiento'; break;
+                    case 'adoptado': estadoClass = 'status-adoptado'; estadoText = 'Adoptado'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <div class="animal-card">
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                    <i class="fas fa-${animal.especie === 'perro' ? 'dog' : animal.especie === 'gato' ? 'cat' : 'paw'}"></i>
+                                </div>
+                                <div>
+                                    <h3 style="font-size: 18px; font-weight: 600; margin: 0;">${animal.nombre}</h3>
+                                    <div style="font-size: 14px; color: #666;">ID: ${animal.id}</div>
+                                </div>
+                            </div>
+                            <div style="margin: 10px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Especie:</span>
+                                    <span>${animal.especie.charAt(0).toUpperCase() + animal.especie.slice(1)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Raza:</span>
+                                    <span>${animal.raza}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Edad:</span>
+                                    <span>${animal.edad}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #888;">Sexo:</span>
+                                    <span>${animal.sexo.charAt(0).toUpperCase() + animal.sexo.slice(1)}</span>
+                                </div>
+                            </div>
+                            <div style="margin: 15px 0;">
+                                <div style="color: #888; font-size: 12px; margin-bottom: 5px;">Descripción:</div>
+                                <div style="font-size: 14px;">${animal.descripcion}</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <span class="status-badge ${estadoClass}">${estadoText}</span>
+                                ${rolActual === 'veterinario' || rolActual === 'administrativo' ? 
+                                    `<button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAnimal('${animal.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>` : 
+                                    `<button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="verDetallesAnimal('${animal.id}')">
+                                        <i class="fas fa-info"></i>
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buscarVacunas(termino) {
+            const vacunasFiltradas = DB.vacunas.filter(vacuna => 
+                vacuna.animal.toLowerCase().includes(termino.toLowerCase()) ||
+                vacuna.tipo.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const tbody = document.getElementById('vacunas-table');
+            
+            if (vacunasFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #888;">No se encontraron vacunas</td></tr>';
+                return;
+            }
+            
+            // Similar a cargarVacunas pero con los datos filtrados
+            tbody.innerHTML = vacunasFiltradas.map(vacuna => {
+                const hoy = new Date();
+                const refuerzo = new Date(vacuna.refuerzo);
+                const diasRestantes = Math.ceil((refuerzo - hoy) / (1000 * 60 * 60 * 24));
+                
+                let estadoClass = vacuna.estado === 'completada' ? 'status-completado' : 'status-pendiente';
+                let estadoText = vacuna.estado === 'completada' ? 'Completada' : 'Pendiente';
+                
+                if (vacuna.estado === 'pendiente' && diasRestantes <= 0) {
+                    estadoClass = 'status-urgente';
+                    estadoText = '¡Vencida!';
+                } else if (vacuna.estado === 'pendiente' && diasRestantes <= 7) {
+                    estadoClass = 'status-warning';
+                    estadoText = `Pronto (${diasRestantes} días)`;
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-${DB.animales.find(a => a.id === vacuna.animalId)?.especie === 'perro' ? 'dog' : 'cat'}"></i>
+                                ${vacuna.animal}
+                            </div>
+                        </td>
+                        <td>${vacuna.tipo}</td>
+                        <td>${vacuna.fecha}</td>
+                        <td>${vacuna.refuerzo}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>
+                            ${vacuna.estado === 'pendiente' && rolActual === 'veterinario' ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px;" onclick="marcarVacunaCompletada('${vacuna.id}')">
+                                    <i class="fas fa-check"></i> Completar
+                                </button>` : 
+                                rolActual === 'veterinario' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarVacuna('${vacuna.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Solo veterinario</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function buscarAdopciones(termino) {
+            const adopcionesFiltradas = DB.adopciones.filter(adopcion => 
+                adopcion.animal.toLowerCase().includes(termino.toLowerCase()) ||
+                adopcion.adoptante.toLowerCase().includes(termino.toLowerCase()) ||
+                adopcion.id.toLowerCase().includes(termino.toLowerCase())
+            );
+            
+            const tbody = document.getElementById('adopciones-table');
+            
+            if (adopcionesFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #888;">No se encontraron adopciones</td></tr>';
+                return;
+            }
+            
+            // Similar a cargarAdopciones pero con los datos filtrados
+            tbody.innerHTML = adopcionesFiltradas.map(adopcion => {
+                let estadoClass = '';
+                let estadoText = '';
+                
+                switch(adopcion.estado) {
+                    case 'pendiente': estadoClass = 'status-pendiente'; estadoText = 'Pendiente'; break;
+                    case 'en-proceso': estadoClass = 'status-en-proceso'; estadoText = 'En Proceso'; break;
+                    case 'aprobada': estadoClass = 'status-completado'; estadoText = 'Aprobada'; break;
+                    case 'rechazada': estadoClass = 'status-urgente'; estadoText = 'Rechazada'; break;
+                    default: estadoClass = 'status-pendiente'; estadoText = 'Pendiente';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${adopcion.id}</strong></td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-paw"></i>
+                                ${adopcion.animal}
+                            </div>
+                        </td>
+                        <td>${adopcion.adoptante}</td>
+                        <td>${adopcion.telefono}</td>
+                        <td><span class="status-badge ${estadoClass}">${estadoText}</span></td>
+                        <td>${adopcion.fecha}</td>
+                        <td>
+                            ${(rolActual === 'atencion' || rolActual === 'administrativo') && (adopcion.estado === 'pendiente' || adopcion.estado === 'en-proceso') ? 
+                                `<button class="btn btn-success" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" onclick="aprobarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="rechazarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>` : 
+                                rolActual === 'administrativo' ? 
+                                `<button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="eliminarAdopcion('${adopcion.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>` :
+                                '<span style="color: #888;">Consulta al equipo</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Función para mostrar notificaciones
+        function mostrarToast(titulo, mensaje, tipo) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`;
+            toast.innerHTML = `
+                <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-triangle'}" style="color: ${tipo === 'success' ? 'var(--success)' : 'var(--warning)'};"></i>
+                <div>
+                    <strong>${titulo}</strong><br>
+                    <small>${mensaje}</small>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navegación por tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    cambiarTab(tabId);
+                });
+            });
+            
+            // Selector de rol
+            document.querySelectorAll('.rol-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const rol = this.getAttribute('data-rol');
+                    seleccionarRol(rol);
+                });
+            });
+            
+            // Botones para abrir modales
+            document.getElementById('btn-nuevo-animal').addEventListener('click', function() {
+                abrirModal('modalAnimal');
+            });
+            
+            document.getElementById('btn-nueva-vacuna').addEventListener('click', function() {
+                abrirModal('modalVacuna');
+            });
+            
+            document.getElementById('btn-nueva-adopcion').addEventListener('click', function() {
+                abrirModal('modalAdopcion');
+            });
+            
+            // Búsquedas en tiempo real
+            document.getElementById('search-animales').addEventListener('input', function() {
+                buscarAnimales(this.value);
+            });
+            
+            document.getElementById('search-vacunas').addEventListener('input', function() {
+                buscarVacunas(this.value);
+            });
+            
+            document.getElementById('search-adopciones').addEventListener('input', function() {
+                buscarAdopciones(this.value);
+            });
+            
+            // Inicializar con rol veterinario
+            seleccionarRol('veterinario');
+            
+            // Cargar datos iniciales
+            cargarAnimales();
+            cargarVeterinario();
+            cargarAdopciones();
+        });
+
+        // Prevenir que los clics en modales cierren el modal
+        document.querySelectorAll('.modal-content').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function() {
+                this.style.display = 'none';
+            });
+        });
+
+        // Manejar tecla ESC para cerrar modales
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
